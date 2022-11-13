@@ -4,6 +4,7 @@ import { resolveEnvPrefix } from "vite";
 
 definePageMeta({
   layout: "private-default",
+   pageTransition: {    name: 'page'  }
 });
 
 const route = useRoute();
@@ -115,9 +116,7 @@ defineExpose({
     <bottom-panel>
       <!-- <Transition name="slide-fade"> -->
         <div>
-          <NuxtPage :key="$route.fullPath"
-          
-        />
+          <NuxtPage/>
         </div>
       <!-- </Transition> -->
     </bottom-panel>
