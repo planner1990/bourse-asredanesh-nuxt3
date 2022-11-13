@@ -313,7 +313,7 @@ if (process.client) {
     v-model="drawer"
     min-width="48px"
     max-width="256px"
-    v-model:mini="mini"
+    :mini="mini"
     class="r-panel"
     mobile-breakpoint="960"
     fixed

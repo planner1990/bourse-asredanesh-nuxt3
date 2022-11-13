@@ -66,7 +66,7 @@ defineExpose({  otpref, formatter, counter, setTimer, focus });
 
 <template>
   <div>
-    <ada-input ref="otpref" class="otp" v-bind="$attrs" :label="$t('login.otp')" v-model="modelValue">
+    <ada-input ref="otpref" class="otp" v-bind="$attrs" :label="$t('login.otp')" :modelValue="modelValue" @update:modelValue="(val)=>  $emit('update:modelValue', val)">
       <template #append>
         <ada-btn class="sms" :width="100" :disabled="counter > 0" @click="() => $emit('request')" :height="height - 8">
           <span v-if="counter == 0">

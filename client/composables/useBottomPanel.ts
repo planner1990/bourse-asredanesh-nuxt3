@@ -78,7 +78,7 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
       match: /^\/watchlist\/.+\/messages\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
       children: [
         {
-          path: `messages/${ computed(()=> messageManager.message_active?.id) }`,
+          path: computed(()=> `messages/${ messageManager.message_active?.id }`),
           title: computed(()=> getTitle(messageManager.message_active?.origin)),
           secondTitle: computed(()=> messageManager.message_active?.title),
           deletable: false,
@@ -86,7 +86,7 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
 
         },
       ],
-      path: `messages/${ computed(()=> messageManager.message_active?.id) }`,
+      path: computed(()=> `messages/${ messageManager.message_active?.id }`),
       deletable: true,
       const: false
     }

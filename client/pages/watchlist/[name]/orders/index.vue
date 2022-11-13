@@ -2,6 +2,10 @@
 import { Order, OrderSearchModel, PaginatedResult, TabItem } from "@/types";
 import { useOrder } from "~~/composables";
 
+definePageMeta({
+   pageTransition: { name: 'page' }
+});
+
 const list = defineAsyncComponent(
   () => import("@/components/bottom-panel/orders.vue")
 );
