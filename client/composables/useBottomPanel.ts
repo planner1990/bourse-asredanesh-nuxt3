@@ -26,11 +26,10 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
 
   const activeTab: WritableComputedRef<TabItem | null> = computed({
     set(val: TabItem) {
-      if (state._optionTab != null && val != null && !val.const) {
+      if (state._optionTab != null && val?.deletable) {
         state._optionTab.const = false;
       }
       if (val?.deletable) {
-        val.const = true;
         state._optionTab = val;
       }
       const tab = state._tabs[val?.id]

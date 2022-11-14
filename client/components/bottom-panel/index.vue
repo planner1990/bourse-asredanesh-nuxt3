@@ -161,7 +161,6 @@ const active = computed({
     half: bottomPanel.activeTab != null && !expanded,
     expanded: bottomPanel.activeTab != null && expanded
   }">
-
     <div class="detail" v-if="bottomPanel.activeTab">
       <div class="contents">
         <slot></slot>

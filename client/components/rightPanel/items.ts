@@ -9,19 +9,27 @@ export function getMenuItems(): Array<TabItem> {
     {
       id: "portfolio",
       icon: "isax-graph",
-      title: "menu.portfolio",
-      match: /^\/watchlist\/.+\/portfolio([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+      title: "menu.portfolio.index",
+      match: /^\/watchlist\/.+\/portfolio\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
       children: [
         {
           icon: "isax-graph",
-          title: "menu.portfolio",
-          path: "portfolio",
+          title: "menu.portfolio.realtime",
+          path: "portfolio/realtime",
           color: "success",
-          match: /^\/watchlist\/.+\/portfolio\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+          match: /^\/watchlist\/.+\/portfolio\/realtime([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+          deletable: false
+        },
+        {
+          icon: "isax-graph",
+          title: "menu.portfolio.brokerage",
+          path: "portfolio/brokerage",
+          color: "success",
+          match: /^\/watchlist\/.+\/portfolio\/brokerage([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
           deletable: false
         }
       ],
-      path: "portfolio",
+      path: "portfolio/realtime",
       const: false,
       deletable: true
     },

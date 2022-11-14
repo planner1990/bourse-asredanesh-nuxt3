@@ -19,8 +19,8 @@ const value: Ref<any> = inject("toggle-ref", ref(null));
 const matchPath = ref(null);
 
 function click() {
-  value.value = props.model;
   if (props.to) router.push(props.to);
+  if(!(props.match || props.to)) value.value = props.model
 }
 
 const isActive = (path: string): boolean => {
@@ -32,22 +32,23 @@ const isActive = (path: string): boolean => {
 };
 
 onMounted(() => {
-  // console.log(props.match, props.model)
-  if (isActive(route.path)) {
-    value.value = props.model;
-    matchPath.value = true
-  }
+  setActive(route.path)
 });
 
 watch(
   () => route.path,
   (newVal) => {
-    matchPath.value = isActive(newVal)
-    if (isActive(newVal)) value.value = props.model;
+    setActive(newVal as string)
   }
 );
 
-// matchPath.value = isActive(route.path)
+function setActive(path: string) {
+  if (isActive(path)) {
+    value.value = props.model;
+    matchPath.value = true
+  }else { matchPath.value = isActive(path); }
+}
+
 </script>
 
 <style lang="postcss" scoped>

@@ -367,7 +367,11 @@
     "industries": "صنایع",
     "boards": "تابلوها",
     "instrumentTypes": "انواع اوراق",
-    "portfolio": "پورتفوی",
+    "portfolio": {
+      "index" : "پورتفوی",
+      "realtime" : "@:menu.portfolio.index @:menu.realtime",
+      "brokerage": "@:menu.portfolio.index سپرده گزاری"
+    },
     "accounting": "حسابداری",
     "trades": "@:oms.trades",
     "alerts": "مدیریت هشدار",
@@ -387,7 +391,7 @@
     "about": "درباره",
     "wealth": "سبدبان",
     "realtime": "لحظه‌ای",
-    "credits": "اعتبارات",
+    "credits": "@:general.report @:menu.refund",
     "tradesReport": "@:general.report @:oms.trades",
     "switchBrokerage": "@:general.switch @:oms.brokerage",
     "switchBrokerageReport": "@:general.report @:general.switch @:oms.brokerage",
@@ -395,7 +399,7 @@
     "conditional": "@:general.conditional",
     "saveSettings": "@:general.download @:general.settings",
     "uploadSettings": "@:general.upload @:general.settings",
-    "receiptRegister": "@:general.save فیش",
+    "receiptRegister": "@:general.report @:menu.deposit",
     "message": "پیام"
   },
   "bottom-panel": {
