@@ -114,11 +114,7 @@ defineExpose({
     <loading :loading="loadingRef" />
 
     <bottom-panel>
-      <!-- <Transition name="slide-fade"> -->
-        <div>
-          <NuxtPage/>
-        </div>
-      <!-- </Transition> -->
+      <NuxtPage/>
     </bottom-panel>
   </div>
 </template>

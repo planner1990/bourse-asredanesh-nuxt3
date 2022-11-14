@@ -1,4 +1,4 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import NumericField from "~~/components/numericField.vue";
 const props = defineProps<{
   modelValue: number;
