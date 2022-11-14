@@ -198,7 +198,7 @@ const active = computed({
             v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>
         </span>
         <div v-if="i != tabs.length - 1" class="bar"></div>
-        <ada-btn v-if="t.deletable" class="tw-absolute tw-items-center tw-leading-[12px] tw-top-2 tw-left-2 tw-h-[18px] tw-w-[18px] tw-bg-error" @click.stop.prevent="bottomPanel.removeTab(t)">
+        <ada-btn v-if="t.deletable" class="tw-absolute tw-items-center tw-leading-[12px] tw-top-2 tw-left-2 tw-h-[18px] tw-w-[18px] tw-bg-error" @click.stop.prevent="bottomPanel.removeTab(t.id)">
           <ada-icon class="tw-font-bold tw-text-white">
             mdi-close
           </ada-icon>

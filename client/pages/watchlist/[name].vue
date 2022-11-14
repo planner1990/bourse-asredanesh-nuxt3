@@ -4,7 +4,7 @@ import { resolveEnvPrefix } from "vite";
 
 definePageMeta({
   layout: "private-default",
-   pageTransition: {    name: 'page'  }
+   pageTransition: { name: 'page'}
 });
 
 const route = useRoute();

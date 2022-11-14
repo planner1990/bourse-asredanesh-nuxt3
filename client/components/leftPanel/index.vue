@@ -121,10 +121,13 @@ async function load(query: MessageQuery) {
 }
 
 async function trigger_show_message(message: Message) {
+  console.log(message.id , messageManager.message_active?.id)
+  if(message.id == messageManager.message_active?.id) return
   try {
     bottomPanel.setLoading(true);
     const mes = (await messageManager.getMessage(message.id));
     const tab = {
+      id: "messages",
       title: bottomPanel.getTitle(mes.origin),
       match: /^\/watchlist\/.+\/messages\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
       children: [

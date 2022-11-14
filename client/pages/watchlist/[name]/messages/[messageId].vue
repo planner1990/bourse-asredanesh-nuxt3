@@ -8,7 +8,7 @@ messageManager.message_active = await messageManager.getMessage(
   parseInt(route.params.messageId as string)
 );
  
-const componentName = computed(() => `message-${ messageManager.message_active?.messageType ?? messageManager.message_active?.type}`);
+const componentName = computed(() => `message-${ messageManager.message_active?.messageType || messageManager.message_active?.type}`);
 const componentModel = computed(() => messageManager.message_active.message);
 </script>
 

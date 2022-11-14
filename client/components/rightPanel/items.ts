@@ -7,6 +7,7 @@ export default {
 export function getMenuItems(): Array<TabItem> {
   return [
     {
+      id: "portfolio",
       icon: "isax-graph",
       title: "menu.portfolio",
       match: /^\/watchlist\/.+\/portfolio([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
@@ -25,6 +26,7 @@ export function getMenuItems(): Array<TabItem> {
       deletable: true
     },
     {
+      id: "accounting",
       icon: "isax-calculator",
       title: "menu.accounting",
       match: /^\/watchlist\/.+\/accounting\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
@@ -67,6 +69,7 @@ export function getMenuItems(): Array<TabItem> {
       deletable: true
     },
     {
+      id: "trades",
       icon: "isax-money-change",
       title: "menu.trades",
       match: /^\/watchlist\/.+\/trades\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
@@ -99,6 +102,7 @@ export function getMenuItems(): Array<TabItem> {
       deletable: true
     },
     {
+      id: "alerts",
       icon: "isax-presention-chart",
       title: "menu.alerts",
       path: "alerts",
@@ -108,6 +112,7 @@ export function getMenuItems(): Array<TabItem> {
       children: [],
     },
     {
+      id: "drafts",
       icon: "isax-convert-card-outline",
       title: "menu.drafts",
       path: "drafts",
@@ -117,6 +122,7 @@ export function getMenuItems(): Array<TabItem> {
       children: [],
     },
     {
+      id: "conditional",
       icon: "lotfi-wallet-money",
       title: "menu.conditionalTrade",
       path: "conditional-trade",
@@ -126,6 +132,7 @@ export function getMenuItems(): Array<TabItem> {
       children: [],
     },
     {
+      id: "filters",
       icon: "isax-filter-edit",
       title: "menu.filter",
       path: "filters",
@@ -135,6 +142,7 @@ export function getMenuItems(): Array<TabItem> {
       children: [],
     },
     {
+      id: "technical",
       icon: "isax-status-up",
       title: "menu.technical",
       path: "technical",
@@ -144,6 +152,7 @@ export function getMenuItems(): Array<TabItem> {
       children: [],
     },
     {
+      id: "profit",
       icon: "lotfi-note-2",
       title: "menu.profit",
       path: "profit",
@@ -153,6 +162,7 @@ export function getMenuItems(): Array<TabItem> {
       children: [],
     },
     {
+      id: "marketMap",
       icon: "isax-map-outline",
       title: "menu.marketMap",
       path: "market-map",
@@ -162,6 +172,7 @@ export function getMenuItems(): Array<TabItem> {
       children: [],
     },
     {
+      id: "settings",
       icon: "isax-setting-2",
       title: "menu.settings",
       path: "settings",

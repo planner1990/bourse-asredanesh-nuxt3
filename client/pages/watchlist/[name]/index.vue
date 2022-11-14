@@ -3,7 +3,7 @@
 
 <script setup>
 definePageMeta({
-   pageTransition: {    name: 'page'  }
+   pageTransition: { name: 'page' }
 });
 
 </script>

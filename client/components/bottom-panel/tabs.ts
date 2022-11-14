@@ -3,6 +3,7 @@ import { TabItem, OrderFlags } from "@/types";
 
 const panels: Array<TabItem> = [
   {
+    id: "orders",
     title: "bottom-panel.orders.all",
     children: [
       {
@@ -40,6 +41,7 @@ const panels: Array<TabItem> = [
     const: true
   },
   {
+     id: "furtherInformation",
     title: "bottom-panel.completeInfo.index",
     children: [
       {
@@ -73,6 +75,7 @@ const panels: Array<TabItem> = [
     const: true
   },
   {
+    id: "tradesHistory",
     title: "bottom-panel.archive.index",
     match: /^\/watchlist\/.+\/archive\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
     children: [
@@ -100,6 +103,7 @@ const panels: Array<TabItem> = [
     const: true
   },
   {
+    id: "statisticsKeys",
     title: "bottom-panel.statisticsKeys.index",
     match: /^\/watchlist\/.+\/statisticsKeys\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
     children: [
@@ -124,6 +128,7 @@ const panels: Array<TabItem> = [
     const: true
   },
   {
+    id: "more",
     title: "bottom-panel.more.index",
     match: /^\/watchlist\/.+\/more\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
     children: [

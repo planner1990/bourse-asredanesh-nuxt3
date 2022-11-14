@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { DeepOptions, TabItem, Message } from "@/types";
-import { WritableComputedRef, Ref } from "vue";
+import { WritableComputedRef, Ref, watch } from "vue";
 import defaultTabs from "@/components/bottom-panel/tabs";
 import { getMenuItems } from "@/components/rightPanel/items";
 import { useMessages } from '~~/composables';
@@ -20,11 +20,6 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
 
   });
 
-  // watch(()=> messageManager.message_active, (newValue)=> {
-  //   console.log('message_active', newValue)
-  //   console.log(state._tabs[newValue.title])
-  // })
-
   registerTabs()
 
   const tabs = computed(() => Object.values(state._tabs));
@@ -38,7 +33,7 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
         val.const = true;
         state._optionTab = val;
       }
-      const tab = state._tabs[val?.title]
+      const tab = state._tabs[val?.id]
       if (tab) { tab.const = true; state._activeTab = tab }
       else { state._activeTab = null }
     },
@@ -51,7 +46,7 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
   const loading = computed(() => state._loading);
 
   function registerTab(tab: TabItem) {
-    state._tabs[tab.title] = tab;
+    state._tabs[tab.id] = tab;
   }
   function toggleExpand() {
     state._expanded = !state._expanded;
@@ -59,10 +54,12 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
   function setLoading(payload: boolean) {
     state._loading = payload;
   }
-  function removeTab(tab: TabItem): void {
-    if (state._tabs[tab.title]) state._tabs[tab.title].const = false
-    state._activeTab = null
-    router.push(`/watchlist/${route.params.name}`)
+  function removeTab(id: string | number): void {
+    if (state._tabs[id]) {
+      state._tabs[id].const = false
+      state._activeTab = null
+      router.push(`/watchlist/${route.params.name}`)
+    }
   }
 
   function registerTabs() {
@@ -74,32 +71,35 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     }
 
     const tabMessage = {
-      title: computed(()=> getTitle(messageManager.message_active?.origin)),
+      id: "messages",
+      title: "menu.message",
       match: /^\/watchlist\/.+\/messages\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
       children: [
         {
-          path: computed(()=> `messages/${ messageManager.message_active?.id }`),
-          title: computed(()=> getTitle(messageManager.message_active?.origin)),
-          secondTitle: computed(()=> messageManager.message_active?.title),
+          path: "messages/1",
+          title: "menu.message",
+          secondTitle: "",
           deletable: false,
           match: /^\/watchlist\/.+\/messages\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
 
         },
       ],
-      path: computed(()=> `messages/${ messageManager.message_active?.id }`),
+      path: "messages/1",
       deletable: true,
       const: false
     }
 
-    registerTab(tabMessage as any as TabItem)
+    registerTab(tabMessage as TabItem)
   }
-  function changeTabMessage(message: Message) {
-    const tab = state._tabs[message.title]
-    console.log('tab',tab)
-    tab.title = getTitle(message.origin)
-    tab.path = `message/${ message.id }`
-    tab.secondTitle = message.title
-  }
+
+  watch(()=> messageManager.message_active, (newVal)=> {
+    const tab = state._tabs['messages']
+    tab.title = getTitle(newVal.origin)
+    tab.path = `messages/${ newVal.id }`
+    tab.children[0].title = getTitle(newVal.origin)
+    tab.children[0].secondTitle = newVal.title
+    tab.children[0].path = `messages/${ newVal.id }`
+  })
 
   function getTitle (type: number) {
     if (type == 1) {
@@ -121,7 +121,6 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     setLoading,
     toggleExpand,
     removeTab,
-    changeTabMessage,
     getTitle,
     tabs,
     activeTab,
