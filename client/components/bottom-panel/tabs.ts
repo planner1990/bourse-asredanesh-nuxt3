@@ -4,18 +4,18 @@ import { TabItem, OrderFlags } from "@/types";
 const panels: Array<TabItem> = [
   {
     id: "orders",
-    title: "bottom-panel.orders.all",
+    title: "bottom-panel.orders.index",
     children: [
       {
         path:"orders?offset=0&length=20",
-        title: "bottom-panel.orders.all",
+        title: "bottom-panel.orders.open",
         deletable: false,
         match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=(?!1|8|54)[^\/&]+))[&]?)*([\/]{1})?)$/g ,
         
       },
       {
         path:`orders?offset=0&length=20&flags=${ OrderFlags.Draft }`,
-        title: "bottom-panel.orders.drafts",
+        title: "bottom-panel.orders.today",
         deletable: false,
         match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)*([\/]{1})?)$/g ,
         
@@ -25,6 +25,13 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.orders.actives",
         deletable: false,
         match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=54))[&]?)*([\/]{1})?)$/g ,
+        
+      },
+      {
+        path:`orders?offset=0&length=20&flags=${ OrderFlags.Draft }`,
+        title: "bottom-panel.orders.drafts",
+        deletable: false,
+        match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)*([\/]{1})?)$/g ,
         
       },
       {
@@ -67,6 +74,18 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.furtherInformation.type",
         deletable: false,
         match: /^\/watchlist\/.+\/furtherInformation\/type([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+      },
+      {
+        path:"furtherInformation/trades",
+        title: "bottom-panel.furtherInformation.trades",
+        deletable: false,
+        match: /^\/watchlist\/.+\/furtherInformation\/trades([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+      },
+      {
+        path:"furtherInformation/papers",
+        title: "bottom-panel.furtherInformation.papers",
+        deletable: false,
+        match: /^\/watchlist\/.+\/furtherInformation\/papers([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
     ],
     match: /^\/watchlist\/.+\/furtherInformation\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
