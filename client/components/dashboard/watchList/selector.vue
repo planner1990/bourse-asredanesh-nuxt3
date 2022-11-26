@@ -66,7 +66,7 @@ function select(val: any) {
   if (props.autoRoute){
     if(route.params.slug) val.to = val.to + `/${ route.params.slug }`
     router.push(val.to);
-  } 
+  }
 }
 refresh();
 function drag(ev: DragEvent) {}

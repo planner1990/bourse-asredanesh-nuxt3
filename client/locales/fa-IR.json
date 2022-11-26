@@ -391,7 +391,7 @@
     "about": "درباره",
     "wealth": "سبدبان",
     "realtime": "لحظه‌ای",
-    "credits": "@:general.report @:menu.refund",
+    "credits": "گردش حساب",
     "tradesReport": "@:general.report @:oms.trades",
     "switchBrokerage": "@:general.switch @:oms.brokerage",
     "switchBrokerageReport": "@:general.report @:general.switch @:oms.brokerage",
@@ -399,7 +399,7 @@
     "conditional": "@:general.conditional",
     "saveSettings": "@:general.download @:general.settings",
     "uploadSettings": "@:general.upload @:general.settings",
-    "receiptRegister": "@:general.report @:menu.deposit",
+    "receiptRegister": "ثبت فیش",
     "message": "پیام"
   },
   "bottom-panel": {

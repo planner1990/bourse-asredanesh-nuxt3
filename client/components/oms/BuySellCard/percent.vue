@@ -1,27 +1,27 @@
 <script setup lang="ts">
 
 const props = withDefaults(
-  defineProps<{
-    modelValue: number|string
-    height?: string;
-    amount?: number;
-    min?: number;
-    max?: number;
-    label?: string;
-    total?: number;
-  }>(),
-  {
-    modelValue: 30,
-    height:'42px',
-    amount: 1,
-    min: 1,
-    max: 100,
-    label: "Percent",
-    total: 0,
-  }
+    defineProps<{
+      modelValue: number | string
+      height?: string;
+      amount?: number;
+      min?: number;
+      max?: number;
+      label?: string;
+      total?: number;
+    }>(),
+    {
+      modelValue: 30,
+      height: '42px',
+      amount: 1,
+      min: 1,
+      max: 100,
+      label: "Percent",
+      total: 0,
+    }
 );
 
-const emit = defineEmits(["update:modelValue","count"]);
+const emit = defineEmits(["update:modelValue", "count"]);
 const val = ref(props.amount);
 
 const minCount = computed(() => {
@@ -34,22 +34,38 @@ const maxCount = computed(() => {
 });
 const result = computed(() => {
   let res = 0
-  if (props.total){
+  if (props.total) {
     res = Math.min(
-      Math.max(Math.round((val.value / 100) * props.total), minCount.value),
-      maxCount.value
+        Math.max(Math.round((val.value / 100) * props.total), minCount.value),
+        maxCount.value
     );
   }
   emit('update:modelValue', res)
   return res
 });
 
+const separate = (val: string): string => {
+  val += "";
+  val = val.replace(",", "");
+  let x = val.split(".");
+  let y = x[0];
+  let z = x.length > 1 ? "." + x[1] : "";
+  var rgx = /(\d+)(\d{3})/;
+  while (rgx.test(y)) y = y.replace(rgx, "$1" + "," + "$2");
+  return y + z;
+}
+
+const separateValue = ref(separate(props.modelValue?.toString()))
+
+watch(() => props.modelValue, (newVal) => {
+  separateValue.value = separate(newVal.toString())
+})
 
 watch(
-  () => props.amount,
-  (update) => {
-    setValue(update);
-  }
+    () => props.amount,
+    (update) => {
+      setValue(update);
+    }
 );
 
 function setValue(update: number | string) {
@@ -57,6 +73,7 @@ function setValue(update: number | string) {
   val.value = update > props.max ? props.max : update < props.min ? props.min : update;
   emit("update:modelValue", val.value);
 }
+
 function toPercent(value: number) {
   if (props.total) val.value = (value / props.total) * 100;
   else val.value = value;
@@ -67,15 +84,15 @@ function toPercent(value: number) {
   <div class="percent-container">
     <RangeSlider :min="min" :max="max" v-model="val" class="tw-max-w-full" v-bind="$attrs"/>
     <ada-input
-      dir="rtl"
-      :label="label"
-      type="number"
-      :modelValue="result"
-      @update:modelValue="toPercent"
-      :min="minCount"
-      :max="maxCount"
-      readonly
-      v-bind="$attrs"
+        dir="rtl"
+        :label="label"
+        :modelValue="result"
+        :value="separateValue"
+        @update:modelValue="toPercent"
+        :min="minCount"
+        :max="maxCount"
+        readonly
+        v-bind="$attrs"
     ></ada-input>
   </div>
 </template>
@@ -87,23 +104,28 @@ function toPercent(value: number) {
 
   .ada-input {
     & :deep(.scaffold) {
-      max-width: calc(100% - 77px)!important;
+      max-width: calc(100% - 77px) !important;
       @apply tw-border-none;
     }
+
     &.active :deep(.scaffold) {
       @apply tw-bg-primary tw-bg-opacity-10;
     }
+
     /* & :deep(input) {
       @apply tw-pl-0 tw-ml-0;
     } */
   }
+
   .percent {
     @apply tw-relative;
     min-width: 233px;
+
     .tooltip-container {
       position: absolute;
       top: 0;
       left: 0;
+
       .tooltip {
         color: white;
         position: absolute;
@@ -119,15 +141,18 @@ function toPercent(value: number) {
         background-color: var(--c-primary-rgb);
       }
     }
+
     .selected {
       position: absolute;
       top: 0;
       white-space: nowrap;
       overflow: hidden;
+
       .point {
         background-color: var(--c-primary-rgb);
       }
     }
+
     .point {
       display: inline-block;
       width: 20px;
@@ -136,6 +161,7 @@ function toPercent(value: number) {
       border-radius: 6px;
       content: "";
       background-color: var(--c-default-rgb);
+
       &:hover {
         background-color: rgba(var(--c-primary), 0.5);
       }
