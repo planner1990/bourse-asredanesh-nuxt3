@@ -45,7 +45,10 @@ watch(
           query: {offset: 0, length: 20, instId: selected.value.id}
         });
       } else {
-        router.push({path: `/watchlist/${route.params.name}/orders`, query: {offset: 0, length: 20}});
+        router.push({
+          path: `/watchlist/${route.params.name}/orders`,
+          query: {offset: 0, length: 20}
+        });
       }
     }
 );

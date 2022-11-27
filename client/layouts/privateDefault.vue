@@ -50,7 +50,6 @@ const triggerChatRoom = () => {
 };
 
 const accountDetail = computed(() => paymentManager.accountDetail);
-console.log(accountDetail, "account detail");
 </script>
 
 <style lang="postcss" scoped>

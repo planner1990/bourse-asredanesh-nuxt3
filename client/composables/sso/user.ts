@@ -254,7 +254,7 @@ export const useUser = defineStore("user", () => {
         refreshingToken.value = false;
       }
     }
-    return 401;
+    throw 401;
   }
   async function update_settings(payload: {
     path: string;
