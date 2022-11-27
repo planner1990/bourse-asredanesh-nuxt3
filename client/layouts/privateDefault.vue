@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { useUser, useWealth } from "@/composables";
+import {usePayment, useUser, useWealth} from "@/composables";
 
 const appManager = useAsrTrader();
 const userManager = useUser();
 const bottomPanelManager = useBottomPanel();
 const wealthManager = useWealth();
 const wbsocket = useWebSocket();
-
 const snacks = useSnacks().snacks;
-
 const locale = computed(() => appManager.locale);
 const rtl = computed(() => appManager.rtl);
 const rightMenu = ref({
@@ -18,6 +16,7 @@ const rightMenu = ref({
 const leftMenu = ref({
   drawer: true,
 });
+const paymentManager = usePayment();
 const rmini = computed({
   get: () => rightMenu.value.mini,
   set(val) {
@@ -49,6 +48,9 @@ const triggerChatRoom = () => {
   rmini.value = !rmini.value;
   appManager.setMenu("menu.chat");
 };
+
+const accountDetail = computed(() => paymentManager.accountDetail);
+console.log(accountDetail, "account detail");
 </script>
 
 <style lang="postcss" scoped>
@@ -183,6 +185,7 @@ const triggerChatRoom = () => {
   #colopse-info-footer {
     @apply tw-left-2;
   }
+
   #chat-footer {
     @apply tw-right-2;
   }
@@ -210,6 +213,7 @@ const triggerChatRoom = () => {
     padding-left: 48px !important;
     padding-right: 48px !important;
   }
+
   @media (min-width: 960px) {
     .dashboardmain-page {
       &.left {
@@ -229,17 +233,17 @@ const triggerChatRoom = () => {
     <header>
       <div class="start">
         <nuxt-link
-          class="tw-flex tw-px-2 tw-items-center tw-justify-center"
-          :to="home"
+            class="tw-flex tw-px-2 tw-items-center tw-justify-center"
+            :to="home"
         >
-          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png" />
+          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png"/>
           <span v-if="!rightMenu.mini && rightMenu.drawer" class="tw-mr-2">
             {{ $t("general.proxyCompany") }}
           </span>
         </nuxt-link>
         <ada-icon
-          click="click"
-          @click.stop="
+            click="click"
+            @click.stop="
             () => {
               if (rightMenu.drawer) {
                 rightMenu.mini = !rightMenu.mini;
@@ -250,71 +254,71 @@ const triggerChatRoom = () => {
               }
             }
           "
-          :class="[
+            :class="[
             'tw-m-0',
             'tw-p-0',
             'te-mx-[5px]',
             'drawer-activator',
             !rightMenu.mini && rightMenu.drawer ? 'open' : '',
           ]"
-          :size="18"
+            :size="18"
         >
           mdi-menu-open
         </ada-icon>
-        <clock :format="$t('general.date.longdt')" class="tw-w-[240px]" />
+        <clock :format="$t('general.date.longdt')" class="tw-w-[240px]"/>
       </div>
       <div class="tw-flex center">
         <ada-badge class="tw-mx-5">
           <span v-text="$t('oms.bourseIndex')" class="tw-text-primary"></span>:
           <span class="tw-text-sm badge-content"
-            >{{ formatter.format(1502605.15) }}
+          >{{ formatter.format(1502605.15) }}
             <span
-              v-text="
+                v-text="
                 `(${new Number(8471.09).toLocaleString(appManager.locale)})`
               "
-              class="tw-text-error"
+                class="tw-text-error"
             ></span>
           </span>
         </ada-badge>
         <ada-badge>
           <span
-            v-text="$t('oms.superBourseIndex')"
-            class="tw-text-primary"
+              v-text="$t('oms.superBourseIndex')"
+              class="tw-text-primary"
           ></span
           >:
           <span class="tw-text-sm badge-content"
-            >{{ formatter.format(20136.69) }}
+          >{{ formatter.format(20136.69) }}
             <span
-              v-text="
+                v-text="
                 `(${new Number(84.12).toLocaleString(appManager.locale)})`
               "
-              class="tw-text-error"
+                class="tw-text-error"
             ></span>
           </span>
         </ada-badge>
       </div>
       <div class="end">
-        <user-menu />
+        <user-menu/>
       </div>
     </header>
     <right-panel
-      v-model:mini="rmini"
-      v-model:clipped="clipped"
-      v-model="rightMenu.drawer"
-      class="shadow left"
+        v-model:mini="rmini"
+        v-model:clipped="clipped"
+        v-model="rightMenu.drawer"
+        class="shadow left"
     />
     <left-panel
-      v-model:mini="lmini"
-      v-model:clipped="clipped"
-      v-model="leftMenu.drawer"
-      class="shadow right"
+        v-model:mini="lmini"
+        v-model:clipped="clipped"
+        v-model="leftMenu.drawer"
+        class="shadow right"
     />
     <main
-      class="dashboardmain-page"
-      :class="{ right: !rightMenu.mini, left: !lmini }"
+        class="dashboardmain-page"
+        :class="{ right: !rightMenu.mini, left: !lmini }"
     >
       <div :class="['dashboardmain-nuxt', collaps ? 'collaps' : null]">
-        <nuxt-page />
+        <nuxt-page/>
       </div>
     </main>
     <!-- <bottom-panel
@@ -326,20 +330,21 @@ const triggerChatRoom = () => {
       :slideToBottom="invisibleFinInfo"
     /> -->
     <footer
-      v-if="!invisibleFinInfo"
-      class="footer dashboardmain-page"
-      :class="{
+        v-if="!invisibleFinInfo"
+        class="footer dashboardmain-page"
+        :class="{
         right: !rightMenu.mini,
         left: !lmini,
       }"
     >
       <div class="summary">
         <ada-badge class="tw-ml-3"
-          >{{ $t("accounting.account.amount") }}
+        >{{ $t("accounting.account.amount") }}
           <span class="badge-content"> ۲٬۰۰۰٬۰۰۰</span>
         </ada-badge>
         <ada-badge class="tw-ml-3"
-          >{{ $t("accounting.account.blockedAmount")
+        >{{
+            $t("accounting.account.blockedAmount")
           }}<span class="badge-content">0</span></ada-badge
         >
         <ada-badge class="tw-ml-3">
@@ -347,11 +352,13 @@ const triggerChatRoom = () => {
           <span class="badge-content">0</span>
         </ada-badge>
         <ada-badge class="tw-ml-3"
-          >{{ $t("accounting.account.remaining")
+        >{{
+            $t("accounting.account.remaining")
           }}<span class="badge-content">0</span></ada-badge
         >
         <ada-badge class="tw-ml-3"
-          >{{ $t("accounting.account.credit")
+        >{{
+            $t("accounting.account.credit")
           }}<span class="badge-content">0</span></ada-badge
         >
       </div>
@@ -361,16 +368,16 @@ const triggerChatRoom = () => {
     </footer>
     <ada-btn id="colopse-info-footer" class="floating-button">
       <ada-icon
-        color="white"
-        :size="24"
-        @click="invisibleFinInfo = !invisibleFinInfo"
+          color="white"
+          :size="24"
+          @click="invisibleFinInfo = !invisibleFinInfo"
       >
         mdi-chevron-triple-right
       </ada-icon>
     </ada-btn>
     <ada-btn id="chat-footer" class="floating-button" @click="triggerChatRoom">
-      <ada-icon color="white" :size="24"> isax-messages-2-bold </ada-icon>
+      <ada-icon color="white" :size="24"> isax-messages-2-bold</ada-icon>
     </ada-btn>
-    <ada-snacks />
+    <ada-snacks/>
   </div>
 </template>

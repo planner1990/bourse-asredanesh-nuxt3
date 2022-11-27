@@ -70,6 +70,7 @@ export class OrderSearchModel implements SearchModel {
   offset: number;
   length: number;
   echo: any;
+  instrumentId: number | null;
   constructor(
     offset: number = 0,
     length: number = 10,
