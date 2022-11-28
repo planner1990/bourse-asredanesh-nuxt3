@@ -48,7 +48,8 @@ const activeCalculatorSell = ref<boolean>(false);
 const wholePrice = ref<number>(0);
 const formatter = appManager.formatter;
 const order = computed(() => orderManager.getForm(props.insId.toString()));
-
+const router = useRouter();
+const route = useRoute();
 getDetail()
 
 const validateCountShape = () => number()
@@ -205,13 +206,10 @@ const placeOrder = ({draft}) => handleSubmit(async (values, actions) => {
           .placeOrder(param)
           .then((res) => {
             if (res.status === 201) {
-              const tab: TabItem = bottomPanel.state._tabs["bottom-panel.orders.all"]
-              draft ? tab.current = "bottom-panel.orders.drafts"
-                  : tab.current = "bottom-panel.orders.all"
-              bottomPanel.activeTab = tab
+              router.push({path: `/watchlist/${route.params.name}/orders?offset=0&length=20`});
               orderManager.last_update = new Date().toISOString();
-              actions.resetForm()
-              orderManager.updateForm(new OrderClass())
+              actions.resetForm();
+              orderManager.updateForm(new OrderClass());
             }
           })
     } catch (e) {

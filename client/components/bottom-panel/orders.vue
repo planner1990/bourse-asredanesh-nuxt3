@@ -8,27 +8,25 @@ import {
   OrderFlags,
   ValidationType,
 } from "@/types";
-import {useBottomPanel, useInstrument, useOrder} from "~~/composables";
+import {useBottomPanel, useInstrument, useOrder, useLoading} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
 import {Ref, watch} from "vue";
 
-const showSelectedTableRow: Ref<any> = ref("");
-const ordersTable: Ref<any> = ref([]);
-const numberOfTables: Ref<any> = ref(0);
+const statusFlag: Ref<any> = ref(null);
 
 const props = defineProps<{
   orders: Order[]
 }>()
 
 const bottomPanel = useBottomPanel();
+const loading = useLoading();
 
 // added use instrument for read selected index
 const orderManager = useOrder();
 
 
 const i18n = useI18n();
-// const orders: Order[] = reactive([]);
 const route = useRoute()
 const cols = [
   new WatchListColumns(i18n.t("general.status").toString(), "flags"),
@@ -84,7 +82,8 @@ function parseValidityType(status: number) {
   }
 }
 
-function isRunabled(status: number) {
+function isRunabled(status?: number) {
+  statusFlag.value = status;
   return (status & OrderFlags.Draft) == OrderFlags.Draft;
 }
 

@@ -12,4 +12,5 @@ export * from "./useAutoComplete"
 export * from "./upload"
 
 export * from "./chat"
+export * from "./useLoading"
 
