@@ -11,7 +11,7 @@ import {
 import {useBottomPanel, useInstrument, useOrder, useLoading} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
-import {Ref, watch} from "vue";
+import {Ref} from "vue";
 
 const statusFlag: Ref<any> = ref(null);
 

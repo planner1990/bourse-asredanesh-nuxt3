@@ -10,6 +10,7 @@
   "devDependencies": {
     "@nuxt/content": "^2.0.1",
     "@pinia/nuxt": "^0.4.1",
+    "@types/uuid": "^8.3.4",
     "autoprefixer": "latest",
     "cssnano": "latest",
     "nuxt": "3.0.0-rc.11",
@@ -27,6 +28,7 @@
     "jalali-moment": "^3.3.11",
     "luxon": "latest",
     "pinia": "latest",
+    "uuid": "^9.0.0",
     "vee-validate": "^4.6.10",
     "vue-i18n": "^9.2.2",
     "yup": "^0.32.11"

@@ -9,9 +9,12 @@ export const useAxios = defineStore("axios", () => {
     const user = useUser();
     const app = useAsrTrader();
     const snacks = useSnacks();
+    let instance: null | AxiosInstance = null;
 
     function createInstance(): AxiosInstance {
-        const instance = axios.create({});
+        if (instance != null)
+            return instance;
+        instance = axios.create({});
         instance.interceptors.request.use((config) => {
             Object.assign(config, {
                 withCredentials: true,
@@ -73,7 +76,6 @@ export const useAxios = defineStore("axios", () => {
         return instance;
     }
 
-    const instance = createInstance();
     return {
         createInstance,
     };

@@ -21,25 +21,25 @@ const panels: Array<TabItem> = [
         
       },
       {
-        path:`orders?offset=0&length=20&flags=${  OrderFlags.Confirmed | OrderFlags.PreOpening | OrderFlags.Created | OrderFlags.Sent }`,
+        path: `orders?offset=0&length=20&flags=${OrderFlags.Confirmed | OrderFlags.PreOpening | OrderFlags.Created | OrderFlags.Sent}`,
         title: "bottom-panel.orders.actives",
         deletable: false,
-        match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=54))[&]?)*([\/]{1})?)$/g ,
-        
+        match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=54))[&]?)*([\/]{1})?)$/g,
+
       },
       {
-        path:`orders?offset=0&length=20&flags=${ OrderFlags.Draft }`,
+        path: `orders?offset=0&length=20&flags=${OrderFlags.Draft}`,
         title: "bottom-panel.orders.drafts",
         deletable: false,
-        match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)*([\/]{1})?)$/g ,
-        
+        match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)*([\/]{1})?)$/g,
+
       },
       {
-        path: `orders?offset=0&length=20&flags=${ OrderFlags.Cancelled }`,
+        path: `orders?offset=0&length=20&flags=${OrderFlags.Cancelled}`,
         title: "bottom-panel.orders.canceled",
         deletable: false,
-        match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=8))[&]?)*([\/]{1})?)$/g ,
-        
+        match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=8))[&]?)*([\/]{1})?)$/g,
+
       },
     ],
     match: /^\/watchlist\/.+\/orders([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,

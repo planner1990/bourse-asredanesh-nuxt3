@@ -194,7 +194,8 @@ const active = computed({
     <ada-toggle class="b-tabs" v-model="bottomPanel.activeTab">
       <ada-btn class="tab-title" v-for="(t, i) in tabs" :key="t.title"
                :to="`/watchlist/${ $route.params.name }/${ t.path }`" v-show="t.const"
-               :model="t" :match="t.match">
+               :model="t" :match="t.match"
+      >
         <span :class="{ 'active': bottomPanel.activeTab != null && bottomPanel.activeTab.title === t.title }">
           {{ $t(t.title) }}
           <span

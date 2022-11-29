@@ -8,7 +8,6 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   const router = useRouter();
   const userManager = useUser($pinia);
   const wealthManager = useWealth($pinia);
-
   let refresh = localStorage.getItem(refreshKey);
   let jwt = sessionStorage.getItem(tokenKey);
   let user = localStorage.getItem(userKey);

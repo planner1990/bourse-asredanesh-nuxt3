@@ -16,6 +16,7 @@ import {useInstrument, useAxios, useWealth, useUser, useLoading} from "..";
 import orderManager from "@/repositories/wealth/order_manager";
 import {DateTime} from "luxon";
 import {Ref, ref} from "vue";
+import {v4 as uuidv4} from "uuid";
 
 export const useOrder = defineStore("order", () => {
     const userState = useUser();
@@ -81,7 +82,10 @@ export const useOrder = defineStore("order", () => {
     const router = useRouter();
 
     async function editOrder(order: Order) {
-        const editOrderStatus = await orderManager.editOrder(order, axios.createInstance());
+        const headers = {
+            uuid: uuidv4()
+        }
+        const editOrderStatus = await orderManager.editOrder(order, axios.createInstance(), headers);
         if (editOrderStatus?.status) {
             router.push({
                 path: `/watchlist/${route.params.name}/orders`,
