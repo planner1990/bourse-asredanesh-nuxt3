@@ -168,7 +168,7 @@ watch(selected, select);
             v-model="newName"
             @keyup.enter="create"
           >
-          </ada-input>−
+          </ada-input>
           <ada-btn
             dark
             @click.stop="create"

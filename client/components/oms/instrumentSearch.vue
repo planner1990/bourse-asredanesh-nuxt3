@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { autoComplete } from "@/repositories/oms/instruments_manager";
+import {autoComplete} from "@/repositories/oms/instruments_manager";
 import {
   AutoCompleteItem,
   AutoCompleteSearchModel,
   InstrumentCache,
   InstrumentSearchModel,
 } from "@/types";
-import { useAxios, useInstrument, useUser, useAutoComplete as acom, useDebounce } from "~/composables";
+import {useAxios, useInstrument, useUser, useAutoComplete as acom, useDebounce} from "~/composables";
 
 
 const props = withDefaults(defineProps<{
@@ -54,8 +54,8 @@ async function search() {
       name: item.name,
       id: item.id,
       fullName: (item.name + " - " + item.fullName).replace(
-        ac.state.userInput,
-        `<span class="tw-text-red-900 tw-font-bold">${ac.state.userInput}</span>`
+          ac.state.userInput,
+          `<span class="tw-text-red-900 tw-font-bold">${ac.state.userInput}</span>`
       ),
     }))
 
@@ -67,7 +67,14 @@ async function search() {
 }
 
 function select_suggest(item: AutoCompleteItem): void {
-  props.focusResult ? select(item) : emit('input', item)
+  const name = (route.params.name as string) ?? "new";
+  const ids = [item.id, ...userManager.showSearchModel.ids];
+  userManager.update_settings({
+    path: "/watch_lists/" + name,
+    value: ids.map((item) => item.toString()),
+    deActiveChange: true,
+  });
+  props.focusResult ? select(item) : emit('input', item);
   ac.state.userInput = ""
   ac.state.suggestions = []
 }
@@ -76,38 +83,38 @@ async function select(val: AutoCompleteItem) {
   const name = route.params.name as string;
   ac.state.loading = true;
   if (
-    val &&
-    (!watchlists[name] || watchlists[name]?.indexOf(val.id.toString()) == -1)
+      val &&
+      (!watchlists[name] || watchlists[name]?.indexOf(val.id.toString()) == -1)
   ) {
 
     const inst = await instrumentManager.getInstrumentsDetail(
-      new InstrumentSearchModel([parseInt(val.id)])
+        new InstrumentSearchModel([parseInt(val.id)])
     );
     // If focus panel is open
     if (focus.length > 0 || !name) {
       instrumentManager.addFocus(inst[0]);
       instrumentManager.select(inst[0]);
     }
-    
-    if(userManager.tmpWatchlist[name as string]) {
+
+    if (userManager.tmpWatchlist[name as string]) {
       userManager.tmpWatchlist[name as string].unshift(parseInt(val.id))
-    }else {
+    } else {
       userManager.tmpWatchlist[name as string] = [parseInt(val.id)]
     }
-    userManager.setSettingsChanged({key: `/watch_lists/${ name }`, value: null})
+    userManager.setSettingsChanged({key: `/watch_lists/${name}`, value: null})
   }
   ac.state.loading = false;
 }
-
 </script>
 
 <template>
   <div>
     <ada-auto-complete v-model="ac.state.userInput" id="instrument-search"
-      :suggestions="ac.state.suggestions" :loading="ac.state.loading" @select_item="item => select_suggest(item)"
-      :placeholder="$t('instrument.search')" class="tw-mx-auto tw-text-primary">
+                       :suggestions="ac.state.suggestions" :loading="ac.state.loading"
+                       @select_item="(item) => select_suggest(item)"
+                       :placeholder="$t('instrument.search')" class="tw-mx-auto tw-text-primary">
       <template #prepend>
-        <ada-icon class="tw-text-primary" :size="14"> isax-search-normal-1 </ada-icon>
+        <ada-icon class="tw-text-primary" :size="14"> isax-search-normal-1</ada-icon>
       </template>
     </ada-auto-complete>
   </div>

@@ -50,6 +50,7 @@ const triggerChatRoom = () => {
 };
 
 const accountDetail = computed(() => paymentManager.accountDetail);
+console.log(accountDetail, "account detail");
 </script>
 
 <style lang="postcss" scoped>
@@ -169,7 +170,7 @@ const accountDetail = computed(() => paymentManager.accountDetail);
     position: relative;
 
     &.collaps {
-      height: 362px;
+      height: 365px;
     }
   }
 

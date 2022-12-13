@@ -8,7 +8,7 @@ import {
   OrderFlags,
   ValidationType,
 } from "@/types";
-import {useBottomPanel, useInstrument, useOrder, useLoading} from "~~/composables";
+import {useBottomPanel, useOrder, useLoading, useAxios} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
 import {Ref} from "vue";
@@ -24,7 +24,7 @@ const loading = useLoading();
 
 // added use instrument for read selected index
 const orderManager = useOrder();
-
+const axios = useAxios();
 
 const i18n = useI18n();
 const route = useRoute()

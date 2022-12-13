@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onUpdated, Ref, watch} from "vue";
+import {onMounted, onUpdated, Ref, watch} from "vue";
 import {useInstrument, useOrder, useAxios, useAsrTrader} from "@/composables";
 import {
   AutoCompleteItem,
@@ -18,6 +18,7 @@ import {useI18n} from "vue-i18n";
 import {getWage} from "@/repositories/wealth/wealth_manager";
 import {useBottomPanel} from "~/composables";
 import {useForm, useField} from 'vee-validate';
+import {mount} from "@vue/test-utils";
 
 
 ////////////////
@@ -290,8 +291,6 @@ const withdrawalBalance = ref(separate((1000000).toString()))
 watch(() => withdrawalBalance, (newVal) => {
   withdrawalBalance.value = separate(newVal.toString())
 })
-
-
 const testValidate = async () => {
   console.log(await validate())
 }
@@ -597,6 +596,7 @@ const testValidate = async () => {
               }"
                 :min="!!active ? active.minQuantityPerOrder : 1"
                 :max="!!active ? active.maxQuantityPerOrder || null : null"
+                ref="myinput"
             >
               <template #append>
                 <ada-btn

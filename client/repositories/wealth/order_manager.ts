@@ -15,9 +15,13 @@ export async function getOrders(
 export async function setOrder(
     order: Order,
     axios: AxiosInstance,
-    // headers: { [key: string]: string }
+    headers: {
+        uuid: string,
+    }
 ): Promise<AxiosResponse> {
-    return axios.post("/wealth-manager/order/", order);
+    return axios.post("/wealth-manager/order/", order, {
+        headers
+    });
 }
 
 export async function editOrder(

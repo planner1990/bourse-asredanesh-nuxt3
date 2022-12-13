@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useInstrument, useBottomPanel} from "~~/composables";
+import {watch} from "vue";
 
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
@@ -23,6 +24,7 @@ const expanded = computed(() => bottomPanel.expanded)
 
 const active = computed({
   get() {
+    bottomPanel.state._expanded = false;
     if (bottomPanel.activeTab && bottomPanel.activeTab.path) {
       return bottomPanel.activeTab.children.find(q => q.path == bottomPanel.activeTab.path)
     }
@@ -61,7 +63,7 @@ const active = computed({
 
   &.half {
     height: calc(100vh - 436px);
-    min-height: 30vh;
+    min-height: 43vh;
 
     &.slideToBottom {
       height: calc(100vh - 404px);

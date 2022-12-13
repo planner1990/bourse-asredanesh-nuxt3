@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {onMounted, reactive} from "vue";
+
 const props = withDefaults(
   defineProps<{
     label?: string;
@@ -62,6 +64,15 @@ watch(()=> props.modelValue , (newVal)=> {
   separateValue.value = separate(newVal.toString())
 })
 
+// onMounted(() => {
+//   submitData();
+// });
+
+// const myinput = reactive([]);
+// function submitData() {
+//   // console.log(myinput);
+//   // myinput[0].value.focus();
+// }
 </script>
 
 <style lang="postcss">

@@ -26,6 +26,8 @@ export const useOrder = defineStore("order", () => {
     const orderFormCache: { [key: string]: Ref<Order> } = {};
     const last_update: string = new Date().toISOString()
     const loading = useLoading();
+    const route = useRoute();
+    const router = useRouter();
 
 /////////////////
 
@@ -75,11 +77,11 @@ export const useOrder = defineStore("order", () => {
     }
 
     async function placeOrder(order: Order) {
-        return await orderManager.setOrder(order, axios.createInstance());
+        const headers = {
+            uuid: uuidv4()
+        }
+        return await orderManager.setOrder(order, axios.createInstance(), headers);
     }
-
-    const route = useRoute();
-    const router = useRouter();
 
     async function editOrder(order: Order) {
         const headers = {

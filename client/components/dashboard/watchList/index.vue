@@ -307,6 +307,11 @@ refresh();
     }
   }
 }
+
+.activeRow {
+  background-color: #E7EAF9;
+  box-shadow: inset 0 0 1px 1px #AEBBED;
+}
 </style>
 
 <template>
@@ -347,7 +352,7 @@ refresh();
           v-for="item in instruments"
           :key="item.id"
           :model="{ headers, item }"
-          :class="{ active: selected && selected.id == item.id }"
+          :class="{ activeRow: selected && selected.id == item.id }"
       >
         <template #item.actions="{ item }">
           <div class="text-no-wrap">
