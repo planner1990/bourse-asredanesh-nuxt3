@@ -42,6 +42,7 @@ const appManager = useAsrTrader();
 const active: Ref<InstrumentCache> = ref(new InstrumentCache());
 const priceLock = ref(false);
 const countLock = ref(false);
+const testy = ref("testy");
 const wage = ref({buy: 0, sell: 0});
 
 const activeCalculator = ref<boolean>(false);
@@ -185,6 +186,7 @@ const wageCalculateSell = computed(
 );
 
 const queue = computed(() => instrumentManager.getOrderQueue(active.value));
+console.log(queue);
 const firstRow = computed(() => queue.value[0]);
 
 //////////methods//////////////
@@ -596,7 +598,7 @@ const testValidate = async () => {
               }"
                 :min="!!active ? active.minQuantityPerOrder : 1"
                 :max="!!active ? active.maxQuantityPerOrder || null : null"
-                ref="myinput"
+                :nameInput="tab === '1' ? 'focus' : '' "
             >
               <template #append>
                 <ada-btn
@@ -831,6 +833,7 @@ const testValidate = async () => {
                 activeBorder
                 :min="!!active ? active.minQuantityPerOrder : 1"
                 :max="!!active ? active.maxQuantityPerOrder || null : null"
+                :nameInput="tab === '2' ? 'focus' : '' "
             >
               <template #append>
                 <ada-btn

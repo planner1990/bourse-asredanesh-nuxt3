@@ -2,33 +2,35 @@
 import {onMounted, reactive} from "vue";
 
 const props = withDefaults(
-  defineProps<{
-    label?: string;
-    modelValue: number | string;
-    min?: number | null;
-    max?: number | null;
-    minlength?: number | null;
-    maxlength?: number | null;
-    readonly?: boolean;
-    maxWidth?: string;
-    tabIndex?: string;
-  }>(),
-  {
-    label: "",
-    min: null,
-    max: null,
-    minlength: null,
-    maxlength: null,
-    readonly: false,
-    tabIndex: "0",
-    height: "auto",
-  }
+    defineProps<{
+      label?: string;
+      modelValue: number | string;
+      min?: number | null;
+      max?: number | null;
+      minlength?: number | null;
+      maxlength?: number | null;
+      readonly?: boolean;
+      maxWidth?: string;
+      tabIndex?: string;
+      nameInput?: any;
+    }>(),
+    {
+      label: "",
+      min: null,
+      max: null,
+      minlength: null,
+      maxlength: null,
+      readonly: false,
+      tabIndex: "0",
+      nameInput: "",
+      height: "auto",
+    }
 );
 
 const emit = defineEmits(["update:modelValue"]);
 
 const active = ref(false);
-const join = (val: string): number=> {
+const join = (val: string): number => {
   if (val.includes(",")) {
     return Number(val.replace(/\,/gi, ""))
   }
@@ -37,8 +39,8 @@ const join = (val: string): number=> {
 
 const reg = /^[a-zA-Z ]$/;
 
-const validateInput = (e)=> {
-  if(reg.test(e.key)) {
+const validateInput = (e) => {
+  if (reg.test(e.key)) {
     e.preventDefault()
     e.stopPropagation();
     return false
@@ -58,21 +60,25 @@ const separate = (val: string): string => {
   return y + z;
 }
 
-const separateValue = ref(separate(props.modelValue?.toString()))
+const separateValue = ref(separate(props.modelValue?.toString()));
 
-watch(()=> props.modelValue , (newVal)=> {
+watch(() => props.modelValue, (newVal) => {
   separateValue.value = separate(newVal.toString())
 })
 
-// onMounted(() => {
-//   submitData();
-// });
+onMounted(() => {
+  submitData();
+});
+watch(() => props.nameInput, () => {
+  submitData();
+})
+const focus = ref(null);
 
-// const myinput = reactive([]);
-// function submitData() {
-//   // console.log(myinput);
-//   // myinput[0].value.focus();
-// }
+function submitData() {
+  if (props.nameInput === "focus") {
+    focus.value.focus();
+  }
+}
 </script>
 
 <style lang="postcss">
@@ -111,29 +117,30 @@ watch(()=> props.modelValue , (newVal)=> {
 
 <template>
   <label
-    :class="[
+      :class="[
       'ada-input',
       active ? 'active' : '',
       label == '' ? '' : 'has-label',
     ]"
-    tabindex="-1"
+      tabindex="-1"
   >
     <div class="label">
       {{ label }}
     </div>
     <div class="scaffold">
-      <slot name="prepend" :active="active"> </slot>
+      <slot name="prepend" :active="active"></slot>
       <input
-        type="text"
-        @focus="active = true"
-        @blur="active = false"
-        :value="separateValue"
-        class="ltr"
-        @keypress="validateInput"
-        @input="(e)=> emit('update:modelValue',join((e.target as HTMLInputElement).value))"
-        v-bind="{ min, max, minlength, maxlength, ...$attrs }"
-        :readonly="readonly"
-        :tabindex="tabIndex"
+          type="text"
+          @focus="active = true"
+          @blur="active = false"
+          :value="separateValue"
+          class="ltr"
+          @keypress="validateInput"
+          @input="(e)=> emit('update:modelValue',join((e.target as HTMLInputElement).value))"
+          v-bind="{ min, max, minlength, maxlength, nameInput, ...$attrs }"
+          :readonly="readonly"
+          :tabindex="tabIndex"
+          ref="focus"
       />
       <slot name="append" :active="active"></slot>
     </div>
