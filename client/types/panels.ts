@@ -10,7 +10,7 @@ export class MenuItem {
   text?: string;
   color?: string;
   to?: string;
-  match: RegExp;
+  match?: RegExp;
   children?: Array<MenuItem>;
   bookmarkPosition?: BookmarkPosition | null = null;
   click?: Function; 

@@ -207,7 +207,6 @@
     "WithdrawableAmount": "مبلغ قابل برداشت",
     "wholePrice": "کل مبلغ",
     "price": "قیمت"
-
   },
   "watchList": {
     "title": "دیدبان",
@@ -368,9 +367,15 @@
     "boards": "تابلوها",
     "instrumentTypes": "انواع اوراق",
     "portfolio": {
-      "index" : "پورتفوی",
-      "realtime" : "@:menu.portfolio.index @:menu.realtime",
+      "index": "پورتفوی",
+      "realtime": "@:menu.portfolio.index @:menu.realtime",
       "brokerage": "@:menu.portfolio.index سپرده گزاری"
+    },
+    "settings": {
+      "index": "@:general.settings",
+      "userInformation": "حساب کاربری",
+      "entryAndExitHistory": "تاریخچه ورود و خروج",
+      "agreements": "توافق نامه‌ها"
     },
     "accounting": "حسابداری",
     "trades": "@:oms.trades",
@@ -381,7 +386,6 @@
     "technical": "ابزار تکنیکال",
     "profit": "محاسبه بازده اوراق",
     "marketMap": "نقشه بازار",
-    "settings": "@:general.settings",
     "deposit": "واریز آنی",
     "refund": "برداشت وجه",
     "depositReport": "@:general.report واریز",

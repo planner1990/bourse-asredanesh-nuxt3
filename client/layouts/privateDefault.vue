@@ -170,7 +170,7 @@ console.log(accountDetail, "account detail");
     position: relative;
 
     &.collaps {
-      height: 365px;
+      height: 382px;
     }
   }
 

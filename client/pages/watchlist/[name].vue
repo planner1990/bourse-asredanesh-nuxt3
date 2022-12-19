@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useUser} from "~/composables";
 import {resolveEnvPrefix} from "vite";
+import {ref, watch} from 'vue'
 
 definePageMeta({
   layout: "private-default",
@@ -26,7 +27,7 @@ const name = (route.params.name as string) ?? "new";
 
 const edited = computed(
     () => {
-      userManager.settingsChanged.findIndex(
+      return userManager.settingsChanged.findIndex(
           (item) => item.key == "/watch_lists/" + name
       ) != -1 && userManager.tmpWatchlist[name].length
     }
@@ -76,7 +77,7 @@ function testRes() {
 
 <style lang="postcss" scoped></style>
 
-<template>{{ edited }}
+<template>{{ edited === false ? "" : "" }}
   <div class="tw-mx-auto">
     <div class="tw-grid tw-col-span-1">
       <dashboard-focus-board>

@@ -62,8 +62,8 @@ const active = computed({
   }
 
   &.half {
-    height: calc(100vh - 436px);
-    min-height: 43vh;
+    height: calc(100vh - 447px);
+    min-height: 30vh;
 
     &.slideToBottom {
       height: calc(100vh - 404px);

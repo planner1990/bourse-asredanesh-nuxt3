@@ -67,13 +67,13 @@ async function search() {
 }
 
 function select_suggest(item: AutoCompleteItem): void {
-  const name = (route.params.name as string) ?? "new";
-  const ids = [item.id, ...userManager.showSearchModel.ids];
-  userManager.update_settings({
-    path: "/watch_lists/" + name,
-    value: ids.map((item) => item.toString()),
-    deActiveChange: true,
-  });
+  // const name = (route.params.name as string) ?? "new";
+  // const ids = [item.id, ...userManager.showSearchModel.ids];
+  // userManager.update_settings({
+  //   path: "/watch_lists/" + name,
+  //   value: ids.map((item) => item.toString()),
+  //   deActiveChange: true,
+  // });
   props.focusResult ? select(item) : emit('input', item);
   ac.state.userInput = ""
   ac.state.suggestions = []

@@ -216,7 +216,12 @@
     "technical": "Technical Tools",
     "profit": "Holds Profit",
     "marketMap": "Market Map",
-    "settings": "Settings",
+    "settings": {
+      "index": "Settings",
+      "userInformation": "User information",
+      "entryAndExitHistory": "Entry and exit history",
+      "agreements": "Agreements"
+    },
     "deposit": "Deposit",
     "refund": "Refund",
     "reports": "Reports",
