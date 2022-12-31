@@ -53,7 +53,7 @@ const notificationManager = useNotifications();
 
 const name = route.params.name as string;
 
-const instruments = computed(() => {
+let instruments = computed(() => {
   return _instruments.filter((item) => {
     return focused.findIndex((i) => i.id === item.id) == -1;
   });
@@ -157,7 +157,7 @@ async function remove(val: InstrumentCache) {
     searchModel: props.searchModel,
     item: val
   }
-  userManager.removeWatchlist(payload)
+  await userManager.removeWatchlist(payload)
 }
 
 let dragItem: InstrumentCache | null = null;

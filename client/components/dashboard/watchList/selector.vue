@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {Ref} from "vue";
 import {useUser} from "~/composables";
-import {MenuItem} from "~/types";
-import ProfilePicture from "~/components/sso/profilePicture.vue";
+import {Bookmark, CreateBookmark} from "~/types";
 
 const props = withDefaults(
     defineProps<{
@@ -17,10 +16,12 @@ const route = useRoute();
 const router = useRouter();
 const userManager = useUser();
 const selected: Ref<any> = ref(null);
+const bookmark: Ref<any> = ref();
 const newName = ref("");
 const watchList: any[] = reactive([]);
 const wls = computed(() => userManager.watchList);
 const userMenu = ref(false);
+const bookmarks = computed(() => userManager.getBookmarks);
 
 function refresh() {
   watchList.splice(0, watchList.length);
@@ -77,45 +78,26 @@ function select(val: any) {
 
 refresh();
 
-function drag(ev: DragEvent) {
-}
-
 watch(selected, select);
 
-
-const userMenuItems: Array<MenuItem> = [
-  {
-    icon: "mdi-account-cog",
-    to: "/user/",
-    title: "menu.profile",
-  },
-  {
-    icon: "mdi-download",
-    title: "menu.saveSettings",
-    click: test,
-    color: "info",
-  },
-  {
-    icon: "mdi-upload",
-    title: "menu.uploadSettings",
-    click: test,
-    color: "info",
-  },
-  {
-    icon: "mdi-logout",
-    color: "error",
-    click: test,
-    title: "login.logout",
-  },
-];
-
-function test() {
-  userMenu.value = false;
+async function setBookmark(item: any) {
+  if (bookmarks.value.findIndex((i) => i.title === item.id) == -1) {
+    const tempBookmark: Bookmark = {
+      icon: "isax-graph",
+      title: item.id,
+      to: `/watchList/${item}`
+    };
+    const tmp = [...bookmarks.value, tempBookmark];
+    await userManager.update_settings({
+      path: "/bookmarks",
+      value: tmp
+    });
+  } else {
+    bookmarks.value.splice(bookmarks.value.findIndex((i) => i.title === item.id), 1)
+  }
+  if (item.id == route.params.name) router.push("/bookmarks/" + item.bookmarks);
+  refresh();
 }
-
-defineExpose({
-  userMenu,
-});
 </script>
 
 <style lang="postcss" scoped>
@@ -159,37 +141,49 @@ defineExpose({
     <template #items>
       <ul class="tw-p-0 tw-m-0">
         <li
-            v-for="item in watchList"
-            :key="item.id"
+            v-for="(item, index) in watchList"
+            :key="index"
             @click="select(item)"
             class="tw-p-2 hover:tw-bg-primary hover:tw-bg-opacity-10 tw-cursor-pointer"
         >
           <div class="tw-flex tw-flex-grow tw-justify-between" v-if="!item.onEdit">
             <span>{{ item.text }}</span>
             <div>
-              <ada-btn key="delete" @click.stop="remove(item.id)" id="btn-trash">
-                <ada-icon :size="14"> isax-trash</ada-icon>
-              </ada-btn>
-              <ada-btn
-                  id="btn-edit"
-                  key="edit"
-                  @click.stop="
+              <span>
+                <v-icon @click.stop="setBookmark(item)">
+                {{
+                    bookmarks.findIndex((itm) => itm.title === item.text) != -1 ? "mdi-bookmark" : "mdi-bookmark-outline"
+                  }}
+                </v-icon>
+              </span>
+              <v-menu>
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props">
+                    mdi-dots-vertical
+                  </v-icon>
+                </template>
+                <v-list>
+                  <v-list-item
+                  >
+                    <v-list-item-title>
+                      <ada-btn key="delete" @click.stop="remove(item.id)" id="btn-trash">
+                        <ada-icon :size="14"> isax-trash</ada-icon>
+                      </ada-btn>
+                      <ada-btn
+                          id="btn-edit"
+                          key="edit"
+                          @click.stop="
                    () => {
                      item.onEdit = true;
                    }
                  "
-              >
-                <ada-icon :size="14"> isax-edit-2</ada-icon>
-              </ada-btn>
-              <!--              <ada-btn key="edit" id="btn-edit">-->
-              <!--                <ada-icon :size="14">-->
-              <!--                  isax-bookmark-->
-              <!--                </ada-icon>-->
-              <!--              </ada-btn>-->
-              <!--              <ada-btn key="edit" id="btn-edit">-->
-              <!--                <ada-icon :size="14"> isax-more-->
-              <!--                </ada-icon>-->
-              <!--              </ada-btn>-->
+                      >
+                        <ada-icon :size="14"> isax-edit-2</ada-icon>
+                      </ada-btn>
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
 
             </div>
           </div>

@@ -22,8 +22,8 @@ export class UserState {
     refresh: string | null;
     userName: string | null;
     renewToken: boolean;
-    settingsChanged: Array<KeyValuePairs<string, any>>;
-    tmpWatchlist: { [key: string]: Array<number> };
+    settingsChanged: { [key: string]: any };
+    lastWatchlist: boolean;
 
     constructor() {
         this.tryCount = 0;
@@ -32,8 +32,8 @@ export class UserState {
         this.refresh = null;
         this.userName = null;
         this.renewToken = false;
-        this.settingsChanged = reactive([]);
-        this.tmpWatchlist = {};
+        this.settingsChanged = {};
+        this.lastWatchlist = false;
     }
 
     toJSON() {
@@ -52,11 +52,6 @@ export interface InstrumentState {
     orderQueueCache: { [key: string]: Array<OrderQueueItem> };
     clientDistributionCache: { [key: string]: ClientDistribution };
     width: number;
-}
-
-// Message
-
-export interface MessageState {
 }
 
 export interface Snack {

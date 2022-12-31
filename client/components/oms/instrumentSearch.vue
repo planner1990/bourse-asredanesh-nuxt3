@@ -24,7 +24,6 @@ const route = useRoute();
 const entries: Array<AutoCompleteItem> = reactive([]);
 
 const focus = instrumentManager.getFocus;
-const watchlists = userManager.watchList;
 const ac = acom([])
 
 /////////////
@@ -67,13 +66,6 @@ async function search() {
 }
 
 function select_suggest(item: AutoCompleteItem): void {
-  // const name = (route.params.name as string) ?? "new";
-  // const ids = [item.id, ...userManager.showSearchModel.ids];
-  // userManager.update_settings({
-  //   path: "/watch_lists/" + name,
-  //   value: ids.map((item) => item.toString()),
-  //   deActiveChange: true,
-  // });
   props.focusResult ? select(item) : emit('input', item);
   ac.state.userInput = ""
   ac.state.suggestions = []
@@ -84,9 +76,9 @@ async function select(val: AutoCompleteItem) {
   ac.state.loading = true;
   if (
       val &&
-      (!watchlists[name] || watchlists[name]?.indexOf(val.id.toString()) == -1)
+      (!userManager.watchList[name] || userManager.watchList[name]?.indexOf(val.id.toString()) == -1)
   ) {
-
+    userManager.setSettingsChanged({key: `/watch_lists/${name}`, value: userManager.watchList[name]})
     const inst = await instrumentManager.getInstrumentsDetail(
         new InstrumentSearchModel([parseInt(val.id)])
     );
@@ -95,13 +87,7 @@ async function select(val: AutoCompleteItem) {
       instrumentManager.addFocus(inst[0]);
       instrumentManager.select(inst[0]);
     }
-
-    if (userManager.tmpWatchlist[name as string]) {
-      userManager.tmpWatchlist[name as string].unshift(parseInt(val.id))
-    } else {
-      userManager.tmpWatchlist[name as string] = [parseInt(val.id)]
-    }
-    userManager.setSettingsChanged({key: `/watch_lists/${name}`, value: null})
+    userManager.watchList[name].splice(0,0,val.id)
   }
   ac.state.loading = false;
 }

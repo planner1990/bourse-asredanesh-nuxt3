@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import {useUser} from "~/composables";
 import {resolveEnvPrefix} from "vite";
-import {ref, watch} from 'vue'
+import {computed, ref, watch} from 'vue'
+import {InstrumentSearchModel} from "~/types";
 
 definePageMeta({
   layout: "private-default",
@@ -9,6 +10,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const router = useRouter();
 const userManager = useUser();
 const bottomPanelComposable = useBottomPanel();
 const loadingRef = ref(false);
@@ -24,22 +26,23 @@ const name = (route.params.name as string) ?? "new";
 // if(route.params.slug) {
 //   setTabWithRoute(route.params.slug as string, true)
 // }
+const showSearchModel = computed(() => {
+  return new InstrumentSearchModel(userManager.watchList[route.params.name as string]?.map((item) => parseInt(item)) ?? [])
+})
 
 const edited = computed(
     () => {
-      return userManager.settingsChanged.findIndex(
-          (item) => item.key == "/watch_lists/" + name
-      ) != -1 && userManager.tmpWatchlist[name].length
+      return Object.keys(userManager.settingsChanged).indexOf("/watch_lists/" + name) != -1
     }
 );
 
 async function reset() {
-  userManager.settingsNotChanged(`/watch_lists/${name}`);
+  userManager.resetSetting(`/watch_lists/${name}`);
 }
 
 async function apply() {
   loadingRef.value = true;
-  const ids = [...userManager.showSearchModel.ids];
+  const ids = [...showSearchModel.value.ids];
   try {
     await userManager.update_settings({
       path: "/watch_lists/" + name,
@@ -70,9 +73,6 @@ defineExpose({
   edited,
 });
 
-function testRes() {
-
-}
 </script>
 
 <style lang="postcss" scoped></style>
@@ -115,7 +115,7 @@ function testRes() {
       </dashboard-focus-board>
     </div>
     <div class="tw-grid tw-scroll-p-1">
-      <DashboardWatchList :searchModel="userManager['showSearchModel']"/>
+      <DashboardWatchList :searchModel="showSearchModel"/>
     </div>
     <loading :loading="loadingRef"/>
 

@@ -29,21 +29,21 @@ const inp = ref<HTMLInputElement | null>(null);
 
 ////////////
 
-watch(()=> props.value, (newVal)=>{
+watch(() => props.value, (newVal) => {
   select(newVal)
 })
 
 ////////////
 
 const getText: (item: any) => string = eval(
-  "(item)=>{\
-    return " + props.textPath.replace(/^\$/, "item") + "?.toString();\
+    "(item)=>{\
+      return " + props.textPath.replace(/^\$/, "item") + "?.toString();\
   }"
 );
 
 const getValue: (item: any) => any = eval(
-  "(item)=>{\
-    return " + props.keyPath.replace(/^\$/, "item") + ";\
+    "(item)=>{\
+      return " + props.keyPath.replace(/^\$/, "item") + ";\
   }"
 );
 
@@ -53,6 +53,7 @@ function select(item: any) {
   active.value = false;
 
 }
+
 props.value ? select(props.value) : null
 
 </script>
@@ -86,42 +87,51 @@ props.value ? select(props.value) : null
   i {
     color: var(--c-primary-rgb);
   }
+
   .input {
     @apply tw-relative tw-flex tw-min-w-0 tw-whitespace-nowrap tw-justify-between;
     @apply tw-rounded tw-cursor-pointer;
+
     input {
       @apply tw-bg-transparent tw-outline-none tw-rounded;
       line-height: 0.83334rem !important;
       cursor: inherit;
+
       &::placeholder {
         color: var(--c-primary-rgb);
       }
     }
+
     .menu-global {
       width: 100%;
       max-width: calc(100% - 24px);
     }
+
     .ada-button {
       @apply tw-bg-transparent tw-w-[24px] tw-h-full;
     }
+
     /* .i {
       @apply tw-w-[24px] tw-h-[24px] tw-bg-error tw-text-error ;
     } */
   }
+
   &.active {
-    border-bottom-right-radius: 0!important;
-    border-bottom-left-radius: 0!important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+
     .input {
-      border-bottom-right-radius: 0!important;
-      border-bottom-left-radius: 0!important;
+      border-bottom-right-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+
       i {
-      display: inline-block;
-      transform: rotate(-180deg);
-    }
+        display: inline-block;
+        transform: rotate(-180deg);
+      }
     }
   }
 
-  
+
 }
 </style>
 
@@ -133,7 +143,7 @@ props.value ? select(props.value) : null
     label == '' ? '' : 'has-label',
   ]">
 
-  <!-- set outslide click directive -->
+    <!-- set outslide click directive -->
     <div class="label">
       {{ label }}
     </div>
@@ -142,8 +152,8 @@ props.value ? select(props.value) : null
       <ada-menu :mLeft="-24" :mTop="27.5" :mWidth="24" :active="active">
         <template #activator>
           <input type="text" class="tw-min-w-0 tw-max-w-full tw-h-full tw-flex-grow tw-px-2 tw-inline-block"
-            :value="selectedText" readonly ref="inp" :aria-readonly="readonly"
-            :placeholder="placeholder" v-bind="$attrs" />
+                 :value="selectedText" readonly ref="inp" :aria-readonly="readonly"
+                 :placeholder="placeholder" v-bind="$attrs"/>
         </template>
         <template #prepend-item>
           <slot name="prepend-item"></slot>
