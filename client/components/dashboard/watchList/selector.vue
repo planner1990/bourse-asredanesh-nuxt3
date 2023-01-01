@@ -71,7 +71,6 @@ async function rename(item: any) {
 
 function select(val: any) {
   const fullPath = route.fullPath.split("/");
-  console.log(fullPath[3]);
   if (props.autoRoute) {
     if (route.params.slug) val.to = val.to + `/${route.params.slug}`
     router.push(fullPath[3] ? val.to + "/" + fullPath[3] : val.to);
