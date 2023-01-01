@@ -64,7 +64,7 @@ async function refresh() {
   _instruments.push(
       ...(await instrumentManager.getInstrumentsDetail(props.searchModel, true))
   );
-  notificationManager.initNotifications(
+  await notificationManager.initNotifications(
       props.searchModel.ids.map((id) => id.toString())
   );
 }

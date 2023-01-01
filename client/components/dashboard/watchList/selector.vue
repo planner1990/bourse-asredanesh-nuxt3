@@ -70,9 +70,11 @@ async function rename(item: any) {
 }
 
 function select(val: any) {
+  const fullPath = route.fullPath.split("/");
+  console.log(fullPath[3]);
   if (props.autoRoute) {
     if (route.params.slug) val.to = val.to + `/${route.params.slug}`
-    router.push(val.to);
+    router.push(fullPath[3] ? val.to + "/" + fullPath[3] : val.to);
   }
 }
 
@@ -82,10 +84,10 @@ watch(selected, select);
 
 async function setBookmark(item: any) {
   if (bookmarks.value.findIndex((i) => i.title === item.id) == -1) {
-    const tempBookmark: Bookmark = {
+    const tempBookmark: any = {
       icon: "isax-graph",
       title: item.id,
-      to: `/watchList/${item}`
+      to: route.fullPath
     };
     const tmp = [...bookmarks.value, tempBookmark];
     await userManager.update_settings({
