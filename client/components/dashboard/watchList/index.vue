@@ -240,7 +240,7 @@ refresh();
     cursor: pointer;
 
     &:hover {
-      background-color: rgba(var(--c-primary), 0.07);
+      //background-color: rgba(var(--c-primary), 0.07);
     }
 
     td {
@@ -311,6 +311,10 @@ refresh();
 .activeRow {
   background-color: #E7EAF9;
   box-shadow: inset 0 0 1px 1px #AEBBED;
+  &:hover {
+    background-color: #E7EAF9;
+    box-shadow: inset 0 0 1px 1px #AEBBED;
+  }
 }
 </style>
 

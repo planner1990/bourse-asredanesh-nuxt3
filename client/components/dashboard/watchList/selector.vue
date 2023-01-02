@@ -83,10 +83,11 @@ watch(selected, select);
 
 async function setBookmark(item: any) {
   if (bookmarks.value.findIndex((i) => i.title === item.id) == -1) {
+    const fullPath = route.fullPath.split("/");
     const tempBookmark: any = {
       icon: "isax-graph",
       title: item.id,
-      to: route.fullPath
+      to: fullPath[3] ? item.to + "/" + fullPath[3] : item.to
     };
     const tmp = [...bookmarks.value, tempBookmark];
     await userManager.update_settings({
@@ -96,7 +97,7 @@ async function setBookmark(item: any) {
   } else {
     bookmarks.value.splice(bookmarks.value.findIndex((i) => i.title === item.id), 1)
   }
-  if (item.id == route.params.name) router.push("/bookmarks/" + item.bookmarks);
+  // if (item.id == route.params.name) router.push("/bookmarks/" + item.bookmarks);
   refresh();
 }
 </script>
@@ -122,7 +123,7 @@ async function setBookmark(item: any) {
   }
 
   .verify-btn {
-    @apply tw-w-14 tw-text-white;
+    @apply tw-w-14 tw-text-white tw-bg-success;
 
     .icon {
       @apply tw-text-white;
@@ -199,7 +200,6 @@ async function setBookmark(item: any) {
             </ada-input>
             <ada-btn
                 key="save"
-                dark
                 @click.stop="() => rename(item)"
                 class="verify-btn"
             >

@@ -103,7 +103,7 @@ export default defineComponent({
       </ada-btn>
     </template>
     <template #items>
-      <ada-list class="tw-p-0 tw-m-0" style="{min-height: 256px;}">
+      <ada-list class="tw-p-0 tw-m-0 tw-shadow-inner tw-shadow-slate-300">
         <ada-list-item class="tw-px-2 tw-flex tw-items-center" :value="{ icon: '', title: '' }">
           <span v-text="$t('general.export-excels')"></span>
           <ada-icon class="tw-text-success" :size="16"> mdi-file-excel-outline </ada-icon>

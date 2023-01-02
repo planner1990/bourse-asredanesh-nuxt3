@@ -55,7 +55,7 @@ const style = computed(() => {
     <slot name="activator"></slot>
     <Teleport to="body">
       <transition name="slide-fade">
-        <div ref="menuContent" :style="style" v-if="active" class="menu" :class="[rtl? 'rtl': null, locale]">
+        <div ref="menuContent" :style="style" v-if="active" class="menu" :class="[rtl? 'rtl': null, locale]" >
 
           <slot name="prepend-item"></slot>
           <slot name="items"></slot>

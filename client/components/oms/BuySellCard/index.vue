@@ -225,18 +225,18 @@ const placeOrder = ({draft}) => handleSubmit(async (values, actions) => {
 function toggleCountLock() {
   countLock.value = !countLock.value;
   if (tab.value === "1") {
-    quantity.value = firstRow.value.buy.count;
-  } else {
     quantity.value = firstRow.value.sell.count;
+  } else {
+    quantity.value = firstRow.value.buy.count;
   }
 }
 
 function togglePriceLock() {
   priceLock.value = !priceLock.value;
   if (tab.value === "1") {
-    setFieldValue('enteredPrice', firstRow.value.buy.price)
-  } else {
     setFieldValue('enteredPrice', firstRow.value.sell.price)
+  } else {
+    setFieldValue('enteredPrice', firstRow.value.buy.price)
   }
 }
 
