@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ComputedRef } from "vue";
-import { useShortcut } from "@/utils/shortcutManager";
-import { BookmarkPosition, CreateBookmark, MenuItem, TabItem } from "~/types";
-import { useAsrTrader, useUser, useChat } from "~/composables";
-import { getMenuItems } from "./items";
+import {ComputedRef} from "vue";
+import {useShortcut} from "@/utils/shortcutManager";
+import {BookmarkPosition, CreateBookmark, MenuItem, TabItem} from "~/types";
+import {useAsrTrader, useUser, useChat} from "~/composables";
+import {getMenuItems} from "./items";
 
 const props = withDefaults(
-  defineProps<{
-    modelValue?: boolean;
-    mini?: boolean;
-    clipped?: boolean;
-  }>(),
-  {
-    modelValue: true,
-    mini: false,
-    clipped: true,
-  }
+    defineProps<{
+      modelValue?: boolean;
+      mini?: boolean;
+      clipped?: boolean;
+    }>(),
+    {
+      modelValue: true,
+      mini: false,
+      clipped: true,
+    }
 );
 
 //////////////
@@ -117,24 +117,24 @@ function mark(data: MenuItem) {
   switch (data.bookmarkPosition) {
     case BookmarkPosition.ToolBar:
       console.log(1)
-      {
-        const tmp = [...bookmarks.value, bk];
-        userManager.update_settings({
-          path: "/bookmarks",
-          value: tmp,
-        });
-      }
+    {
+      const tmp = [...bookmarks.value, bk];
+      userManager.update_settings({
+        path: "/bookmarks",
+        value: tmp,
+      });
+    }
       break;
     case BookmarkPosition.RightPanel:
       console.log(shortcuts.value)
-      {
-        const tmp = [...shortcuts.value, bk];
-        console.log(2, tmp)
-        userManager.update_settings({
-          path: "/shortcuts",
-          value: tmp,
-        });
-      }
+    {
+      const tmp = [...shortcuts.value, bk];
+      console.log(2, tmp)
+      userManager.update_settings({
+        path: "/shortcuts",
+        value: tmp,
+      });
+    }
       break;
   }
 }
@@ -143,31 +143,31 @@ function unmark(data: MenuItem) {
   switch (data.bookmarkPosition) {
     case BookmarkPosition.ToolBar:
       console.log(3)
-      {
-        let tmp = [...bookmarks.value];
-        tmp.splice(
+    {
+      let tmp = [...bookmarks.value];
+      tmp.splice(
           tmp.findIndex((item) => item.to == data.to),
           1
-        );
-        userManager.update_settings({
-          path: "/bookmarks",
-          value: tmp,
-        });
-      }
+      );
+      userManager.update_settings({
+        path: "/bookmarks",
+        value: tmp,
+      });
+    }
       break;
     case BookmarkPosition.RightPanel:
-    console.log(4)
-      {
-        let tmp = [...shortcuts.value];
-        tmp.splice(
+      console.log(4)
+    {
+      let tmp = [...shortcuts.value];
+      tmp.splice(
           tmp.findIndex((item) => item.to == data.to),
           1
-        );
-        userManager.update_settings({
-          path: "/shortcuts",
-          value: tmp,
-        });
-      }
+      );
+      userManager.update_settings({
+        path: "/shortcuts",
+        value: tmp,
+      });
+    }
       break;
   }
 }
@@ -178,12 +178,12 @@ async function sendMessage(): Promise<void> {
     chat.pusher(inputChat.value);
     const chatroom = document.querySelector(".chatroom__messages");
     await nextTick()
-   
-      chatroom.scrollTo({
+
+    chatroom.scrollTo({
       top: chatroom.scrollHeight,
       left: 0,
       behavior: 'smooth'
-   
+
     })
     inputChat.value = ''
   }
@@ -218,6 +218,7 @@ if (process.client) {
     touch-action: none;
     pointer-events: none;
   }
+
   .tabs {
     @apply tw-items-center tw-px-2 tw-shadow-[-2px_1px_2px_0] tw-shadow-primary/20 tw-overflow-y-auto;
     padding-top: 8px;
@@ -246,14 +247,18 @@ if (process.client) {
       flex-basis: 32px;
       overflow-y: auto;
     }
+
     .chatroom {
       @apply tw-h-full;
+
       &__avatar {
         @apply tw-mx-auto tw-mt-4 tw-text-center;
+
         i {
           @apply tw-text-primary;
         }
       }
+
       &__messages {
         @apply tw-p-2 tw-overflow-y-auto tw-justify-end tw-mt-2 tw-bg-transparent;
         height: calc(100% - 130px);
@@ -265,6 +270,7 @@ if (process.client) {
 
       &__activator {
         @apply tw-fixed tw-bottom-10 tw-left-0 tw-w-full tw-text-center tw-bg-transparent tw-pt-2;
+
         > p {
           @apply tw-inline-block tw-w-3/4  tw-border tw-border-primary/80 tw-pr-2 tw-text-primary tw-bg-white;
           @apply tw-rounded-xl tw-text-right;
@@ -272,15 +278,17 @@ if (process.client) {
           &:focus {
             @apply tw-outline-none tw-border-primary/100;
           }
+
           &:empty::before {
             content: attr(data-placeholder);
             @apply tw-text-primary/70 tw-pr-1;
           }
         }
+
         .ada-button {
           .icon {
-          @apply tw-text-primary tw-text-opacity-90 tw-rotate-180 tw-mr-1 hover:tw-text-opacity-100;
-        }
+            @apply tw-text-primary tw-text-opacity-90 tw-rotate-180 tw-mr-1 hover:tw-text-opacity-100;
+          }
         }
       }
     }
@@ -310,26 +318,26 @@ if (process.client) {
 
 <template>
   <ada-nav
-    v-model="drawer"
-    min-width="48px"
-    max-width="256px"
-    :mini="mini"
-    class="r-panel"
-    mobile-breakpoint="960"
-    fixed
+      v-model="drawer"
+      min-width="48px"
+      max-width="256px"
+      :mini="mini"
+      class="r-panel"
+      mobile-breakpoint="960"
+      fixed
   >
     <div class="tabs">
       <ada-toggle v-model="bottomPanel.activeTab" class="tw-flex-wrap">
         <ada-tooltip v-for="item in items" :key="item.title" position="left">
           <template #activator>
             <ada-btn
-            :to="`/watchlist/${ $route.params.name }/${ item.path }`"
-            :match="item.match"
-            :model="item"
+                :to="`/watchlist/${ $route.params.name }/${ item.path }`"
+                :match="item.match"
+                :model="item"
             >
               <ada-icon
-                size="18"
-                :class="[item.color ? `tw-text-${item.color}` : null]"
+                  size="18"
+                  :class="[item.color ? `tw-text-${item.color}` : null]"
               >
                 {{ item.icon }}
               </ada-icon>
@@ -338,22 +346,6 @@ if (process.client) {
           <span>{{ $t(item.title) }}</span>
         </ada-tooltip>
       </ada-toggle>
-      <hr class="divider" />
-      <ada-tooltip v-for="item in shortcuts" :key="item.title" position="left">
-        <template #activator>
-          <ada-btn
-            :to="item.to"
-            depressed
-          >
-            <ada-icon size="18" :class="`tw-text-${item.color}`">
-              {{ item.icon }}
-            </ada-icon>
-          </ada-btn>
-        </template>
-        <span>{{ item.text ? item.text : $t(item.title) }}</span>
-      </ada-tooltip>
     </div>
-
-  
   </ada-nav>
 </template>

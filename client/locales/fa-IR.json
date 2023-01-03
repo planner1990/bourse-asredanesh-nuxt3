@@ -418,6 +418,7 @@
       "index": "اطلاعات تکمیلی",
       "depth": "عمق بازار",
       "myGroups": "همگروه ها - صنایع",
+      "holdersGroups": "همگروه های سهامداری",
       "holdersCombination": "ترکیب سهامداران",
       "type": "حقیقی و حقوقی",
       "trades": "@:general.types @:oms.trades",

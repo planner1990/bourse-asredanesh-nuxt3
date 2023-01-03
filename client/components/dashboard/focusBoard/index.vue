@@ -16,7 +16,6 @@ const path = computed(() => route.fullPath);
 const filter = computed(() => instrumentManager.state.selected);
 
 const instruments = computed(() => instrumentManager.getFocus);
-
 const viewMode = computed({
   get() {
     return instrumentManager.focusMode;
@@ -76,7 +75,7 @@ if (process.client) {
   position: relative;
   align-items: center;
   /* background-color: var(--c-default-bg-rbg); */
-  
+
 }
 
 .bookmark {

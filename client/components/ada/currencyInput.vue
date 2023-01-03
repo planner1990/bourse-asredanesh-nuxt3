@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {onMounted, reactive} from "vue";
+import router from "#app/plugins/router.mjs";
 
 const props = withDefaults(
     defineProps<{
@@ -28,7 +29,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits(["update:modelValue"]);
-
+const route = useRoute();
 const active = ref(false);
 const join = (val: string): number => {
   if (val.includes(",")) {
@@ -70,8 +71,14 @@ onMounted(() => {
   submitData();
 });
 watch(() => props.nameInput, () => {
+  console.log(props.nameInput);
   submitData();
 })
+// const routeChanged = route;
+// console.log(routeChanged);
+// watch(() => routeChanged, () => {
+//   console.log(routeChanged);
+// })
 const focus = ref(null);
 
 function submitData() {

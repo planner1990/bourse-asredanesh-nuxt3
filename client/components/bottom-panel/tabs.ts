@@ -64,6 +64,12 @@ const panels: Array<TabItem> = [
         match: /^\/watchlist\/.+\/furtherInformation\/myGroups([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
       {
+        path:"furtherInformation/holdersGroups",
+        title: "bottom-panel.furtherInformation.holdersGroups",
+        deletable: false,
+        match: /^\/watchlist\/.+\/furtherInformation\/holdersGroups([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+      },
+      {
         path:"furtherInformation/holdersCombination",
         title: "bottom-panel.furtherInformation.holdersCombination",
         deletable: false,

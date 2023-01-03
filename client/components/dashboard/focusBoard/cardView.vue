@@ -62,9 +62,9 @@ defineExpose({
     cursor: pointer;
     max-height: 319px;
 
-
     &.active {
-      @apply tw-border-dashed tw-border tw-border-primary tw-rounded;
+      @apply tw-rounded;
+      box-shadow: inset 0 0 1px 1px #aebbed !important;
 
       .toolbar {
         @apply tw-bg-primary tw-bg-opacity-10;

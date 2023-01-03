@@ -60,6 +60,8 @@ defineExpose({
 <style lang="postcss" scoped>
 .order-queue {
   >header {
+    width: 99.5%;
+    margin: 0 auto;
     @apply tw-grid tw-grid-cols-6 tw-text-center;
     height: var(--row-height);
     line-height: var(--row-height);
