@@ -28,7 +28,7 @@ export default defineComponent({
           selected: currentCols.value.findIndex((item) => item?.value == key) != -1,
           value: key,
         }))
-        .sort((a, b) => (a.selected ? 0 : 1) - (b.selected ? 0 : 1));
+        // .sort((a, b) => (a.selected ? 0 : 1) - (b.selected ? 0 : 1));
     });
     async function toggleCol(name: string) {
       const tmp = [...currentCols.value];
@@ -114,7 +114,13 @@ export default defineComponent({
         </ada-list-item>
         <hr class="divider tw-border-divider" />
         <ada-list-item v-for="i in items" :key="i.value" @click="toggleCol(i.value)" class="item">
-          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>
+          <input
+              type="checkbox"
+              v-model="i.selected"
+              class="input-checkbox tw-mx-1.5"
+              tabindex="-1"
+          />
+<!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
           <span v-text="$t(`instrument.${i.value}`)"></span>
         </ada-list-item>
       </ada-list>

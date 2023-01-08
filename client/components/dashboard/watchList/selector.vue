@@ -17,6 +17,8 @@ const router = useRouter();
 const userManager = useUser();
 const selected: Ref<any> = ref(null);
 const bookmark: Ref<any> = ref();
+const isOpen: Ref<any> = ref(false);
+const currentId: Ref<any> = ref();
 const newName = ref("");
 const watchList: any[] = reactive([]);
 const wls = computed(() => userManager.watchList);
@@ -100,15 +102,27 @@ async function setBookmark(item: any) {
   // if (item.id == route.params.name) router.push("/bookmarks/" + item.bookmarks);
   refresh();
 }
+
+function openSubMenu(item) {
+  if (item && item.id === currentId.value) {
+    isOpen.value = !isOpen.value;
+  } else {
+    isOpen.value = true;
+    currentId.value = item.id
+  }
+}
 </script>
 
 <style lang="postcss" scoped>
 #btn-trash .icon {
   @apply tw-text-error;
 }
+#btn-edit .icon {
+  @apply tw-text-info;
+}
 
 #btn-trash, #btn-edit {
-  @apply tw-bg-transparent tw-mx-[2px];
+  @apply tw-bg-transparent tw-mx-[2px] ;
 }
 </style>
 
@@ -129,6 +143,10 @@ async function setBookmark(item: any) {
       @apply tw-text-white;
     }
   }
+
+  .ada-input .scaffold {
+    border: unset;
+  }
 }
 </style>
 
@@ -146,10 +164,10 @@ async function setBookmark(item: any) {
             v-for="(item, index) in watchList"
             :key="index"
             @click="select(item)"
-            class="tw-p-2 hover:tw-bg-primary hover:tw-bg-opacity-10 tw-cursor-pointer"
+            class="tw-p-2 tw-pl-3 hover:tw-bg-primary hover:tw-bg-opacity-10 tw-cursor-pointer tw-pb-0"
         >
-          <div class="tw-flex tw-flex-grow tw-justify-between" v-if="!item.onEdit">
-            <span>{{ item.text }}</span>
+          <div class="tw-flex tw-flex-grow tw-justify-between tw-flex-wrap" v-if="!item.onEdit">
+            <span class="text-overflow">{{ item.text }}</span>
             <div>
               <span>
                 <v-icon @click.stop="setBookmark(item)">
@@ -158,35 +176,26 @@ async function setBookmark(item: any) {
                   }}
                 </v-icon>
               </span>
-              <v-menu>
-                <template v-slot:activator="{ props }">
-                  <v-icon v-bind="props">
-                    mdi-dots-vertical
-                  </v-icon>
-                </template>
-                <v-list>
-                  <v-list-item
-                  >
-                    <v-list-item-title>
-                      <ada-btn key="delete" @click.stop="remove(item.id)" id="btn-trash">
-                        <ada-icon :size="14"> isax-trash</ada-icon>
-                      </ada-btn>
-                      <ada-btn
-                          id="btn-edit"
-                          key="edit"
-                          @click.stop="
+              <v-icon @click.stop="openSubMenu(item)" v-ada-click-outside="()=> isOpen = false">
+                mdi-dots-vertical
+              </v-icon>
+            </div>
+            <div v-if="isOpen && currentId === item.id" class="tw-flex tw-w-full tw-justify-end">
+              <ada-btn
+                  id="btn-edit"
+                  class="tw-ml-6"
+                  key="edit"
+                  @click.stop="
                    () => {
                      item.onEdit = true;
                    }
                  "
-                      >
-                        <ada-icon :size="14"> isax-edit-2</ada-icon>
-                      </ada-btn>
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-
+              >
+                <ada-icon :size="16"> isax-edit-2</ada-icon>
+              </ada-btn>
+              <ada-btn key="delete" @click.stop="remove(item.id)" id="btn-trash" class="tw-ml-3">
+                <ada-icon :size="16"> isax-trash</ada-icon>
+              </ada-btn>
             </div>
           </div>
           <div class="tw-flex tw-flex-grow" v-else>
@@ -206,19 +215,22 @@ async function setBookmark(item: any) {
               <ada-icon :size="16"> mdi-check</ada-icon>
             </ada-btn>
           </div>
+          <div class="tw-border-b tw-border-[#E0E0E0] tw-mt-2"></div>
         </li>
       </ul>
     </template>
     <template #append-item>
       <ada-list class="tw-p-0 tw-m-0" @click.stop="">
+        <div class="tw-text-[10px] tw-text-gray2 tw-mr-2">افزودن مورد دلخواه</div>
         <ada-list-item
-            class="tw-px-2 tw-flex tw-items-center tw-mt-2 tw-mb-1"
+            class="tw-px-2 tw-flex tw-items-center tw-mt-2 tw-mb-3"
             :value="{ icon: '', title: '' }"
         >
           <ada-input
               class="tw-text-primary watchlist-selector-input"
               v-model="newName"
               @keyup.enter="create"
+              placeholder="نام دلخواه"
           >
           </ada-input>
           <ada-btn

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Side, InstrumentCache } from "@/types";
-import { useInstrument, useOrder } from "~/composables";
+import {Side, InstrumentCache} from "@/types";
+import {useInstrument, useOrder} from "~/composables";
 
 const instrumentManager = useInstrument();
 const orderManager = useOrder();
 
 const instruments = computed(() => instrumentManager.getFocus);
 const maxwidthVal = computed(
-  () => {
-    const cnt = Math.floor(instrumentManager.width / 362);
-    return (instrumentManager.width - ((cnt - 1) * 12)) / cnt
-  }
+    () => {
+      const cnt = Math.floor(instrumentManager.width / 362);
+      return (instrumentManager.width - ((cnt - 1) * 12)) / cnt
+    }
 );
 
 const selected = computed(() => instrumentManager.state.selected)
@@ -18,6 +18,7 @@ const selected = computed(() => instrumentManager.state.selected)
 function close(item: InstrumentCache) {
   instrumentManager.removeFocus(item.id);
 }
+
 function order(item: InstrumentCache, side: Side) {
   orderManager.setSide(side, item.id.toString());
   instrumentManager.addFocus(item);
@@ -26,6 +27,7 @@ function order(item: InstrumentCache, side: Side) {
   instrumentManager.setFocusMode(0);
 
 }
+
 function select(item: InstrumentCache) {
   instrumentManager.activateTab(item);
   const crt = instrumentManager.state.selected;
@@ -54,7 +56,7 @@ defineExpose({
   overflow-y: hidden;
   height: 320px;
 
-  >.card-view {
+  > .card-view {
     @apply tw-transition tw-shadow-md tw-relative tw-box-border;
     background-color: white;
     border-left: 1px solid #e0e0e0;
@@ -91,9 +93,11 @@ defineExpose({
           @apply tw-bg-success;
         }
       }
-      .buy, .sell{
+
+      .buy, .sell {
         @apply tw-w-[58px] tw-text-white tw-mx-1 tw-h-[26px] tw-leading-3;
       }
+
       .buy {
         @apply tw-bg-success tw-bg-opacity-70;
       }
@@ -104,11 +108,14 @@ defineExpose({
 
       .close {
         @apply tw-bg-primary tw-bg-opacity-10 tw-w-8 tw-h-8 tw-text-primary tw-mr-3;
+
         .icon {
           @apply tw-text-primary tw-mb-2;
         }
+
         &:hover {
           @apply tw-bg-primary tw-text-white;
+
           .icon {
             @apply tw-text-white;
           }
@@ -121,8 +128,9 @@ defineExpose({
 
 <template>
   <div class="card-row">
-    <dashboard-focus-board-card @click="() => select(item)" class="card-view" :class="{ 'active': selected && selected.id == item.id }"
-      :minWidth="maxwidthVal" v-for="item in instruments" :key="item.id">
+    <dashboard-focus-board-card @click="() => select(item)" class="card-view"
+                                :class="{ 'active': selected && selected.id == item.id }"
+                                :minWidth="maxwidthVal" v-for="item in instruments" :key="item.id">
       <header class="toolbar">
         <div class="tw-flex">
           <ada-badge class="title" :color="
@@ -132,29 +140,29 @@ defineExpose({
               ? 'warning'
               : 'success'
         " dot>
-          {{ item.name }}
-        </ada-badge>
+            {{ item.name }}
+          </ada-badge>
           <span v-text="`(${ $t('instrument.state.' + item.status) })`"></span>
         </div>
-       <div class="actions">
-        <ada-btn depressed dark small class="buy"
-          @click.stop="() => order(item, Side.Buy)">
-          {{ $t("oms.buy") }}
-        </ada-btn>
-        <ada-btn depressed dark small class="sell"
-          @click.stop="() => order(item, Side.Sell)">
-          {{ $t("oms.sell") }}
-        </ada-btn>
-        <ada-btn @click.stop="() => close(item)" class="close" depressed small>
-          <ada-icon :size="12"> mdi-close </ada-icon>
-        </ada-btn>
-       </div>
+        <div class="actions">
+          <ada-btn depressed dark small class="buy"
+                   @click.stop="() => order(item, Side.Buy)">
+            {{ $t("oms.buy") }}
+          </ada-btn>
+          <ada-btn depressed dark small class="sell"
+                   @click.stop="() => order(item, Side.Sell)">
+            {{ $t("oms.sell") }}
+          </ada-btn>
+          <ada-btn @click.stop="() => close(item)" class="close" depressed small>
+            <ada-icon :size="12"> mdi-close</ada-icon>
+          </ada-btn>
+        </div>
       </header>
       <div class="text-caption tw-p-0 tw-m-0">
-        <oms-order-queue-card :inst="item" />
-        <oms-instrument-card-compact :insId="item.id" hide-headers />
+        <oms-order-queue-card :inst="item"/>
+        <oms-instrument-card-compact :insId="item.id" hide-headers/>
         <ada-col class="col-border tw-justify-center tw-align-middle">
-          <ada-icon :size="16"> isax-presention-chart </ada-icon>
+          <dashboard-watch-list-instrument-notifications :value="item"/>
         </ada-col>
       </div>
     </dashboard-focus-board-card>

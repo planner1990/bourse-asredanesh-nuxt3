@@ -6,12 +6,12 @@ import {
   InstrumentCache,
   Side,
 } from "@/types";
-import { useInstrument } from "~/composables";
+import {useInstrument, useNotifications} from "~/composables";
 import LastPrice from "@/components/oms/lastPrice.vue";
 
 const bottomPanel = useBottomPanel();
 const instrumentManager = useInstrument();
-const instruments = computed(()=> instrumentManager.getFocus)
+const instruments = computed(() => instrumentManager.getFocus);
 const count = ref(0);
 const price = ref(0);
 const tab = computed({
@@ -23,14 +23,20 @@ const tab = computed({
   },
 });
 const selected = computed(() => instrumentManager.state.selected);
+// const notifs = computed(
+//     () => notifManager.state.cache[props.value.instrumentCode]
+// );
+// console.log(notifs);
 function select(val: InstrumentCache) {
   const crt = instrumentManager.state.selected;
   if (crt == null || crt.id != val.id) instrumentManager.select(val);
   else instrumentManager.select(null);
 }
+
 function close(id: number) {
   instrumentManager.removeFocus(id);
 }
+
 async function deep(option: DeepOptions, instrument: Instrument) {
   bottomPanel.setDepthData(null);
   switch (option) {
@@ -38,7 +44,7 @@ async function deep(option: DeepOptions, instrument: Instrument) {
       try {
         bottomPanel.setLoading(true);
         await bottomPanel.getTeammates(
-          new SameSectorQuery(instrument.id, instrument.sector)
+            new SameSectorQuery(instrument.id, instrument.sector)
         );
       } finally {
         bottomPanel.setLoading(false);
@@ -69,12 +75,14 @@ defineExpose({
 <style lang="postcss" scoped>
 .tab-view {
   @apply tw-w-full;
+
   > .toggle {
     @apply tw-justify-start tw-w-full tw-items-end tw-bg-white tw-bg-opacity-5 tw-transition-all tw-shadow tw-box-border;
     min-height: 32px;
-   
+
     .ada-button {
       @apply tw-relative tw-mr-2;
+
       .bar {
         @apply -tw-left-[12px];
       }
@@ -88,13 +96,16 @@ defineExpose({
       &.selected {
         @apply tw-rounded-t tw-border-primary tw-border-opacity-80;
         box-shadow: inset 0 0 1px 1px #aebbed;
+
         &::after {
           background-color: transparent;
         }
       }
+
       &.active {
         @apply tw-bg-primary/20;
       }
+
       &::after {
         border-radius: 0 !important;
       }
@@ -103,11 +114,13 @@ defineExpose({
         span {
           @apply tw-text-error;
         }
+
         & :deep(.badge) {
           @apply tw-bg-success;
         }
       }
-      i{
+
+      i {
         @apply tw-text-primary;
       }
     }
@@ -144,14 +157,14 @@ defineExpose({
   <div class="tab-view">
     <ada-toggle :height="32" v-model="tab" align-with-title :class="{ active: selected }">
       <ada-btn
-        @click="() => select(item)"
-        v-for="(item, i) in instruments"
-        :key="item.id"
-        :model="item"
-        name-key="$.id"
-        :height="32"
-        class="tab"
-        :class="{ selected: (selected && selected.id == item.id) }"
+          @click="() => select(item)"
+          v-for="(item, i) in instruments"
+          :key="item.id"
+          :model="item"
+          name-key="$.id"
+          :height="32"
+          class="tab"
+          :class="{ selected: (selected && selected.id == item.id) }"
       >
         <ada-badge dot left offset-y="75%" offset-x="-5">
           {{ item.name }}
@@ -165,55 +178,55 @@ defineExpose({
     </ada-toggle>
     <ada-tabs v-model="tab">
       <ada-tab
-        class="detail"
-        v-for="item in instruments"
-        :key="item.id"
-        :model="item"
+          class="detail"
+          v-for="item in instruments"
+          :key="item.id"
+          :model="item"
       >
         <div class="panel">
           <oms-order-queue-card
-            :inst="item"
-            @count="
+              :inst="item"
+              @count="
               (val) => {
                 count = val;
               }
             "
-            @price="
+              @price="
               (val) => {
                 price = val;
               }
             "
-            copy
-            responsive
+              copy
+              responsive
           />
-          <oms-legal-real-card :insId="item.id" hide-headers responsive />
+          <oms-legal-real-card :insId="item.id" hide-headers responsive/>
           <ada-col class="col-border tw-align-middle tw-justify-center">
-            <ada-icon size="16"> isax-presention-chart </ada-icon>
+            <dashboard-watch-list-instrument-notifications :value="item"/>
           </ada-col>
         </div>
         <div class="panel">
           <oms-buy-sell-card
-            :price.sync="price"
-            :count.sync="count"
-            :insId="item.id"
-            :insName="item.name"
+              :price.sync="price"
+              :count.sync="count"
+              :insId="item.id"
+              :insName="item.name"
           />
         </div>
         <div class="panel">
           <oms-instrument-card
-            :insId="item.id"
-            :insName="item.name"
-            @count="
+              :insId="item.id"
+              :insName="item.name"
+              @count="
               (val) => {
                 count = val;
               }
             "
-            @price="
+              @price="
               (val) => {
                 price = val;
               }
             "
-            responsive
+              responsive
           />
         </div>
       </ada-tab>

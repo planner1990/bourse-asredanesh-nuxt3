@@ -12,7 +12,8 @@ const props = withDefaults(
     maxlength?: number | null;
     readonly?: boolean,
     maxWidth?: string,
-    tabIndex?: string
+    tabIndex?: string,
+    placeholder?: string
   }>(),
   {
     label: "",
@@ -24,7 +25,8 @@ const props = withDefaults(
     maxlength: null,
     readonly: false,
     tabIndex: '0',
-    height: 'auto'
+    height: 'auto',
+    placeholder: ""
 
   }
 );
@@ -86,7 +88,7 @@ const updateModelValue = (e)=> {
       <input :type="type" @focus="() => { active = true }" @blur="() => { active = false }"
         :value="modelValue" :class="[ltr]"
         @input="updateModelValue"
-        v-bind="{ min, max, minlength, maxlength, ...$attrs }" :readonly="readonly" :tabindex="tabIndex" />
+        v-bind="{ min, max, minlength, maxlength, ...$attrs }" :readonly="readonly" :tabindex="tabIndex" :placeholder="placeholder" />
       <slot name="append" :active="active"></slot>
     </div>
 
