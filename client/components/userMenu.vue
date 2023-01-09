@@ -51,7 +51,7 @@ function doLogout() {
 
 function goToProfile() {
   const route = useRoute();
-  return `/watchlist/${route.params.name}/settings/userInformation`
+  router.push(`/watchlist/${route.params.name}/settings/userInformation`);
 }
 
 function downloadSettings() {
@@ -203,17 +203,19 @@ const me = () => {
 
 <template>
   <div class="userMenu tw-flex tw-items-center tw-ml-10">
-    <profile-picture
-        :address="currentUser.profile && currentUser.profile.profilePic"
-    />
-    <span
-        class="tw-mr-2 tw-font-semibold"
-        v-text="
+    <ada-btn :height="28" min-width="184px" depressed @click="goToProfile">
+      <profile-picture
+          :address="currentUser.profile && currentUser.profile.profilePic"
+      />
+      <span
+          class="tw-mr-2 tw-font-semibold"
+          v-text="
            currentUser.profile.nickname
              ? currentUser.profile.nickname
              : currentUser.userName
          "
-    ></span>
+      ></span>
+    </ada-btn>
     <div
         class="tw-cursor-pointer tw-mr-6"
         @click="doLogout"
