@@ -117,6 +117,10 @@ const me = () => {
 </script>
 
 <style lang="postcss" scoped>
+.userMenu > div:first-child {
+  @apply tw-flex tw-justify-center tw-items-center
+}
+
 .user-menu-activator {
   @apply tw-ml-14 tw-flex tw-justify-start tw-relative;
 
@@ -198,127 +202,149 @@ const me = () => {
 </style>
 
 <template>
-  <div class="userMenu">
-    <ada-menu :mTop="42" :mLeft="43" :active="userMenu">
-      <template #activator>
-        <ada-btn
-            :height="28"
-            min-width="184px"
-            class="user-menu-activator tw-py-0 tw-px-2"
-            color="transparent"
-            depressed
-            @click="userMenu = !userMenu"
-            v-ada-click-outside="() => (userMenu = false)"
-        >
-          <profile-picture
-              :address="currentUser.profile && currentUser.profile.profilePic"
-          />
-          <span
-              class="tw-mr-2 tw-font-semibold"
-              v-text="
-              currentUser.profile.nickname
-                ? currentUser.profile.nickname
-                : currentUser.userName
-            "
-          ></span>
-        </ada-btn>
-      </template>
-      <template #items>
-        <ada-list class="tw-p-0 tw-m-0">
-          <ada-list-item
-              v-for="item in userMenuItems"
-              :key="item.title"
-              :to="item.to"
-              :value="item"
-              class="hover:tw-bg-gray-200"
-          >
-            <template #item="{ value }">
-              <div
-                  class="tw-cursor-pointer tw-w-full"
-                  @click="
-                  () => {
-                    if (item.click) item.click();
-                  }
-                "
-              >
-                <ada-icon :color="value.color" :size="16">{{
-                    value.icon
-                  }}
-                </ada-icon>
-                <span v-text="$t(value.title)"></span>
-              </div>
-            </template>
-          </ada-list-item>
-        </ada-list>
-      </template>
-    </ada-menu>
-  </div>
-  <lazy-ada-dialog :active="triggerUploadModal">
-    <div class="dialog-upload">
-      <body>
-      <div
-          id="uploader"
-          v-ada-drop-zone
-          @uploaded_files="receive_files_uploaded"
-      >
-        <div class="uploader">
-          <TransitionGroup name="slide-fade">
-            <template v-if="!files.length">
-              <ada-icon class="uploader__icon--info" size="3.25rem"
-              >isax-document-upload-outline
-              </ada-icon
-              >
-              <div class="uploader__description">
-                <h5
-                    v-text="$t('accounting.upload')"
-                    class="uploader__title--info"
-                ></h5>
-                <p
-                    v-text="$t('accounting.desUpload')"
-                    class="uploader__description--gray"
-                ></p>
-              </div>
-            </template>
-            <template v-else>
-              <div
-                  class="uploader__file"
-                  v-for="file in files"
-                  :key="file.id"
-              >
-                <ada-btn
-                    class="uploader__file__close"
-                    @click.stop="removeFile(file)"
-                >
-                  <ada-icon size="1rem">mdi-close</ada-icon>
-                </ada-btn>
-                <ada-icon size="3rem" class="uploader__file__icon"
-                >mdi-file-document
-                </ada-icon
-                >
-                <span
-                    class="uploader__file__name"
-                    v-text="file.file.name"
-                ></span>
-              </div>
-            </template>
-          </TransitionGroup>
-        </div>
-      </div>
-      </body>
-      <!-- <p v-text="$t('instrument.remove')"></p> -->
-      <footer class="tw-flex tw-items-center tw-p-2">
-        <ada-btn
-            :disabled="!files.length"
-            dark
-            :width="65"
-            @click.stop.prevent="uploadSetting"
-        >
-          {{ $t("general.upload") }}
-        </ada-btn>
-        <ada-btn dark :width="65" @click.stop="triggerUploadModal = false">
-          {{ $t("general.cancellation") }}
-        </ada-btn>
-      </footer>
+  <div class="userMenu tw-flex tw-items-center tw-ml-10">
+    <profile-picture
+        :address="currentUser.profile && currentUser.profile.profilePic"
+    />
+    <span
+        class="tw-mr-2 tw-font-semibold"
+        v-text="
+           currentUser.profile.nickname
+             ? currentUser.profile.nickname
+             : currentUser.userName
+         "
+    ></span>
+    <div
+        class="tw-cursor-pointer tw-mr-6"
+        @click="doLogout"
+    >
+      <ada-icon :size="16" class="tw-ml-1 tw-text-error">
+        mdi-logout
+      </ada-icon>
+      <span v-text="$t('login.logout')"></span>
     </div>
-  </lazy-ada-dialog>
+
+
+    <!--    <ada-menu :mTop="42" :mLeft="43" :active="userMenu">-->
+    <!--      <template #activator>-->
+    <!--        <ada-btn-->
+    <!--            :height="28"-->
+    <!--            min-width="184px"-->
+    <!--            class="user-menu-activator tw-py-0 tw-px-2"-->
+    <!--            color="transparent"-->
+    <!--            depressed-->
+    <!--            @click="userMenu = !userMenu"-->
+    <!--            v-ada-click-outside="() => (userMenu = false)"-->
+    <!--        >-->
+    <!--          <profile-picture-->
+    <!--              :address="currentUser.profile && currentUser.profile.profilePic"-->
+    <!--          />-->
+    <!--          <span-->
+    <!--              class="tw-mr-2 tw-font-semibold"-->
+    <!--              v-text="-->
+    <!--              currentUser.profile.nickname-->
+    <!--                ? currentUser.profile.nickname-->
+    <!--                : currentUser.userName-->
+    <!--            "-->
+    <!--          ></span>-->
+    <!--        </ada-btn>-->
+    <!--      </template>-->
+    <!--      <template #items>-->
+    <!--        <ada-list class="tw-p-0 tw-m-0">-->
+    <!--          <ada-list-item-->
+    <!--              v-for="item in userMenuItems"-->
+    <!--              :key="item.title"-->
+    <!--              :to="item.to"-->
+    <!--              :value="item"-->
+    <!--              class="hover:tw-bg-gray-200"-->
+    <!--          >-->
+    <!--            <template #item="{ value }">-->
+    <!--              <div-->
+    <!--                  class="tw-cursor-pointer tw-w-full"-->
+    <!--                  @click="-->
+    <!--                  () => {-->
+    <!--                    if (item.click) item.click();-->
+    <!--                  }-->
+    <!--                "-->
+    <!--              >-->
+    <!--                <ada-icon :color="value.color" :size="16">{{-->
+    <!--                    value.icon-->
+    <!--                  }}-->
+    <!--                </ada-icon>-->
+    <!--                <span v-text="$t(value.title)"></span>-->
+    <!--              </div>-->
+    <!--            </template>-->
+    <!--          </ada-list-item>-->
+    <!--        </ada-list>-->
+    <!--      </template>-->
+    <!--    </ada-menu>-->
+  </div>
+  <!--  <lazy-ada-dialog :active="triggerUploadModal">-->
+  <!--    <div class="dialog-upload">-->
+  <!--      <body>-->
+  <!--      <div-->
+  <!--          id="uploader"-->
+  <!--          v-ada-drop-zone-->
+  <!--          @uploaded_files="receive_files_uploaded"-->
+  <!--      >-->
+  <!--        <div class="uploader">-->
+  <!--          <TransitionGroup name="slide-fade">-->
+  <!--            <template v-if="!files.length">-->
+  <!--              <ada-icon class="uploader__icon&#45;&#45;info" size="3.25rem"-->
+  <!--              >isax-document-upload-outline-->
+  <!--              </ada-icon-->
+  <!--              >-->
+  <!--              <div class="uploader__description">-->
+  <!--                <h5-->
+  <!--                    v-text="$t('accounting.upload')"-->
+  <!--                    class="uploader__title&#45;&#45;info"-->
+  <!--                ></h5>-->
+  <!--                <p-->
+  <!--                    v-text="$t('accounting.desUpload')"-->
+  <!--                    class="uploader__description&#45;&#45;gray"-->
+  <!--                ></p>-->
+  <!--              </div>-->
+  <!--            </template>-->
+  <!--            <template v-else>-->
+  <!--              <div-->
+  <!--                  class="uploader__file"-->
+  <!--                  v-for="file in files"-->
+  <!--                  :key="file.id"-->
+  <!--              >-->
+  <!--                <ada-btn-->
+  <!--                    class="uploader__file__close"-->
+  <!--                    @click.stop="removeFile(file)"-->
+  <!--                >-->
+  <!--                  <ada-icon size="1rem">mdi-close</ada-icon>-->
+  <!--                </ada-btn>-->
+  <!--                <ada-icon size="3rem" class="uploader__file__icon"-->
+  <!--                >mdi-file-document-->
+  <!--                </ada-icon-->
+  <!--                >-->
+  <!--                <span-->
+  <!--                    class="uploader__file__name"-->
+  <!--                    v-text="file.file.name"-->
+  <!--                ></span>-->
+  <!--              </div>-->
+  <!--            </template>-->
+  <!--          </TransitionGroup>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--      </body>-->
+  <!--      &lt;!&ndash; <p v-text="$t('instrument.remove')"></p> &ndash;&gt;-->
+  <!--      <footer class="tw-flex tw-items-center tw-p-2">-->
+  <!--        <ada-btn-->
+  <!--            :disabled="!files.length"-->
+  <!--            dark-->
+  <!--            :width="65"-->
+  <!--            @click.stop.prevent="uploadSetting"-->
+  <!--        >-->
+  <!--          {{ $t("general.upload") }}-->
+  <!--        </ada-btn>-->
+  <!--        <ada-btn dark :width="65" @click.stop="triggerUploadModal = false">-->
+  <!--          {{ $t("general.cancellation") }}-->
+  <!--        </ada-btn>-->
+  <!--      </footer>-->
+  <!--    </div>-->
+  <!--  </lazy-ada-dialog>-->
 </template>

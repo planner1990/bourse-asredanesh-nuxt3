@@ -156,7 +156,7 @@ function openSubMenu(item) {
       :placeholder="$t('watchList.title')"
       textPath="$.newName"
       id="watchlist-selector"
-      class="ada-select-watchlist"
+      class="ada-select-watchlist text-overflow-selector"
   >
     <template #items>
       <ul class="tw-p-0 tw-m-0">

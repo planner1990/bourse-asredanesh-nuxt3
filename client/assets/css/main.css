@@ -72,4 +72,13 @@ hr.divider {
   width: 100px;
   display: block;
   overflow: hidden;
+  max-height: 25px;
+}
+
+.text-overflow-selector {
+  text-overflow: ellipsis;
+  width: 140px;
+  display: block;
+  overflow: hidden;
+  max-height: 25px;
 }
