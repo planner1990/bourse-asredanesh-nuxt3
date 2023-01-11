@@ -18,7 +18,7 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.orders.today",
         deletable: false,
         match: /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)*([\/]{1})?)$/g ,
-        
+
       },
       {
         path: `orders?offset=0&length=20&flags=${OrderFlags.Confirmed | OrderFlags.PreOpening | OrderFlags.Created | OrderFlags.Sent}`,
@@ -161,8 +161,7 @@ const panels: Array<TabItem> = [
         path: "more/presentation",
         title: "bottom-panel.more.presentation",
         deletable: false,
-        match: /^ \/watchlist\/([^/]+?)\/more\/presentation\?[^/]\w\/?$/g ,
-        
+        match: /^\/watchlist\/.+\/more\/presentation([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
       {
         path: "more/directorate",
@@ -172,6 +171,28 @@ const panels: Array<TabItem> = [
       },
     ],
     path: "more/presentation",
+    deletable: false,
+    const: true
+  },
+  {
+    id: "stockIndex",
+    title: "bottom-panel.stockIndex.index",
+    match: /^\/watchlist\/.+\/stockIndex\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+    children: [
+      {
+        path: "stockIndex/stock",
+        title: "bottom-panel.stockIndex.index",
+        deletable: false,
+        match: /^\/watchlist\/.+\/stockIndex\/stock([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+      },
+      {
+        path: "stockIndex/otc",
+        title: "bottom-panel.stockIndex.otc",
+        deletable: false,
+        match: /^\/watchlist\/.+\/stockIndex\/otc([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+      },
+    ],
+    path: "stockIndex/stock",
     deletable: false,
     const: true
   }

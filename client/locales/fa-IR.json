@@ -206,7 +206,14 @@
     "sellPrice": "@:oms.price @:oms.sell",
     "WithdrawableAmount": "مبلغ قابل برداشت",
     "wholePrice": "کل مبلغ",
-    "price": "قیمت"
+    "price": "قیمت",
+    "memberName": "نام عضو",
+    "registrationNumber": "شماره ثبت/کدملی",
+    "representativeName": "نام نماینده",
+    "position": "سمت",
+    "nationalId": "کدملی",
+    "compulsory": "موظف/غیر موظف",
+    "degreeOfEducation": "مدرک تحصیلی"
   },
   "watchList": {
     "title": "دیدبان",
@@ -447,6 +454,10 @@
       "index": "ترین ‌ها",
       "fiveDay": "پنج روز مثبت و منفی",
       "threeDay": "سه روز مثبت و منفی"
+    },
+    "stockIndex": {
+      "index": "شاخص بورس",
+      "otc": "شاخص فرابورس"
     },
     "teammates": "همگروه‌ها ({0})"
   },

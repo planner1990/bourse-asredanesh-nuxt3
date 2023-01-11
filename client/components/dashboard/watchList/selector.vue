@@ -117,6 +117,7 @@ function openSubMenu(item) {
 #btn-trash .icon {
   @apply tw-text-error;
 }
+
 #btn-edit .icon {
   @apply tw-text-info;
 }
@@ -169,16 +170,19 @@ function openSubMenu(item) {
           <div class="tw-flex tw-flex-grow tw-justify-between tw-flex-wrap" v-if="!item.onEdit">
             <span class="text-overflow">{{ item.text }}</span>
             <div>
-              <span>
+              <span class="tw-text-primary">
                 <v-icon @click.stop="setBookmark(item)">
                 {{
                     bookmarks.findIndex((itm) => itm.title === item.text) != -1 ? "mdi-bookmark" : "mdi-bookmark-outline"
                   }}
                 </v-icon>
               </span>
-              <v-icon @click.stop="openSubMenu(item)" v-ada-click-outside="()=> isOpen = false">
-                mdi-dots-vertical
-              </v-icon>
+              <span class="tw-text-primary">
+                 <v-icon @click.stop="openSubMenu(item)" v-ada-click-outside="()=> isOpen = false">
+                  mdi-dots-vertical
+                 </v-icon>
+              </span>
+
             </div>
             <div v-if="isOpen && currentId === item.id" class="tw-flex tw-w-full tw-justify-end">
               <ada-btn

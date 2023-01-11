@@ -3,6 +3,7 @@ export * from "./instrument";
 export * from "./restrictions";
 export * from "./tradeHistory";
 export * from "./notifications";
+export * from "./directorateList";
 
 export class SameSectorQuery {
   instrument: number;

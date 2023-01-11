@@ -232,7 +232,11 @@
     "bests": "Bests",
     "orders": "Active Orders",
     "depth": "Deep Market Information",
-    "more": "Details"
+    "more": "Details",
+    "stockIndex": {
+      "index": "Stock index",
+      "otc": "OTC index"
+    }
   },
   "log": {
     "enter": "Login",
