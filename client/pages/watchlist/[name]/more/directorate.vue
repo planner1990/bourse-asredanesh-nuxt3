@@ -65,21 +65,67 @@ async function getTradeHistories() {
 
 getTradeHistories();
 </script>
+<style lang="postcss" scoped>
+.header-directorate {
+  @apply tw-h-8 tw-my-2 tw-bg-gray6 tw-py-2 tw-pb-7 tw-rounded-t-lg tw-pr-3 tw-text-sm tw-text-primary tw-font-semibold;
+}
 
+.detail-directorate {
+  @apply tw-flex tw-h-11 tw-items-center tw-mb-2;
+
+  .title-directorate {
+    @apply tw-text-sm tw-text-primary tw-font-semibold tw-ml-1.5;
+  }
+
+  div:first-child {
+    @apply tw-mr-5;
+  }
+
+  div:nth-child(2) {
+    @apply tw-mx-28;
+  }
+}
+
+:deep(.headers[data-v-8d846923]) {
+  @apply tw-bg-[#FBFBFB] tw-text-gray3 tw-font-medium;
+}
+
+:deep(.bar) {
+  border-color: #E0E0E0;
+}
+</style>
 <template>
-  <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
-                  class="tw-w-full tw-h-full tw-overflow-y-auto">
-    <template #item.totalTrades="{ item }">
-      <NumericField :value="item.totalTrades"/>
-    </template>
-    <template #item.totalShares="{ item }">
-      <NumericField :value="item.totalShares"/>
-    </template>
-    <template #item.totalTradeValue="{ item }">
-      <NumericField :value="item.totalTradeValue"/>
-    </template>
-    <template #item.dateTime="{ item }">
-      <DateTime :value="item.dateTime" :format="$t('general.date.d')" class="ltr"/>
-    </template>
-  </ada-data-table>
+  <div class="tw-mx-2">
+    <div class="header-directorate">اسامی اعضای هیئت مدیره</div>
+    <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
+                    class="tw-w-full tw-h-full tw-overflow-y-auto">
+      <template #item.totalTrades="{ item }">
+        <NumericField :value="item.totalTrades"/>
+      </template>
+      <template #item.totalShares="{ item }">
+        <NumericField :value="item.totalShares"/>
+      </template>
+      <template #item.totalTradeValue="{ item }">
+        <NumericField :value="item.totalTradeValue"/>
+      </template>
+      <template #item.dateTime="{ item }">
+        <DateTime :value="item.dateTime" :format="$t('general.date.d')" class="ltr"/>
+      </template>
+    </ada-data-table>
+    <div class="header-directorate">مدیر عامل</div>
+    <div class="detail-directorate">
+      <div>
+        <span class="title-directorate">نام مدیر عامل: </span>
+        <span>حسین لطفی</span>
+      </div>
+      <div>
+        <span class="title-directorate">کدملی: </span>
+        <span>۰۰۱۲۲۱۲۳۴۵۴</span>
+      </div>
+      <div>
+        <span class="title-directorate">مدرک تحصیلی: </span>
+        <span>دکتری مدیریت کسب و کار</span>
+      </div>
+    </div>
+  </div>
 </template>

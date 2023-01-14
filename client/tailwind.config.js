@@ -34,6 +34,7 @@ module.exports = {
         gray2: "rgb(79, 79, 79)",
         gray5: "rgb(224, 224, 224)",
         gray7: "rgb(230, 230, 230)",
+        gray8: "rgb(251, 251, 251)",
         white: "rgb(255,255,255)",
         black: "rgb(0,0,0)",
         tooltip: "rgba(0, 0, 0, 0.85)"

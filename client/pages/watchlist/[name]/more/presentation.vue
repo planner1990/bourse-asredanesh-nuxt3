@@ -1,6 +1,6 @@
 <style lang="postcss" scoped>
 .presentation-rows {
-  @apply tw-text-[10px] tw-w-full tw-flex tw-pb-3;
+  @apply tw-text-[10px] tw-w-full tw-flex tw-pb-5;
 
   span:first-child {
     @apply tw-text-[10px] tw-text-info tw-font-semibold tw-w-1/6;
