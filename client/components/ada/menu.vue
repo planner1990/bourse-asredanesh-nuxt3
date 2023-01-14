@@ -6,12 +6,14 @@ const props = withDefaults(defineProps<{
       mTop?: number,
       active?: boolean,
       mWidth?: number,
+      boxShadow?: boolean
     }>(),
     {
       mLeft: 0,
       mTop: 0,
       active: false,
-      mWidth: 0
+      mWidth: 0,
+      boxShadow: false
     }
 )
 const appManager = useAsrTrader();
@@ -48,6 +50,9 @@ const style = computed(() => {
     @apply hover:tw-bg-primary/10;
   }
 }
+.boxShadow {
+  box-shadow: 9px 2px 5px 4px rgba(0,0,0,0.29);
+}
 </style>
 
 <template>
@@ -55,7 +60,7 @@ const style = computed(() => {
     <slot name="activator"></slot>
     <Teleport to="body">
       <transition name="slide-fade">
-        <div ref="menuContent" :style="style" v-if="active" class="menu" :class="[rtl? 'rtl': null, locale]" >
+        <div ref="menuContent" :style="style" v-if="active" class="menu" :class="[rtl? 'rtl': null, locale, boxShadow? 'boxShadow' : '']">
 
           <slot name="prepend-item"></slot>
           <slot name="items"></slot>

@@ -182,19 +182,35 @@ const panels: Array<TabItem> = [
       {
         path: "stockIndex/stock",
         title: "bottom-panel.stockIndex.index",
-        deletable: false,
+        deletable: true,
         match: /^\/watchlist\/.+\/stockIndex\/stock([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
       {
         path: "stockIndex/otc",
         title: "bottom-panel.stockIndex.otc",
-        deletable: false,
+        deletable: true,
         match: /^\/watchlist\/.+\/stockIndex\/otc([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
     ],
     path: "stockIndex/stock",
-    deletable: false,
-    const: true
+    deletable: true,
+    const: false
+  },
+  {
+    id: "chatRoom",
+    title: "bottom-panel.chatRoom.index",
+    match: /^\/watchlist\/.+\/chatRoom\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+    children: [
+      {
+        path: "chatRoom/room",
+        title: "bottom-panel.chatRoom.index",
+        deletable: true,
+        match: /^\/watchlist\/.+\/chatRoom\/room([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+      }
+    ],
+    path: "chatRoom/room",
+    deletable: true,
+    const: false
   }
 ];
 

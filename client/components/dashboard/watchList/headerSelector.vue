@@ -1,7 +1,7 @@
 <script lang="ts">
 
-import { InstrumentCache, WatchListColumns, DefaultCols } from "@/types";
-import { useUser } from "~/composables";
+import {InstrumentCache, WatchListColumns, DefaultCols} from "@/types";
+import {useUser} from "~/composables";
 
 export default defineComponent({
   setup() {
@@ -20,16 +20,17 @@ export default defineComponent({
       "instrumentCode",
     ];
     const cols = Object.keys(new InstrumentCache()).filter(
-      (item) => blackList.indexOf(item) == -1
+        (item) => blackList.indexOf(item) == -1
     );
     const items = computed(() => {
       return cols
-        .map((key) => ({
-          selected: currentCols.value.findIndex((item) => item?.value == key) != -1,
-          value: key,
-        }))
-        // .sort((a, b) => (a.selected ? 0 : 1) - (b.selected ? 0 : 1));
+          .map((key) => ({
+            selected: currentCols.value.findIndex((item) => item?.value == key) != -1,
+            value: key,
+          }))
+      // .sort((a, b) => (a.selected ? 0 : 1) - (b.selected ? 0 : 1));
     });
+
     async function toggleCol(name: string) {
       const tmp = [...currentCols.value];
       const ind = tmp.findIndex((item) => item?.value == name);
@@ -51,6 +52,7 @@ export default defineComponent({
         value: tmp,
       });
     }
+
     async function resetDefault() {
       userManager.setCols(DefaultCols());
       await userManager.update_settings({
@@ -58,6 +60,7 @@ export default defineComponent({
         value: DefaultCols(),
       });
     }
+
     return {
       menu,
       items,
@@ -73,11 +76,11 @@ export default defineComponent({
   .ada-button {
     @apply tw-bg-transparent tw-w-[28px];
 
-    .icon{
+    .icon {
       @apply tw-text-primary tw-text-lg;
     }
 
-    &.active{
+    &.active {
       @apply tw-bg-primary tw-bg-opacity-10;
       /* .icon {
         @apply
@@ -85,18 +88,20 @@ export default defineComponent({
     }
   }
 }
+
 .item {
   @apply tw-h-[32px]  tw-justify-start tw-items-center;
 }
+
 .ada-list-item {
   @apply hover:tw-bg-primary hover:tw-bg-opacity-10 tw-cursor-pointer;
 }
 </style>
 <template>
-  <ada-menu :active="menu" :mTop="33.5" :mWidth="145" class="tw-w-fit tw-mx-auto">
+  <ada-menu :active="menu" :mTop="33.5" :mWidth="145" class="tw-w-fit tw-mx-auto" box-shadow>
     <template #activator>
       <ada-btn
-        @click.stop="()=> menu = !menu" :class="{ active: menu }" v-ada-click-outside="()=> menu = false">
+          @click.stop="()=> menu = !menu" :class="{ active: menu }" v-ada-click-outside="()=> menu = false">
         <ada-icon :size="16">
           mdi-dots-horizontal-circle-outline
         </ada-icon>
@@ -106,21 +111,21 @@ export default defineComponent({
       <ada-list class="tw-p-0 tw-m-0 tw-shadow-inner tw-shadow-slate-300">
         <ada-list-item class="tw-px-2 tw-flex tw-items-center" :value="{ icon: '', title: '' }">
           <span v-text="$t('general.export-excels')"></span>
-          <ada-icon class="tw-text-success" :size="16"> mdi-file-excel-outline </ada-icon>
+          <ada-icon class="tw-text-success" :size="16"> mdi-file-excel-outline</ada-icon>
         </ada-list-item>
         <ada-list-item class="tw-px-2 tw-flex tw-items-center" :value="{ icon: '', title: '' }" @click="resetDefault">
           <span v-text="$t('general.default-settings')"></span>
-          <ada-icon class="tw-text-info" :size="16"> isax-rotate-left </ada-icon>
+          <ada-icon class="tw-text-info" :size="16"> isax-rotate-left</ada-icon>
         </ada-list-item>
-        <hr class="divider tw-border-divider" />
+        <hr class="divider tw-border-divider"/>
         <ada-list-item v-for="i in items" :key="i.value" @click="toggleCol(i.value)" class="item">
           <input
               type="checkbox"
               v-model="i.selected"
-              class="input-checkbox tw-mx-1.5"
+              class="input-checkbox tw-mx-1.5 tw-mr-3"
               tabindex="-1"
           />
-<!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
+          <!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
           <span v-text="$t(`instrument.${i.value}`)"></span>
         </ada-list-item>
       </ada-list>

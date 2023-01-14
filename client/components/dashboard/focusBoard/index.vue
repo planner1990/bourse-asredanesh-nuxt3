@@ -61,6 +61,9 @@ if (process.client) {
     window.removeEventListener("mousemove", resize);
   });
 }
+watch(viewMode, () => {
+  console.log(viewMode);
+})
 </script>
 
 <style lang="postcss" scoped>

@@ -71,7 +71,6 @@ onMounted(() => {
   submitData();
 });
 watch(() => props.nameInput, () => {
-  console.log(props.nameInput);
   submitData();
 })
 // const routeChanged = route;

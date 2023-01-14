@@ -9,6 +9,7 @@ const wbsocket = useWebSocket();
 const snacks = useSnacks().snacks;
 const locale = computed(() => appManager.locale);
 const rtl = computed(() => appManager.rtl);
+const bottomPanel = useBottomPanel();
 const rightMenu = ref({
   mini: true,
   drawer: true,
@@ -43,14 +44,19 @@ const collaps = computed(() => {
 const home = computed(() => userManager.me.settings?.home);
 const clipped = ref(true);
 const invisibleFinInfo = ref(false);
-
+const router = useRouter();
+const route = useRoute();
 const triggerChatRoom = () => {
   rmini.value = !rmini.value;
   appManager.setMenu("menu.chat");
 };
 
 const accountDetail = computed(() => paymentManager.accountDetail);
-console.log(accountDetail, "account detail");
+
+function openRoute(path) {
+  router.push(`/watchlist/${route.params.name}/${path}`);
+}
+
 </script>
 
 <style lang="postcss" scoped>
@@ -267,8 +273,9 @@ console.log(accountDetail, "account detail");
         </ada-icon>
         <clock :format="$t('general.date.longdt')" class="tw-w-[240px]"/>
       </div>
-      <div class="tw-flex center">
-        <ada-badge class="tw-mx-5">
+      <div class="tw-flex">
+        <ada-badge class="tw-mx-5 tw-cursor-pointer" @click="openRoute('stockIndex/stock')">
+          <ada-icon :size="16" class="tw-ml-1 tw-text-success">isax-trend-up</ada-icon>
           <span v-text="$t('oms.bourseIndex')" class="tw-text-primary"></span>:
           <span class="tw-text-sm badge-content"
           >{{ formatter.format(1502605.15) }}
@@ -280,7 +287,8 @@ console.log(accountDetail, "account detail");
             ></span>
           </span>
         </ada-badge>
-        <ada-badge>
+        <ada-badge class="tw-cursor-pointer" @click="openRoute('stockIndex/otc')">
+          <ada-icon :size="16" class="tw-ml-1 tw-text-error">isax-trend-down</ada-icon>
           <span
               v-text="$t('oms.superBourseIndex')"
               class="tw-text-primary"
@@ -375,7 +383,7 @@ console.log(accountDetail, "account detail");
         mdi-chevron-triple-right
       </ada-icon>
     </ada-btn>
-    <ada-btn id="chat-footer" class="floating-button" @click="triggerChatRoom">
+    <ada-btn id="chat-footer" class="floating-button" @click="openRoute('chatRoom/room')">
       <ada-icon color="white" :size="24"> isax-messages-2-bold</ada-icon>
     </ada-btn>
     <ada-snacks/>

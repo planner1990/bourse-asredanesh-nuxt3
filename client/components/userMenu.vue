@@ -202,7 +202,7 @@ const me = () => {
 </style>
 
 <template>
-  <div class="userMenu tw-flex tw-items-center tw-ml-10">
+  <div class="userMenu tw-flex tw-items-center tw-ml-5">
     <ada-btn :height="28" min-width="184px" depressed @click="goToProfile">
       <profile-picture
           :address="currentUser.profile && currentUser.profile.profilePic"
@@ -220,10 +220,9 @@ const me = () => {
         class="tw-cursor-pointer tw-mr-6"
         @click="doLogout"
     >
-      <ada-icon :size="16" class="tw-ml-1 tw-text-error">
-        mdi-logout
+      <ada-icon :size="18" class="tw-text-primary tw-cursor-pointer">
+        mdi-power-standby
       </ada-icon>
-      <span v-text="$t('login.logout')"></span>
     </div>
 
 

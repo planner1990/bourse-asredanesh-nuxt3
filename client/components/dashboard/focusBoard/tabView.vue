@@ -70,6 +70,8 @@ defineExpose({
   instruments,
   deepOptions: DeepOptions,
 });
+
+console.log("Tab View");
 </script>
 
 <style lang="postcss" scoped>
