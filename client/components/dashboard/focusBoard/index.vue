@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { useShortcut } from "@/utils/shortcutManager";
-import { Bookmark } from "~/types";
-import { useInstrument, useUser } from "~/composables";
+import {useShortcut} from "@/utils/shortcutManager";
+import {Bookmark} from "~/types";
+import {useInstrument, useUser} from "~/composables";
 
 const instrumentManager = useInstrument();
 const userManager = useUser();
 const sh = useShortcut();
 const route = useRoute();
 const toolbar = ref<HTMLElement | null>(null);
+const router = useRouter();
 
 const me = userManager.me;
 const bookmarks = computed(() => userManager.getBookmarks);
@@ -51,9 +52,11 @@ if (process.client) {
       instrumentManager.setFocusMode((instrumentManager.focusMode + 1) % 2);
     },
   });
+
   function resize() {
     instrumentManager.setWidth(toolbar.value?.offsetWidth || 800);
   }
+
   onMounted(() => {
     window.addEventListener("mousemove", resize);
   });
@@ -64,6 +67,12 @@ if (process.client) {
 watch(viewMode, () => {
   console.log(viewMode);
 })
+
+function goToFullPathBookmark(path) {
+  let currentRoute = route.fullPath;
+  const regEx = /^\/watchlist\/.+\//i;
+  router.push(currentRoute.replace(regEx, path + '/'));
+}
 </script>
 
 <style lang="postcss" scoped>
@@ -92,6 +101,7 @@ watch(viewMode, () => {
   &.router-link-exact-active,
   &.router-link-active {
     @apply tw-bg-primary tw-text-white;
+
     .icon {
       @apply tw-text-white;
     }
@@ -133,6 +143,7 @@ watch(viewMode, () => {
       }
     }
   }
+
   > .filter {
     @apply tw-flex tw-flex-row tw-items-center tw-justify-items-stretch tw-px-2 tw-mx-3;
     min-width: 110px;
@@ -179,21 +190,28 @@ watch(viewMode, () => {
 <template>
   <div class="tw-m-0 tw-p-0">
     <header ref="toolbar" class="toolbar">
-      <slot name="toolbar"> </slot>
+      <slot name="toolbar"></slot>
       <span
-        v-if="bookmarks.length > 0"
-        class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2"
+          v-if="bookmarks.length > 0"
+          class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2"
       ></span>
-      <nuxt-link v-for="b in bookmarks" :key="b.to" :to="b.to" class="bookmark">
+<!--      <nuxt-link v-for="b in bookmarks" :key="b.to" :to="(route.fullPath).replace(/^\/watchlist\/.+\//i, path + '/')" class="bookmark">-->
+<!--        <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>-->
+<!--        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)"-->
+<!--        >mdi-close-->
+<!--        </ada-icon-->
+<!--        >-->
+<!--      </nuxt-link>-->
+      <ada-btn v-for="b in bookmarks" :key="b.to" @click="goToFullPathBookmark(b.to)" class="bookmark" >
         <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>
-        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)"
-          >mdi-close</ada-icon
-        >
-      </nuxt-link>
+        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)">
+          mdi-close
+        </ada-icon>
+      </ada-btn>
       <ada-toggle
-        class="mode tw-justify-end"
-        color="primary"
-        v-model="viewMode"
+          class="mode tw-justify-end"
+          color="primary"
+          v-model="viewMode"
       >
         <!-- <div v-if="filter" class="filter">
           <ada-icon class="filter" :size="14" color="primary">isax-search-normal-1</ada-icon>
@@ -203,23 +221,23 @@ watch(viewMode, () => {
           <ada-icon class="close" @click="deselect" :size="14" color="primary">mdi-close</ada-icon>
         </div> -->
         <ada-btn :model="0">
-          <ada-icon :size="16"> isax-menu </ada-icon>
+          <ada-icon :size="16"> isax-menu</ada-icon>
         </ada-btn>
         <ada-btn :model="1">
-          <ada-icon :size="16"> isax-element-3-bold </ada-icon>
+          <ada-icon :size="16"> isax-element-3-bold</ada-icon>
         </ada-btn>
       </ada-toggle>
     </header>
     <ada-tabs
-      class="focus-board"
-      v-if="instruments.length > 0"
-      v-model="viewMode"
+        class="focus-board"
+        v-if="instruments.length > 0"
+        v-model="viewMode"
     >
       <ada-tab :model="0">
-        <DashboardFocusBoardTabView />
+        <DashboardFocusBoardTabView/>
       </ada-tab>
       <ada-tab :model="1">
-        <DashboardFocusBoardCardView />
+        <DashboardFocusBoardCardView/>
       </ada-tab>
     </ada-tabs>
   </div>

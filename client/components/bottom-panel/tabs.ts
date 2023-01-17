@@ -52,10 +52,10 @@ const panels: Array<TabItem> = [
     title: "bottom-panel.completeInfo.index",
     children: [
       {
-        path:"furtherInformation/depth",
+        path:"furtherInformation",
         title: "bottom-panel.furtherInformation.depth",
         deletable: false,
-        match: /^\/watchlist\/.+\/furtherInformation\/depth([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+        match: /^\/watchlist\/.+\/furtherInformation$/g ,
       },
       {
         path:"furtherInformation/myGroups",
@@ -94,8 +94,8 @@ const panels: Array<TabItem> = [
         match: /^\/watchlist\/.+\/furtherInformation\/papers([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
     ],
-    match: /^\/watchlist\/.+\/furtherInformation\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
-    path: "furtherInformation/depth",
+    match: /^\/watchlist\/.+\/furtherInformation$/g ,
+    path: "furtherInformation",
     deletable: false,
     const: true
   },
@@ -130,14 +130,14 @@ const panels: Array<TabItem> = [
   {
     id: "statisticsKeys",
     title: "bottom-panel.statisticsKeys.index",
-    match: /^\/watchlist\/.+\/statisticsKeys\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+    match: /^\/watchlist\/.+\/statisticsKeys$/g ,
     children: [
       {
-         path: "statisticsKeys/fiveDay",
+         path: "statisticsKeys",
         title: "bottom-panel.statisticsKeys.fiveDay",
         
         deletable: false,
-        match: /^\/watchlist\/.+\/statisticsKeys\/fiveDay([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+        match: /^\/watchlist\/.+\/statisticsKeys$/g ,
         
       },
       {
@@ -149,19 +149,19 @@ const panels: Array<TabItem> = [
       },
     ],
     deletable: false,
-    path: "statisticsKeys/fiveDay",
+    path: "statisticsKeys",
     const: true
   },
   {
     id: "more",
     title: "bottom-panel.more.index",
-    match: /^\/watchlist\/.+\/more\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+    match: /^\/watchlist\/.+\/more$/g ,
     children: [
       {
-        path: "more/presentation",
+        path: "more",
         title: "bottom-panel.more.presentation",
         deletable: false,
-        match: /^\/watchlist\/.+\/more\/presentation([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+        match: /^\/watchlist\/.+\/more$/g ,
       },
       {
         path: "more/directorate",
@@ -170,20 +170,20 @@ const panels: Array<TabItem> = [
         match: /^\/watchlist\/.+\/more\/directorate([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
     ],
-    path: "more/presentation",
+    path: "more",
     deletable: false,
     const: true
   },
   {
     id: "stockIndex",
     title: "bottom-panel.stockIndex.index",
-    match: /^\/watchlist\/.+\/stockIndex\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+    match: /^\/watchlist\/.+\/stockIndex$/g ,
     children: [
       {
-        path: "stockIndex/stock",
+        path: "stockIndex",
         title: "bottom-panel.stockIndex.index",
         deletable: true,
-        match: /^\/watchlist\/.+\/stockIndex\/stock([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
+        match: /^\/watchlist\/.+\/stockIndex$/g ,
       },
       {
         path: "stockIndex/otc",
@@ -192,7 +192,7 @@ const panels: Array<TabItem> = [
         match: /^\/watchlist\/.+\/stockIndex\/otc([?](.+[=].+[&]?)+)?([\/]{1})?$/g ,
       },
     ],
-    path: "stockIndex/stock",
+    path: "stockIndex",
     deletable: true,
     const: false
   },
