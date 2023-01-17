@@ -202,7 +202,7 @@ function goToFullPathBookmark(path) {
 <!--        </ada-icon-->
 <!--        >-->
 <!--      </nuxt-link>-->
-      <ada-btn v-for="b in bookmarks" :key="b.to" @click="goToFullPathBookmark(b.to)" class="bookmark" >
+      <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)" class="bookmark">
         <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>
         <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)">
           mdi-close
