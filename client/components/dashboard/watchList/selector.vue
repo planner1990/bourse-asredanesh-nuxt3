@@ -86,10 +86,11 @@ watch(selected, select);
 async function setBookmark(item: any) {
   if (bookmarks.value.findIndex((i) => i.title === item.id) == -1) {
     const fullPath = route.fullPath.split("/");
+    const lastPathParams = (fullPath.slice(3))?.join("/");
     const tempBookmark: any = {
       icon: "isax-graph",
       title: item.id,
-      to: fullPath[3] ? item.to + "/" + fullPath[3] : item.to
+      to: lastPathParams ? item.to + "/orders?offset=0&length=20" : item.to
     };
     const tmp = [...bookmarks.value, tempBookmark];
     await userManager.update_settings({
@@ -100,7 +101,7 @@ async function setBookmark(item: any) {
     bookmarks.value.splice(bookmarks.value.findIndex((i) => i.title === item.id), 1)
   }
   // if (item.id == route.params.name) router.push("/bookmarks/" + item.bookmarks);
-  refresh();
+  // refresh();
 }
 
 function openSubMenu(item) {
