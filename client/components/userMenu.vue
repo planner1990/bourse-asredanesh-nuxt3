@@ -16,7 +16,7 @@ const uploadFile = useUploadAbleFile();
 const files = ref<UploadableFile[]>([]);
 const content = ref(null);
 const route = useRoute();
-const confirmInstrumentRemoval = ref(false);
+const logOutConfirmation = ref(false);
 
 const userMenuItems: Array<MenuItem> = [
   {
@@ -50,8 +50,8 @@ function doLogout() {
   router.push("/login");
 }
 
-const removeWatchList = (): void => {
-  confirmInstrumentRemoval.value = true;
+const showConfirmation = (): void => {
+  logOutConfirmation.value = true;
 };
 
 
@@ -251,13 +251,13 @@ const me = () => {
     </ada-btn>
     <div
         class="tw-cursor-pointer tw-mr-6"
-        @click="removeWatchList"
+        @click="showConfirmation"
     >
       <ada-icon :size="18" class="tw-text-primary tw-cursor-pointer">
         mdi-power-standby
       </ada-icon>
     </div>
-    <lazy-ada-dialog :active="confirmInstrumentRemoval">
+    <lazy-ada-dialog :active="logOutConfirmation">
       <div class="dialog-delete">
         <h5 v-text="$t('general.alert')"></h5>
         <p v-text="$t('instrument.logOut')"></p>
@@ -268,7 +268,7 @@ const me = () => {
               @click.stop.prevent="
               () => {
                 doLogout();
-                confirmInstrumentRemoval = false;
+                logOutConfirmation = false;
               }
             "
           >
@@ -279,7 +279,7 @@ const me = () => {
               :width="65"
               @click.stop.prevent="
               () => {
-                confirmInstrumentRemoval = false;
+                logOutConfirmation = false;
               }
             "
           >

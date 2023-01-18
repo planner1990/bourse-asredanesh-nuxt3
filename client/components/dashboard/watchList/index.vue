@@ -362,7 +362,8 @@ refresh();
         <template #item.actions="{ item }">
           <div class="text-no-wrap">
             <ada-icon
-                class="tw-text-info tw-m-0 tw-p-0 tw-mx-2"
+                class="tw-m-0 tw-p-0 tw-mx-2"
+                :class="[canFocus ? 'tw-text-info' : '']"
                 @click.stop.prevent="() => focus(item)"
                 :disabled="!canFocus"
                 :size="16"
