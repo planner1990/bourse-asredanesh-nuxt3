@@ -8,7 +8,7 @@ export default defineNuxtConfig({
         "@/assets/icons/ada/style.css",
         "@mdi/font/css/materialdesignicons.min.css",
     ],
-    modules: ["@nuxt/content", '@nuxtjs/tailwindcss'],
+    modules: ["@nuxt/content", '@nuxtjs/tailwindcss', '@pinia/nuxt'],
     content: {
         // https://content.nuxtjs.org/api/configuration
     },

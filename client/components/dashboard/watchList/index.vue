@@ -290,6 +290,7 @@ refresh();
 
 .dialog-delete {
   width: 40vw;
+  font-family: "Iran Sans X FaNum",sans-serif !important;
 
   .ada-button {
     @apply tw-text-white tw-w-16;
