@@ -69,9 +69,12 @@ watch(viewMode, () => {
 })
 
 function goToFullPathBookmark(path) {
-  let currentRoute = route.fullPath;
-  const regEx = /^\/watchlist\/.+\//i;
-  router.push(currentRoute.replace(regEx, path + '/'));
+  let currentRoute = route.fullPath.split("/").slice(3).join('/');
+  // const regEx = /^\/watchlist\/.+\/$/g;
+  // console.log(path);
+  // console.log(new RegExp(currentRoute.replace(regEx, path + '/')));
+  // currentRoute.replace(regEx, path);
+  router.push(path + '/' + currentRoute);
 }
 </script>
 
@@ -89,7 +92,9 @@ function goToFullPathBookmark(path) {
   /* background-color: var(--c-default-bg-rbg); */
 
 }
-
+.active {
+  @apply tw-bg-primary tw-text-white;
+}
 .bookmark {
   @apply tw-mx-[4px] tw-px-[4px] tw-rounded tw-bg-default/90 tw-w-[110px] tw-h-[28px] tw-text-primary;
   @apply tw-flex tw-items-center tw-justify-between tw-text-ellipsis tw-overflow-hidden tw-whitespace-nowrap;
@@ -130,6 +135,9 @@ function goToFullPathBookmark(path) {
     }
   }
 }
+:deep(.ada-button) {
+  @apply tw-font-medium
+}
 
 .mode {
   > .ada-button {
@@ -169,6 +177,9 @@ function goToFullPathBookmark(path) {
     border: none !important;
   }
 }
+.text-overflow {
+  max-height: 30px;
+}
 </style>
 
 <style lang="postcss">
@@ -202,7 +213,8 @@ function goToFullPathBookmark(path) {
 <!--        </ada-icon-->
 <!--        >-->
 <!--      </nuxt-link>-->
-      <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)" class="bookmark">
+      <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)"
+               class="bookmark">
         <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>
         <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)">
           mdi-close

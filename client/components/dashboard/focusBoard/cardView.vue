@@ -46,8 +46,6 @@ defineExpose({
   order
 })
 
-console.log("Card View");
-
 </script>
 
 <style lang="postcss" scoped>
