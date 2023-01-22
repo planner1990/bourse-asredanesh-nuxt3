@@ -11,7 +11,6 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   let refresh = localStorage.getItem(refreshKey);
   let jwt = sessionStorage.getItem(tokenKey);
   let user = localStorage.getItem(userKey);
-
   if (refresh && user) {
     userManager.setRefresh(refresh);
     if (!jwt) {
@@ -22,8 +21,10 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
     }
     let u: User = userManager.me;
     if (u.userName == "anonymous") {
-      u = await userManager.getUser(user);
-      wealthManager.getWealth(new WealthSearchModel());
+      if (typeof user === "string") {
+        u = await userManager.getUser(user);
+      }
+      await wealthManager.getWealth(new WealthSearchModel());
     }
     if (route.fullPath == "/login") router.push(userManager.me.settings.home);
   } else if (needLogin(route.fullPath)) {

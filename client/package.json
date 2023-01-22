@@ -31,16 +31,21 @@
     "tailwindcss": "^3.2.4",
     "ts-jest": "^29.0.3",
     "typescript": "^4.8.2",
-    "vue-tsc": "^0.40.9"
+    "vue-tsc": "^0.40.9",
+    "webpack": "^5.75.0",
+    "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
     "@mdi/font": "^7.0.96",
     "@msgpack/msgpack": "^2.8.0",
+    "@nuxtjs/sentry": "^7.0.2",
+    "@pinia/nuxt": "^0.4.1",
+    "@sentry/tracing": "^7.31.1",
+    "@sentry/vue": "^7.31.1",
     "axios": "latest",
     "jalali-moment": "^3.3.11",
     "luxon": "latest",
     "pinia": "latest",
-    "@pinia/nuxt": "^0.4.1",
     "sass": "^1.57.1",
     "uuid": "^9.0.0",
     "vee-validate": "^4.6.10",

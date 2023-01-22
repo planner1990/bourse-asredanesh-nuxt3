@@ -85,7 +85,6 @@ watch(selected, select);
 
 async function setBookmark(item: any) {
   if (bookmarks.value.findIndex((i) => i.title === item.id) == -1) {
-    console.log(item.to);
     const tempBookmark: any = {
       icon: "isax-graph",
       title: item.id,

@@ -2,6 +2,7 @@
 import {useShortcut} from "@/utils/shortcutManager";
 import {Bookmark} from "~/types";
 import {useInstrument, useUser} from "~/composables";
+import watchQuery from "~/plugins/watchQuery";
 
 const instrumentManager = useInstrument();
 const userManager = useUser();
@@ -9,9 +10,11 @@ const sh = useShortcut();
 const route = useRoute();
 const toolbar = ref<HTMLElement | null>(null);
 const router = useRouter();
+const currentPath = ref("");
 
 const me = userManager.me;
 const bookmarks = computed(() => userManager.getBookmarks);
+console.log(bookmarks);
 const home = computed(() => me.settings?.home);
 const path = computed(() => route.fullPath);
 const filter = computed(() => instrumentManager.state.selected);
@@ -68,7 +71,7 @@ watch(viewMode, () => {
   console.log(viewMode);
 })
 
-function goToFullPathBookmark(path) {
+function goToFullPathBookmark(path: string) {
   let currentRoute = route.fullPath.split("/").slice(3).join('/');
   // const regEx = /^\/watchlist\/.+\/$/g;
   // console.log(path);
@@ -76,6 +79,18 @@ function goToFullPathBookmark(path) {
   // currentRoute.replace(regEx, path);
   router.push(path + '/' + currentRoute);
 }
+
+function setActivateBookmark(paramsName: any) {
+  currentPath.value = paramsName;
+}
+
+watch(
+    route.params,
+    () => {
+      setActivateBookmark(route.params.name);
+    },
+    {deep: true, immediate: true,}
+)
 </script>
 
 <style lang="postcss" scoped>
@@ -92,9 +107,7 @@ function goToFullPathBookmark(path) {
   /* background-color: var(--c-default-bg-rbg); */
 
 }
-.active {
-  @apply tw-bg-primary tw-text-white;
-}
+
 .bookmark {
   @apply tw-mx-[4px] tw-px-[4px] tw-rounded tw-bg-default/90 tw-w-[110px] tw-h-[28px] tw-text-primary;
   @apply tw-flex tw-items-center tw-justify-between tw-text-ellipsis tw-overflow-hidden tw-whitespace-nowrap;
@@ -135,6 +148,7 @@ function goToFullPathBookmark(path) {
     }
   }
 }
+
 :deep(.ada-button) {
   @apply tw-font-medium
 }
@@ -177,8 +191,13 @@ function goToFullPathBookmark(path) {
     border: none !important;
   }
 }
+
 .text-overflow {
   max-height: 30px;
+}
+
+.active {
+  @apply tw-bg-primary tw-text-white;
 }
 </style>
 
@@ -206,17 +225,19 @@ function goToFullPathBookmark(path) {
           v-if="bookmarks.length > 0"
           class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2"
       ></span>
-<!--      <nuxt-link v-for="b in bookmarks" :key="b.to" :to="(route.fullPath).replace(/^\/watchlist\/.+\//i, path + '/')" class="bookmark">-->
-<!--        <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>-->
-<!--        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)"-->
-<!--        >mdi-close-->
-<!--        </ada-icon-->
-<!--        >-->
-<!--      </nuxt-link>-->
+      <!--      <nuxt-link v-for="b in bookmarks" :key="b.to" :to="(route.fullPath).replace(/^\/watchlist\/.+\//i, path + '/')" class="bookmark">-->
+      <!--        <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>-->
+      <!--        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)"-->
+      <!--        >mdi-close-->
+      <!--        </ada-icon-->
+      <!--        >-->
+      <!--      </nuxt-link>-->
       <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)"
-               class="bookmark">
+               class="bookmark" :class="[b.title == currentPath ? 'active' : '']">
         <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>
-        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)">
+        <ada-icon :size="14" class="tw-w-8 tw-h-full"
+                  :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']"
+                  @click.stop.prevent="unmark(b)">
           mdi-close
         </ada-icon>
       </ada-btn>

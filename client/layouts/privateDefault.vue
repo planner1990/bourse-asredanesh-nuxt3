@@ -274,7 +274,7 @@ function openRoute(path) {
         <clock :format="$t('general.date.longdt')" class="tw-w-[240px]"/>
       </div>
       <div class="tw-flex">
-        <ada-badge class="tw-mx-5 tw-cursor-pointer" @click="openRoute('stockIndex/stock')">
+        <ada-badge class="tw-mx-5 tw-cursor-pointer" @click="openRoute('stockIndex')">
           <ada-icon :size="16" class="tw-ml-1 tw-text-success">isax-trend-up</ada-icon>
           <span v-text="$t('oms.bourseIndex')" class="tw-text-primary"></span>:
           <span class="tw-text-sm badge-content"

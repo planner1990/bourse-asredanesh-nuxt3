@@ -10,7 +10,7 @@ const props = withDefaults(
   }>(),
   {
     type: "button",
-    icon: false,
+    icon: false
   }
 );
 const router = useRouter();
@@ -48,6 +48,10 @@ function setActive(path: string) {
     matchPath.value = true
   }else { matchPath.value = isActive(path); }
 }
+
+ // watch(route, () => {
+ //   console.log(route);
+ // })
 
 </script>
 

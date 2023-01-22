@@ -206,7 +206,7 @@ const me = () => {
   }
 }
 .mdi-power-standby {
-  @apply tw-bg-primary tw-bg-opacity-10;
+  @apply tw-bg-error tw-bg-opacity-10;
   border-radius: 50%;
   width: 29px;
   height: 29px;
@@ -253,7 +253,7 @@ const me = () => {
         class="tw-cursor-pointer tw-mr-6"
         @click="showConfirmation"
     >
-      <ada-icon :size="18" class="tw-text-primary tw-cursor-pointer">
+      <ada-icon :size="18" class="tw-text-error tw-cursor-pointer">
         mdi-power-standby
       </ada-icon>
     </div>

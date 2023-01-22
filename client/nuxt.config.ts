@@ -8,7 +8,21 @@ export default defineNuxtConfig({
         "@/assets/icons/ada/style.css",
         "@mdi/font/css/materialdesignicons.min.css",
     ],
-    modules: ["@nuxt/content", '@nuxtjs/tailwindcss', '@pinia/nuxt'],
+    modules: [
+        "@nuxt/content",
+        '@nuxtjs/tailwindcss',
+        '@pinia/nuxt'
+    ],
+    sentry: {
+        dsn: 'https://0ce27d5240e4406db758e753ada824fe@o4504546958901248.ingest.sentry.io/4504546962505728', // Enter your project's DSN.
+        // Additional Module Options.
+        config: {
+            // Optional Sentry SDK configuration.
+            // Those options are shared by both the Browser and the Server instances.
+            // Browser-only and Server-only options should go
+            // into `clientConfig` and `serverConfig` objects respectively.
+        },
+    },
     content: {
         // https://content.nuxtjs.org/api/configuration
     },
@@ -25,8 +39,18 @@ export default defineNuxtConfig({
             VUE_APP_Host: process.env.VUE_APP_Host,
             VUE_WSS_Host: process.env.VUE_WSS_Host,
         },
+        sentry: {
+            config: {
+                environment: process.env.SENTRY_ENVIRONMENT
+            },
+            serverConfig: {
+                // Any server-specific config
+            },
+            clientConfig: {
+                // Any client-specific config
+            }
+        }
     },
-    buildModules: ["@pinia/nuxt"],
     build: {
         transpile: ['vuetify'],
         postcss: {
