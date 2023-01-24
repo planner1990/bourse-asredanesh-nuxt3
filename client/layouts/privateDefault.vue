@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import {usePayment, useUser, useWealth} from "@/composables";
+import { useUser } from "@/composables";
+import { useRoute } from "#app"
 
 const appManager = useAsrTrader();
 const userManager = useUser();
 const bottomPanelManager = useBottomPanel();
-const wealthManager = useWealth();
-const wbsocket = useWebSocket();
-const snacks = useSnacks().snacks;
 const locale = computed(() => appManager.locale);
 const rtl = computed(() => appManager.rtl);
-const bottomPanel = useBottomPanel();
 const rightMenu = ref({
   mini: true,
   drawer: true,
@@ -17,53 +14,49 @@ const rightMenu = ref({
 const leftMenu = ref({
   drawer: true,
 });
-const paymentManager = usePayment();
-const rmini = computed({
-  get: () => rightMenu.value.mini,
-  set(val) {
-    rightMenu.value.mini = val;
-    if (!lmini.value) lmini.value = true;
-  },
-});
-
 
 const lmini = computed({
   get: () => bottomPanelManager.LeftPanelMini,
   set(val) {
     bottomPanelManager.LeftPanelMini = val;
-    if (!rightMenu.value.mini) rightMenu.value.mini = true;
   },
 });
 
 lmini.value = true;
 const formatter = appManager.formatter;
-const collaps = computed(() => {
-  const tab = bottomPanelManager.activeTab;
-  return tab && tab != null;
-});
+
+const collaps = computed(() => /^watchlist\/.+\/.+/.test(route.path));
 const home = computed(() => userManager.me.settings?.home);
 const clipped = ref(true);
-const invisibleFinInfo = ref(false);
+const invisibleFinInfo = computed({
+  get: () => !bottomPanelManager.state.showFinancInfo,
+  set(val) {
+    bottomPanelManager.state.showFinancInfo = !val
+  }
+});
 const router = useRouter();
 const route = useRoute();
-const triggerChatRoom = () => {
-  rmini.value = !rmini.value;
-  appManager.setMenu("menu.chat");
-};
 
-const accountDetail = computed(() => paymentManager.accountDetail);
-
-function openRoute(path) {
+function openRoute(path: string) {
   router.push(`/watchlist/${route.params.name}/${path}`);
 }
 
 </script>
 
 <style lang="postcss" scoped>
-.page {
-  @apply tw-relative tw-block tw-overflow-x-hidden tw-overflow-y-auto tw-h-screen tw-pt-[42px] tw-pb-[64px] tw-bg-gray4/5;
+.hide-info {
+  @apply tw-flex tw-items-center tw-w-full tw-justify-center tw-transition-all tw-ease-in-out tw-duration-700;
+  @apply tw-bottom-[26px] tw-absolute tw-drop-shadow-direct tw-w-[12px] tw-h-[12px] tw-right-1/2 tw-bg-primary tw-leading-[6px];
 
-  > header {
+  &.invisibleFinInfo {
+    @apply tw-bottom-[-6px];
+  }
+}
+
+.page {
+  @apply tw-relative tw-block tw-overflow-x-hidden tw-overflow-y-auto tw-h-screen tw-pt-[42px] tw-bg-gray4/5;
+
+  >header {
     @apply tw-flex tw-fixed tw-w-full tw-justify-between tw-items-center tw-align-middle;
     top: 0;
     left: 0;
@@ -75,7 +68,7 @@ function openRoute(path) {
       @apply tw-leading-[42px];
     }
 
-    > a span {
+    >a span {
       @apply tw-text-primary;
     }
 
@@ -108,17 +101,26 @@ function openRoute(path) {
     }
   }
 
-  > main {
-    @apply tw-w-full tw-overflow-y-auto;
-    height: calc(100vh - 106px);
+  >main {
+    @apply tw-w-full tw-overflow-y-clip;
+    height: calc(100vh - 72px);
     box-sizing: border-box;
+
+    &.invisibleFinInfo {
+      height: calc(100vh - 42px);
+    }
   }
 
-  > .footer {
-    @apply tw-flex tw-items-center tw-w-full tw-justify-center tw-transition-all;
+  >.footer {
+    @apply tw-flex tw-items-center tw-w-full tw-justify-center tw-transition-all tw-ease-in-out tw-duration-700;
     height: 32px;
     position: fixed;
     bottom: 0;
+    overflow: clip;
+
+    &.invisibleFinInfo {
+      height: 0;
+    }
 
     .summary {
       @apply tw-justify-self-center tw-flex tw-items-center tw-justify-center;
@@ -175,6 +177,10 @@ function openRoute(path) {
     height: calc(100vh - 106px);
     position: relative;
 
+    &.invisibleFinInfo {
+      height: calc(100vh - 44px);
+    }
+
     &.collaps {
       height: 382px;
     }
@@ -187,24 +193,16 @@ function openRoute(path) {
       @apply tw-text-white;
     }
   }
-
-  #colopse-info-footer {
-    @apply tw-left-2;
-  }
-
-  #chat-footer {
-    @apply tw-right-2;
-  }
 }
 </style>
 
 <style lang="postcss">
 .page {
-  header > .end {
+  header>.end {
     .userMenu .ada-button {
       @apply tw-flex tw-items-center tw-bg-transparent tw-transition-all;
 
-      > div {
+      >div {
         @apply tw-flex tw-justify-center tw-items-center;
       }
 
@@ -238,154 +236,106 @@ function openRoute(path) {
   <div class="page" :class="[locale, rtl ? 'rtl' : 'ltr']">
     <header>
       <div class="start">
-        <nuxt-link
-            class="tw-flex tw-px-2 tw-items-center tw-justify-center"
-            :to="home"
-        >
-          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png"/>
+        <nuxt-link class="tw-flex tw-px-2 tw-items-center tw-justify-center" :to="home">
+          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png" />
           <span v-if="!rightMenu.mini && rightMenu.drawer" class="tw-mr-2">
             {{ $t("general.proxyCompany") }}
           </span>
         </nuxt-link>
-        <ada-icon
-            click="click"
-            @click.stop="
-            () => {
-              if (rightMenu.drawer) {
-                rightMenu.mini = !rightMenu.mini;
-                if (!rightMenu.mini) lmini = true;
-              } else {
-                rightMenu.drawer = true;
-                rightMenu.mini = false;
-              }
+        <ada-icon click="click" @click.stop="
+          () => {
+            if (rightMenu.drawer) {
+              rightMenu.mini = !rightMenu.mini;
+              if (!rightMenu.mini) lmini = true;
+            } else {
+              rightMenu.drawer = true;
+              rightMenu.mini = false;
             }
-          "
-            :class="[
-            'tw-m-0',
-            'tw-p-0',
-            'te-mx-[5px]',
-            'drawer-activator',
-            !rightMenu.mini && rightMenu.drawer ? 'open' : '',
-          ]"
-            :size="18"
-        >
+          }
+        " :class="[
+  'tw-m-0',
+  'tw-p-0',
+  'te-mx-[5px]',
+  'drawer-activator',
+  !rightMenu.mini && rightMenu.drawer ? 'open' : '',
+]" :size="18">
           mdi-menu-open
         </ada-icon>
-        <clock :format="$t('general.date.longdt')" class="tw-w-[175px]"/>
+        <clock :format="$t('general.date.longdt')" class="tw-w-[175px]" />
       </div>
       <div class="tw-flex">
         <ada-badge class="tw-mx-5 tw-cursor-pointer" @click="openRoute('stockIndex')">
           <ada-icon :size="16" class="tw-ml-1 tw-text-success">isax-trend-up</ada-icon>
           <span v-text="$t('oms.bourseIndex')" class="tw-text-primary"></span>:
-          <span class="tw-text-sm badge-content"
-          >{{ formatter.format(1502605.15) }}
-            <span
-                v-text="
-                `(${new Number(8471.09).toLocaleString(appManager.locale)})`
-              "
-                class="tw-text-error"
-            ></span>
+          <span class="tw-text-sm badge-content">{{ formatter.format(1502605.15) }}
+            <span v-text="
+              `(${new Number(8471.09).toLocaleString(appManager.locale)})`
+            " class="tw-text-error"></span>
           </span>
         </ada-badge>
         <ada-badge class="tw-cursor-pointer" @click="openRoute('stockIndex/otc')">
           <ada-icon :size="16" class="tw-ml-1 tw-text-error">isax-trend-down</ada-icon>
-          <span
-              v-text="$t('oms.superBourseIndex')"
-              class="tw-text-primary"
-          ></span
-          >:
-          <span class="tw-text-sm badge-content"
-          >{{ formatter.format(20136.69) }}
-            <span
-                v-text="
-                `(${new Number(84.12).toLocaleString(appManager.locale)})`
-              "
-                class="tw-text-error"
-            ></span>
+          <span v-text="$t('oms.superBourseIndex')" class="tw-text-primary"></span>:
+          <span class="tw-text-sm badge-content">{{ formatter.format(20136.69) }}
+            <span v-text="
+              `(${new Number(84.12).toLocaleString(appManager.locale)})`
+            " class="tw-text-error"></span>
           </span>
         </ada-badge>
       </div>
       <div class="end">
-        <user-menu/>
+        <user-menu />
       </div>
     </header>
-    <right-panel
-        v-model:mini="rmini"
-        v-model:clipped="clipped"
-        v-model="rightMenu.drawer"
-        class="shadow left"
-    />
-    <left-panel
-        v-model:mini="lmini"
-        v-model:clipped="clipped"
-        v-model="leftMenu.drawer"
-        class="shadow right"
-    />
-    <main
-        class="dashboardmain-page"
-        :class="{ right: !rightMenu.mini, left: !lmini }"
-    >
-      <div :class="['dashboardmain-nuxt', collaps ? 'collaps' : null]">
-        <nuxt-page/>
+    <right-panel v-model:mini="rightMenu.mini" v-model:clipped="clipped" v-model="rightMenu.drawer"
+      class="shadow left" />
+    <left-panel v-model:mini="lmini" v-model:clipped="clipped" v-model="leftMenu.drawer" class="shadow right" />
+    <main class="dashboardmain-page" :class="{
+      collaps,
+      invisibleFinInfo,
+      left: !lmini
+    }">
+      <div class="dashboardmain-nuxt" :class="{ invisibleFinInfo }">
+        <nuxt-page />
       </div>
     </main>
-    <!-- <bottom-panel
-      class="dashboardmain-page"
-      :class="{
-        right: !rmini,
-        left: !lmini,
-      }"
-      :slideToBottom="invisibleFinInfo"
-    /> -->
-    <footer
-        v-if="!invisibleFinInfo"
-        class="footer dashboardmain-page"
-        :class="{
-        right: !rightMenu.mini,
-        left: !lmini,
-      }"
-    >
+    <footer class="footer dashboardmain-page" :class="{
+      right: !rightMenu.mini,
+      left: !lmini,
+      invisibleFinInfo
+    }">
       <div class="summary">
-        <ada-badge class="tw-ml-3"
-        >{{ $t("accounting.account.amount") }}
+        <ada-badge class="tw-ml-3">{{ $t("accounting.account.amount") }}
           <span class="badge-content"> ۲٬۰۰۰٬۰۰۰</span>
         </ada-badge>
-        <ada-badge class="tw-ml-3"
-        >{{
-            $t("accounting.account.blockedAmount")
-          }}<span class="badge-content">0</span></ada-badge
-        >
+        <ada-badge class="tw-ml-3">{{
+          $t("accounting.account.blockedAmount")
+        }}<span class="badge-content">0</span></ada-badge>
         <ada-badge class="tw-ml-3">
           {{ $t("accounting.account.onlineBlockedAmount") }}
           <span class="badge-content">0</span>
         </ada-badge>
-        <ada-badge class="tw-ml-3"
-        >{{
-            $t("accounting.account.remaining")
-          }}<span class="badge-content">0</span></ada-badge
-        >
-        <ada-badge class="tw-ml-3"
-        >{{
-            $t("accounting.account.credit")
-          }}<span class="badge-content">0</span></ada-badge
-        >
+        <ada-badge class="tw-ml-3">{{
+          $t("accounting.account.remaining")
+        }}<span class="badge-content">0</span></ada-badge>
+        <ada-badge class="tw-ml-3">{{
+          $t("accounting.account.credit")
+        }}<span class="badge-content">0</span></ada-badge>
       </div>
       <div class="cw">
         &copy; {{ new Date().getFullYear() }} {{ $t("general.company") }}
       </div>
     </footer>
-    <ada-btn id="colopse-info-footer" class="floating-button">
-      <ada-icon
-          color="white"
-          :size="24"
-          @click="invisibleFinInfo = !invisibleFinInfo"
-      >
-        mdi-chevron-triple-right
+    <ada-btn @click="invisibleFinInfo = !invisibleFinInfo" class="hide-info" :class="{ invisibleFinInfo }">
+      <ada-icon class="tw-text-white" :class="{
+        'tw-rotate-180 tw-bottom-0': invisibleFinInfo
+      }" :size="6">
+        isax-arrow-down
       </ada-icon>
     </ada-btn>
-    <ada-btn id="chat-footer" class="floating-button" @click="openRoute('chatRoom/room')">
+    <ada-btn class="floating-button tw-right-2" @click="openRoute('chatRoom/room')">
       <ada-icon color="white" :size="24"> isax-messages-2-bold</ada-icon>
     </ada-btn>
-    <ada-snacks/>
+    <ada-snacks />
   </div>
 </template>
