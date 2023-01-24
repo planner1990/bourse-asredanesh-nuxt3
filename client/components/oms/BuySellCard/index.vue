@@ -503,7 +503,7 @@ const testValidate = async () => {
 .menu {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25) !important;
   border-radius: 8px;
-  width: 15% !important;
+  //width: 15% !important;
   .calculate {
     @apply tw-shadow-xl tw-flex tw-flex-col tw-pb-3 tw-pt-[5px] tw-px-[12px] tw-bg-primary tw-bg-opacity-5 tw-mx-auto tw-text-black;
     /* @apply  */
