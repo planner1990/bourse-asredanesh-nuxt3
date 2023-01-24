@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import {Ref} from "vue";
-import {useUser} from "~/composables";
-import {Bookmark, CreateBookmark} from "~/types";
+import { Ref } from "vue";
+import { useUser } from "~/composables";
+import { Bookmark, CreateBookmark } from "~/types";
 
 const props = withDefaults(
-    defineProps<{
-      autoRoute?: boolean;
-    }>(),
-    {
-      autoRoute: false,
-    }
+  defineProps<{
+    autoRoute?: boolean;
+  }>(),
+  {
+    autoRoute: false,
+  }
 );
 
 const route = useRoute();
@@ -122,8 +122,9 @@ function openSubMenu(item) {
   @apply tw-text-info;
 }
 
-#btn-trash, #btn-edit {
-  @apply tw-bg-transparent tw-mx-[2px] ;
+#btn-trash,
+#btn-edit {
+  @apply tw-bg-transparent tw-mx-[2px];
 }
 </style>
 
@@ -152,49 +153,31 @@ function openSubMenu(item) {
 </style>
 
 <template>
-  <select-box
-      :value="selected"
-      :placeholder="$t('watchList.title')"
-      textPath="$.newName"
-      id="watchlist-selector"
-      class="ada-select-watchlist text-overflow-selector"
-  >
+  <select-box :value="selected" :placeholder="$t('watchList.title')" textPath="$.newName" id="watchlist-selector"
+    class="ada-select-watchlist text-overflow-selector">
     <template #items>
       <ul class="tw-p-0 tw-m-0">
-        <li
-            v-for="(item, index) in watchList"
-            :key="index"
-            @click="select(item)"
-            class="tw-p-2 tw-pl-3 hover:tw-bg-primary hover:tw-bg-opacity-10 tw-cursor-pointer tw-pb-0"
-        >
+        <li v-for="(item, index) in watchList" :key="index" @click="select(item)"
+          class="tw-p-2 tw-pl-3 hover:tw-bg-primary hover:tw-bg-opacity-10 tw-cursor-pointer tw-pb-0">
           <div class="tw-flex tw-flex-grow tw-justify-between tw-flex-wrap" v-if="!item.onEdit">
             <span class="text-overflow">{{ item.text }}</span>
             <div>
-              <span class="tw-text-primary">
-                <v-icon @click.stop="setBookmark(item)">
+              <ada-icon :size="18" class="tw-text-primary" @click.stop="setBookmark(item)">
                 {{
-                    bookmarks.findIndex((itm) => itm.title === item.text) != -1 ? "mdi-bookmark" : "mdi-bookmark-outline"
-                  }}
-                </v-icon>
-              </span>
-              <span class="tw-text-primary">
-                 <v-icon @click.stop="openSubMenu(item)" v-ada-click-outside="()=> isOpen = false">
-                  mdi-dots-vertical
-                 </v-icon>
-              </span>
-
+                  bookmarks.findIndex((itm) => itm.title === item.text) != -1 ? "mdi-bookmark" : "mdi-bookmark-outline"
+                }}
+              </ada-icon>
+              <ada-icon :size="18" class="tw-text-primary" @click.stop="openSubMenu(item)"
+                v-ada-click-outside="() => isOpen = false">
+                mdi-dots-vertical
+              </ada-icon>
             </div>
             <div v-if="isOpen && currentId === item.id" class="tw-flex tw-w-full tw-justify-end">
-              <ada-btn
-                  id="btn-edit"
-                  class="tw-ml-6"
-                  key="edit"
-                  @click.stop="
-                   () => {
-                     item.onEdit = true;
-                   }
-                 "
-              >
+              <ada-btn id="btn-edit" class="tw-ml-6" key="edit" @click.stop="
+                () => {
+                  item.onEdit = true;
+                }
+              ">
                 <ada-icon :size="16"> isax-edit-2</ada-icon>
               </ada-btn>
               <ada-btn key="delete" @click.stop="remove(item.id)" id="btn-trash" class="tw-ml-3">
@@ -203,19 +186,10 @@ function openSubMenu(item) {
             </div>
           </div>
           <div class="tw-flex tw-flex-grow" v-else>
-            <ada-input
-                v-model="item.newName"
-                activeBorder
-                class="watchlist-selector-input"
-                @keyup.enter.stop="() => rename(item)"
-                @click.stop=""
-            >
+            <ada-input v-model="item.newName" activeBorder class="watchlist-selector-input"
+              @keyup.enter.stop="() => rename(item)" @click.stop="">
             </ada-input>
-            <ada-btn
-                key="save"
-                @click.stop="() => rename(item)"
-                class="verify-btn"
-            >
+            <ada-btn key="save" @click.stop="() => rename(item)" class="verify-btn">
               <ada-icon :size="16"> mdi-check</ada-icon>
             </ada-btn>
           </div>
@@ -226,23 +200,12 @@ function openSubMenu(item) {
     <template #append-item>
       <ada-list class="tw-p-0 tw-m-0" @click.stop="">
         <div class="tw-text-[10px] tw-text-gray2 tw-mr-2">افزودن مورد دلخواه</div>
-        <ada-list-item
-            class="tw-px-2 tw-flex tw-items-center tw-mt-2 tw-mb-3"
-            :value="{ icon: '', title: '' }"
-        >
-          <ada-input
-              class="tw-text-primary watchlist-selector-input"
-              v-model="newName"
-              @keyup.enter="create"
-              placeholder="نام دلخواه"
-          >
+        <ada-list-item class="tw-px-2 tw-flex tw-items-center tw-mt-2 tw-mb-3" :value="{ icon: '', title: '' }">
+          <ada-input class="tw-text-primary watchlist-selector-input" v-model="newName" @keyup.enter="create"
+            placeholder="نام دلخواه">
           </ada-input>
-          <ada-btn
-              dark
-              @click.stop="create"
-              class="verify-btn tw-bg-primary"
-          >
-            <ada-icon :size="16"> mdi-plus</ada-icon>
+          <ada-btn @click.stop="create" class="tw-bg-primary tw-w-[32px]">
+            <ada-icon :size="16" class="tw-text-white"> mdi-plus</ada-icon>
           </ada-btn>
         </ada-list-item>
       </ada-list>
