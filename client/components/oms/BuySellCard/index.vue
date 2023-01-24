@@ -1,24 +1,17 @@
 <script setup lang="ts">
-import {onMounted, onUpdated, Ref, watch} from "vue";
+import { Ref, watch} from "vue";
 import {useInstrument, useOrder, useAxios, useAsrTrader} from "@/composables";
 import {
-  AutoCompleteItem,
-  AutoCompleteItemInterface,
-  defaultWealthValidityItems, Instrument,
   InstrumentCache,
   InstrumentSearchModel,
   OrderClass,
   OrderFlags,
-  OrderQueueItem,
-  Side,
-  TabItem
 } from "@/types";
-import {object, number, AnyObjectSchema, lazy, boolean, date, string} from "yup";
+import {object, number, lazy, boolean, string} from "yup";
 import {useI18n} from "vue-i18n";
 import {getWage} from "@/repositories/wealth/wealth_manager";
 import {useBottomPanel} from "~/composables";
 import {useForm, useField} from 'vee-validate';
-import {mount} from "@vue/test-utils";
 
 
 ////////////////
@@ -33,7 +26,6 @@ const props = defineProps<{
 
 //////////////
 
-const bottomPanel = useBottomPanel()
 const i18n = useI18n();
 const axios = useAxios();
 const instrumentManager = useInstrument();
@@ -42,13 +34,11 @@ const appManager = useAsrTrader();
 const active: Ref<InstrumentCache> = ref(new InstrumentCache());
 const priceLock = ref(false);
 const countLock = ref(false);
-const testy = ref("testy");
 const wage = ref({buy: 0, sell: 0});
 
 const activeCalculator = ref<boolean>(false);
 const activeCalculatorSell = ref<boolean>(false);
 const wholePrice = ref<number>(0);
-const formatter = appManager.formatter;
 const order = computed(() => orderManager.getForm(props.insId.toString()));
 const router = useRouter();
 const route = useRoute();
@@ -95,7 +85,7 @@ const schemaBuySell = object({
 
 })
 
-const {errors, validate, resetForm, setErrors, setValues, setFieldValue, handleSubmit} = useForm({
+const {errors, validate, setFieldValue, handleSubmit} = useForm({
   validationSchema: schemaBuySell,
   initialValues: {
     quantity: order.value.quantity,
@@ -246,13 +236,13 @@ watch(route, () => {
   console.log(route, "Sell card");
 })
 
-function updateData() {
-  setFieldValue('quantity', 0)
-  setFieldValue('enteredPrice', 0)
-  orderDivision.value = false;
-  validatePercent.value = 0;
-  wholePrice.value = 0
-}
+// function updateData() {
+//   setFieldValue('quantity', 0)
+//   setFieldValue('enteredPrice', 0)
+//   orderDivision.value = false;
+//   validatePercent.value = 0;
+//   wholePrice.value = 0
+// }
 
 async function getDetail() {
   await instrumentManager
@@ -299,9 +289,6 @@ const withdrawalBalance = ref(separate((1000000).toString()))
 watch(() => withdrawalBalance, (newVal) => {
   withdrawalBalance.value = separate(newVal.toString())
 })
-const testValidate = async () => {
-  console.log(await validate())
-}
 </script>
 
 <style lang="postcss" scoped>
