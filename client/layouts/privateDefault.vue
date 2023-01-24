@@ -49,12 +49,12 @@ function openRoute(path: string) {
   @apply tw-bottom-[26px] tw-absolute tw-drop-shadow-direct tw-w-[12px] tw-h-[12px] tw-right-1/2 tw-bg-primary tw-leading-[6px];
 
   &.invisibleFinInfo {
-    @apply tw-bottom-[-6px];
+    @apply tw-bottom-0;
   }
 }
 
 .page {
-  @apply tw-relative tw-block tw-overflow-x-hidden tw-overflow-y-auto tw-h-screen tw-pt-[42px] tw-bg-gray4/5;
+  @apply tw-relative tw-block tw-overflow-clip tw-overflow-y-auto tw-h-screen tw-pt-[42px] tw-bg-gray4/5;
 
   >header {
     @apply tw-flex tw-fixed tw-w-full tw-justify-between tw-items-center tw-align-middle;

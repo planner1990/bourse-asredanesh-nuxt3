@@ -10,7 +10,7 @@ const route = useRoute()
 const active: Ref<TabItem | null> = ref(null)
 
 const tabs = computed(() => bottomPanel.tabs);
-const bot = computed(() => !bottomPanel.state.showFinancInfo);
+const slideToBottom = computed(() => !bottomPanel.state.showFinancInfo);
 
 function close() {
   router.push(`/watchlist/${route.params.name}`)
@@ -34,10 +34,6 @@ const expanded = computed(() => bottomPanel.expanded)
   left: 48px;
   right: 48px;
   width: calc(100% - 96px);
-
-  &.bot {
-    bottom: 0;
-  }
 
   &.slideToBottom {
     bottom: 0;
@@ -154,7 +150,7 @@ const expanded = computed(() => bottomPanel.expanded)
   <footer class="ada-bottom-panel" :class="{
     half: active != null && !expanded,
     expanded: active != null && expanded,
-    bot
+    slideToBottom
   }">
     <div class="detail" v-if="active">
       <div class="contents">
