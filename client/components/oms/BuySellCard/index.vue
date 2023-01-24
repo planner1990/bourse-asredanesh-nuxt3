@@ -1,24 +1,17 @@
 <script setup lang="ts">
-import {onMounted, onUpdated, Ref, watch} from "vue";
+import { Ref, watch} from "vue";
 import {useInstrument, useOrder, useAxios, useAsrTrader} from "@/composables";
 import {
-  AutoCompleteItem,
-  AutoCompleteItemInterface,
-  defaultWealthValidityItems, Instrument,
   InstrumentCache,
   InstrumentSearchModel,
   OrderClass,
   OrderFlags,
-  OrderQueueItem,
-  Side,
-  TabItem
 } from "@/types";
-import {object, number, AnyObjectSchema, lazy, boolean, date, string} from "yup";
+import {object, number, lazy, boolean, string} from "yup";
 import {useI18n} from "vue-i18n";
 import {getWage} from "@/repositories/wealth/wealth_manager";
 import {useBottomPanel} from "~/composables";
 import {useForm, useField} from 'vee-validate';
-import {mount} from "@vue/test-utils";
 
 
 ////////////////
@@ -33,7 +26,6 @@ const props = defineProps<{
 
 //////////////
 
-const bottomPanel = useBottomPanel()
 const i18n = useI18n();
 const axios = useAxios();
 const instrumentManager = useInstrument();
@@ -42,13 +34,11 @@ const appManager = useAsrTrader();
 const active: Ref<InstrumentCache> = ref(new InstrumentCache());
 const priceLock = ref(false);
 const countLock = ref(false);
-const testy = ref("testy");
 const wage = ref({buy: 0, sell: 0});
 
 const activeCalculator = ref<boolean>(false);
 const activeCalculatorSell = ref<boolean>(false);
 const wholePrice = ref<number>(0);
-const formatter = appManager.formatter;
 const order = computed(() => orderManager.getForm(props.insId.toString()));
 const router = useRouter();
 const route = useRoute();
@@ -95,7 +85,7 @@ const schemaBuySell = object({
 
 })
 
-const {errors, validate, resetForm, setErrors, setValues, setFieldValue, handleSubmit} = useForm({
+const {errors, validate, setFieldValue, handleSubmit} = useForm({
   validationSchema: schemaBuySell,
   initialValues: {
     quantity: order.value.quantity,
@@ -246,13 +236,13 @@ watch(route, () => {
   console.log(route, "Sell card");
 })
 
-function updateData() {
-  setFieldValue('quantity', 0)
-  setFieldValue('enteredPrice', 0)
-  orderDivision.value = false;
-  validatePercent.value = 0;
-  wholePrice.value = 0
-}
+// function updateData() {
+//   setFieldValue('quantity', 0)
+//   setFieldValue('enteredPrice', 0)
+//   orderDivision.value = false;
+//   validatePercent.value = 0;
+//   wholePrice.value = 0
+// }
 
 async function getDetail() {
   await instrumentManager
@@ -299,9 +289,6 @@ const withdrawalBalance = ref(separate((1000000).toString()))
 watch(() => withdrawalBalance, (newVal) => {
   withdrawalBalance.value = separate(newVal.toString())
 })
-const testValidate = async () => {
-  console.log(await validate())
-}
 </script>
 
 <style lang="postcss" scoped>
@@ -503,61 +490,73 @@ const testValidate = async () => {
 .menu {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25) !important;
   border-radius: 8px;
-  //width: 15% !important;
-  .calculate {
-    @apply tw-shadow-xl tw-flex tw-flex-col tw-pb-3 tw-pt-[5px] tw-px-[12px] tw-bg-primary tw-bg-opacity-5 tw-mx-auto tw-text-black;
-    /* @apply  */
+//width: 15% !important;
 
-    .ada-input {
-      @apply tw-flex tw-items-center;
+}
 
-      .label {
-        @apply tw-w-[85px];
-      }
+.calculator-container {
+  background-color: #fff;
+  color: #000000;
+  position: absolute;
+  z-index: 9999999999;
+  top: 32px;
+  left: 10px;
+  width: 88%;
+  height: 158px;
+  border-radius: 8px;
+  padding: 12px 8px;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
 
+  .label {
+    color: rgb(130, 130, 130) !important;
+    font-weight: 500 !important;
+  }
+
+  .ada-input {
+    @apply tw-flex tw-items-center tw-text-gray3;
+
+    .label {
+      @apply tw-w-[85px] tw-text-gray3;
+    }
+
+    .scaffold {
+      @apply tw-w-full tw-text-gray3;
+      border-color: transparent;
+    }
+
+    &.active {
       .scaffold {
-        @apply tw-w-full;
-        border-color: transparent;
-      }
-
-      &.active {
-        .scaffold {
-          @apply tw-border-primary;
-        }
-      }
-
-      & > :nth-child(1) {
-        @apply tw-mt-[6.5px];
+        @apply tw-border-primary tw-text-gray3;
       }
     }
+  }
 
-    & > div {
-      @apply tw-mt-1;
+  & > div {
 
-      > span:last-child {
-        @apply tw-mr-10 tw-text-info;
-      }
+    > span:last-child {
+      @apply tw-mr-10 tw-text-info tw-text-gray3;
     }
+  }
 
-    .ada-button {
-      @apply tw-bg-primary tw-w-fit tw-px-2 tw-py-0 tw-float-left tw-text-white tw-font-normal tw-h-9 tw-ml-1;
-      line-height: 1rem;
-    }
+  .ada-button {
+    @apply tw-bg-primary tw-w-fit tw-px-2 tw-py-0 tw-float-left tw-text-white tw-font-normal tw-h-9 tw-ml-1;
+    line-height: 1rem;
+  }
 
-    .ada-input.has-label .label {
-      @apply tw-text-gray3;
-      font-size: 10px;
-      font-weight: 400;
-    }
+  .ada-input.has-label .label {
+    @apply tw-text-gray3;
+    font-size: 10px;
+    font-weight: 400;
+  }
 
-    .calculate-remain {
-      font-weight: 500;
-      font-size: 9px;
+  .calculate-remain {
+    font-weight: 500;
+    font-size: 9px;
 
-      span {
-        @apply tw-text-success;
-        font-weight: 700;
-      }
+    span {
+      @apply tw-text-success;
+      font-weight: 700;
     }
   }
 }
@@ -621,54 +620,55 @@ const testValidate = async () => {
                   <ada-icon>isax-lock-1</ada-icon>
                 </ada-btn>
 
-                <ada-menu :active="activeCalculator" :mWidth="180" :mLeft="-11.5" :mTop="30">
-                  <template #activator>
-                    <ada-btn
-                        @click.stop="activeCalculator = !activeCalculator"
-                        :width="24"
-                        :height="24"
-                        tabindex="-1"
-                        :class="[activeCalculator ? 'tw-bg-primary' : null]"
-                    >
-                      <ada-icon
-                          :class="[activeCalculator ? 'tw-text-white' : null]"
-                      >isax-calculator
-                      </ada-icon>
-                    </ada-btn>
-                  </template>
-                  <template #items>
-                    <div
-                        class="calculate"
-                        v-ada-click-outside="() => (activeCalculator = false)"
-                    >
-                      <span class="calculate-remain"> مانده قابل برداشت: <span>{{
-                          withdrawalBalance
-                        }} تومان</span></span>
-                      <ada-currency-input
-                          :label="$t('instrument.wholePrice')"
-                          placeholder="0"
-                          v-model="wholePrice"
-                      >
-                      </ada-currency-input>
-                      <ada-currency-input
-                          :label="$t('instrument.price')"
-                          v-model="enteredPrice"
-                      >
-                      </ada-currency-input>
+                <div>
+                  <ada-btn
+                      @click.stop="activeCalculator = !activeCalculator"
+                      :width="24"
+                      :height="24"
+                      tabindex="-1"
+                      :class="[activeCalculator ? 'tw-bg-primary' : null]"
+                  >
+                    <ada-icon
+                        :class="[activeCalculator ? 'tw-text-white' : null]"
+                    >isax-calculator
+                    </ada-icon>
+                  </ada-btn>
 
-                      <div>
-                        <span>{{ $t("oms.wage") }}:</span>
-                        <span>
-                          <numeric-field :value="wageCalculateBuy"/>
-                        </span>
-                      </div>
-                      <div>
-                        <ada-btn @click.stop="activeCalculator = false"><span v-text="$t('general.verify')"></span>
-                        </ada-btn>
+                  <div
+                      class="calculator-container"
+                      v-if="activeCalculator"
+                      v-ada-click-outside="() => (activeCalculator = false)">
+                    <div
+                        class="tw-w-full tw-flex tw-flex-wrap tw-mb-4"
+                    >
+                      <div class="tw-text-[10px] tw-font-medium tw-ml-1">مانده قابل برداشت:</div>
+                      <div class="tw-text-[13px] tw-font-bold tw-text-success">{{ withdrawalBalance }}
+                        <span class="tw-text-[10px] tw-font-extralight tw-text-success">ریال</span>
                       </div>
                     </div>
-                  </template>
-                </ada-menu>
+                    <ada-currency-input
+                        :label="$t('instrument.wholePrice')"
+                        class="tw-mb-2 tw-text-gray3"
+                        placeholder="0"
+                        v-model="wholePrice"
+                    >
+                    </ada-currency-input>
+                    <ada-currency-input
+                        class="tw-mb-2 tw-text-gray3"
+                        :label="$t('instrument.price')"
+                        v-model="enteredPrice"
+                    >
+                    </ada-currency-input>
+
+                    <div class="tw-mt-4 mb-3">
+                      <span class="tw-text-[10px] tw-font-medium tw-ml-1">{{ $t("oms.wage") }}:</span>
+                      <span class="tw-text-[12px] tw-font-bold tw-text-info tw-mr-0">
+                        <numeric-field :value="wageCalculateBuy" class="tw-ml-1"/>
+                        ریال
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </template>
             </ada-currency-input>
             <div class="bar"></div>

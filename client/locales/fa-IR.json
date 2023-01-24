@@ -453,8 +453,9 @@
     },
     "statisticsKeys": {
       "index": "ترین ‌ها",
-      "fiveDay": "پنج روز مثبت و منفی",
-      "threeDay": "سه روز مثبت و منفی"
+      "marketTrend": "روند بازار",
+      "technical": "تکنیکال",
+      "fundamental": "بنیادی"
     },
     "stockIndex": {
       "index": "شاخص بورس",
