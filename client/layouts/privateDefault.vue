@@ -271,7 +271,7 @@ function openRoute(path) {
         >
           mdi-menu-open
         </ada-icon>
-        <clock :format="$t('general.date.longdt')" class="tw-w-[240px]"/>
+        <clock :format="$t('general.date.longdt')" class="tw-w-[175px]"/>
       </div>
       <div class="tw-flex">
         <ada-badge class="tw-mx-5 tw-cursor-pointer" @click="openRoute('stockIndex')">

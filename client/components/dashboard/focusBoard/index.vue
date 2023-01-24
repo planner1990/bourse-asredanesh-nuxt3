@@ -89,7 +89,7 @@ watch(
     () => {
       setActivateBookmark(route.params.name);
     },
-    {deep: true, immediate: true,}
+    {deep: true, immediate: true}
 )
 </script>
 

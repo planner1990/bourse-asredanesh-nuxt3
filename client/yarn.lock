@@ -1815,20 +1815,9 @@
     "@sentry/types" "7.31.1"
     tslib "^1.9.3"
 
-"@sentry/vue@^7.29.0":
+"@sentry/vue@^7.29.0", "@sentry/vue@^7.31.1":
   version "7.31.1"
   resolved "https://registry.npmjs.org/@sentry/vue/-/vue-7.31.1.tgz"
-  integrity sha512-Frt48GRorCzk8i7CXS22anE6DLTBLL4SpowA0o3f/ksfFKWgjUSAPSmlCJ19xVNeFtXX30dO9i4P1Xzy3ZXoQw==
-  dependencies:
-    "@sentry/browser" "7.31.1"
-    "@sentry/core" "7.31.1"
-    "@sentry/types" "7.31.1"
-    "@sentry/utils" "7.31.1"
-    tslib "^1.9.3"
-
-"@sentry/vue@^7.31.1":
-  version "7.31.1"
-  resolved "https://registry.yarnpkg.com/@sentry/vue/-/vue-7.31.1.tgz#5fa13ac8087b2be7a85beaf29344462cd7581e59"
   integrity sha512-Frt48GRorCzk8i7CXS22anE6DLTBLL4SpowA0o3f/ksfFKWgjUSAPSmlCJ19xVNeFtXX30dO9i4P1Xzy3ZXoQw==
   dependencies:
     "@sentry/browser" "7.31.1"

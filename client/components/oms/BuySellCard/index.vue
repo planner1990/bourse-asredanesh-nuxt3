@@ -302,7 +302,6 @@ watch(() => withdrawalBalance, (newVal) => {
 const testValidate = async () => {
   console.log(await validate())
 }
-console.log(" Buy Sell Card component");
 </script>
 
 <style lang="postcss" scoped>
@@ -502,6 +501,9 @@ console.log(" Buy Sell Card component");
 }
 
 .menu {
+  width: 158px !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25) !important;
+  border-radius: 8px;
   .calculate {
     @apply tw-shadow-xl tw-flex tw-flex-col tw-pb-3 tw-pt-[5px] tw-px-[12px] tw-bg-primary tw-bg-opacity-5 tw-mx-auto tw-text-black;
     /* @apply  */
