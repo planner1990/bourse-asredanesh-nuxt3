@@ -5,12 +5,9 @@ import {ref} from 'vue';
 const router = useRouter();
 const appManager = useAsrTrader();
 const lang: string = appManager.locale.split("-")[0];
-const amount = ref('')
+const amount = ref('');
 const route = useRoute();
-
-function goToDeposit() {
-  router.push({path: `/watchlist/${route.params.name}/accounting/deposit`});
-}
+import avatar from "../../../../assets/images/Rectangle 493.png";
 </script>
 
 <style lang="postcss">
@@ -47,7 +44,7 @@ function goToDeposit() {
     <div class="financialInfo">
       <div class=" tw-flex tw-items-center">
         <div class="tw-w-1/3 financialInfo_avatar">
-          <img :src="require('~/assets/images/Rectangle%20493.png')" alt="">
+          <img :src="avatar" alt="">
         </div>
         <div class="tw-w-2/3 tw-pr-0 tw-mt-4">
           <div class="tw-py-0 tw-text-xl tw-text-primary tw-font-semibold">حسین لطفی</div>
