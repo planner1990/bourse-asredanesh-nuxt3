@@ -27,7 +27,6 @@ const appManager = useAsrTrader();
 const bottomPanel = useBottomPanel();
 //////////////////
 
-const drawer = ref(null);
 const selected = computed({
   get() {
     return appManager.menu;
@@ -39,15 +38,9 @@ const selected = computed({
 
 const items = getMenuItems();
 
-////////////////
 
-watch(selected, (n, o) => {
-  if (typeof n == "undefined" || n == null) {
-    emit("update:mini", true);
-  } else {
-    emit("update:mini", false);
-  }
-});
+
+
 
 </script>
 
@@ -120,10 +113,10 @@ watch(selected, (n, o) => {
 </style>
 
 <template>
-  <ada-nav v-model="drawer" min-width="48px" max-width="256px" :mini="mini" class="r-panel" mobile-breakpoint="960"
+  <ada-nav min-width="48px" max-width="256px" :mini="mini" class="r-panel" mobile-breakpoint="960"
     fixed>
     <div class="tabs">
-      <ada-toggle v-model="bottomPanel.activeTab" class="tw-flex-wrap">
+      <ada-toggle v-model="bottomPanel.current" class="tw-flex-wrap">
         <ada-tooltip v-for="item in items" :key="item.title" position="left">
           <template #activator>
             <ada-btn :to="`/watchlist/${$route.params.name}/${item.path}`" :match="item.match" :model="item">

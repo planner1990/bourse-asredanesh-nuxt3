@@ -30,7 +30,6 @@ const i18n = useI18n();
 const axios = useAxios();
 const instrumentManager = useInstrument();
 const orderManager = useOrder();
-const appManager = useAsrTrader();
 const active: Ref<InstrumentCache> = ref(new InstrumentCache());
 const priceLock = ref(false);
 const countLock = ref(false);
@@ -59,7 +58,6 @@ const validatePriceShape = () => number().typeError(i18n.t("error.validation.num
     name: i18n.t("oms.price"),
     value: active.value.minAllowedPrice
   }))
-// .max(active.value.maxAllowedPrice, i18n.t("error.validation.max", { name: i18n.t("oms.price"), value: active.value.maxAllowedPrice })
 
 const schemaBuySell = object({
   quantity: lazy(() => active.value.maxQuantityPerOrder > 0 ? validateCountShape()
@@ -150,7 +148,8 @@ const countSell = computed(
 );
 const countBuy = computed(
   () => {
-    const res = Math.floor(wholePrice.value / enteredPrice.value * (1 + wage.value.sell))
+    console.log();
+    const res = Math.floor(wholePrice.value / (enteredPrice.value * (1 + wage.value.sell)))
     if (isNaN(res) || res == Infinity) {
       quantity.value = 0
       return 0
