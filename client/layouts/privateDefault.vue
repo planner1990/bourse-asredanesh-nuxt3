@@ -48,15 +48,15 @@ function openRoute(path: string) {
   @apply tw-transition-all tw-ease-in-out tw-duration-700;
   @apply tw-bottom-[-10px] tw-absolute tw-w-[20px] tw-h-[20px] tw-right-1/2 tw-bg-primary tw-leading-[20px] tw-rounded-full;
 
+  .icon {
+    @apply tw-mb-2;
+  }
+
   &.showFinancInfo {
     @apply tw-bottom-[20px];
 
     .icon {
-      @apply tw-mb-[-20px];
-
-      &.open {
-        @apply tw-mb-0;
-      }
+      @apply tw-mb-0;
     }
   }
 }
