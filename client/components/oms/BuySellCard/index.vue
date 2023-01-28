@@ -230,19 +230,9 @@ function togglePriceLock() {
   }
 }
 
-// const routeChanged = route;
-console.log(route);
 watch(route, () => {
   console.log(route, "Sell card");
 })
-
-// function updateData() {
-//   setFieldValue('quantity', 0)
-//   setFieldValue('enteredPrice', 0)
-//   orderDivision.value = false;
-//   validatePercent.value = 0;
-//   wholePrice.value = 0
-// }
 
 async function getDetail() {
   await instrumentManager
