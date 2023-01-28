@@ -45,16 +45,20 @@ function openRoute(path: string) {
 
 <style lang="postcss" scoped>
 .hide-info {
-  @apply tw-flex tw-items-center tw-w-full tw-justify-center tw-transition-all tw-ease-in-out tw-duration-700;
-  @apply tw-bottom-[26px] tw-absolute tw-drop-shadow-direct tw-w-[12px] tw-h-[12px] tw-right-1/2 tw-bg-primary tw-leading-[6px];
+  @apply tw-transition-all tw-ease-in-out tw-duration-700;
+  @apply tw-bottom-[20px] tw-absolute tw-w-[20px] tw-h-[20px] tw-right-1/2 tw-bg-primary tw-leading-[20px] tw-rounded-full;
+
+  .icon {
+    @apply tw-text-white;
+  }
 
   &.invisibleFinInfo {
-    @apply tw-bottom-0;
+    @apply tw-bottom-[-10px];
   }
 }
 
 .page {
-  @apply tw-relative tw-block tw-overflow-clip tw-overflow-y-auto tw-h-screen tw-pt-[42px] tw-bg-gray4/5;
+  @apply tw-relative tw-block tw-overflow-clip tw-h-screen tw-pt-[42px] tw-bg-gray4/5;
 
   >header {
     @apply tw-flex tw-fixed tw-w-full tw-justify-between tw-items-center tw-align-middle;
@@ -327,9 +331,9 @@ function openRoute(path: string) {
       </div>
     </footer>
     <ada-btn @click="invisibleFinInfo = !invisibleFinInfo" class="hide-info" :class="{ invisibleFinInfo }">
-      <ada-icon class="tw-text-white" :class="{
-        'tw-rotate-180 tw-bottom-0': invisibleFinInfo
-      }" :size="6">
+      <ada-icon class="icon" :class="{
+        'tw-rotate-180': invisibleFinInfo
+      }" :size="8">
         isax-arrow-down
       </ada-icon>
     </ada-btn>
