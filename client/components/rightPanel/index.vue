@@ -1,24 +1,20 @@
 <script setup lang="ts">
-import {ComputedRef} from "vue";
-import {useShortcut} from "@/utils/shortcutManager";
-import {BookmarkPosition, CreateBookmark, MenuItem, TabItem} from "~/types";
-import {useAsrTrader, useUser, useChat} from "~/composables";
-import {getMenuItems} from "./items";
+import { useBottomPanel } from "~/composables"
+import { useAsrTrader } from "~/composables";
+import { getMenuItems } from "./items";
 
 const props = withDefaults(
-    defineProps<{
-      modelValue?: boolean;
-      mini?: boolean;
-      clipped?: boolean;
-    }>(),
-    {
-      modelValue: true,
-      mini: false,
-      clipped: true,
-    }
+  defineProps<{
+    modelValue?: boolean;
+    mini?: boolean;
+    clipped?: boolean;
+  }>(),
+  {
+    modelValue: true,
+    mini: false,
+    clipped: true,
+  }
 );
-
-//////////////
 
 const emit = defineEmits([
   "update:modelValue",
@@ -27,16 +23,8 @@ const emit = defineEmits([
 ]);
 
 /////////////
-
-const userManager = useUser();
 const appManager = useAsrTrader();
-const router = useRouter();
-const route = useRoute()
-const sh = useShortcut();
-const chat = useChat();
-
-const inputChat = ref<string>("");
-
+const bottomPanel = useBottomPanel();
 //////////////////
 
 const selected = computed({
@@ -47,58 +35,8 @@ const selected = computed({
     appManager.setMenu(val);
   },
 });
-const bottomPanel = useBottomPanel();
-const rtl = computed(() => appManager.rtl);
-const bookmarks = computed(() => userManager.getBookmarks);
-const shortcuts = computed(() => userManager.getShortcuts);
-const isMarked = computed(() => (data: MenuItem) => {
-  switch (data.bookmarkPosition) {
-    case BookmarkPosition.ToolBar:
-      return bookmarks.value.findIndex((val) => val.title == data.title) > -1;
-    case BookmarkPosition.RightPanel:
-      return shortcuts.value.findIndex((val) => val.title == data.title) > -1;
-  }
-});
-const watchList: ComputedRef<Array<MenuItem>> = computed(() => {
-  const lists = computed(() => userManager.watchList);
-  const res = [];
-  for (let k in lists.value) {
-    res.push({
-      icon: "isax-eye",
-      title: k,
-      text: k,
-      to: "/watchList/" + k,
-      bookmarkPosition: BookmarkPosition.ToolBar,
-    });
-  }
-  if (res.length == 0) {
-    res.push({
-      icon: "isax-eye",
-      title: "new",
-      text: "new",
-      to: "/watchList/new",
-      bookmarkPosition: BookmarkPosition.ToolBar,
-    });
-  }
-  return res;
-});
-
-// const messages = chat.state.messages;
-// const optionMessage = ref<boolean>(false)
-// const activeOptionMessage = ref<boolean>(false)
-
 
 const items = getMenuItems();
-
-const drawer = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(value: boolean) {
-    emit("update:modelValue", value);
-  },
-});
-
 
 ////////////////
 
@@ -110,98 +48,6 @@ watch(selected, (n, o) => {
   }
 });
 
-////////////////
-
-function mark(data: MenuItem) {
-  const bk = CreateBookmark(data);
-  switch (data.bookmarkPosition) {
-    case BookmarkPosition.ToolBar:
-      console.log(1)
-    {
-      const tmp = [...bookmarks.value, bk];
-      userManager.update_settings({
-        path: "/bookmarks",
-        value: tmp,
-      });
-    }
-      break;
-    case BookmarkPosition.RightPanel:
-      console.log(shortcuts.value)
-    {
-      const tmp = [...shortcuts.value, bk];
-      console.log(2, tmp)
-      userManager.update_settings({
-        path: "/shortcuts",
-        value: tmp,
-      });
-    }
-      break;
-  }
-}
-
-function unmark(data: MenuItem) {
-  switch (data.bookmarkPosition) {
-    case BookmarkPosition.ToolBar:
-      console.log(3)
-    {
-      let tmp = [...bookmarks.value];
-      tmp.splice(
-          tmp.findIndex((item) => item.to == data.to),
-          1
-      );
-      userManager.update_settings({
-        path: "/bookmarks",
-        value: tmp,
-      });
-    }
-      break;
-    case BookmarkPosition.RightPanel:
-      console.log(4)
-    {
-      let tmp = [...shortcuts.value];
-      tmp.splice(
-          tmp.findIndex((item) => item.to == data.to),
-          1
-      );
-      userManager.update_settings({
-        path: "/shortcuts",
-        value: tmp,
-      });
-    }
-      break;
-  }
-}
-
-
-async function sendMessage(): Promise<void> {
-  if (inputChat.value) {
-    chat.pusher(inputChat.value);
-    const chatroom = document.querySelector(".chatroom__messages");
-    await nextTick()
-
-    chatroom.scrollTo({
-      top: chatroom.scrollHeight,
-      left: 0,
-      behavior: 'smooth'
-
-    })
-    inputChat.value = ''
-  }
-}
-
-
-if (process.client) {
-  for (let i = 1; i < 10; i++) {
-    sh.addShortcut({
-      key: "alt+Digit" + i.toString(),
-      action: () => {
-        if (i <= watchList.value.length) {
-          router.push(watchList.value[i - 1].to ?? "#");
-        }
-      },
-    });
-  }
-}
 </script>
 
 <style lang="postcss" scoped>
@@ -247,51 +93,6 @@ if (process.client) {
       flex-basis: 32px;
       overflow-y: auto;
     }
-
-    .chatroom {
-      @apply tw-h-full;
-
-      &__avatar {
-        @apply tw-mx-auto tw-mt-4 tw-text-center;
-
-        i {
-          @apply tw-text-primary;
-        }
-      }
-
-      &__messages {
-        @apply tw-p-2 tw-overflow-y-auto tw-justify-end tw-mt-2 tw-bg-transparent;
-        height: calc(100% - 130px);
-
-        .ada-list-item {
-          @apply tw-max-h-fit;
-        }
-      }
-
-      &__activator {
-        @apply tw-fixed tw-bottom-10 tw-left-0 tw-w-full tw-text-center tw-bg-transparent tw-pt-2;
-
-        > p {
-          @apply tw-inline-block tw-w-3/4  tw-border tw-border-primary/80 tw-pr-2 tw-text-primary tw-bg-white;
-          @apply tw-rounded-xl tw-text-right;
-
-          &:focus {
-            @apply tw-outline-none tw-border-primary/100;
-          }
-
-          &:empty::before {
-            content: attr(data-placeholder);
-            @apply tw-text-primary/70 tw-pr-1;
-          }
-        }
-
-        .ada-button {
-          .icon {
-            @apply tw-text-primary tw-text-opacity-90 tw-rotate-180 tw-mr-1 hover:tw-text-opacity-100;
-          }
-        }
-      }
-    }
   }
 
   .ada-button {
@@ -309,6 +110,7 @@ if (process.client) {
 </style>
 <style lang="postcss">
 .r-panel {
+
   .router-link-active,
   .router-link-exact-active {
     @apply tw-bg-primary tw-bg-opacity-10;
@@ -317,28 +119,14 @@ if (process.client) {
 </style>
 
 <template>
-  <ada-nav
-      v-model="drawer"
-      min-width="48px"
-      max-width="256px"
-      :mini="mini"
-      class="r-panel"
-      mobile-breakpoint="960"
-      fixed
-  >
+  <ada-nav v-model="drawer" min-width="48px" max-width="256px" :mini="mini" class="r-panel" mobile-breakpoint="960"
+    fixed>
     <div class="tabs">
       <ada-toggle v-model="bottomPanel.activeTab" class="tw-flex-wrap">
         <ada-tooltip v-for="item in items" :key="item.title" position="left">
           <template #activator>
-            <ada-btn
-                :to="`/watchlist/${ $route.params.name }/${ item.path }`"
-                :match="item.match"
-                :model="item"
-            >
-              <ada-icon
-                  size="18"
-                  :class="[item.color ? `tw-text-${item.color}` : null]"
-              >
+            <ada-btn :to="`/watchlist/${$route.params.name}/${item.path}`" :match="item.match" :model="item">
+              <ada-icon size="18" :class="[item.color ? `tw-text-${item.color}` : null]">
                 {{ item.icon }}
               </ada-icon>
             </ada-btn>
