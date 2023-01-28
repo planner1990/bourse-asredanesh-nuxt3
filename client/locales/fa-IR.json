@@ -382,7 +382,9 @@
     "settings": {
       "index": "@:general.settings",
       "userInformation": "حساب کاربری",
+      "financialInfo": "اطلاعات مالی",
       "entryAndExitHistory": "تاریخچه ورود و خروج",
+      "changePassword": "تغییر کلمه عبور",
       "agreements": "توافق نامه‌ها"
     },
     "accounting": "حسابداری",

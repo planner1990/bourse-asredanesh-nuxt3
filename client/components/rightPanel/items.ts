@@ -183,36 +183,52 @@ export function getMenuItems(): Array<TabItem> {
             id: "settings",
             icon: "isax-setting-2",
             title: "menu.settings.index",
-            match: /^\/watchlist\/.+\/settings\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            match: /^\/watchlist\/.+\/settings$/g,
             const: false,
             deletable: true,
             children: [
                 {
                     icon: "isax-graph",
                     title: "menu.settings.userInformation",
-                    path: "settings/userInformation",
+                    path: "settings",
                     color: "success",
-                    match: /^\/watchlist\/.+\/settings\/userInformation[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-                    deletable: false
+                    match: /^\/watchlist\/.+\/settings$/g,
+                    deletable: true
                 },
                 {
                     icon: "isax-graph",
-                    title: "menu.settings.entryAndExitHistory",
-                    path: "settings/entryAndExitHistory",
+                    title: "menu.settings.financialInfo",
+                    path: "settings/financialInfo",
                     color: "success",
-                    match: /^\/watchlist\/.+\/settings\/entryAndExitHistory[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-                    deletable: false
+                    match: /^\/watchlist\/.+\/settings\/financialInfo$/g,
+                    deletable: true
                 },
                 {
                     icon: "isax-graph",
                     title: "menu.settings.agreements",
                     path: "settings/agreements",
                     color: "success",
-                    match: /^\/watchlist\/.+\/settings\/agreements[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-                    deletable: false
+                    match: /^\/watchlist\/.+\/settings\/agreements$/g,
+                    deletable: true
                 },
+                {
+                    icon: "isax-graph",
+                    title: "menu.settings.entryAndExitHistory",
+                    path: "settings/entryAndExitHistory",
+                    color: "success",
+                    match: /^\/watchlist\/.+\/settings\/entryAndExitHistory$/g,
+                    deletable: true
+                },
+                {
+                    icon: "isax-graph",
+                    title: "menu.settings.changePassword",
+                    path: "settings/changePassword",
+                    color: "success",
+                    match: /^\/watchlist\/.+\/settings\/changePassword$/g,
+                    deletable: true
+                }
             ],
-            path: "settings/userInformation",
+            path: "settings",
         },
     ];
 }

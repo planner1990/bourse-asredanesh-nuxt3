@@ -6,9 +6,6 @@ const router = useRouter();
 const appManager = useAsrTrader();
 const lang: string = appManager.locale.split("-")[0];
 const amount = ref('')
-const day = ref<string>('')
-const month = ref<string>('')
-const year = ref<string>('')
 const route = useRoute();
 
 function goToDeposit() {
