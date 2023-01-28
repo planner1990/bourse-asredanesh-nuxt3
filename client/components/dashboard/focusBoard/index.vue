@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import {useShortcut} from "@/utils/shortcutManager";
-import {Bookmark} from "~/types";
-import {useInstrument, useUser} from "~/composables";
-import watchQuery from "~/plugins/watchQuery";
+import { useShortcut } from "@/utils/shortcutManager";
+import { Bookmark } from "~/types";
+import { useInstrument, useUser } from "~/composables";
 
 const instrumentManager = useInstrument();
 const userManager = useUser();
@@ -12,12 +11,8 @@ const toolbar = ref<HTMLElement | null>(null);
 const router = useRouter();
 const currentPath = ref("");
 
-const me = userManager.me;
 const bookmarks = computed(() => userManager.getBookmarks);
-console.log(bookmarks);
-const home = computed(() => me.settings?.home);
 const path = computed(() => route.fullPath);
-const filter = computed(() => instrumentManager.state.selected);
 
 const instruments = computed(() => instrumentManager.getFocus);
 const viewMode = computed({
@@ -44,10 +39,6 @@ async function unmark(bookmark: Bookmark) {
   });
 }
 
-function deselect() {
-  instrumentManager.select(null);
-}
-
 if (process.client) {
   sh.addShortcut({
     key: "alt+q",
@@ -67,16 +58,9 @@ if (process.client) {
     window.removeEventListener("mousemove", resize);
   });
 }
-watch(viewMode, () => {
-  console.log(viewMode);
-})
 
 function goToFullPathBookmark(path: string) {
   let currentRoute = route.fullPath.split("/").slice(3).join('/');
-  // const regEx = /^\/watchlist\/.+\/$/g;
-  // console.log(path);
-  // console.log(new RegExp(currentRoute.replace(regEx, path + '/')));
-  // currentRoute.replace(regEx, path);
   router.push(path + '/' + currentRoute);
 }
 
@@ -85,11 +69,11 @@ function setActivateBookmark(paramsName: any) {
 }
 
 watch(
-    route.params,
-    () => {
-      setActivateBookmark(route.params.name);
-    },
-    {deep: true, immediate: true}
+  () => route.params,
+  () => {
+    return setActivateBookmark(route.params.name);
+  },
+  { deep: true, immediate: true }
 )
 </script>
 
@@ -125,7 +109,7 @@ watch(
     }
   }
 
-  > .label {
+  >.label {
     font-size: 0.8334rem;
     display: inline-block;
     max-width: 67px;
@@ -154,7 +138,7 @@ watch(
 }
 
 .mode {
-  > .ada-button {
+  >.ada-button {
     @apply tw-bg-primary tw-bg-opacity-10 tw-w-10 tw-h-10 tw-rounded;
 
     &.active {
@@ -166,27 +150,27 @@ watch(
     }
   }
 
-  > .filter {
+  >.filter {
     @apply tw-flex tw-flex-row tw-items-center tw-justify-items-stretch tw-px-2 tw-mx-3;
     min-width: 110px;
     background-color: rgba(var(--c-primary), 0.05);
     border-radius: var(--border-radius-root);
     border: solid 1px rgba(var(--c-primary), 0.5);
 
-    > .filter {
+    >.filter {
       @apply tw-flex tw-mx-2;
     }
 
-    > .txt {
+    >.txt {
       @apply tw-flex tw-flex-grow;
     }
 
-    > .close {
+    >.close {
       @apply tw-flex tw-justify-self-end tw-mx-2;
     }
   }
 
-  > button {
+  >button {
     border-radius: var(--border-radius-root);
     border: none !important;
   }
@@ -221,10 +205,8 @@ watch(
   <div class="tw-m-0 tw-p-0">
     <header ref="toolbar" class="toolbar">
       <slot name="toolbar"></slot>
-      <span
-          v-if="bookmarks.length > 0"
-          class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2"
-      ></span>
+      <span v-if="bookmarks.length > 0"
+        class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2"></span>
       <!--      <nuxt-link v-for="b in bookmarks" :key="b.to" :to="(route.fullPath).replace(/^\/watchlist\/.+\//i, path + '/')" class="bookmark">-->
       <!--        <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>-->
       <!--        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)"-->
@@ -232,20 +214,15 @@ watch(
       <!--        </ada-icon-->
       <!--        >-->
       <!--      </nuxt-link>-->
-      <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)"
-               class="bookmark" :class="[b.title == currentPath ? 'active' : '']">
-        <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>
+      <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)" class="bookmark"
+        :class="[b.title == currentPath ? 'active' : '']">
+        <span v-text="b.text !== null ? b.text : $t(b.title)" class="text-overflow"></span>
         <ada-icon :size="14" class="tw-w-8 tw-h-full"
-                  :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']"
-                  @click.stop.prevent="unmark(b)">
+          :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']" @click.stop.prevent="unmark(b)">
           mdi-close
         </ada-icon>
       </ada-btn>
-      <ada-toggle
-          class="mode tw-justify-end"
-          color="primary"
-          v-model="viewMode"
-      >
+      <ada-toggle class="mode tw-justify-end" color="primary" v-model="viewMode">
         <!-- <div v-if="filter" class="filter">
           <ada-icon class="filter" :size="14" color="primary">isax-search-normal-1</ada-icon>
           <span class="txt">
@@ -261,16 +238,12 @@ watch(
         </ada-btn>
       </ada-toggle>
     </header>
-    <ada-tabs
-        class="focus-board"
-        v-if="instruments.length > 0"
-        v-model="viewMode"
-    >
+    <ada-tabs class="focus-board" v-if="instruments.length > 0" v-model="viewMode">
       <ada-tab :model="0">
-        <DashboardFocusBoardTabView/>
+        <DashboardFocusBoardTabView />
       </ada-tab>
       <ada-tab :model="1">
-        <DashboardFocusBoardCardView/>
+        <DashboardFocusBoardCardView />
       </ada-tab>
     </ada-tabs>
   </div>

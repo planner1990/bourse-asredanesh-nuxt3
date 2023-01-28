@@ -148,7 +148,6 @@ const countSell = computed(
 );
 const countBuy = computed(
   () => {
-    console.log();
     const res = Math.floor(wholePrice.value / (enteredPrice.value * (1 + wage.value.sell)))
     if (isNaN(res) || res == Infinity) {
       quantity.value = 0

@@ -60,13 +60,10 @@ async function getTradeHistories() {
 
   if (instrumentManager.getSelected) {
     task = getDailyPrices();
-    console.log(task)
   }
   if (task != null) {
     const { data } = await instrumentManager.getTradeHistories(model.value)
     const daily = await task;
-    console.log('model', model.value)
-    console.log('daily', daily)
     tradeHistories.push(...data.map((market) => {
       const ind = daily.findIndex((item) => item.dateTime == market.dateTime);
       return {

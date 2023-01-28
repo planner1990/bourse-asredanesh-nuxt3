@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { useUser } from "~/composables";
-import { Bookmark, CreateBookmark } from "~/types";
+import { Bookmark, CreateBookmark, TabItem } from "~/types";
 
 const props = withDefaults(
   defineProps<{
@@ -16,13 +16,11 @@ const route = useRoute();
 const router = useRouter();
 const userManager = useUser();
 const selected: Ref<any> = ref(null);
-const bookmark: Ref<any> = ref();
 const isOpen: Ref<any> = ref(false);
 const currentId: Ref<any> = ref();
 const newName = ref("");
 const watchList: any[] = reactive([]);
 const wls = computed(() => userManager.watchList);
-const userMenu = ref(false);
 const bookmarks = computed(() => userManager.getBookmarks);
 
 function refresh() {
@@ -103,7 +101,7 @@ async function setBookmark(item: any) {
   refresh();
 }
 
-function openSubMenu(item) {
+function openSubMenu(item: TabItem) {
   if (item && item.id === currentId.value) {
     isOpen.value = !isOpen.value;
   } else {

@@ -54,7 +54,7 @@ defineExpose({
 
 </style>
 
-<template>{{ edited === false ? "" : "" }}
+<template>
   <div class="tw-mx-auto">
     <div class="tw-grid tw-col-span-1">
       <dashboard-focus-board>
@@ -77,7 +77,6 @@ defineExpose({
       <DashboardWatchList :searchModel="showSearchModel" />
     </div>
     <loading :loading="loadingRef" />
-
     <bottom-panel>
       <NuxtPage />
     </bottom-panel>

@@ -5,6 +5,7 @@ import {
   Message,
   MessageFilter,
   MessageQuery,
+TabItem,
 } from "@/types";
 import {
   useAsrTrader,
@@ -121,7 +122,6 @@ async function load(query: MessageQuery) {
 }
 
 async function trigger_show_message(message: Message) {
-  console.log(message.id , messageManager.message_active?.id)
   if(message.id == messageManager.message_active?.id) return
   try {
     bottomPanel.setLoading(true);
@@ -143,8 +143,8 @@ async function trigger_show_message(message: Message) {
       deletable: true
     };
     seenMessage(mes)
-    bottomPanel.registerTab(tab);
-    bottomPanel.activeTab = tab;
+    bottomPanel.registerTab(tab as TabItem);
+    bottomPanel.current = tab;
     messageManager.message_active = message
     router.push(`/watchlist/${ route.params.name }/messages/${ mes.id }`)
   } catch (e) {

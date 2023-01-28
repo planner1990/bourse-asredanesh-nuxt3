@@ -69,9 +69,8 @@ function findItem() {
   return items2.value?.find((item) => {
     return parseInt(item.id) == props.value
   })
-  // return items.find(el => parseInt(el.id) == props.value )
 }
-// console.log('item', findItem())
+
 function selectItem(item: AutoCompleteItem) {
   router.push(`/watchlist/boards/${ item.id }`)
 }
