@@ -162,7 +162,7 @@ const expanded = computed(() => bottomPanel.expanded)
           <ada-btn class="tab-title" v-for="(t, i) in active?.children" :key="t.title" :model="t" :match="t.match"
             :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
             {{ $t(t.title) }} <span v-if="t.secondTitle">{{ ` - ${t.secondTitle}` }}</span>
-            <div v-if="i !== active.children.length - 1" class="bar"></div>
+            <div v-if="i !== (active.children?.length ?? 0) - 1" class="bar"></div>
           </ada-btn>
         </ada-toggle>
         <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
