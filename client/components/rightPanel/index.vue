@@ -27,6 +27,7 @@ const appManager = useAsrTrader();
 const bottomPanel = useBottomPanel();
 //////////////////
 
+const drawer = ref(null);
 const selected = computed({
   get() {
     return appManager.menu;

@@ -50,6 +50,14 @@ function openRoute(path: string) {
 
   &.showFinancInfo {
     @apply tw-bottom-[20px];
+
+    .icon {
+      @apply tw-mb-[-20px];
+
+      &.open {
+        @apply tw-mb-0;
+      }
+    }
   }
 }
 
@@ -327,7 +335,7 @@ function openRoute(path: string) {
     <ada-btn @click="showFinancInfo = !showFinancInfo" class="hide-info" :class="{ showFinancInfo }">
       <ada-icon class="icon" :class="{
         open: showFinancInfo
-      }" :size="8">
+      }" :size="12">
         isax-arrow-up-1
       </ada-icon>
     </ada-btn>

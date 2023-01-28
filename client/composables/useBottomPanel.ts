@@ -13,11 +13,13 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     _loading: false,
     showFinancialInfo: true,
     leftPanelMini: false,
+    current: <TabItem | null>null,
   });
 
   registerTabs();
 
   const tabs = computed(() => Object.values(state.value._tabs));
+  const current = computed(() => state.value.current);
   const LeftPanelMini = computed({
     get: () => state.value.leftPanelMini,
     set(val) {
@@ -100,5 +102,6 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     expanded,
     loading,
     LeftPanelMini,
+    current,
   };
 });
