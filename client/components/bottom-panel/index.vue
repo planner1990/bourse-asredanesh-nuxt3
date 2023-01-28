@@ -7,10 +7,11 @@ const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
 const router = useRouter()
 const route = useRoute()
+const menu: Ref<TabItem | null> = ref(null)
 const active: Ref<TabItem | null> = ref(null)
 
 const tabs = computed(() => bottomPanel.tabs);
-const slideToBottom = computed(() => !bottomPanel.state.showFinancInfo);
+const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
 
 function close() {
   router.push(`/watchlist/${route.params.name}`)
@@ -152,17 +153,17 @@ const expanded = computed(() => bottomPanel.expanded)
     expanded: active != null && expanded,
     slideToBottom
   }">
-    <div class="detail" v-if="active">
+    <div class="detail" v-if="menu">
       <div class="contents">
         <slot></slot>
 
       </div>
       <header class="header">
         <ada-toggle v-model="active" class="b-tabs">
-          <ada-btn class="tab-title" v-for="(t, i) in active?.children" :key="t.title" :model="t" :match="t.match"
+          <ada-btn class="tab-title" v-for="(t, i) in menu?.children" :key="t.title" :model="t" :match="t.match"
             :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
             {{ $t(t.title) }} <span v-if="t.secondTitle">{{ ` - ${t.secondTitle}` }}</span>
-            <div v-if="i !== (active.children?.length ?? 0) - 1" class="bar"></div>
+            <div v-if="i !== (menu.children?.length ?? 0) - 1" class="bar"></div>
           </ada-btn>
         </ada-toggle>
         <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
@@ -177,10 +178,10 @@ const expanded = computed(() => bottomPanel.expanded)
       </header>
     </div>
 
-    <ada-toggle class="b-tabs" v-model="active">
+    <ada-toggle class="b-tabs" v-model="menu">
       <ada-btn class="tab-title" v-for="(t, i) in tabs" :key="t.title"
         :to="`/watchlist/${$route.params.name}/${t.path}`" v-show="t.const" :model="t" :match="t.match">
-        <span :class="{ 'active': active != null && active.title === t.title }">
+        <span :class="{ 'active': menu != null && menu.title === t.title }">
           {{ $t(t.title) }}
           <span
             v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>

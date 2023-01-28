@@ -7,41 +7,41 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
   const router = useRouter();
   const route = useRoute();
 
-  const state = reactive({
+  const state = ref({
     _expanded: false,
     _tabs: <{ [key: string]: TabItem }>{},
     _loading: false,
-    showFinancInfo: true,
+    showFinancialInfo: true,
     leftPanelMini: false,
   });
 
   registerTabs();
 
-  const tabs = computed(() => Object.values(state._tabs));
+  const tabs = computed(() => Object.values(state.value._tabs));
   const LeftPanelMini = computed({
-    get: () => state.leftPanelMini,
+    get: () => state.value.leftPanelMini,
     set(val) {
-      state.leftPanelMini = val;
+      state.value.leftPanelMini = val;
     },
   });
-  const expanded = computed(() => state._expanded);
-  const loading = computed(() => state._loading);
+  const expanded = computed(() => state.value._expanded);
+  const loading = computed(() => state.value._loading);
 
   function registerTab(tab: TabItem) {
-    state._tabs[tab.id ?? ""] = tab;
+    state.value._tabs[tab.id ?? ""] = tab;
   }
 
   function toggleExpand() {
-    state._expanded = !state._expanded;
+    state.value._expanded = !state.value._expanded;
   }
 
   function setLoading(payload: boolean) {
-    state._loading = payload;
+    state.value._loading = payload;
   }
 
   function removeTab(id: string | number): void {
-    if (state._tabs[id]) {
-      state._tabs[id].const = false;
+    if (state.value._tabs[id]) {
+      state.value._tabs[id].const = false;
       router.push(`/watchlist/${route.params.name}`);
     }
   }

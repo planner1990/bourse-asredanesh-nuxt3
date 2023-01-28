@@ -29,9 +29,9 @@ const collaps = computed(() => /^watchlist\/.+\/.+/.test(route.path));
 const home = computed(() => userManager.me.settings?.home);
 const clipped = ref(true);
 const showFinancInfo = computed({
-  get: () => bottomPanelManager.state.showFinancInfo,
+  get: () => bottomPanelManager.state.showFinancialInfo,
   set(val) {
-    bottomPanelManager.state.showFinancInfo = val
+    bottomPanelManager.state.showFinancialInfo = val
   }
 });
 const router = useRouter();

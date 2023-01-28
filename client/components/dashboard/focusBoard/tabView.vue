@@ -37,31 +37,8 @@ function close(id: number) {
   instrumentManager.removeFocus(id);
 }
 
-async function deep(option: DeepOptions, instrument: Instrument) {
-  bottomPanel.setDepthData(null);
-  switch (option) {
-    case DeepOptions.teammates:
-      try {
-        bottomPanel.setLoading(true);
-        await bottomPanel.getTeammates(
-            new SameSectorQuery(instrument.id, instrument.sector)
-        );
-      } finally {
-        bottomPanel.setLoading(false);
-      }
-      break;
-    default:
-      //TODO Notifs
-      //bottomPanel.setTitle({ tab: Tabs.depth, title: "oms." + option, params: [] });
-      break;
-  }
-  //TODO Notif action
-  //bottomPanel.setActiveTab(Tabs.depth);
-}
-
 defineExpose({
   close,
-  deep,
   select,
   LastPrice,
   price,

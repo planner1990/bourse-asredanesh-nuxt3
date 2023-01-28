@@ -11,7 +11,6 @@ import {
 import { object, number, lazy, boolean, string } from "yup";
 import { useI18n } from "vue-i18n";
 import { getWage } from "@/repositories/wealth/wealth_manager";
-import { useBottomPanel } from "~/composables";
 import { useForm, useField } from 'vee-validate';
 
 
