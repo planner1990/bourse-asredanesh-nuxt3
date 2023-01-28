@@ -46,9 +46,6 @@ const snacks = useSnacks().snacks
                 {{ $t("general.copyRight") }}
             </span>
         </footer>
-        <!-- //TODO -->
-        <!-- <TransitionGroup tag="dialog" name="snack" class="snacks">
-        </TransitionGroup> -->
         <ada-snacks/>
     </div>
 </template>

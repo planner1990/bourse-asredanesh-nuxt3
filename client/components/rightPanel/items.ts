@@ -13,6 +13,7 @@ export function getMenuItems(): Array<TabItem> {
             match: /^\/watchlist\/.+\/portfolio\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
             children: [
                 {
+                    id:"portfolio.realtime",
                     icon: "isax-graph",
                     title: "menu.portfolio.realtime",
                     path: "portfolio/realtime",
@@ -21,6 +22,7 @@ export function getMenuItems(): Array<TabItem> {
                     deletable: false
                 },
                 {
+                    id:"portfolio.brokerage",
                     icon: "isax-graph",
                     title: "menu.portfolio.brokerage",
                     path: "portfolio/brokerage",
@@ -40,6 +42,7 @@ export function getMenuItems(): Array<TabItem> {
             match: /^\/watchlist\/.+\/accounting\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
             children: [
                 {
+                    id:"deposit",
                     icon: "isax-card-receive",
                     title: "menu.deposit",
                     path: "accounting/deposit",
@@ -49,6 +52,7 @@ export function getMenuItems(): Array<TabItem> {
 
                 },
                 {
+                    id:"receiptRegister",
                     icon: "isax-card-receive",
                     title: "menu.receiptRegister",
                     path: "accounting/receiptRegister",
@@ -57,6 +61,7 @@ export function getMenuItems(): Array<TabItem> {
                     deletable: false
                 },
                 {
+                    id:"refund",
                     icon: "isax-card-send",
                     title: "menu.refund",
                     path: "accounting/refund",
@@ -65,6 +70,7 @@ export function getMenuItems(): Array<TabItem> {
                     deletable: false
                 },
                 {
+                    id:"credits",
                     icon: "lotfi-empty-wallet-tick",
                     title: "menu.credits",
                     path: "accounting/credits",
@@ -83,6 +89,7 @@ export function getMenuItems(): Array<TabItem> {
             match: /^\/watchlist\/.+\/trades\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
             children: [
                 {
+                    id:"tradesReport",
                     icon: "lotfi-receipt-edit-2",
                     title: "menu.tradesReport",
                     path: "trades/report",
@@ -90,6 +97,7 @@ export function getMenuItems(): Array<TabItem> {
                     deletable: false
                 },
                 {
+                    id:"switchBrokerage",
                     icon: "lotfi-group",
                     title: "menu.switchBrokerage",
                     path: "trades/switchBrokerage",
@@ -98,6 +106,7 @@ export function getMenuItems(): Array<TabItem> {
                     deletable: false
                 },
                 {
+                    id:"switchBrokerageReport",
                     icon: "lotfi-receipt-edit-1",
                     title: "menu.switchBrokerageReport",
                     path: "trades/switchBrokerageReport",
@@ -132,7 +141,7 @@ export function getMenuItems(): Array<TabItem> {
         {
             id: "conditional",
             icon: "lotfi-wallet-money",
-            title: "menu.conditionalTrade",
+            title: "menu.conditionalTrades",
             path: "conditional-trade",
             match: /^\/watchlist\/.+\/conditional-trade\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
             const: false,
@@ -188,6 +197,7 @@ export function getMenuItems(): Array<TabItem> {
             deletable: true,
             children: [
                 {
+                    id:"settings.userInformation",
                     icon: "isax-graph",
                     title: "menu.settings.userInformation",
                     path: "settings/userInformation",
@@ -196,6 +206,7 @@ export function getMenuItems(): Array<TabItem> {
                     deletable: false
                 },
                 {
+                    id:"settings.entryAndExitHistory",
                     icon: "isax-graph",
                     title: "menu.settings.entryAndExitHistory",
                     path: "settings/entryAndExitHistory",
@@ -204,6 +215,7 @@ export function getMenuItems(): Array<TabItem> {
                     deletable: false
                 },
                 {
+                    id:"settings.agreements",
                     icon: "isax-graph",
                     title: "menu.settings.agreements",
                     path: "settings/agreements",

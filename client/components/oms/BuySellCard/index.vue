@@ -177,7 +177,6 @@ const wageCalculateSell = computed(
 );
 
 const queue = computed(() => instrumentManager.getOrderQueue(active.value));
-console.log(queue);
 const firstRow = computed(() => queue.value[0]);
 
 //////////methods//////////////
@@ -229,10 +228,6 @@ function togglePriceLock() {
     setFieldValue('enteredPrice', firstRow.value.buy.price)
   }
 }
-
-watch(route, () => {
-  console.log(route, "Sell card");
-})
 
 async function getDetail() {
   await instrumentManager

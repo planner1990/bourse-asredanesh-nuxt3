@@ -34,12 +34,13 @@ export class OrderClass implements Order {
   validityType: ValidationType;
   validityDate: string;
   flags: number;
+  termsAndConditions: boolean;
   constructor(
     id = 0,
     instrumentId = 0,
-    minQuantity= 0,
+    minQuantity = 0,
     orderType = OrderType.Market,
-    quantity= 0,
+    quantity = 0,
     remainQuantity = 0,
     discloseQuantity = 0,
     enteredPrice = 0,
@@ -47,21 +48,24 @@ export class OrderClass implements Order {
     side = Side.Buy,
     validityType = ValidationType.Day,
     validityDate = "",
-    flags = 0,
-  ){
-    this.id = id,
-    this.instrumentId = instrumentId,
-    this.minQuantity= minQuantity,
-    this.orderType = orderType,
-    this.quantity= quantity,
-    this.remainQuantity = remainQuantity,
-    this.discloseQuantity = discloseQuantity,
-    this.enteredPrice = enteredPrice,
-    this.triggerPrice = triggerPrice,
-    this.side = side,
-    this.validityType = validityType,
-    this.validityDate = validityDate,
-    this.flags = flags
+    creationDate: string = "",
+    flags = 0
+  ) {
+    (this.id = id),
+      (this.instrumentId = instrumentId),
+      (this.minQuantity = minQuantity),
+      (this.orderType = orderType),
+      (this.quantity = quantity),
+      (this.remainQuantity = remainQuantity),
+      (this.discloseQuantity = discloseQuantity),
+      (this.enteredPrice = enteredPrice),
+      (this.triggerPrice = triggerPrice),
+      (this.side = side),
+      (this.validityType = validityType),
+      (this.validityDate = validityDate),
+      (this.creationDate = creationDate),
+      (this.termsAndConditions = true),
+      (this.flags = flags);
   }
 }
 
@@ -76,12 +80,14 @@ export class OrderSearchModel implements SearchModel {
     offset: number = 0,
     length: number = 10,
     flags: number | null = null,
-    id: number | null = null
+    id: number | null = null,
+    instrumentId: number | null = null
   ) {
     this.id = id;
     this.flags = flags;
     this.offset = offset;
     this.length = length;
+    this.instrumentId = instrumentId;
   }
 }
 
@@ -116,7 +122,10 @@ export enum OrderFlags {
   Cancelled = 0x08,
   Confirmed = 0x10,
   PreOpening = 0x20,
-  Editable = OrderFlags.Cancelled | OrderFlags.Confirmed | OrderFlags.PreOpening,   
-  Deleteable = OrderFlags.Cancelled | OrderFlags.Confirmed | OrderFlags.PreOpening, 
+  Editable = OrderFlags.Cancelled |
+    OrderFlags.Confirmed |
+    OrderFlags.PreOpening,
+  Deleteable = OrderFlags.Cancelled |
+    OrderFlags.Confirmed |
+    OrderFlags.PreOpening,
 }
-

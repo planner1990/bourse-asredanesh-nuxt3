@@ -1,39 +1,27 @@
 <script lang="ts" setup>
-import {useUser} from "~/composables";
-import {resolveEnvPrefix} from "vite";
-import {computed, ref, watch} from 'vue'
-import {InstrumentSearchModel} from "~/types";
+import { useUser } from "~/composables";
+import { computed, ref } from 'vue'
+import { InstrumentSearchModel } from "~/types";
 
 definePageMeta({
   layout: "private-default",
-  pageTransition: {name: 'page'}
+  pageTransition: { name: 'page' }
 });
 
 const route = useRoute();
-const router = useRouter();
 const userManager = useUser();
-const bottomPanelComposable = useBottomPanel();
 const loadingRef = ref(false);
 
 const name = (route.params.name as string) ?? "new";
 
-// watch(()=> route.params, (val)=> {
-//   if(val.slug){
-//     setTabWithRoute(val.slug as string, false)
-//   }
-// })
-
-// if(route.params.slug) {
-//   setTabWithRoute(route.params.slug as string, true)
-// }
 const showSearchModel = computed(() => {
   return new InstrumentSearchModel(userManager.watchList[route.params.name as string]?.map((item) => parseInt(item)) ?? [])
 })
 
 const edited = computed(
-    () => {
-      return Object.keys(userManager.settingsChanged).indexOf("/watch_lists/" + name) != -1
-    }
+  () => {
+    return Object.keys(userManager.settingsChanged).indexOf("/watch_lists/" + name) != -1
+  }
 );
 
 async function reset() {
@@ -54,19 +42,6 @@ async function apply() {
   }
 }
 
-// function setTabWithRoute(slug: string, init: boolean) {
-//   const prefixSlug = slug.split('-')[0]
-//   let res = bottomPanelComposable.tabs.find((tab)=> tab.name.includes(prefixSlug))
-//   if(!res) {
-//     res = bottomPanelComposable.optionsTabs.find((tab)=> tab.path.includes(prefixSlug))
-//     bottomPanelComposable.registerTab(res)
-//     slug = res.children?.find((t)=> t.path?.includes(slug)).name
-
-//   }
-//   if(init) res.current = slug
-//   bottomPanelComposable.activeTab = res
-// }
-
 defineExpose({
   reset,
   loadingRef,
@@ -75,39 +50,23 @@ defineExpose({
 
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+
+</style>
 
 <template>{{ edited === false ? "" : "" }}
   <div class="tw-mx-auto">
     <div class="tw-grid tw-col-span-1">
       <dashboard-focus-board>
         <template #toolbar>
-          <dashboard-watch-list-selector
-              auto-route
-              class="tw-mt-0 tw tw-max-w-[164px]"
-          />
-          <oms-instrument-search
-              class="tw-mt-0 tw-mr-2 tw-max-w-[164px]"
-              focus-result
-          />
-          <ada-btn
-              dark
-              v-if="edited"
-              @click.stop.prevent="apply"
-              class="tw-ml-1 tw-mr-2 tw-text-sm tw-bg-success tw-text-white tw-py-2 tw-px-3"
-              :height="28"
-              :width="56"
-          >
+          <dashboard-watch-list-selector auto-route class="tw-mt-0 tw tw-max-w-[164px]" />
+          <oms-instrument-search class="tw-mt-0 tw-mr-2 tw-max-w-[164px]" focus-result />
+          <ada-btn dark v-if="edited" @click.stop.prevent="apply"
+            class="tw-ml-1 tw-mr-2 tw-text-sm tw-bg-success tw-text-white tw-py-2 tw-px-3" :height="28" :width="56">
             {{ $t("general.apply") }}
           </ada-btn>
-          <ada-btn
-              dark
-              v-if="edited"
-              @click.stop="reset"
-              class="tw-m-0 tw-mx-1 tw-text-sm tw-bg-error tw-text-white tw-py-2 tw-px-3"
-              :height="28"
-              :width="56"
-          >
+          <ada-btn dark v-if="edited" @click.stop="reset"
+            class="tw-m-0 tw-mx-1 tw-text-sm tw-bg-error tw-text-white tw-py-2 tw-px-3" :height="28" :width="56">
             {{ $t("general.cancel") }}
           </ada-btn>
           <div v-if="edited" class="bar tw-mx-1 tw-static"></div>
@@ -115,12 +74,12 @@ defineExpose({
       </dashboard-focus-board>
     </div>
     <div class="tw-grid tw-scroll-p-1">
-      <DashboardWatchList :searchModel="showSearchModel"/>
+      <DashboardWatchList :searchModel="showSearchModel" />
     </div>
-    <loading :loading="loadingRef"/>
+    <loading :loading="loadingRef" />
 
     <bottom-panel>
-      <NuxtPage/>
+      <NuxtPage />
     </bottom-panel>
   </div>
 </template>

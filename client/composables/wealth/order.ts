@@ -45,7 +45,7 @@ export const useOrder = defineStore("order", () => {
     }
 
     async function getOrders(
-        payload: number
+        payload: OrderSearchModel
     ): Promise<PaginatedResult<Order> | undefined> {
         if (userState.state.userName) {
             const orders = (
