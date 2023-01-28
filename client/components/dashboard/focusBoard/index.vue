@@ -205,31 +205,18 @@ watch(
   <div class="tw-m-0 tw-p-0">
     <header ref="toolbar" class="toolbar">
       <slot name="toolbar"></slot>
-      <span v-if="bookmarks.length > 0"
-        class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2"></span>
-      <!--      <nuxt-link v-for="b in bookmarks" :key="b.to" :to="(route.fullPath).replace(/^\/watchlist\/.+\//i, path + '/')" class="bookmark">-->
-      <!--        <span v-text="b.text ? b.text : $t(b.title)" class="text-overflow"></span>-->
-      <!--        <ada-icon :size="14" class="tw-w-8 tw-h-full" @click.stop.prevent="unmark(b)"-->
-      <!--        >mdi-close-->
-      <!--        </ada-icon-->
-      <!--        >-->
-      <!--      </nuxt-link>-->
+      <span v-if="bookmarks.length > 0" class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2">
+      </span>
       <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)" class="bookmark"
         :class="[b.title == currentPath ? 'active' : '']">
-        <span v-text="b.text !== null ? b.text : $t(b.title)" class="text-overflow"></span>
+        <span v-text="b.text != null ? b.text : $t(b.title)" class="text-overflow">
+        </span>
         <ada-icon :size="14" class="tw-w-8 tw-h-full"
           :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']" @click.stop.prevent="unmark(b)">
           mdi-close
         </ada-icon>
       </ada-btn>
       <ada-toggle class="mode tw-justify-end" color="primary" v-model="viewMode">
-        <!-- <div v-if="filter" class="filter">
-          <ada-icon class="filter" :size="14" color="primary">isax-search-normal-1</ada-icon>
-          <span class="txt">
-            {{ filter.name }}
-          </span>
-          <ada-icon class="close" @click="deselect" :size="14" color="primary">mdi-close</ada-icon>
-        </div> -->
         <ada-btn :model="0">
           <ada-icon :size="16"> isax-menu</ada-icon>
         </ada-btn>

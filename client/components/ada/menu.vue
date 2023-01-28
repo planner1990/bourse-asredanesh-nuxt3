@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import {useAsrTrader} from "~/composables";
+import { useAsrTrader } from "~/composables";
 
 const props = withDefaults(defineProps<{
-      mLeft?: number,
-      mTop?: number,
-      active?: boolean,
-      mWidth?: number,
-      boxShadow?: boolean
-    }>(),
-    {
-      mLeft: 0,
-      mTop: 0,
-      active: false,
-      mWidth: 0,
-      boxShadow: false
-    }
+  mLeft?: number,
+  mTop?: number,
+  active?: boolean,
+  mWidth?: number,
+  boxShadow?: boolean
+}>(),
+  {
+    mLeft: 0,
+    mTop: 0,
+    active: false,
+    mWidth: 0,
+    boxShadow: false
+  }
 )
 const appManager = useAsrTrader();
 const rtl = computed(() => appManager.rtl);
@@ -50,6 +50,7 @@ const style = computed(() => {
     @apply hover:tw-bg-primary/10;
   }
 }
+
 .boxShadow {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
 }
@@ -59,14 +60,13 @@ const style = computed(() => {
   <div class="menu-global" ref="menu">
     <slot name="activator"></slot>
     <Teleport to="body">
-      <transition name="slide-fade">
-        <div ref="menuContent" :style="style" v-if="active" class="menu" :class="[rtl? 'rtl': null, locale, boxShadow? 'boxShadow' : '']">
+      <div ref="menuContent" :style="style" v-if="active" class="menu"
+        :class="[rtl ? 'rtl' : null, locale, boxShadow ? 'boxShadow' : '']">
 
-          <slot name="prepend-item"></slot>
-          <slot name="items"></slot>
-          <slot name="append-item"></slot>
-        </div>
-      </transition>
+        <slot name="prepend-item"></slot>
+        <slot name="items"></slot>
+        <slot name="append-item"></slot>
+      </div>
     </Teleport>
   </div>
 </template>

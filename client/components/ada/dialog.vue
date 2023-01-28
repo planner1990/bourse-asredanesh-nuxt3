@@ -17,7 +17,6 @@ const props = withDefaults(
 <template>
   <Teleport to="body">
     <div v-if="active" class="modal"></div>
-    <transition name="slide-bounce">
       <div v-if="active" :class="{ rtl: rtl }" class="dialog">
         <div class="dialog-container">
             <slot name="prepend"></slot>
@@ -25,6 +24,5 @@ const props = withDefaults(
             <slot name="append"></slot>
         </div>
       </div>
-    </transition>
   </Teleport>
 </template>
