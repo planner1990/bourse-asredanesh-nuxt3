@@ -15,6 +15,7 @@ export interface Order {
   orderType: OrderType;
   validityType: ValidationType;
   validityDate: string | null;
+  termsAndConditions: boolean;
   flags: number;
 }
 
