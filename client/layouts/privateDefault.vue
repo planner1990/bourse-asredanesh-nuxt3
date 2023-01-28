@@ -28,10 +28,10 @@ const formatter = appManager.formatter;
 const collaps = computed(() => /^watchlist\/.+\/.+/.test(route.path));
 const home = computed(() => userManager.me.settings?.home);
 const clipped = ref(true);
-const invisibleFinInfo = computed({
-  get: () => !bottomPanelManager.state.showFinancInfo,
+const showFinancInfo = computed({
+  get: () => bottomPanelManager.state.showFinancInfo,
   set(val) {
-    bottomPanelManager.state.showFinancInfo = !val
+    bottomPanelManager.state.showFinancInfo = val
   }
 });
 const router = useRouter();
@@ -46,14 +46,18 @@ function openRoute(path: string) {
 <style lang="postcss" scoped>
 .hide-info {
   @apply tw-transition-all tw-ease-in-out tw-duration-700;
-  @apply tw-bottom-[20px] tw-absolute tw-w-[20px] tw-h-[20px] tw-right-1/2 tw-bg-primary tw-leading-[20px] tw-rounded-full;
+  @apply tw-bottom-[-10px] tw-absolute tw-w-[20px] tw-h-[20px] tw-right-1/2 tw-bg-primary tw-leading-[20px] tw-rounded-full;
 
-  .icon {
-    @apply tw-text-white;
+  &.showFinancInfo {
+    @apply tw-bottom-[20px];
   }
+}
 
-  &.invisibleFinInfo {
-    @apply tw-bottom-[-10px];
+.icon {
+  @apply tw-text-white;
+
+  &.open {
+    @apply tw-rotate-180;
   }
 }
 
@@ -74,12 +78,6 @@ function openRoute(path: string) {
 
     >a span {
       @apply tw-text-primary;
-    }
-
-    .icon {
-      &.open {
-        @apply tw-rotate-180;
-      }
     }
 
     div.start {
@@ -107,23 +105,23 @@ function openRoute(path: string) {
 
   >main {
     @apply tw-w-full tw-overflow-y-clip;
-    height: calc(100vh - 72px);
+    height: calc(100vh - 42px);
     box-sizing: border-box;
 
-    &.invisibleFinInfo {
-      height: calc(100vh - 42px);
+    &.showFinancInfo {
+      height: calc(100vh - 72px);
     }
   }
 
   >.footer {
     @apply tw-flex tw-items-center tw-w-full tw-justify-center tw-transition-all tw-ease-in-out tw-duration-700;
-    height: 32px;
+    height: 0;
     position: fixed;
     bottom: 0;
     overflow: clip;
 
-    &.invisibleFinInfo {
-      height: 0;
+    &.showFinancInfo {
+      height: 32px;
     }
 
     .summary {
@@ -178,11 +176,11 @@ function openRoute(path: string) {
 
   .dashboardmain-nuxt {
     overflow-y: auto;
-    height: calc(100vh - 106px);
+    height: calc(100vh - 44px);
     position: relative;
 
-    &.invisibleFinInfo {
-      height: calc(100vh - 44px);
+    &.showFinancInfo {
+      height: calc(100vh - 106px);
     }
 
     &.collaps {
@@ -192,10 +190,6 @@ function openRoute(path: string) {
 
   .floating-button {
     @apply tw-fixed tw-z-[9999] tw-rounded-full tw-bg-primary tw-w-11 tw-h-11 tw-bottom-3;
-
-    .icon {
-      @apply tw-text-white;
-    }
   }
 }
 </style>
@@ -296,17 +290,17 @@ function openRoute(path: string) {
     <left-panel v-model:mini="lmini" v-model:clipped="clipped" v-model="leftMenu.drawer" class="shadow right" />
     <main class="dashboardmain-page" :class="{
       collaps,
-      invisibleFinInfo,
+      showFinancInfo,
       left: !lmini
     }">
-      <div class="dashboardmain-nuxt" :class="{ invisibleFinInfo }">
+      <div class="dashboardmain-nuxt" :class="{ showFinancInfo }">
         <nuxt-page />
       </div>
     </main>
     <footer class="footer dashboardmain-page" :class="{
       right: !rightMenu.mini,
       left: !lmini,
-      invisibleFinInfo
+      showFinancInfo
     }">
       <div class="summary">
         <ada-badge class="tw-ml-3">{{ $t("accounting.account.amount") }}
@@ -330,11 +324,11 @@ function openRoute(path: string) {
         &copy; {{ new Date().getFullYear() }} {{ $t("general.company") }}
       </div>
     </footer>
-    <ada-btn @click="invisibleFinInfo = !invisibleFinInfo" class="hide-info" :class="{ invisibleFinInfo }">
+    <ada-btn @click="showFinancInfo = !showFinancInfo" class="hide-info" :class="{ showFinancInfo }">
       <ada-icon class="icon" :class="{
-        'tw-rotate-180': invisibleFinInfo
+        open: showFinancInfo
       }" :size="8">
-        isax-arrow-down
+        isax-arrow-up-1
       </ada-icon>
     </ada-btn>
     <ada-btn class="floating-button tw-right-2" @click="openRoute('chatRoom/room')">
