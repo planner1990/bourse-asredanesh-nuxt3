@@ -5,7 +5,7 @@ module.exports = {
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
-    "./src/**/*.{html,js}"
+    "./src/**/*.{html,js}",
   ],
   theme: {
     borderRadius: {
@@ -18,6 +18,9 @@ module.exports = {
       full: "9999px",
     },
     extend: {
+      dropShadow: {
+        "direct": "0 0 4px currentcolor",
+      },
       colors: {
         transparent: "transparent",
         current: "currentColor",
@@ -37,7 +40,7 @@ module.exports = {
         gray8: "rgb(251, 251, 251)",
         white: "rgb(255,255,255)",
         black: "rgb(0,0,0)",
-        tooltip: "rgba(0, 0, 0, 0.85)"
+        tooltip: "rgba(0, 0, 0, 0.85)",
       },
     },
   },
