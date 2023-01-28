@@ -16,6 +16,7 @@ const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
 function close() {
   router.push(`/watchlist/${route.params.name}`)
   active.value = null;
+  menu.value = null;
 }
 
 function expand() {
@@ -149,8 +150,8 @@ const expanded = computed(() => bottomPanel.expanded)
 
 <template>
   <footer class="ada-bottom-panel" :class="{
-    half: active != null && !expanded,
-    expanded: active != null && expanded,
+    half: menu != null && !expanded,
+    expanded: menu != null && expanded,
     slideToBottom
   }">
     <div class="detail" v-if="menu">
