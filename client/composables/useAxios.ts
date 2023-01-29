@@ -16,6 +16,7 @@ export const useAxios = defineStore("axios", () => {
     if (instance != null) return instance;
     instance = axios.create({});
     instance.interceptors.request.use((config) => {
+      Sentry.captureMessage("Start Req")
       Object.assign(config, {
         withCredentials: true,
         baseURL: appconfig.public.VUE_APP_Host,
