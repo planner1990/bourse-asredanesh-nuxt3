@@ -65,7 +65,7 @@ async function refresh() {
     ...(await instrumentManager.getInstrumentsDetail(props.searchModel, true))
   );
   await notificationManager.initNotifications(
-    props.searchModel.ids.map((id) => id.toString())
+    props.searchModel.ids.map((id: number) => id.toString())
   );
 }
 
@@ -131,6 +131,8 @@ function parseStatus(state: number) {
       return "instrument.state.disabled";
     case InstrumentStatus.PreActive:
       return "instrument.state.preActive";
+    default:
+      return "";
   }
 }
 
@@ -152,12 +154,14 @@ function focus(item: InstrumentCache) {
   instrumentManager.addFocus(item);
 }
 
-async function remove(val: InstrumentCache) {
-  const payload = {
-    searchModel: props.searchModel,
-    item: val
+async function remove(val: InstrumentCache | null) {
+  if (val) {
+    const payload = {
+      searchModel: props.searchModel,
+      item: val
+    }
+    await userManager.removeWatchlist(payload)
   }
-  await userManager.removeWatchlist(payload)
 }
 
 let dragItem: InstrumentCache | null = null;
