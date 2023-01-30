@@ -46,7 +46,7 @@ const style: ComputedRef<StyleValue> = computed(() => {
   z-index: 1000;
 
   ul li {
-    @apply hover: tw-bg-primary/10;
+    @apply hover:tw-bg-primary/10;
   }
 }
 

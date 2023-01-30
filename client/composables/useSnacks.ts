@@ -3,10 +3,6 @@ import { reactive, ref } from "vue";
 import { Snack, SnackState } from "@/types/stores";
 
 export const useSnacks = defineStore("snacks", () => {
-  // const state = ref<SnackState>({
-  //   Snacks: reactive([]),
-  // });
-
   const state = reactive<{
     Snacks: Array<Snack>
   }>({

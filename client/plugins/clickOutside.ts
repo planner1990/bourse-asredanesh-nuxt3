@@ -3,9 +3,9 @@ interface clickableElement extends HTMLElement {
 }
 
 export default defineNuxtPlugin(({ vueApp }) => {
-
   const ClickOutsideDirective = {
-    created(el, binding) {
+    //TODO Binding should not be any
+    created(el: HTMLElement, binding: any) {
       (el as clickableElement).__adaClickOutsideHandler__ = (event: Event) => {
         if (el !== event.target && !el.contains(event.target as Node | null)) {
           binding.value(event);
@@ -24,6 +24,5 @@ export default defineNuxtPlugin(({ vueApp }) => {
     },
   };
 
-
-  vueApp.directive("ada-click-outside", ClickOutsideDirective)
-})
+  vueApp.directive("ada-click-outside", ClickOutsideDirective);
+});
