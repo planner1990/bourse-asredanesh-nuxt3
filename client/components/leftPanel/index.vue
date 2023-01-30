@@ -3,9 +3,9 @@ import { Ref } from "vue";
 import {
   PaginatedResult,
   Message,
-  MessageFilter,
   MessageQuery,
-TabItem,
+  TabItem,
+  MenuItem,
 } from "@/types";
 import {
   useAsrTrader,
@@ -20,7 +20,6 @@ const messageManager = useMessages();
 const appManager = useAsrTrader();
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
-const rtl = appManager.rtl;
 const locale = appManager.locale;
 const toggleMenu = ref<null | string>(null);
 const router = useRouter()
@@ -54,17 +53,16 @@ const mini = computed({
 });
 
 
-const messageQuery =  messageManager.state.messageQuery
+const messageQuery = messageManager.state.messageQuery
 
 
 
 messageQuery.filters.origins = origins;
 
-const items = [
-  { title: "general.me" },
-  { title: "general.all" },
+const items: Array<MenuItem> = [
+  { icon: "", title: "general.me" },
+  { icon: "", title: "general.all" },
 ];
-
 const categories = messageManager.state.categories;
 
 /////
@@ -122,7 +120,7 @@ async function load(query: MessageQuery) {
 }
 
 async function trigger_show_message(message: Message) {
-  if(message.id == messageManager.message_active?.id) return
+  if (message.id == messageManager.message_active?.id) return
   try {
     bottomPanel.setLoading(true);
     const mes = (await messageManager.getMessage(message.id));
@@ -135,18 +133,17 @@ async function trigger_show_message(message: Message) {
           title: bottomPanel.getTitle(mes.origin),
           secondTitle: mes.title,
           deletable: false,
-          path:`messages/${ mes.id }`,
+          path: `messages/${mes.id}`,
         },
       ],
-      path: `messages/${ mes.id }`,
+      path: `messages/${mes.id}`,
       const: false,
       deletable: true
     };
     seenMessage(mes)
     bottomPanel.registerTab(tab as TabItem);
-    bottomPanel.current = tab;
     messageManager.message_active = message
-    router.push(`/watchlist/${ route.params.name }/messages/${ mes.id }`)
+    router.push(`/watchlist/${route.params.name}/messages/${mes.id}`)
   } catch (e) {
     console.log(e);
   } finally {
@@ -154,10 +151,10 @@ async function trigger_show_message(message: Message) {
   }
 }
 
-function seenMessage(message) {
-
-  const res = messages.find((item)=> item.id === message.id)
-  res.seenDate = new Date().toLocaleDateString(locale)
+function seenMessage(message: Message) {
+  const res = messages.find((item) => item.id === message.id)
+  if (res)
+    res.seenDate = new Date().toLocaleDateString(locale)
 }
 
 loadMessages();
@@ -188,6 +185,7 @@ loadMessages();
     max-width: 48px;
     flex-basis: 48px;
   }
+
   .ada-button,
   .ada-tooltip-container :deep(.ada-button) {
     @apply tw-bg-transparent tw-w-10;
@@ -200,12 +198,15 @@ loadMessages();
       }
     }
   }
+
   .tab-items {
     width: calc(100% - 48px);
     @apply tw-shadow-[0_2px_3px_1px] tw-shadow-primary/20 tw-py-2 tw-overflow-clip;
+
     & :deep(.ada-button) {
       @apply tw-bg-transparent;
     }
+
     .categories {
       @apply tw-px-2 tw-mt-1 tw-select-none tw-flex tw-justify-between tw-items-center;
 
@@ -230,15 +231,8 @@ loadMessages();
 </style>
 
 <template>
-  <ada-nav
-    v-model="drawer"
-    min-width="48px"
-    max-width="256px"
-    :mini="mini"
-    mobile-breakpoint="960"
-    fixed
-    class="l-panel tw-left-0 tw-flex-row-reverse"
-  >
+  <ada-nav v-model="drawer" min-width="48px" max-width="256px" :mini="mini" mobile-breakpoint="960" fixed
+    class="l-panel tw-left-0 tw-flex-row-reverse">
     <ada-toggle class="tabs" vertical v-model="toggleMenu">
       <ada-list class="tw-pb-1 tw-overflow-visible">
         <ada-list-item v-for="item in items" :key="item.title" :value="item">
@@ -248,19 +242,14 @@ loadMessages();
             </ada-btn>
           </template>
         </ada-list-item>
-        <ada-list-item value="" class="tw-mt-1">
+        <ada-list-item class="tw-mt-1">
           <template #item>
             <div>
               <hr class="divider" />
               <ada-tooltip position="right">
                 <template #activator>
-                  <ada-btn
-                    :width="32"
-                    :height="32"
-                    :model="$t('oms.openingTrade')"
-                    @click="$emit('update:mini', !mini)"
-                    class="tw-mt-1"
-                  >
+                  <ada-btn :width="32" :height="32" :model="$t('oms.openingTrade')" @click="$emit('update:mini', !mini)"
+                    class="tw-mt-1">
                     <!-- <span v-text="$t('oms.openingTrade')"></span> -->
                     <ada-icon size="1.5rem">lotfi-calendar-search-1</ada-icon>
                   </ada-btn>
@@ -273,50 +262,26 @@ loadMessages();
       </ada-list>
     </ada-toggle>
     <ada-tabs class="tab-items" v-model="toggleMenu">
-      <!-- <search v-model="searchItem" @update="(val) => searchItem = val" :placeholder="`${$t('user.search')}...`"
-        class="tw-text-base tw-px-4 tw-py-3">
-        <template #prepend>
-          <ada-icon color="primary" class="" :size="14"> isax-search-normal-1 </ada-icon>
-        </template>
-      </search> -->
       <div class="categories">
-        <span
-          v-for="category in categories"
-          :key="category.title"
-          :class="[
-            `${category.active ? category.bg + ' ' + category.color : ''}`,
-          ]"
-          v-text="$t(category.title)"
-          @click="
-            () => {
-              category.active = !category.active;
-              if (category.active) origins.push(category.code);
-              else origins.splice(origins.indexOf(category.code), 1);
-              // loadMyMessages();
-              loadMessages();
-            }
-          "
-        ></span>
+        <span v-for="category in categories" :key="category.title" :class="[
+          `${category.active ? category.bg + ' ' + category.color : ''}`,
+        ]" v-text="$t(category.title)" @click="
+  () => {
+    category.active = !category.active;
+    if (category.active) origins.push(category.code);
+    else origins.splice(origins.indexOf(category.code), 1);
+    // loadMyMessages();
+    loadMessages();
+  }
+"></span>
       </div>
       <div id="messages">
-        <div
-          v-for="message in messages"
-          :key="message.id"
-        >
+        <div v-for="message in messages" :key="message.id">
           <hr class="line" />
-          <LeftPanelMessageItem
-            :id="message.id"
-            :dateTime="message.dateTime"
-            :title="message.title"
-            :preview="message.preview"
-            :origin="message.origin"
-            :type="message.origin"
-            :flags="message.flags"
-            :message="message.message.body"
-            :seenDate="message.seenDate"
-            style="height: 60.1px"
-            @triggerShowMessage="trigger_show_message"
-          />
+          <LeftPanelMessageItem :id="message.id" :dateTime="message.dateTime" :title="message.title"
+            :preview="message.preview" :origin="message.origin" :type="message.origin" :flags="message.flags"
+            :message="message.message.body" :seenDate="message.seenDate" style="height: 60.1px"
+            @triggerShowMessage="trigger_show_message" />
         </div>
       </div>
     </ada-tabs>

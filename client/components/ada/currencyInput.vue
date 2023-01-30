@@ -1,25 +1,14 @@
 <script setup lang="ts">
-import { VNode, Ref } from "vue";
-
 const props = withDefaults(
   defineProps<{
     label?: string;
     modelValue: number | string;
-    min?: number | null;
-    max?: number | null;
-    minlength?: number | null;
-    maxlength?: number | null;
     readonly?: boolean;
-    maxWidth?: string;
     tabIndex?: string;
     nameInput?: any;
   }>(),
   {
     label: "",
-    min: null,
-    max: null,
-    minlength: null,
-    maxlength: null,
     readonly: false,
     tabIndex: "0",
     nameInput: "",
@@ -27,7 +16,7 @@ const props = withDefaults(
   }
 );
 const emit = defineEmits(["update:modelValue"]);
-const active = ref(false);
+const active = ref<boolean>(false);
 const join = (val: string): number => {
   if (val.includes(",")) {
     return Number(val.replace(/\,/gi, ""))
@@ -70,7 +59,7 @@ onMounted(() => {
 watch(() => props.nameInput, () => {
   submitData();
 })
-const focus: Ref<HTMLElement | null> = ref(null);
+const focus = ref<HTMLElement | null>(null);
 function submitData() {
   if (props.nameInput === "focus") {
     focus.value?.focus();
@@ -123,10 +112,9 @@ function submitData() {
     </div>
     <div class="scaffold">
       <slot name="prepend" :active="active"></slot>
-      <input type="text" @focus="active = true" @blur="active = false" :value="separateValue" class="ltr"
-        @keypress="validateInput" @input="(e) => emit('update:modelValue', join((e.target as HTMLInputElement).value))"
-        v-bind="{ min, max, minlength, maxlength, nameInput, ...$attrs }" :readonly="readonly" :tabindex="tabIndex"
-        ref="focus" />
+      <input type="text" :value="separateValue" class="ltr" v-bind="{ nameInput, ...$attrs }" :readonly="readonly"
+        :tabindex="tabIndex" @focus="active = true" @blur="active = false" @keypress="validateInput"
+        @input="(e) => emit('update:modelValue', join((e.target as HTMLInputElement).value))" ref="focus" />
       <slot name="append" :active="active"></slot>
     </div>
   </label>

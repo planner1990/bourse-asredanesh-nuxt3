@@ -54,32 +54,32 @@ const cYear = computed({
 
 ///////functions////////////
 
-const dayValidate = (e)=> {
-  const val =parseInt(cDay.value.concat(e.key))
-  if(reg.test(e.key) || val > 31) {
+const dayValidate = (e: KeyboardEvent) => {
+  const val = parseInt(cDay.value.concat(e.key))
+  if (reg.test(e.key) || val > 31) {
     prevent(e)
   }
 }
 
-const monthValidate = (e)=> {
-  const val =parseInt(cMonth.value.concat(e.key))
-  if(reg.test(e.key) || val > 12) {
+const monthValidate = (e: KeyboardEvent) => {
+  const val = parseInt(cMonth.value.concat(e.key))
+  if (reg.test(e.key) || val > 12) {
     prevent(e)
   }
 }
 
-const yearValidate = (e)=> {
-  const val =parseInt(cYear.value.concat(e.key))
-  if(reg.test(e.key) || val > 1450) {
+const yearValidate = (e: KeyboardEvent) => {
+  const val = parseInt(cYear.value.concat(e.key))
+  if (reg.test(e.key) || val > 1450) {
     prevent(e)
   }
 }
 
 
-const prevent = (e)=> {
-    e.preventDefault()
-    e.stopPropagation();
-    return false
+const prevent = (e: Event) => {
+  e.preventDefault()
+  e.stopPropagation();
+  return false
 }
 
 </script>
@@ -90,20 +90,23 @@ const prevent = (e)=> {
 
   .input-container {
     @apply tw-flex tw-justify-center tw-bg-primary/10 tw-text-primary tw-rounded tw-max-w-full tw-items-center;
+
     input {
       @apply tw-min-w-0 tw-w-10 tw-text-center tw-bg-transparent tw-text-inherit tw-py-[4px];
       outline-style: none;
       line-height: inherit;
       font-size: inherit;
-      direction: ltr; 
+      direction: ltr;
+
       &:nth-child(5) {
         @apply tw-w-16;
       }
     }
+
     ::placeholder {
       @apply tw-text-primary/30;
     }
-    
+
     >span {
       @apply tw-text-primary/60;
     }
@@ -120,15 +123,12 @@ const prevent = (e)=> {
     </div>
     <slot name="prepend"> </slot>
     <div class="input-container" :class="{ active: active }">
-      <input type="text" v-model="cDay"  maxlength="2" min="1" max="31" @keypress="dayValidate" placeholder="01"
-      @focus="active = true" @blur="active = false"
-      ><span>/</span>
+      <input type="text" v-model="cDay" maxlength="2" min="1" max="31" @keypress="dayValidate" placeholder="01"
+        @focus="active = true" @blur="active = false"><span>/</span>
       <input type="text" v-model="cMonth" maxlength="2" min="1" max="12" @keypress="monthValidate" placeholder="01"
-      @focus="active = true" @blur="active = false"
-      ><span>/</span>
+        @focus="active = true" @blur="active = false"><span>/</span>
       <input type="text" v-model="cYear" maxlength="4" min="1" max="1500" @keypress="yearValidate" placeholder="1400"
-      @focus="active = true" @blur="active = false"
-      >
+        @focus="active = true" @blur="active = false">
     </div>
     <slot name="append"></slot>
   </label>

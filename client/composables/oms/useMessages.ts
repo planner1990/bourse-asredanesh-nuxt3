@@ -7,19 +7,25 @@ import {
 import {
   PaginatedResult,
   Message,
+  MessageCode,
   AutoCompleteItem,
   MessageQuery,
-  MessageOrigin,
-  MessageFilter
+  MessageFilter,
 } from "@/types";
-import { MessageState } from "@/types/stores";
 import { AxiosResponse } from "axios";
 import { useAxios } from "../useAxios";
-type Code = "RLC" | "SUPPORT" | "ADMIN" | "TEDAN" | "CODAL" | "NEWS";
 
 export const useMessages = defineStore("messages", () => {
   const state = reactive({
-    categories: [
+    categories: <
+      Array<{
+        title: string;
+        bg: string;
+        color: string;
+        active: boolean;
+        code: MessageCode;
+      }>
+    >[
       {
         title: "categories.marketModerator",
         bg: "tw-bg-primary tw-bg-opacity-10",
@@ -49,34 +55,44 @@ export const useMessages = defineStore("messages", () => {
         code: "NEWS",
       },
     ],
-    origins: ["RLC"] as Code[],
+    origins: ["RLC"] as MessageCode[],
     _messagesCache: <{ [key: number]: Message }>{},
-    messageQuery: new MessageQuery(0, 10, new MessageFilter([], "2019-01-01T00:00:00", null)),
-    activeMessage: <Message | null>(null)
-  })
+    messageQuery: new MessageQuery(
+      0,
+      10,
+      new MessageFilter([], "2019-01-01T00:00:00", null)
+    ),
+    activeMessage: <Message | null>null,
+  });
 
-  const message_active = computed({
-    get() { return state.activeMessage },
-    set(val: Message) { state.activeMessage = val }
-  })
+  const message_active = computed<Message | null>({
+    get() {
+      return state.activeMessage;
+    },
+    set(val) {
+      state.activeMessage = val;
+    },
+  });
 
   const axios = useAxios().createInstance();
 
   async function getMessage(id: number): Promise<Message> {
-    const msg = state._messagesCache[id]
+    const msg = state._messagesCache[id];
     if (msg)
-      return new Promise((resolve) => { resolve(msg) })
-    const { data } = await GetMessage(id, axios)
-    return data
+      return new Promise((resolve) => {
+        resolve(msg);
+      });
+    const { data } = await GetMessage(id, axios);
+    return data;
   }
 
   async function getMessages(
     searchModel: MessageQuery
   ): Promise<PaginatedResult<Message>> {
     //TODO Correct Message Cache
-    const { data } = await (await GetMessageList(searchModel, axios));
-    data.data.forEach( (el) => {
-      state._messagesCache[el.id] = el
+    const { data } = await await GetMessageList(searchModel, axios);
+    data.data.forEach((el) => {
+      state._messagesCache[el.id] = el;
     });
     return data;
   }
@@ -85,20 +101,17 @@ export const useMessages = defineStore("messages", () => {
   ): Promise<AxiosResponse<PaginatedResult<AutoCompleteItem>>> {
     return await GetMessageFilters(name, axios);
   }
-  function activeExactCategory(code: Code) {
+  function activeExactCategory(code: MessageCode) {
     state.categories.forEach((item) => {
       if (item.code === code) {
-        item.active = true
+        item.active = true;
       } else {
-        item.active = false
+        item.active = false;
       }
-    })
-    state.origins.splice(0, state.origins.length)
-    state.origins.push(code)
+    });
+    state.origins.splice(0, state.origins.length);
+    state.origins.push(code);
   }
-
-
-
 
   return {
     state,

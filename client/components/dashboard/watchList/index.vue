@@ -13,26 +13,26 @@ import {
   useUser,
   useNotifications,
 } from "@/composables";
-import {useShortcut} from "@/utils/shortcutManager";
-import {useI18n} from "vue-i18n";
+import { useShortcut } from "@/utils/shortcutManager";
+import { useI18n } from "vue-i18n";
 
 const props = withDefaults(
-    defineProps<{
-      searchModel: any;
-      paginated?: boolean;
-    }>(),
-    {
-      paginated: false,
-    }
+  defineProps<{
+    searchModel: any;
+    paginated?: boolean;
+  }>(),
+  {
+    paginated: false,
+  }
 );
 
 
 watch(
-    () => props.searchModel,
-    (update) => {
-      refresh();
-    },
-    {deep: true}
+  () => props.searchModel,
+  (update) => {
+    refresh();
+  },
+  { deep: true }
 );
 
 const emit = defineEmits(['update:searchModel']);
@@ -62,10 +62,10 @@ let instruments = computed(() => {
 async function refresh() {
   _instruments.splice(0, Infinity);
   _instruments.push(
-      ...(await instrumentManager.getInstrumentsDetail(props.searchModel, true))
+    ...(await instrumentManager.getInstrumentsDetail(props.searchModel, true))
   );
   await notificationManager.initNotifications(
-      props.searchModel.ids.map((id) => id.toString())
+    props.searchModel.ids.map((id) => id.toString())
   );
 }
 
@@ -75,8 +75,8 @@ const focused = instrumentManager.getFocus;
 const canFocus = computed(() => {
   if (!process.client) return false;
   return (
-      instrumentManager.getFocus.length <
-      Math.floor(instrumentManager.width / 360)
+    instrumentManager.getFocus.length <
+    Math.floor(instrumentManager.width / 360)
   );
 });
 const me = userManager.me;
@@ -88,22 +88,22 @@ const headers = computed(() => {
   actions.divider = false;
   res.push(actions);
   res.push(
-      ...((me.settings.columns ?? DefaultCols()).map((col: WatchListColumns) => {
-        if (col == null)
-          return {
-            text: "",
-            value: "",
-          };
-        return Object.assign({}, col, {
-          text: col.text == "" ? "" : i18n.t(col.text),
-        });
-      }) as WatchListColumns[])
+    ...((me.settings.columns ?? DefaultCols()).map((col: WatchListColumns) => {
+      if (col == null)
+        return {
+          text: "",
+          value: "",
+        };
+      return Object.assign({}, col, {
+        text: col.text == "" ? "" : i18n.t(col.text),
+      });
+    }) as WatchListColumns[])
   );
   const status = new WatchListColumns(
-      i18n.t("instrument.notifications"),
-      "notifications",
-      "center",
-      "123px"
+    i18n.t("instrument.notifications"),
+    "notifications",
+    "center",
+    "123px"
   );
   res.push(status);
   const more = new WatchListColumns("", "more");
@@ -168,10 +168,10 @@ function drag(item: InstrumentCache) {
 
 async function drop(item: InstrumentCache) {
   if (dragItem && dragItem != item) {
-    const wl = {...props.searchModel}
-    const ind = wl.ids.findIndex((i) => i == dragItem?.id.toString());
+    const wl = { ...props.searchModel }
+    const ind = wl.ids.findIndex((i: string) => i == dragItem?.id.toString());
     wl.ids.splice(ind, 1);
-    const target = wl.ids.findIndex((i) => i == item.id.toString());
+    const target = wl.ids.findIndex((i: string) => i == item.id.toString());
     wl.ids.splice(ind > target ? target : target + 1, 0, dragItem?.id.toString());
     await userManager.update_settings({
       path: "/watch_lists/" + name,
@@ -196,9 +196,9 @@ if (process.client) {
       if (item) {
         instrumentManager.activateTab(item);
         instrumentManager.updateInstrument(
-            Object.assign({}, item, {
-              side: Side.Buy,
-            })
+          Object.assign({}, item, {
+            side: Side.Buy,
+          })
         );
         instrumentManager.setFocusMode(0);
       }
@@ -211,10 +211,10 @@ if (process.client) {
       if (item) {
         instrumentManager.activateTab(item);
         instrumentManager.updateInstrument(
-            Object.assign({}, item, {
-              id: item.id,
-              side: Side.Sell,
-            })
+          Object.assign({}, item, {
+            id: item.id,
+            side: Side.Sell,
+          })
         );
         instrumentManager.setFocusMode(0);
       }
@@ -290,7 +290,7 @@ refresh();
 
 .dialog-delete {
   width: 40vw;
-  font-family: "Iran Sans X FaNum",sans-serif !important;
+  font-family: "Iran Sans X FaNum", sans-serif !important;
 
   .ada-button {
     @apply tw-text-white tw-w-16;
@@ -312,6 +312,7 @@ refresh();
 .activeRow {
   background-color: #E7EAF9;
   box-shadow: inset 0 0 1px 1px #AEBBED;
+
   &:hover {
     background-color: #E7EAF9;
     box-shadow: inset 0 0 1px 1px #AEBBED;
@@ -321,90 +322,53 @@ refresh();
 
 <template>
   <div class="pb-1">
-    <ada-data-table
-        :headers="headers"
-        :items="instruments"
-        item-key="id"
-        class="watchlist"
-        hide-default-header
-        hide-default-footer
-        disable-pagination
-        dense
-    >
+    <ada-data-table :headers="headers" :items="instruments" item-key="id" class="watchlist" hide-default-header
+      hide-default-footer disable-pagination dense>
       <template #header.more>
-        <dashboard-watch-list-header-selector/>
+        <dashboard-watch-list-header-selector />
       </template>
-      <ada-data-table-row-handler
-          draggable="true"
-          @dragstart="(ev) => drag(item)"
-          @dragover="
-          (ev) => {
-            ev.preventDefault();
-            if (ev.dataTransfer) {
-              ev.dataTransfer.dropEffect = 'move';
-            }
+      <ada-data-table-row-handler draggable="true" @dragstart="(ev) => drag(item)" @dragover="
+        (ev) => {
+          ev.preventDefault();
+          if (ev.dataTransfer) {
+            ev.dataTransfer.dropEffect = 'move';
           }
-        "
-          dropzone="true"
-          @drop="
-          (ev) => {
-            ev.preventDefault();
-            drop(item);
-          }
-        "
-          @click="() => select(item)"
-          class="inst"
-          v-for="item in instruments"
-          :key="item.id"
-          :model="{ headers, item }"
-          :class="{ activeRow: selected && selected.id == item.id }"
-      >
+        }
+      " dropzone="true" @drop="
+  (ev) => {
+    ev.preventDefault();
+    drop(item);
+  }
+" @click="() => select(item)" class="inst" v-for="item in instruments" :key="item.id" :model="{ headers, item }"
+        :class="{ activeRow: selected && selected.id == item.id }">
         <template #item.actions="{ item }">
           <div class="text-no-wrap">
-            <ada-icon
-                class="tw-m-0 tw-p-0 tw-mx-2"
-                :class="[canFocus ? 'tw-text-info' : '']"
-                @click.stop.prevent="() => focus(item)"
-                :disabled="!canFocus"
-                :size="16"
-            >
+            <ada-icon class="tw-m-0 tw-p-0 tw-mx-2" :class="[canFocus ? 'tw-text-info' : '']"
+              @click.stop.prevent="() => focus(item)" :disabled="!canFocus" :size="16">
               isax-eye
             </ada-icon>
-            <ada-icon
-                :class="[
-                'tw-m-0 tw-p-0',
-                (item.status & 3) != 3 ? null : 'tw-text-success',
-              ]"
-                @click.stop.prevent="() => order(item, Side.Buy)"
-                :disabled="(item.status & 3) != 3"
-                :size="16"
-            >
+            <ada-icon :class="[
+              'tw-m-0 tw-p-0',
+              (item.status & 3) != 3 ? null : 'tw-text-success',
+            ]" @click.stop.prevent="() => order(item, Side.Buy)" :disabled="(item.status & 3) != 3" :size="16">
               isax-bag-tick-2
             </ada-icon>
-            <ada-icon
-                :class="[
-                'tw-m-0 tw-p-0 tw-mx-2',
-                (item.status & 3) != 3 ? null : 'tw-text-error',
-              ]"
-                @click.stop="() => order(item, Side.Sell)"
-                :disabled="(item.status & 3) != 3"
-                :size="16"
-            >
+            <ada-icon :class="[
+              'tw-m-0 tw-p-0 tw-mx-2',
+              (item.status & 3) != 3 ? null : 'tw-text-error',
+            ]" @click.stop="() => order(item, Side.Sell)" :disabled="(item.status & 3) != 3" :size="16">
               isax-bag-cross-1
             </ada-icon>
           </div>
         </template>
         <template #item.name="{ item }">
-          <ada-badge
-              :class="[
-              (item.status & 1) != 1
-                ? 'error'
-                : (item.status & 6) != 6
+          <ada-badge :class="[
+            (item.status & 1) != 1
+              ? 'error'
+              : (item.status & 6) != 6
                 ? 'warning'
                 : 'success',
-            ]"
-              dot
-          >
+          ]" dot>
             <ada-tooltip position="right">
               <template #activator>
                 <span style="line-height: 2.5" class="tw-block">
@@ -416,31 +380,31 @@ refresh();
           </ada-badge>
         </template>
         <template #item.wealth="{ item }">
-          <numeric-field :value="item.wealth"/>
+          <numeric-field :value="item.wealth" />
         </template>
         <template #item.opening="{ item }">
-          <numeric-field :value="item.opening"/>
+          <numeric-field :value="item.opening" />
         </template>
         <template #item.closing="{ item }">
-          <numeric-field :value="item.closing"/>
+          <numeric-field :value="item.closing" />
         </template>
         <template #item.yesterdayPrice="{ item }">
-          <numeric-field :value="item.yesterdayPrice"/>
+          <numeric-field :value="item.yesterdayPrice" />
         </template>
         <template #item.lowest="{ item }">
-          <numeric-field class="tw-text-success" :value="item.lowest"/>
+          <numeric-field class="tw-text-success" :value="item.lowest" />
         </template>
         <template #item.highest="{ item }">
-          <numeric-field class="tw-text-error" :value="item.highest"/>
+          <numeric-field class="tw-text-error" :value="item.highest" />
         </template>
         <template #item.totalTrades="{ item }">
-          <numeric-field :value="item.totalTrades"/>
+          <numeric-field :value="item.totalTrades" />
         </template>
         <template #item.totalShares="{ item }">
-          <numeric-field class="tw-text-info" :value="item.totalShares"/>
+          <numeric-field class="tw-text-info" :value="item.totalShares" />
         </template>
         <template #item.totalTradesValue="{ item }">
-          <numeric-field :value="item.totalTradesValue"/>
+          <numeric-field :value="item.totalTradesValue" />
         </template>
         <template #item.status="{ item }">
           <span>
@@ -448,16 +412,12 @@ refresh();
           </span>
         </template>
         <template #item.more="{ item }">
-          <ada-icon
-              class="tw-text-error"
-              @click.self.stop.prevent="removeWatchList(item)"
-              :size="16"
-          >
+          <ada-icon class="tw-text-error" @click.self.stop.prevent="removeWatchList(item)" :size="16">
             isax-trash
           </ada-icon>
         </template>
         <template #item.notifications="{ item }">
-          <dashboard-watch-list-instrument-notifications :value="item"/>
+          <dashboard-watch-list-instrument-notifications :value="item" />
         </template>
       </ada-data-table-row-handler>
     </ada-data-table>
@@ -466,28 +426,20 @@ refresh();
         <h5 v-text="$t('general.alert')"></h5>
         <p v-text="$t('instrument.remove')"></p>
         <footer class="tw-flex tw-items-center tw-p-2">
-          <ada-btn
-              dark
-              :width="65"
-              @click.stop.prevent="
-              () => {
-                remove(itemToDelete);
-                confirmInstrumentRemoval = false;
-              }
-            "
-          >
+          <ada-btn dark :width="65" @click.stop.prevent="
+            () => {
+              remove(itemToDelete);
+              confirmInstrumentRemoval = false;
+            }
+          ">
             {{ $t("general.yes") }}
           </ada-btn>
-          <ada-btn
-              dark
-              :width="65"
-              @click.stop.prevent="
-              () => {
-                itemToDelete = null;
-                confirmInstrumentRemoval = false;
-              }
-            "
-          >
+          <ada-btn dark :width="65" @click.stop.prevent="
+            () => {
+              itemToDelete = null;
+              confirmInstrumentRemoval = false;
+            }
+          ">
             {{ $t("general.no") }}
           </ada-btn>
         </footer>

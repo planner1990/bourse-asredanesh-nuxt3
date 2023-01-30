@@ -6,12 +6,7 @@ const props = withDefaults(
     label?: string;
     type?: string;
     modelValue?: string | number;
-    min?: number | null;
-    max?: number | null;
-    minlength?: number | null;
-    maxlength?: number | null;
     readonly?: boolean,
-    maxWidth?: string,
     tabIndex?: string,
     placeholder?: string
   }>(),
@@ -86,8 +81,8 @@ const updateModelValue = (e: Event) => {
     <div class="scaffold">
       <slot name="prepend" :active="active"> </slot>
       <input :type="type" @focus="() => { active = true }" @blur="() => { active = false }" :value="modelValue"
-        :class="[ltr]" @input="updateModelValue" v-bind="{ min, max, minlength, maxlength, ...$attrs }"
-        :readonly="readonly" :tabindex="tabIndex" :placeholder="placeholder" />
+        :class="[ltr]" @input="updateModelValue" v-bind="{ ...$attrs }" :readonly="readonly" :tabindex="tabIndex"
+        :placeholder="placeholder" />
       <slot name="append" :active="active"></slot>
     </div>
 

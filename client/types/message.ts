@@ -47,6 +47,7 @@ export enum MessageOrigin {
   tedan = 4,
   codal = 5,
 }
+export type MessageCode = "RLC" | "SUPPORT" | "ADMIN" | "TEDAN" | "CODAL" | "NEWS";
 
 export interface Message {
   id: number;
@@ -54,7 +55,7 @@ export interface Message {
   title: string;
   preview: string;
   origin: number;
-  messageType: MessageOrigin;
+  type: MessageOrigin;
   flags: number;
   message: { [key: string]: any };
   seenDate: string | null;

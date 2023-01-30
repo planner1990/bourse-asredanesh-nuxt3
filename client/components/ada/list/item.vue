@@ -4,7 +4,7 @@ import {  MenuItem } from '@/types';
 const props = withDefaults(defineProps<{
     listTag?: 'menu' | 'ul' | 'ol' | 'dl',
     tag?: 'li' | 'dd';
-    value: MenuItem
+    value?: MenuItem
 }>(), {
     tag: 'li',
     listTag: 'ol'
