@@ -1,21 +1,22 @@
 <template>
   <span class="text-no-wrap value" dir="ltr">
     {{ formatter.format(value) }}
-    <slot />
+    <slot>
+    </slot>
   </span>
 </template>
 
-<script lang="ts">
-
-export default defineComponent({
-  props: { value: Number },
-  setup() {
-    const appManager = useAsrTrader();
-    const formatter = appManager.percentFormatter;
-    return {
-      formatter,
-    };
-  },
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    value?: number
+  }>(), {
+  value: 0
+})
+const appManager = useAsrTrader();
+const formatter = appManager.percentFormatter;
+defineExpose({
+  formatter,
 });
 </script>
 <style lang="postcss" scoped>

@@ -42,7 +42,6 @@ export const useUser = defineStore("user", () => {
   });
 
   const getBookmarks = computed(() => state.user?.settings?.bookmarks || []);
-  const getShortcuts = computed(() => state.user?.settings?.shortcuts || []);
   const getToken = computed(() => state.token);
   const getRefresh = computed(() => state.refresh);
   const me = computed(() => state.user ?? AnonymousUser());
@@ -336,7 +335,6 @@ export const useUser = defineStore("user", () => {
     // Getters
     refreshingToken,
     getBookmarks,
-    getShortcuts,
     getToken,
     getRefresh,
     me,

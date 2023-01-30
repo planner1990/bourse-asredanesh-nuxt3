@@ -1,35 +1,32 @@
 <script setup lang="ts">
-import {onMounted, reactive} from "vue";
-import router from "#app/plugins/router.mjs";
+import { VNode, Ref } from "vue";
 
 const props = withDefaults(
-    defineProps<{
-      label?: string;
-      modelValue: number | string;
-      min?: number | null;
-      max?: number | null;
-      minlength?: number | null;
-      maxlength?: number | null;
-      readonly?: boolean;
-      maxWidth?: string;
-      tabIndex?: string;
-      nameInput?: any;
-    }>(),
-    {
-      label: "",
-      min: null,
-      max: null,
-      minlength: null,
-      maxlength: null,
-      readonly: false,
-      tabIndex: "0",
-      nameInput: "",
-      height: "auto",
-    }
+  defineProps<{
+    label?: string;
+    modelValue: number | string;
+    min?: number | null;
+    max?: number | null;
+    minlength?: number | null;
+    maxlength?: number | null;
+    readonly?: boolean;
+    maxWidth?: string;
+    tabIndex?: string;
+    nameInput?: any;
+  }>(),
+  {
+    label: "",
+    min: null,
+    max: null,
+    minlength: null,
+    maxlength: null,
+    readonly: false,
+    tabIndex: "0",
+    nameInput: "",
+    height: "auto",
+  }
 );
-
 const emit = defineEmits(["update:modelValue"]);
-const route = useRoute();
 const active = ref(false);
 const join = (val: string): number => {
   if (val.includes(",")) {
@@ -40,7 +37,7 @@ const join = (val: string): number => {
 
 const reg = /^[a-zA-Z ]$/;
 
-const validateInput = (e) => {
+const validateInput = (e: KeyboardEvent) => {
   if (reg.test(e.key)) {
     e.preventDefault()
     e.stopPropagation();
@@ -73,16 +70,10 @@ onMounted(() => {
 watch(() => props.nameInput, () => {
   submitData();
 })
-// const routeChanged = route;
-// console.log(routeChanged);
-// watch(() => routeChanged, () => {
-//   console.log(routeChanged);
-// })
-const focus = ref(null);
-
+const focus: Ref<HTMLElement | null> = ref(null);
 function submitData() {
   if (props.nameInput === "focus") {
-    focus.value.focus();
+    focus.value?.focus();
   }
 }
 </script>
@@ -122,32 +113,20 @@ function submitData() {
 </style>
 
 <template>
-  <label
-      :class="[
-      'ada-input',
-      active ? 'active' : '',
-      label == '' ? '' : 'has-label',
-    ]"
-      tabindex="-1"
-  >
+  <label :class="[
+    'ada-input',
+    active ? 'active' : '',
+    label == '' ? '' : 'has-label',
+  ]" tabindex="-1">
     <div class="label">
       {{ label }}
     </div>
     <div class="scaffold">
       <slot name="prepend" :active="active"></slot>
-      <input
-          type="text"
-          @focus="active = true"
-          @blur="active = false"
-          :value="separateValue"
-          class="ltr"
-          @keypress="validateInput"
-          @input="(e)=> emit('update:modelValue',join((e.target as HTMLInputElement).value))"
-          v-bind="{ min, max, minlength, maxlength, nameInput, ...$attrs }"
-          :readonly="readonly"
-          :tabindex="tabIndex"
-          ref="focus"
-      />
+      <input type="text" @focus="active = true" @blur="active = false" :value="separateValue" class="ltr"
+        @keypress="validateInput" @input="(e) => emit('update:modelValue', join((e.target as HTMLInputElement).value))"
+        v-bind="{ min, max, minlength, maxlength, nameInput, ...$attrs }" :readonly="readonly" :tabindex="tabIndex"
+        ref="focus" />
       <slot name="append" :active="active"></slot>
     </div>
   </label>

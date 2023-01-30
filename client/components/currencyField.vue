@@ -18,6 +18,7 @@ defineExpose({
 <template>
   <span class="text-no-wrap value" dir="ltr">
     {{ formatter.format(value) }}
-    <slot />
+    <slot>
+    </slot>
   </span>
 </template>
