@@ -50,7 +50,6 @@ import avatar from "../../../../assets/images/Rectangle 493.png";
           <div class="tw-py-0 tw-text-xl tw-text-primary tw-font-semibold">حسین لطفی</div>
           <div class="tw-text-base tw-text-gray2 tw-font-normal">کد بورسی: لط ۱۲۳۵۳۰</div>
         </div>
-
       </div>
       <div>
         <div class="tw-text-gray3">مانده مشتری: <span class="tw-text-black tw-mr-9">۱۰۰.۰۰۰.۰۰۰ ریال</span></div>

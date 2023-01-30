@@ -44,29 +44,29 @@
           <ada-icon :size="20">mdi-account</ada-icon>
           نام و نام خانوادگی: <span> حسین لطفی</span></div>
         <div class="setting-account-information">
-          <ada-icon :size="20">mdi-barcode-scan</ada-icon>
+          <ada-icon :size="20" >isax-scan-bold</ada-icon>
           کدبورسی: <span> لطف ۳۴۵۶۷۸۹</span></div>
         <div class="setting-account-information">
-          <ada-icon :size="20">mdi-email</ada-icon>
+          <ada-icon :size="20">isax-sms-bold</ada-icon>
           ایمیل: <span> test-bours@gmail.com</span></div>
         <div class="setting-account-information">
-          <ada-icon :size="20">mdi-phone</ada-icon>
+          <ada-icon :size="20">isax-call-bold</ada-icon>
           تلفن همراه: <span>۰۹۱۲۰۶۶۵۵۴۵۸</span></div>
         <div class="setting-account-information">
-          <ada-icon :size="20">mdi-shield-account</ada-icon>
+          <ada-icon :size="20">isax-user-octagon-bold</ada-icon>
           نام کاربری: <span> ilotfi</span></div>
       </div>
       <div>
         <div class="tw-text-primary tw-text-base tw-font-bold"> پیامک:</div>
         <div class="tw-mb-7 tw-relative tw-text-base tw-font-normal tw-text-gray3">
-          <ada-icon :size="20">mdi-message-reply-text</ada-icon>
+          <ada-icon :size="20">isax-message-tick-bold</ada-icon>
           باتوجه به الزام واحد‌امنیت سازمان بورس و در راستای ارتقای امنیت خدمت‌رسانی به مشتریان و پیشگیری از عواقب
           سرقت اطلاعات ورود کاربر، امکان ورود به سامانه معاملات آنلاین از طریق رمز عبور یکبار مصرف (پویا) فراهم آمده
           است.
         </div>
         <div class="tw-text-primary tw-text-base tw-font-bold"> خدمات OTP:</div>
         <div class="tw-relative tw-text-base tw-font-normal tw-text-gray3">
-          <ada-icon :size="20">mdi-shield-check</ada-icon>
+          <ada-icon :size="20">isax-shield-tick-bold</ada-icon>
           باتوجه به الزام واحد‌امنیت سازمان بورس و در راستای ارتقای امنیت خدمت‌رسانی به مشتریان و پیشگیری از عواقب
           سرقت اطلاعات ورود کاربر، امکان ورود به سامانه معاملات آنلاین از طریق رمز عبور یکبار مصرف (پویا) فراهم آمده
           است.
