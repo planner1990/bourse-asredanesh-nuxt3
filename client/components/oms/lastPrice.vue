@@ -29,8 +29,9 @@ defineExpose({
 
 <template>
     <span class="tw-whitespace-nowrap value"
-        :class="[value.lastPrice < value.closing ? 'down' : value.lastPrice > value.closing ? 'up' : '']" dir="ltr">
-        ({{ formatter.format(value.lastPrice) }})
-        <slot />
+        :class="[value.last < value.closing ? 'down' : value.last > value.closing ? 'up' : '']" dir="ltr">
+        ({{ formatter.format(value.last) }})
+        <slot>
+        </slot>
     </span>
 </template>
