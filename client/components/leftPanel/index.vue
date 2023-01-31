@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Ref } from "vue";
 import {
   PaginatedResult,
   Message,
@@ -92,15 +91,6 @@ watch(categories, () => {
   loadMessages();
 });
 
-//////////////////
-
-// function loadMyMessages() {
-//   load(myMessageQuery).then((res) => {
-//     myMessages.splice(0, Infinity);
-//     myMessages.push(...res);
-//   });
-// }
-
 function loadMessages() {
   load(messageQuery).then((res) => {
     messages.splice(0, Infinity);
@@ -130,6 +120,7 @@ async function trigger_show_message(message: Message) {
       match: /^\/watchlist\/.+\/messages\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
       children: [
         {
+          id:`msg.${mes.id}`,
           title: bottomPanel.getTitle(mes.origin),
           secondTitle: mes.title,
           deletable: false,
@@ -137,7 +128,7 @@ async function trigger_show_message(message: Message) {
         },
       ],
       path: `messages/${mes.id}`,
-      const: false,
+      show: false,
       deletable: true
     };
     seenMessage(mes)

@@ -11,6 +11,7 @@ const menu: Ref<TabItem | null> = ref(null)
 const active: Ref<TabItem | null> = ref(null)
 
 const tabs = computed(() => bottomPanel.tabs);
+const visibleTabs = computed(() => bottomPanel.tabs.filter((x) => x.show));
 const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
 
 function close() {
@@ -24,7 +25,13 @@ function expand() {
 }
 
 const expanded = computed(() => bottomPanel.expanded)
-
+watch(menu, (newVal, oldVal) => {
+  if (newVal != null && newVal.deletable) {
+    bottomPanel.showTab(newVal?.id)
+    if (oldVal != null && oldVal.deletable)
+      bottomPanel.removeTab(oldVal.id)
+  }
+})
 </script>
 
 <style lang="postcss" scoped>
@@ -157,7 +164,6 @@ const expanded = computed(() => bottomPanel.expanded)
     <div class="detail" v-if="menu">
       <div class="contents">
         <slot></slot>
-
       </div>
       <header class="header">
         <ada-toggle v-model="active" class="b-tabs">
@@ -178,19 +184,18 @@ const expanded = computed(() => bottomPanel.expanded)
         </ada-btn>
       </header>
     </div>
-
     <ada-toggle class="b-tabs" v-model="menu">
       <ada-btn class="tab-title" v-for="(t, i) in tabs" :key="t.title"
-        :to="`/watchlist/${$route.params.name}/${t.path}`" v-show="t.const" :model="t" :match="t.match">
+        :to="`/watchlist/${$route.params.name}/${t.path}`" v-show="t.show" :model="t" :match="t.match">
         <span :class="{ 'active': menu != null && menu.title === t.title }">
           {{ $t(t.title) }}
           <span
             v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>
         </span>
-        <div v-if="i !== tabs.length - 1" class="bar"></div>
+        <div v-if="i < visibleTabs.length - 1" class="bar"></div>
         <ada-btn v-if="t.deletable"
           class="tw-absolute tw-items-center tw-leading-[12px] tw-top-2 tw-left-2 tw-h-[18px] tw-w-[18px] tw-bg-error"
-          @click.stop.prevent="bottomPanel.removeTab(t.id)">
+          @click.stop.prevent="() => { bottomPanel.removeTab(t.id); router.push(`/watchlist/${route.params.name}`); }">
           <ada-icon class="tw-font-bold tw-text-white">
             mdi-close
           </ada-icon>

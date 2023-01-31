@@ -4,22 +4,17 @@ import defaultTabs from "@/components/bottom-panel/tabs";
 import { getMenuItems } from "@/components/rightPanel/items";
 
 export const useBottomPanel = defineStore("bottom-panel", () => {
-  const router = useRouter();
-  const route = useRoute();
-
   const state = ref({
     _expanded: false,
     _tabs: <{ [key: string]: TabItem }>{},
     _loading: false,
     showFinancialInfo: true,
     leftPanelMini: false,
-    current: <TabItem | null>null,
   });
 
   registerTabs();
 
   const tabs = computed(() => Object.values(state.value._tabs));
-  const current = computed(() => state.value.current);
   const LeftPanelMini = computed({
     get: () => state.value.leftPanelMini,
     set(val) {
@@ -30,7 +25,7 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
   const loading = computed(() => state.value._loading);
 
   function registerTab(tab: TabItem) {
-    state.value._tabs[tab.id ?? ""] = tab;
+    state.value._tabs[tab.id] = tab;
   }
 
   function toggleExpand() {
@@ -41,10 +36,15 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     state.value._loading = payload;
   }
 
+  function showTab(id: string | number): void {
+    if (state.value._tabs[id]) {
+      state.value._tabs[id].show = true;
+    }
+  }
+
   function removeTab(id: string | number): void {
     if (state.value._tabs[id]) {
-      state.value._tabs[id].const = false;
-      router.push(`/watchlist/${route.params.name}`);
+      state.value._tabs[id].show = false;
     }
   }
 
@@ -73,7 +73,7 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
       ],
       path: "messages/1",
       deletable: true,
-      const: false,
+      show: false,
     };
 
     registerTab(tabMessage as TabItem);
@@ -97,11 +97,11 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     setLoading,
     toggleExpand,
     removeTab,
+    showTab,
     getTitle,
     tabs,
     expanded,
     loading,
     LeftPanelMini,
-    current,
   };
 });

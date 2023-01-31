@@ -13,7 +13,7 @@ export class MenuItem {
   match?: RegExp;
   children?: Array<MenuItem>;
   bookmarkPosition?: BookmarkPosition | null = null;
-  click?: Function; 
+  click?: Function;
   constructor(icon: string, title: string) {
     this.icon = icon;
     this.title = title;
@@ -47,7 +47,7 @@ export interface TabItem {
   match?: RegExp;
   children?: Array<TabItem>;
   deletable: boolean;
-  const?: boolean
+  show?: boolean;
 }
 
 export enum DeepOptions {

@@ -35,7 +35,7 @@ export function getMenuItems(): Array<TabItem> {
         },
       ],
       path: "portfolio/realtime",
-      const: false,
+      show: false,
       deletable: true,
     },
     {
@@ -86,7 +86,7 @@ export function getMenuItems(): Array<TabItem> {
         },
       ],
       path: "accounting/deposit",
-      const: false,
+      show: false,
       deletable: true,
     },
     {
@@ -125,7 +125,7 @@ export function getMenuItems(): Array<TabItem> {
         },
       ],
       path: "trades/report",
-      const: false,
+      show: false,
       deletable: true,
     },
     {
@@ -134,7 +134,7 @@ export function getMenuItems(): Array<TabItem> {
       title: "menu.alerts",
       path: "alerts",
       match: /^\/watchlist\/.+\/alerts\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [],
     },
@@ -144,7 +144,7 @@ export function getMenuItems(): Array<TabItem> {
       title: "menu.drafts",
       path: "drafts",
       match: /^\/watchlist\/.+\/drafts\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [],
     },
@@ -155,7 +155,7 @@ export function getMenuItems(): Array<TabItem> {
       path: "conditional-trade",
       match:
         /^\/watchlist\/.+\/conditional-trade\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [],
     },
@@ -166,7 +166,7 @@ export function getMenuItems(): Array<TabItem> {
       path: "filters",
       match:
         /^\/watchlist\/.+\/filters\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [],
     },
@@ -177,7 +177,7 @@ export function getMenuItems(): Array<TabItem> {
       path: "technical",
       match:
         /^\/watchlist\/.+\/technical\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [],
     },
@@ -187,7 +187,7 @@ export function getMenuItems(): Array<TabItem> {
       title: "menu.profit",
       path: "profit",
       match: /^\/watchlist\/.+\/profit\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [],
     },
@@ -198,7 +198,7 @@ export function getMenuItems(): Array<TabItem> {
       path: "market-map",
       match:
         /^\/watchlist\/.+\/market-map\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [],
     },
@@ -207,7 +207,7 @@ export function getMenuItems(): Array<TabItem> {
       icon: "isax-setting-2",
       title: "menu.settings.index",
       match: /^\/watchlist\/.+\/settings$/g,
-      const: false,
+      show: false,
       deletable: true,
       children: [
         {

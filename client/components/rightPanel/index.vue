@@ -22,10 +22,8 @@ const emit = defineEmits([
   "update:clipped",
 ]);
 
-/////////////
 const appManager = useAsrTrader();
 const bottomPanel = useBottomPanel();
-//////////////////
 
 const selected = computed({
   get() {
@@ -113,10 +111,9 @@ const items = getMenuItems();
 </style>
 
 <template>
-  <ada-nav min-width="48px" max-width="256px" :mini="mini" class="r-panel" mobile-breakpoint="960"
-    fixed>
+  <ada-nav min-width="48px" max-width="256px" :mini="mini" class="r-panel" mobile-breakpoint="960" fixed>
     <div class="tabs">
-      <ada-toggle v-model="bottomPanel.current" class="tw-flex-wrap">
+      <ada-toggle class="tw-flex-wrap">
         <ada-tooltip v-for="item in items" :key="item.title" position="left">
           <template #activator>
             <ada-btn :to="`/watchlist/${$route.params.name}/${item.path}`" :match="item.match" :model="item">
