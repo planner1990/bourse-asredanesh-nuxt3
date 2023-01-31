@@ -214,7 +214,13 @@
     "position": "سمت",
     "nationalId": "کدملی",
     "compulsory": "موظف/غیر موظف",
-    "degreeOfEducation": "مدرک تحصیلی"
+    "degreeOfEducation": "مدرک تحصیلی",
+    "row": "ردیف",
+    "title": "عنوان",
+    "zone": "حوزه",
+    "dateOfAgreement": "تاریخ تایید توافق‌نامه",
+    "expirationOfAgreement": "تاریخ انقضاء توافق‌نامه",
+    "situationOfAgreement": "وضعیت توافق‌نامه"
   },
   "watchList": {
     "title": "دیدبان",
