@@ -15,11 +15,11 @@ const panels: Array<TabItem> = [
       },
       {
         id: "orders.today",
-        path: `orders?offset=0&length=20&flags=${OrderFlags.Draft}`,
+        path: `orders?offset=0&length=20`,
         title: "bottom-panel.orders.today",
         deletable: false,
         match:
-          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)*([\/]{1})?)$/g,
+          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+))[&]?)+([\/]{1})?)$/g,
       },
       {
         id: "orders.actives",
@@ -32,7 +32,7 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.orders.actives",
         deletable: false,
         match:
-          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=54))[&]?)*([\/]{1})?)$/g,
+          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=54))[&]?)+([\/]{1})?)$/g,
       },
       {
         id: "orders.drafts",
@@ -40,7 +40,7 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.orders.drafts",
         deletable: false,
         match:
-          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)*([\/]{1})?)$/g,
+          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=1))[&]?)+([\/]{1})?)$/g,
       },
       {
         id: "orders.canceled",
@@ -48,7 +48,7 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.orders.canceled",
         deletable: false,
         match:
-          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=8))[&]?)*([\/]{1})?)$/g,
+          /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=8))[&]?)+([\/]{1})?)$/g,
       },
     ],
     match: /^\/watchlist\/.+\/orders([?](.+[=].+[&]?)+)?([\/]{1})?$/g,

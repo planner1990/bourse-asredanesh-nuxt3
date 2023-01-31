@@ -36,7 +36,7 @@ onMounted(() => {
 });
 
 watch(
-  () => route.path,
+  () => route.fullPath,
   (newVal) => {
     setActive(newVal as string)
   }
