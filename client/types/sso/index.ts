@@ -107,7 +107,6 @@ export function AnonymousUser(): User {
       watch_lists: {},
       home: "/",
       bookmarks: [],
-      shortcuts: [],
     }
   );
 }

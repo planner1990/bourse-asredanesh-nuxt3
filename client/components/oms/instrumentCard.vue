@@ -8,7 +8,7 @@ const props = withDefaults(
   defineProps<{
     responsive?: boolean;
     compact?: boolean;
-    insId?: number;
+    insId: number;
     insName?: string,
     hideHeaders?: boolean;
   }>(),
@@ -71,19 +71,22 @@ instrumentManager
 <style lang="postcss" scoped>
 .instrument {
   @apply tw-grid tw-grid-cols-2;
-  > header {
+
+  >header {
     @apply tw-flex tw-justify-center tw-col-span-2;
     background-color: #e0e0e0;
     line-height: var(--row-height);
     height: var(--row-height);
     font-weight: bold;
   }
-  > div {
+
+  >div {
     @apply tw-flex tw-justify-between tw-px-4;
     position: relative;
     line-height: var(--row-height);
     height: var(--row-height);
   }
+
   .col-border {
     border-bottom: 1px solid #e0e0e0;
   }
@@ -93,26 +96,18 @@ instrumentManager
 <template>
   <div class="instrument">
     <header v-show="!hideHeaders">
-      {{ $t("instrument.detail") }} ({{insName}})
+      {{ $t("instrument.detail") }} ({{ insName }})
     </header>
-    <div
-      v-for="(field, index) in fields"
-      :key="field.name"
-      :class="{
-        'copy-cursor': !!field.click,
-        'col-border': true,
-      }"
-      @click="
-        () => {
-          if (field.click) field.click(instrument[field.name]);
-        }
-      "
-    >
+    <div v-for="(field, index) in fields" :key="field.name" :class="{
+      'copy-cursor': !!field.click,
+      'col-border': true,
+    }" @click="
+  () => {
+    if (field.click) field.click(instrument[field.name]);
+  }
+">
       <span>{{ $t(field.i18n) }}</span>
-      <date-time
-        v-if="field.type == fieldType.dateTime"
-        :value="instrument[field.name]"
-      ></date-time>
+      <date-time v-if="field.type == fieldType.dateTime" :value="instrument[field.name]"></date-time>
       <span v-else-if="field.type == fieldType.text">{{ instrument[field.name] }}</span>
       <numeric-field v-else :value="instrument[field.name]"> </numeric-field>
       <div v-if="index % 2 == 0" class="bar d-none d-md-block"></div>

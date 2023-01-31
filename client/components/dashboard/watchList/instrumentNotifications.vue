@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InstrumentCache, MessageOrigin } from "@/types";
+import { InstrumentCache, MessageOrigin, MessageCode } from "@/types";
 import {
   useNotifications,
   useBottomPanel,
@@ -23,7 +23,7 @@ const notifs = computed(
 );
 
 function openMsg(n: number) {
-  let code = null;
+  let code: MessageCode = 'RLC';
   switch (n) {
     case 1: {
       code = "RLC";
@@ -75,7 +75,8 @@ const calculateType = (n: MessageOrigin): string => {
     return "categories.tedan";
   } else if (n == MessageOrigin.codal) {
     return "categories.codal";
-  }
+  } else
+    return ""
 };
 </script>
 
@@ -88,18 +89,11 @@ div {
   <div v-if="notifs && notifs.length > 0">
     <ada-tooltip v-for="(not, i) in notifs" :key="i" position="above">
       <template #activator>
-        <ada-icon
-          @click.stop.prevent="openMsg(not.params.origin)"
-          :class="[`tw-text-${calculateColor(not.params.origin)}`, 'tw-mx-1']"
-          :size="16"
-        >
+        <ada-icon @click.stop.prevent="openMsg(not.params.origin)"
+          :class="[`tw-text-${calculateColor(not.params.origin)}`, 'tw-mx-1']" :size="16">
           <span v-if="not.params.origin == MessageOrigin.rlc">lotfi-sms</span>
-          <span v-else-if="not.params.origin == MessageOrigin.support"
-            >isax-note-favorite-outline</span
-          >
-          <span v-else-if="not.params.origin == MessageOrigin.tedan"
-            >isax-messages-3-outline</span
-          >
+          <span v-else-if="not.params.origin == MessageOrigin.support">isax-note-favorite-outline</span>
+          <span v-else-if="not.params.origin == MessageOrigin.tedan">isax-messages-3-outline</span>
           <span v-else>isax-document-text-outline</span>
         </ada-icon>
       </template>

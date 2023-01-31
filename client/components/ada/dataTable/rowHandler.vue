@@ -31,8 +31,8 @@ const props = defineProps<{
 <template>
   <tr v-bind="$attrs" class="row-border">
     <td v-for="header in model.headers" :key="header.value" scope="col"
-        :class="['tw-text-' + header.align, header.class]">
-      <slot :item="model.item" :name="'item.' + header.value">
+      :class="['tw-text-' + header.align, header.class]">
+      <slot :rowItem="model.item" :name="`item.${header.value}`">
         {{ model.item[header.value] }}
       </slot>
     </td>

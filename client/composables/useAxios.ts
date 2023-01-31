@@ -16,7 +16,6 @@ export const useAxios = defineStore("axios", () => {
     if (instance != null) return instance;
     instance = axios.create({});
     instance.interceptors.request.use((config) => {
-      Sentry.captureMessage("Start Req")
       Object.assign(config, {
         withCredentials: true,
         baseURL: appconfig.public.VUE_APP_Host,
@@ -47,7 +46,6 @@ export const useAxios = defineStore("axios", () => {
       async (err) => {
         let error = ErrorExtractor(err);
         Sentry.captureException(err);
-        Sentry.captureMessage("What??!!");
         if (error.code === 401) {
           //TODO Handel refresh token
           try {

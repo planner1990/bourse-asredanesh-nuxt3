@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, StyleValue, ComputedRef } from "vue";
 const props = withDefaults(
   defineProps<{
     position?: "above" | "left" | "right" | "under";
@@ -9,37 +9,35 @@ const props = withDefaults(
   }
 );
 
-const tooltip = ref(null);
-const tooltipContent = ref(null);
+const tooltip: Ref<HTMLElement | null> = ref(null);
+const tooltipContent: Ref<HTMLElement | null> = ref(null);
 const visible = ref(false);
 
-const style = computed(() => {
-  return doStyling();
-});
-
-const doStyling = () => {
-  const properties = tooltip.value?.getBoundingClientRect();
-  const pContent = tooltipContent.value?.getBoundingClientRect();
-  const top = properties?.top;
-  const left = properties?.left;
-  const right = properties?.right;
-  const bottom = properties?.bottom;
-  let res = {};
+const properties = computed(() => tooltip.value?.getBoundingClientRect());
+const pContent = computed(() => tooltipContent.value?.getBoundingClientRect());
+const style: ComputedRef<StyleValue> = computed(() => {
   if (props.position === "left") {
-    res["top"] = `${top}px`;
-    res["left"] = `${left - pContent?.width - 5}px`;
+    return {
+      top: `${properties.value?.top ?? 0}px`,
+      left: `${(properties.value?.left ?? 0) - (pContent.value?.width ?? 0) - 5}px`
+    };
   } else if (props.position === "right") {
-    res["top"] = `${top}px`;
-    res["left"] = `${right + 5}px`;
+    return {
+      top: `${properties.value?.top ?? 0}px`,
+      left: `${(properties.value?.right ?? 0) + 5}px`
+    }
   } else if (props.position === "under") {
-    res["top"] = `${bottom + 5}px`;
-    res["left"] = `${left - pContent?.width / 2 + properties?.width / 2}px`;
+    return {
+      top: `${(properties.value?.bottom ?? 0) + 5}px`,
+      left: `${(properties.value?.left ?? 0) - (pContent.value?.width ?? 1) / 2 + (properties.value?.width ?? 1) / 2}px`
+    }
   } else {
-    res["top"] = `${top - pContent?.height - 5}px`;
-    res["left"] = `${left - pContent?.width / 2 + properties?.width / 2}px`;
+    return {
+      top: `${(properties.value?.top ?? 0) - (pContent.value?.height ?? 0) - 5}px`,
+      left: `${(properties.value?.left ?? 0) - (pContent.value?.width ?? 1) / 2 + (properties.value?.width ?? 1) / 2}px`
+    }
   }
-  return res;
-};
+});
 </script>
 <style lang="postcss" scoped>
 .ada-tooltip-container {
@@ -58,22 +56,13 @@ const doStyling = () => {
 }
 </style>
 <template>
-  <div
-    ref="tooltip"
-    class="ada-tooltip-container"
-    @mouseenter="visible = true"
-    @mouseleave="visible = false"
-  >
+  <div ref="tooltip" class="ada-tooltip-container" @mouseenter="visible = true" @mouseleave="visible = false">
     <slot name="activator"></slot>
     <Teleport to="body">
       <Transition name="slide-fade">
-        <span
-          v-if="visible"
-          ref="tooltipContent"
-          :style="style"
-          class="ada-tooltip"
-        >
-          <slot />
+        <span v-if="visible" ref="tooltipContent" :style="style" class="ada-tooltip">
+          <slot>
+          </slot>
         </span>
       </Transition>
     </Teleport>

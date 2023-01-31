@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Ref, StyleValue, ComputedRef } from "vue";
 import { useAsrTrader } from "~/composables";
 
 const props = withDefaults(defineProps<{
@@ -20,16 +21,14 @@ const appManager = useAsrTrader();
 const rtl = computed(() => appManager.rtl);
 const locale = computed(() => appManager.locale);
 
-const menu = ref(null)
-const menuContent = ref(null)
-//TODO reactive style
-const style = computed(() => {
-  const properties = menu.value.getBoundingClientRect()
-  menuContent.value?.getBoundingClientRect();
+const menu: Ref<HTMLElement | null> = ref(null)
+const menuContent: Ref<HTMLElement | null> = ref(null)
+const properties = computed(() => menu.value?.getBoundingClientRect())
+const style: ComputedRef<StyleValue> = computed(() => {
   return {
-    width: `${properties?.width + props.mWidth}px`,
-    left: `${properties?.left + props.mLeft}px`,
-    top: `${properties?.top + props.mTop}px`
+    width: `${(properties.value?.width ?? 0) + props.mWidth}px`,
+    left: `${(properties.value?.left ?? 0) + props.mLeft}px`,
+    top: `${(properties.value?.top ?? 0) + props.mTop}px`
   }
 })
 

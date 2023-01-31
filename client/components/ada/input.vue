@@ -6,12 +6,7 @@ const props = withDefaults(
     label?: string;
     type?: string;
     modelValue?: string | number;
-    min?: number | null;
-    max?: number | null;
-    minlength?: number | null;
-    maxlength?: number | null;
     readonly?: boolean,
-    maxWidth?: string,
     tabIndex?: string,
     placeholder?: string
   }>(),
@@ -35,9 +30,9 @@ const emit = defineEmits(["update:modelValue"]);
 
 const ltr = computed<string>(() => (props.type == "number" ? "ltr" : ""));
 const active = ref(false)
-const updateModelValue = (e)=> {
+const updateModelValue = (e: Event) => {
   let res = null
-  props.type === "number" ? res = parseInt(e.target.value) : res = e.target.value
+  props.type === "number" ? res = parseInt((e.target as any)?.value ?? '0') : res = (e.target as any)?.value ?? 0
   emit('update:modelValue', res)
 }
 
@@ -64,7 +59,7 @@ const updateModelValue = (e)=> {
   .scaffold {
     @apply tw-flex tw-justify-between tw-align-middle tw-cursor-text tw-bg-primary/10 tw-overflow-clip;
     @apply tw-border tw-border-black/50 tw-rounded;
-    
+
     input {
       @apply tw-rounded tw-min-w-0 tw-inline tw-flex-grow tw-min-h-0 tw-px-2;
       background: none;
@@ -85,10 +80,9 @@ const updateModelValue = (e)=> {
     </div>
     <div class="scaffold">
       <slot name="prepend" :active="active"> </slot>
-      <input :type="type" @focus="() => { active = true }" @blur="() => { active = false }"
-        :value="modelValue" :class="[ltr]"
-        @input="updateModelValue"
-        v-bind="{ min, max, minlength, maxlength, ...$attrs }" :readonly="readonly" :tabindex="tabIndex" :placeholder="placeholder" />
+      <input :type="type" @focus="() => { active = true }" @blur="() => { active = false }" :value="modelValue"
+        :class="[ltr]" @input="updateModelValue" v-bind="{ ...$attrs }" :readonly="readonly" :tabindex="tabIndex"
+        :placeholder="placeholder" />
       <slot name="append" :active="active"></slot>
     </div>
 

@@ -1,20 +1,14 @@
-import {defineStore} from "pinia";
-import {Ref, ref} from "vue";
+import { defineStore } from "pinia";
 
 export const useLoading = defineStore("loading", () => {
-    let state = ref<boolean>(false);
+  let state = ref<boolean>(false);
+  const loading = computed(() => state);
+  function showLoading(loading: boolean) {
+    state.value = loading;
+  }
 
-
-    const loading = computed(() => state)
-
-
-    function showLoading(loading: boolean) {
-        state.value = loading;
-    }
-
-    return {
-        useLoading,
-        loading,
-        showLoading
-    };
+  return {
+    loading,
+    showLoading,
+  };
 });

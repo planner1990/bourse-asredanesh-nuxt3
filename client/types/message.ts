@@ -47,6 +47,7 @@ export enum MessageOrigin {
   tedan = 4,
   codal = 5,
 }
+export type MessageCode = "RLC" | "SUPPORT" | "ADMIN" | "TEDAN" | "CODAL" | "NEWS";
 
 export interface Message {
   id: number;
@@ -54,11 +55,11 @@ export interface Message {
   title: string;
   preview: string;
   origin: number;
-  messageType: MessageOrigin;
+  type: MessageOrigin;
   flags: number;
   message: { [key: string]: any };
   seenDate: string | null;
-  path?: string
+  path?: string;
 }
 
 export interface MessageSourceResult {
@@ -67,35 +68,42 @@ export interface MessageSourceResult {
   messagesCount: number;
 }
 
-export interface MessageTemplate { }
+export interface MessageTemplate {}
 
 export interface MessageTemplate_1 extends MessageTemplate {
   body: String;
 }
 
 export interface MessageChatType {
-  id: number
-  body: string
-  self?: boolean
-  date: string
-  time: string
-  file?: File | null
+  id: number;
+  body: string;
+  self?: boolean;
+  date: string;
+  time: string;
+  file?: File | null;
 }
 
 export class MessageChat implements MessageChatType {
-  readonly id: number
-  readonly body: string
-  readonly self: boolean
-  readonly date: string
-  readonly time: string
-  readonly file: File | null
+  readonly id: number;
+  readonly body: string;
+  readonly self: boolean;
+  readonly date: string;
+  readonly time: string;
+  readonly file: File | null;
 
-  constructor(id: number, body: string, date: string, time: string = '11:50', file: File = null, self: boolean = true) {
-    this.id = id
-    this.body = body
-    this.date = date
-    this.time = time
-    this.file = file
-    this.self = self
+  constructor(
+    id: number,
+    body: string,
+    date: string,
+    time: string = "11:50",
+    file: File | null = null,
+    self: boolean = true
+  ) {
+    this.id = id;
+    this.body = body;
+    this.date = date;
+    this.time = time;
+    this.file = file;
+    this.self = self;
   }
 }

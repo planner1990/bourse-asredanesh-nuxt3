@@ -4,7 +4,7 @@ import {  MenuItem } from '@/types';
 const props = withDefaults(defineProps<{
     listTag?: 'menu' | 'ul' | 'ol' | 'dl',
     tag?: 'li' | 'dd';
-    value: MenuItem
+    value?: MenuItem
 }>(), {
     tag: 'li',
     listTag: 'ol'
@@ -110,7 +110,7 @@ function toggleGroup() {
             </component>
         </slot>
         <ada-list :tag="listTag" v-if="value?.children">
-            <ada-list-item v-for="child in value.children.value" :key="child.title" :value="child">
+            <ada-list-item v-for="child in value.children" :key="child.title" :value="child">
                 <template #item>
                     <slot name="item" :value="child"></slot>
                 </template>

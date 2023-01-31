@@ -43,7 +43,7 @@ defineExpose({
       class="file"
       color="transparent"
       v-model="pic"
-      @change="(a) => $emit('input', pic)"
+      @change="() => $emit('input', pic)"
       hide-details
       dense
     >

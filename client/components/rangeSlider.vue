@@ -40,8 +40,9 @@ watch(
   }
 );
 
-const setValue = (e)=> {
-  emit('update:modelValue', e.target.value)
+const setValue = (e: Event) => {
+  //TODO why e.target dose not have value prop?
+  emit('update:modelValue', (e.target as any)?.value)
 }
 </script>
 
@@ -50,6 +51,7 @@ const setValue = (e)=> {
   @apply tw-flex tw-relative;
   min-width: 47%;
   margin-right: 3%;
+
   .tooltip {
     border-radius: var(--border-radius-root);
     transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -62,16 +64,18 @@ const setValue = (e)=> {
     padding: 0 3px 0 3px;
     line-height: 24px;
     text-align: center;
-    white-space: nowrap; 
+    white-space: nowrap;
     color: white;
     @apply tw-bg-primary;
   }
+
   &:hover,
   .update {
     .tooltip {
       opacity: 1 !important;
     }
   }
+
   .range {
     @apply tw-flex tw-flex-grow tw-bg-primary tw-bg-opacity-10 tw-rounded;
     appearance: none;
@@ -86,6 +90,7 @@ const setValue = (e)=> {
       border-radius: 50%;
       @apply tw-bg-primary;
     }
+
     &::-moz-range-thumb {
       appearance: none;
       width: 16px;
@@ -95,6 +100,7 @@ const setValue = (e)=> {
       @apply tw-bg-primary;
     }
   }
+
   .process {
     position: absolute;
     height: 6px;
@@ -108,22 +114,10 @@ const setValue = (e)=> {
 
 <template>
   <div class="range-container">
-    <div
-      class="tooltip"
-      :style="{ left: tooltipPos + '%', opacity: dataChanged ? 1 : 0 }"
-    >
+    <div class="tooltip" :style="{ left: tooltipPos + '%', opacity: dataChanged ? 1 : 0 }">
       {{ fromatter.format(val / 100) }}
     </div>
-    <input
-      class="range"
-      :dir="dir"
-      type="range"
-      :value="val"
-      :min="min"
-      :max="max"
-      @input="setValue"
-      v-bind="$attrs"
-    />
+    <input class="range" :dir="dir" type="range" :value="val" :min="min" :max="max" @input="setValue" v-bind="$attrs" />
     <div class="process" :style="{ width: process + '%' }"></div>
   </div>
 </template>

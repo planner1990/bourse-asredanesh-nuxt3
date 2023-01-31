@@ -16,7 +16,7 @@ const props = withDefaults(
 const path = useAsrTrader().locale.split("-")[0] + props.path;
 const contents = await queryContent(path).find();
 
-const toggleContent = ref<string>(contents[0]._path);
+const toggleContent = ref<string>(contents[0]._path ?? "");
 
 const carousel = (): void => {
   setInterval(triggerCarousel, props.timeInterval);
@@ -46,27 +46,22 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+
+</style>
 
 <template>
   <div id="content-slider">
     <slot name="prepend"></slot>
     <div>
       <ada-tabs v-model="toggleContent">
-        <ada-tab
-          v-for="content in contents"
-          :key="content._path"
-          :model="content._path"
-        >
+        <ada-tab v-for="content in contents" :key="content._path" :model="content._path">
           <ContentDoc :path="content._path" class="doc" />
         </ada-tab>
       </ada-tabs>
       <ada-toggle v-model="toggleContent">
         <ada-btn v-for="content in contents" :model="content._path">
-          <div
-            :class="{ active: toggleContent === content._path }"
-            class="item"
-          ></div>
+          <div :class="{ active: toggleContent === content._path }" class="item"></div>
         </ada-btn>
       </ada-toggle>
     </div>
