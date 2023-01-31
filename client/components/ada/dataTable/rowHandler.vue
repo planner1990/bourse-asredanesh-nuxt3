@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { PropType } from "vue";
 import { WatchListColumns } from "~~/types";
 
 const props = defineProps<{
   model: {
     headers: WatchListColumns[];
-    item: PropType<unknown>;
+    item: any;
   };
 }>();
 </script>
@@ -33,7 +32,7 @@ const props = defineProps<{
   <tr v-bind="$attrs" class="row-border">
     <td v-for="header in model.headers" :key="header.value" scope="col"
       :class="['tw-text-' + header.align, header.class]">
-      <slot :item="model.item" :name="'item.' + header.value">
+      <slot :rowItem="model.item" :name="`item.${header.value}`">
         {{ model.item[header.value] }}
       </slot>
     </td>

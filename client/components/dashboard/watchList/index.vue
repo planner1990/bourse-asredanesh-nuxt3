@@ -345,7 +345,7 @@ refresh();
   }
 " @click="() => select(item)" class="inst" v-for="item in instruments" :key="item.id" :model="{ headers, item }"
         :class="{ activeRow: selected && selected.id == item.id }">
-        <template #item.actions="{ item }">
+        <template #item.actions>
           <div class="text-no-wrap">
             <ada-icon class="tw-m-0 tw-p-0 tw-mx-2" :class="[canFocus ? 'tw-text-info' : '']"
               @click.stop.prevent="() => focus(item)" :disabled="!canFocus" :size="16">
@@ -365,7 +365,7 @@ refresh();
             </ada-icon>
           </div>
         </template>
-        <template #item.name="{ item }">
+        <template #item.name>
           <ada-badge :class="[
             (item.status & 1) != 1
               ? 'error'
@@ -383,44 +383,44 @@ refresh();
             </ada-tooltip>
           </ada-badge>
         </template>
-        <template #item.wealth="{ item }">
-          <numeric-field :value="item.wealth" />
+        <template #item.wealth>
+          <numeric-field :value="item.amount" />
         </template>
-        <template #item.opening="{ item }">
+        <template #item.opening>
           <numeric-field :value="item.opening" />
         </template>
-        <template #item.closing="{ item }">
+        <template #item.closing>
           <numeric-field :value="item.closing" />
         </template>
-        <template #item.yesterdayPrice="{ item }">
+        <template #item.yesterdayPrice>
           <numeric-field :value="item.yesterdayPrice" />
         </template>
-        <template #item.lowest="{ item }">
+        <template #item.lowest>
           <numeric-field class="tw-text-success" :value="item.lowest" />
         </template>
-        <template #item.highest="{ item }">
+        <template #item.highest>
           <numeric-field class="tw-text-error" :value="item.highest" />
         </template>
-        <template #item.totalTrades="{ item }">
+        <template #item.totalTrades>
           <numeric-field :value="item.totalTrades" />
         </template>
-        <template #item.totalShares="{ item }">
+        <template #item.totalShares>
           <numeric-field class="tw-text-info" :value="item.totalShares" />
         </template>
-        <template #item.totalTradesValue="{ item }">
+        <template #item.totalTradesValue>
           <numeric-field :value="item.totalTradesValue" />
         </template>
-        <template #item.status="{ item }">
+        <template #item.status>
           <span>
             {{ $t("instrument.state." + item.status) }}
           </span>
         </template>
-        <template #item.more="{ item }">
+        <template #item.more>
           <ada-icon class="tw-text-error" @click.self.stop.prevent="removeWatchList(item)" :size="16">
             isax-trash
           </ada-icon>
         </template>
-        <template #item.notifications="{ item }">
+        <template #item.notifications>
           <dashboard-watch-list-instrument-notifications :value="item" />
         </template>
       </ada-data-table-row-handler>
