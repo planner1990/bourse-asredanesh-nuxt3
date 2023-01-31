@@ -151,16 +151,14 @@ function openExpansionPanel(item: any) {
         <td>{{ cell.expirationOfAgreement }}</td>
         <td>{{ cell.situationOfAgreement }}</td>
         <td>
-          <ada-icon
-               class="tw-m-0 tw-p-0 tw-mx-2"
-               :size="18"
-               @click="openExpansionPanel(cell)"
-           >
-             mdi-{{ expansionPanelFlag === true && currentId === cell.row ? 'chevron-up' : 'chevron-down' }}
-           </ada-icon>
+          <ada-icon class="tw-m-0 tw-p-0 tw-mx-2" :size="18" @click="openExpansionPanel(cell)">
+            mdi-{{ expansionPanelFlag === true && currentId === cell.row ? 'chevron-up' : 'chevron-down' }}
+          </ada-icon>
         </td>
       </tr>
-      <tr>grg r </tr>
+      <tr v-for="cell in directorateList">
+        <td>{{ cell.row }}</td>
+      </tr>
     </table>
   </div>
 
