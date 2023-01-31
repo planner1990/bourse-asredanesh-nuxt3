@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WatchListColumns } from "~~/types";
+import {WatchListColumns} from "~~/types";
 
 const props = defineProps<{
   model: {
