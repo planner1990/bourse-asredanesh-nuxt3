@@ -135,34 +135,59 @@ function openExpansionPanel(item: any) {
   border-color: #E0E0E0;
 }
 
+
 </style>
 <template>
   <div class="tw-mx-2">
-    <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
-                    class="tw-w-full tw-h-full tw-overflow-y-auto">
-      <!--      <template #item.totalTrades="{ item }">-->
-      <!--        <NumericField :value="item.totalTrades"/>-->
-      <!--      </template>-->
-      <!--      <template #item.totalShares="{ item }">-->
-      <!--        <NumericField :value="item.totalShares"/>-->
-      <!--      </template>-->
-      <!--      <template #item.totalTradeValue="{ item }">-->
-      <!--        <NumericField :value="item.totalTradeValue"/>-->
-      <!--      </template>-->
-      <!--      <template #item.dateTime="{ item }">-->
-      <!--        <DateTime :value="item.dateTime" :format="$t('general.date.d')" class="ltr"/>-->
-      <!--      </template>-->
-      <template #item.actions="{ item }">
-        <div class="text-no-wrap">
+    <table>
+      <tr>
+        <td v-for="header in defaultCols">{{ header.text }}</td>
+      </tr>
+      <tr v-for="cell in directorateList">
+        <td>{{ cell.row }}</td>
+        <td>{{ cell.title }}</td>
+        <td>{{ cell.zone }}</td>
+        <td>{{ cell.dateOfAgreement }}</td>
+        <td>{{ cell.expirationOfAgreement }}</td>
+        <td>{{ cell.situationOfAgreement }}</td>
+        <td>
           <ada-icon
-              class="tw-m-0 tw-p-0 tw-mx-2"
-              :size="18"
-              @click="openExpansionPanel(item)"
-          >
-            mdi-{{ expansionPanelFlag === true && currentId === item.row ? 'chevron-up' : 'chevron-down' }}
-          </ada-icon>
-        </div>
-      </template>
-    </ada-data-table>
+               class="tw-m-0 tw-p-0 tw-mx-2"
+               :size="18"
+               @click="openExpansionPanel(cell)"
+           >
+             mdi-{{ expansionPanelFlag === true && currentId === cell.row ? 'chevron-up' : 'chevron-down' }}
+           </ada-icon>
+        </td>
+      </tr>
+      <tr>grg r </tr>
+    </table>
   </div>
+
+  <!--    <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"-->
+  <!--                    class="tw-w-full tw-h-full tw-overflow-y-auto">-->
+  <!--      &lt;!&ndash;      <template #item.totalTrades="{ item }">&ndash;&gt;-->
+  <!--      &lt;!&ndash;        <NumericField :value="item.totalTrades"/>&ndash;&gt;-->
+  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
+  <!--      &lt;!&ndash;      <template #item.totalShares="{ item }">&ndash;&gt;-->
+  <!--      &lt;!&ndash;        <NumericField :value="item.totalShares"/>&ndash;&gt;-->
+  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
+  <!--      &lt;!&ndash;      <template #item.totalTradeValue="{ item }">&ndash;&gt;-->
+  <!--      &lt;!&ndash;        <NumericField :value="item.totalTradeValue"/>&ndash;&gt;-->
+  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
+  <!--      &lt;!&ndash;      <template #item.dateTime="{ item }">&ndash;&gt;-->
+  <!--      &lt;!&ndash;        <DateTime :value="item.dateTime" :format="$t('general.date.d')" class="ltr"/>&ndash;&gt;-->
+  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
+  <!--      <template #item.actions="{ item }">-->
+  <!--        <div class="text-no-wrap">-->
+  <!--          <ada-icon-->
+  <!--              class="tw-m-0 tw-p-0 tw-mx-2"-->
+  <!--              :size="18"-->
+  <!--              @click="openExpansionPanel(item)"-->
+  <!--          >-->
+  <!--            mdi-{{ expansionPanelFlag === true && currentId === item.row ? 'chevron-up' : 'chevron-down' }}-->
+  <!--          </ada-icon>-->
+  <!--        </div>-->
+  <!--      </template>-->
+  <!--    </ada-data-table>-->
 </template>
