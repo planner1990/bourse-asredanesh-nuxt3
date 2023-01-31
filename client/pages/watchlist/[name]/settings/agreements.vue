@@ -14,7 +14,7 @@ const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
 const expansionPanelFlag = ref<boolean>(false);
 const currentId = ref(null);
-
+let opened = reactive<Array<any>>([]);
 const props = withDefaults(
     defineProps<{
       modelValue?: TradesHistorySerachModel
@@ -87,15 +87,15 @@ async function getTradeHistories() {
 
 getTradeHistories();
 
-function openExpansionPanel(item: any) {
-  console.log(item.row)
-  if (item && item.row === currentId.value) {
-    expansionPanelFlag.value = !expansionPanelFlag.value;
-  } else {
-    expansionPanelFlag.value = true;
-    currentId.value = item.row
-  }
-}
+// function openExpansionPanel(item: any) {
+//   console.log(item.row)
+//   if (item && item.row === currentId.value) {
+//     expansionPanelFlag.value = !expansionPanelFlag.value;
+//   } else {
+//     expansionPanelFlag.value = true;
+//     currentId.value = item.row
+//   }
+// }
 
 // function openSubMenu(item: TabItem) {
 //   if (item && item.id === currentId.value) {
@@ -105,62 +105,87 @@ function openExpansionPanel(item: any) {
 //     currentId.value = item.id
 //   }
 // }
+
+function toggle(id: any) {
+  const index = opened.indexOf(id);
+  if (index > -1) {
+    opened.splice(index, 1)
+  } else {
+    opened.push(id)
+  }
+}
 </script>
 <style lang="postcss" scoped>
-.header-directorate {
-  @apply tw-h-8 tw-my-2 tw-bg-gray6 tw-py-2 tw-pb-7 tw-rounded-t-lg tw-pr-3 tw-text-sm tw-text-primary tw-font-semibold;
-}
 
-.detail-directorate {
-  @apply tw-flex tw-h-11 tw-items-center tw-mb-2;
-
-  .title-directorate {
-    @apply tw-text-sm tw-text-primary tw-font-semibold tw-ml-1.5;
+.agreements-header {
+  td {
+    @apply tw-text-sm tw-font-semibold tw-text-[#757575];
+    background: linear-gradient(white, white) padding-box,
+    linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 224, 224, 1) 51%, rgba(255, 255, 255, 1) 100%) border-box;
+    border-left: 1px solid transparent;
   }
 
-  div:first-child {
-    @apply tw-mr-5;
-  }
-
-  div:nth-child(2) {
-    @apply tw-mx-28;
+  td:nth-child(6) {
+    border-left: none;
   }
 }
 
-:deep(.headers[data-v-8d846923]) {
-  @apply tw-bg-[#FBFBFB] tw-text-gray3 tw-font-medium;
+.agreements-cells {
+  td {
+    @apply tw-h-9 tw-text-sm tw-text-gray2 tw-font-medium  ;
+  }
 }
 
-:deep(.bar) {
-  border-color: #E0E0E0;
+.agreements-expansion {
+  td {
+    @apply tw-text-justify tw-px-12 tw-pt-3 tw-pb-9 tw-text-sm tw-text-gray2;
+  }
 }
-
-
 </style>
 <template>
-  <div class="tw-mx-2">
-    <table>
-      <tr>
-        <td v-for="header in defaultCols">{{ header.text }}</td>
+
+  <div class="tw-w-full  tw-p-4 tw-mt-2">
+    <table class="tw-w-full tw-bg-[#FBFBFB] tw-text-center">
+      <tr class="agreements-header">
+        <td v-for="header in defaultCols" class="tw-p-2">{{ header.text }}</td>
       </tr>
-      <tr v-for="cell in directorateList">
-        <td>{{ cell.row }}</td>
-        <td>{{ cell.title }}</td>
-        <td>{{ cell.zone }}</td>
-        <td>{{ cell.dateOfAgreement }}</td>
-        <td>{{ cell.expirationOfAgreement }}</td>
-        <td>{{ cell.situationOfAgreement }}</td>
-        <td>
-          <ada-icon class="tw-m-0 tw-p-0 tw-mx-2" :size="18" @click="openExpansionPanel(cell)">
-            mdi-{{ expansionPanelFlag === true && currentId === cell.row ? 'chevron-up' : 'chevron-down' }}
-          </ada-icon>
-        </td>
-      </tr>
-      <tr v-for="cell in directorateList">
-        <td>{{ cell.row }}</td>
-      </tr>
+      <template v-for="cell in directorateList">
+        <tr :class="{ opened: opened.includes(cell.row) }" class="agreements-cells">
+          <td>{{ cell.row }}</td>
+          <td>{{ cell.title }}</td>
+          <td>{{ cell.zone }}</td>
+          <td>{{ cell.dateOfAgreement }}</td>
+          <td>{{ cell.expirationOfAgreement }}</td>
+          <td>{{ cell.situationOfAgreement }}</td>
+          <td>
+            <ada-icon
+                class="tw-m-0 tw-p-0 tw-mx-2"
+                :size="18"
+                @click="toggle(cell.row)"
+            >
+              mdi-{{ opened.includes(cell.row) ? 'chevron-up' : 'chevron-down' }}
+            </ada-icon>
+          </td>
+        </tr>
+        <tr v-if="opened.includes(cell.row)" class="agreements-expansion">
+          <td colspan="6">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده
+            شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص
+            طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در
+            ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات
+            پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+
+            <div class="tw-flex tw-justify-between tw-mt-5">
+              <div>متن بالا را خواندم و با آن موافقم!</div>
+              <div>تایید می کنم.</div>
+            </div>
+          </td>
+        </tr>
+      </template>
     </table>
   </div>
+
 
   <!--    <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"-->
   <!--                    class="tw-w-full tw-h-full tw-overflow-y-auto">-->
