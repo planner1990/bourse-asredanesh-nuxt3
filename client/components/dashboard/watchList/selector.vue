@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { useUser } from "~/composables";
-import { Bookmark, CreateBookmark, TabItem } from "~/types";
+import { TabItem } from "~/types";
 
 const props = withDefaults(
   defineProps<{
@@ -87,17 +87,15 @@ async function setBookmark(item: any) {
       icon: "isax-graph",
       title: item.id,
       to: item.to
-      // to: lastPathParams ? item.to + "/" + lastPathParams : item.to
     };
-    const tmp = [...bookmarks.value, tempBookmark];
+    bookmarks.value.push(tempBookmark);
     await userManager.update_settings({
       path: "/bookmarks",
-      value: tmp
+      value: bookmarks.value
     });
   } else {
     bookmarks.value.splice(bookmarks.value.findIndex((i) => i.title === item.id), 1)
   }
-  // if (item.id == route.params.name) router.push("/bookmarks/" + item.bookmarks);
   refresh();
 }
 
