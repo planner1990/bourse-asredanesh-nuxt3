@@ -24,18 +24,11 @@ const viewMode = computed({
   },
 });
 
-async function setHome() {
-  await userManager.update_settings({
-    path: "/home",
-    value: path.value,
-  });
-}
-
 async function unmark(bookmark: Bookmark) {
-  const tmp = [...bookmarks.value.filter((item) => item.to != bookmark.to)];
+  bookmarks.value.splice(bookmarks.value.findIndex((item) => item.to != bookmark.to), 1);
   userManager.update_settings({
     path: "/bookmarks",
-    value: tmp,
+    value: bookmarks.value,
   });
 }
 
