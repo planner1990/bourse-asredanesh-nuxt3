@@ -85,7 +85,7 @@ async function setBookmark(item: any) {
   if (bookmarks.value.findIndex((i) => i.title === item.id) == -1) {
     const tempBookmark: any = {
       icon: "isax-graph",
-      title: item.id,
+      text: item.id,
       to: item.to
     };
     bookmarks.value.push(tempBookmark);
