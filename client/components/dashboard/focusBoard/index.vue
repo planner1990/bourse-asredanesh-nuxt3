@@ -78,8 +78,6 @@ watch(
   padding: 0 8px 0 8px;
   position: relative;
   align-items: center;
-  /* background-color: var(--c-default-bg-rbg); */
-
 }
 
 .bookmark {

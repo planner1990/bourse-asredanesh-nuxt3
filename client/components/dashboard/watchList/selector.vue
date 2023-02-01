@@ -94,7 +94,7 @@ async function setBookmark(item: any) {
       value: bookmarks.value
     });
   } else {
-    bookmarks.value.splice(bookmarks.value.findIndex((i) => i.title === item.id), 1)
+    bookmarks.value.splice(bookmarks.value.findIndex((i) => i.text === item.id), 1)
   }
   refresh();
 }
