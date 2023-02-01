@@ -15,17 +15,14 @@ const props = withDefaults(
 const route = useRoute();
 const router = useRouter();
 const userManager = useUser();
-const selected: Ref<any> = ref(null);
+const selected = computed(() => watchList.value.find((item) => item.id == route.params.name) ?? watchList.value[0]);
 const isOpen: Ref<any> = ref(false);
 const currentId: Ref<any> = ref();
 const newName = ref("");
-const watchList: any[] = reactive([]);
-const wls = computed(() => userManager.watchList);
-
-function refresh() {
-  watchList.splice(0, watchList.length);
-  Object.keys(wls.value).forEach((k) => {
-    watchList.push({
+const watchList = computed<Array<any>>(() => {
+  var tmp: Array<any> = reactive([]);
+  Object.keys(userManager.watchList).forEach((k) => {
+    tmp.push({
       onEdit: false,
       newName: k,
       text: k,
@@ -33,8 +30,8 @@ function refresh() {
       to: "/watchList/" + decodeURIComponent(k),
     });
   });
-  selected.value = watchList.find((item) => item.id == route.params.name) ?? watchList[0];
-}
+  return tmp;
+})
 
 async function create() {
   if (!newName.value || newName.value == "") return;
@@ -43,29 +40,26 @@ async function create() {
     value: [],
   });
   newName.value = "";
-  refresh();
 }
 
 async function remove(name: string) {
+  delete userManager.watchList[name]
   await userManager.delete_settings({
     path: "/watch_lists/" + name,
   });
-  if (name == route.params.name) router.push(watchList[0].to);
-  refresh();
+  if (name == route.params.name) router.push(watchList.value[0].to);
 }
 
 async function rename(item: any) {
-  const tmp: any = {};
-  Object.keys(wls.value).forEach((i) => {
-    if (i == item.id) tmp[item.newName] = wls.value[item.id];
-    else tmp[i] = wls.value[i];
+  Object.keys(userManager.watchList).forEach((i) => {
+    userManager.watchList[item.newName] = userManager.watchList[item.id];
+    delete userManager.watchList[item.id]
   });
   await userManager.update_settings({
     path: "/watch_lists",
-    value: tmp,
+    value: userManager.watchList,
   });
   if (item.id == route.params.name) router.push("/watchList/" + item.newName);
-  refresh();
 }
 
 function select(val: any) {
@@ -75,8 +69,6 @@ function select(val: any) {
     router.push(fullPath[3] ? val.to + "/" + fullPath[3] : val.to);
   }
 }
-
-refresh();
 
 watch(selected, select);
 
@@ -88,14 +80,13 @@ async function setBookmark(item: any) {
       to: item.to
     };
     userManager.getBookmarks.push(tempBookmark);
-    await userManager.update_settings({
-      path: "/bookmarks",
-      value: userManager.getBookmarks
-    });
   } else {
     userManager.getBookmarks.splice(userManager.getBookmarks.findIndex((i) => i.text == item.id), 1)
   }
-  refresh();
+  await userManager.update_settings({
+    path: "/bookmarks",
+    value: userManager.getBookmarks
+  });
 }
 
 function openSubMenu(item: TabItem) {
