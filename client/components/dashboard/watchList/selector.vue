@@ -35,6 +35,7 @@ const watchList = computed<Array<any>>(() => {
 
 async function create() {
   if (!newName.value || newName.value == "") return;
+  userManager.watchList[newName.value] = [];
   await userManager.update_settings({
     path: "/watch_lists/" + newName.value,
     value: [],
