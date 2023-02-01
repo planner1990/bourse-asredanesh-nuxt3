@@ -11,9 +11,6 @@ const toolbar = ref<HTMLElement | null>(null);
 const router = useRouter();
 const currentPath = ref("");
 
-const bookmarks = computed(() => userManager.getBookmarks);
-const path = computed(() => route.fullPath);
-
 const instruments = computed(() => instrumentManager.getFocus);
 const viewMode = computed({
   get() {
@@ -25,10 +22,10 @@ const viewMode = computed({
 });
 
 async function unmark(bookmark: Bookmark) {
-  bookmarks.value.splice(bookmarks.value.findIndex((item) => item.to != bookmark.to), 1);
+  userManager.getBookmarks.splice(userManager.getBookmarks.findIndex((item) => item.to == bookmark.to), 1);
   userManager.update_settings({
     path: "/bookmarks",
-    value: bookmarks.value,
+    value: userManager.getBookmarks,
   });
 }
 
@@ -198,14 +195,15 @@ watch(
   <div class="tw-m-0 tw-p-0">
     <header ref="toolbar" class="toolbar">
       <slot name="toolbar"></slot>
-      <span v-if="bookmarks.length > 0" class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2">
+      <span v-if="userManager.getBookmarks.length > 0"
+        class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2">
       </span>
-      <ada-btn v-for="b in bookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)" class="bookmark"
-        :class="[b.title == currentPath ? 'active' : '']">
+      <ada-btn v-for="b in userManager.getBookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)"
+        class="bookmark" :class="[b.title == currentPath ? 'active' : '']">
         <span v-text="b.text != null ? b.text : $t(b.title)" class="text-overflow">
         </span>
         <ada-icon :size="14" class="tw-w-8 tw-h-full"
-          :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']" @click.stop.prevent="unmark(b)">
+          :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']" @click.stop.prevent="() => unmark(b)">
           mdi-close
         </ada-icon>
       </ada-btn>
