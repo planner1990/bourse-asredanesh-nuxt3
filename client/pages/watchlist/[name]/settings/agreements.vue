@@ -141,6 +141,89 @@ function toggle(id: any) {
     @apply tw-text-justify tw-px-12 tw-pt-3 tw-pb-9 tw-text-sm tw-text-gray2;
   }
 }
+
+
+.checkbox input[type="checkbox"] {
+  width: auto;
+  opacity: 0.00000001;
+  position: absolute;
+  left: 0;
+  margin-left: -20px;
+}
+
+.checkbox label {
+  position: relative;
+}
+
+.checkbox label:before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: -6px;
+  margin: 0 4px;
+  width: 13px;
+  height: 13px;
+  transition: transform 0.28s ease;
+  border-radius: 3px;
+  border: 1px solid rgb(53, 84, 209);
+}
+
+.checkbox label:after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 5px;
+  border-bottom: 2px solid rgb(53, 84, 209);
+  border-left: 2px solid rgb(53, 84, 209);
+  -webkit-transform: rotate(-45deg) scale(0);
+  transform: rotate(-45deg) scale(0);
+  transition: transform ease 0.25s;
+  will-change: transform;
+  position: absolute;
+  top: -3px;
+  left: -4px;
+}
+
+.checkbox input[type="checkbox"]:checked ~ label::before {
+  color: #7bbe72;
+}
+
+.checkbox input[type="checkbox"]:checked ~ label::after {
+  -webkit-transform: rotate(-45deg) scale(1);
+  transform: rotate(-45deg) scale(1);
+}
+
+.checkbox input[type="checkbox"]:focus + label::before {
+  outline: 0;
+}
+
+.agreements-button {
+  width: 98px;
+  height: 28px;
+  background-color: rgba(0, 189, 121, 0.15);
+  color: rgb(0, 189, 121);
+
+  &_icon {
+    margin-top: 1px;
+    margin-left: 6px;
+    color: rgb(0, 189, 121);
+  }
+}
+
+.disagreement-button {
+  width: 98px;
+  height: 28px;
+  background-color: rgba(239, 57, 78, 0.15);
+  color: rgb(255, 59, 48);
+  margin-right: 12px;
+
+  &_icon {
+    margin-top: 1px;
+    margin-left: 6px;
+    color: rgba(239, 57, 78, 1)
+  }
+}
+
 </style>
 <template>
 
@@ -177,8 +260,28 @@ function toggle(id: any) {
             پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
 
             <div class="tw-flex tw-justify-between tw-mt-5">
-              <div>متن بالا را خواندم و با آن موافقم!</div>
-              <div>تایید می کنم.</div>
+              <div class="tw-flex tw-text-primary tw-items-center">
+                <div class="checkbox">
+                  <input type="checkbox" id="checkbox2" name="" value="">
+                  <label for="checkbox2"><span></span></label>
+                </div>
+                <div class="tw-mr-3 tw-font-semibold"><span v-text="$t('general.agreementsText')"></span></div>
+              </div>
+              <div>
+                <ada-btn class="agreements-button">
+                  <ada-icon class="agreements-button_icon" :size="13">
+                    isax-tick-circle
+                  </ada-icon>
+                  <span v-text="$t('general.ConfirmAgree')"></span>
+                </ada-btn>
+                <ada-btn
+                    class="disagreement-button">
+                  <ada-icon :size="13" class="disagreement-button_icon">
+                    isax-close-circle
+                  </ada-icon>
+                  <span v-text="$t('general.notAgree')"></span>
+                </ada-btn>
+              </div>
             </div>
           </td>
         </tr>

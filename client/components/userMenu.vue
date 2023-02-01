@@ -57,7 +57,7 @@ const showConfirmation = (): void => {
 
 function goToProfile() {
   const route = useRoute();
-  router.push(`/watchlist/${route.params.name}/settings/userInformation`);
+  router.push(`/watchlist/${route.params.name}/settings`);
 }
 
 function downloadSettings() {
