@@ -160,7 +160,7 @@ function openSubMenu(item: TabItem) {
             <div>
               <ada-icon :size="18" class="tw-text-primary" @click.stop="setBookmark(item)">
                 {{
-                  bookmarks.findIndex((itm) => itm.title === item.text) != -1 ? "mdi-bookmark" : "mdi-bookmark-outline"
+                  bookmarks.findIndex((itm) => itm.text === item.text) != -1 ? "mdi-bookmark" : "mdi-bookmark-outline"
                 }}
               </ada-icon>
               <ada-icon :size="18" class="tw-text-primary" @click.stop="openSubMenu(item)"
