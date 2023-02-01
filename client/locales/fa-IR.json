@@ -82,7 +82,10 @@
     "verify": "تایید",
     "chat": "گفتوگو",
     "supporter": "پشتیبان",
-    "messagePlaceholder": "پیام خودرا وارد کنید"
+    "messagePlaceholder": "پیام خودرا وارد کنید",
+    "agreementsText":"متن بالا را خواندم و با آن موافقم!",
+    "notAgree":"موافق نیستم",
+    "ConfirmAgree":"تایید می‌کنم"
   },
   "user": {
     "personality": {

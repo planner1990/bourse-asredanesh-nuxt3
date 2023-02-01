@@ -41,7 +41,7 @@
     <div class="setting">
       <div>
         <div class="setting-account-information">
-          <ada-icon :size="20">mdi-account</ada-icon>
+          <ada-icon :size="20">isax-frame-bold</ada-icon>
           نام و نام خانوادگی: <span> حسین لطفی</span></div>
         <div class="setting-account-information">
           <ada-icon :size="20" >isax-scan-bold</ada-icon>
