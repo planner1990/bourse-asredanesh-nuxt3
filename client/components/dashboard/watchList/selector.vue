@@ -21,7 +21,6 @@ const currentId: Ref<any> = ref();
 const newName = ref("");
 const watchList: any[] = reactive([]);
 const wls = computed(() => userManager.watchList);
-const bookmarks = computed(() => userManager.getBookmarks);
 
 function refresh() {
   watchList.splice(0, watchList.length);
@@ -82,19 +81,19 @@ refresh();
 watch(selected, select);
 
 async function setBookmark(item: any) {
-  if (bookmarks.value.findIndex((i) => i.title === item.id) == -1) {
+  if (userManager.getBookmarks.findIndex((i) => i.text === item.id) == -1) {
     const tempBookmark: any = {
       icon: "isax-graph",
       text: item.id,
       to: item.to
     };
-    bookmarks.value.push(tempBookmark);
+    userManager.getBookmarks.push(tempBookmark);
     await userManager.update_settings({
       path: "/bookmarks",
-      value: bookmarks.value
+      value: userManager.getBookmarks
     });
   } else {
-    bookmarks.value.splice(bookmarks.value.findIndex((i) => i.text === item.id), 1)
+    userManager.getBookmarks.splice(userManager.getBookmarks.findIndex((i) => i.text == item.id), 1)
   }
   refresh();
 }
@@ -160,7 +159,8 @@ function openSubMenu(item: TabItem) {
             <div>
               <ada-icon :size="18" class="tw-text-primary" @click.stop="setBookmark(item)">
                 {{
-                  bookmarks.findIndex((itm) => itm.text === item.text) != -1 ? "mdi-bookmark" : "mdi-bookmark-outline"
+                  userManager.getBookmarks.findIndex((itm) => itm.text === item.text) != -1 ? "mdi-bookmark" :
+                    "mdi-bookmark-outline"
                 }}
               </ada-icon>
               <ada-icon :size="18" class="tw-text-primary" @click.stop="openSubMenu(item)"
