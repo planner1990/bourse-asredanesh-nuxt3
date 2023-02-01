@@ -200,7 +200,7 @@ function openSubMenu(item: TabItem) {
           <ada-input class="tw-text-primary watchlist-selector-input" v-model="newName" @keyup.enter="create"
             placeholder="نام دلخواه">
           </ada-input>
-          <ada-btn @click.stop="create" class="tw-bg-primary tw-w-[32px]">
+          <ada-btn @click.stop="create" class="tw-bg-primary tw-min-w-[32px]">
             <ada-icon :size="16" class="tw-text-white"> mdi-plus</ada-icon>
           </ada-btn>
         </ada-list-item>
