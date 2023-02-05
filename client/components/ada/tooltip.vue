@@ -59,12 +59,10 @@ const style: ComputedRef<StyleValue> = computed(() => {
   <div ref="tooltip" class="ada-tooltip-container" @mouseenter="visible = true" @mouseleave="visible = false">
     <slot name="activator"></slot>
     <Teleport to="body">
-      <Transition name="slide-fade">
-        <span v-if="visible" ref="tooltipContent" :style="style" class="ada-tooltip">
-          <slot>
-          </slot>
-        </span>
-      </Transition>
+      <span v-if="visible" ref="tooltipContent" :style="style" class="ada-tooltip">
+        <slot>
+        </slot>
+      </span>
     </Teleport>
   </div>
 </template>

@@ -3,6 +3,8 @@ import { useShortcut } from "@/utils/shortcutManager";
 import { Bookmark } from "~/types";
 import { useInstrument, useUser } from "~/composables";
 
+
+
 const instrumentManager = useInstrument();
 const userManager = useUser();
 const sh = useShortcut();
@@ -28,7 +30,6 @@ async function unmark(bookmark: Bookmark) {
     value: userManager.getBookmarks,
   });
 }
-
 if (process.client) {
   sh.addShortcut({
     key: "alt+q",
@@ -201,7 +202,8 @@ watch(
         <span v-text="b.text != null ? b.text : $t(b.title)" class="text-overflow">
         </span>
         <ada-icon :size="14" class="tw-w-8 tw-h-full"
-          :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']" @click.stop.prevent="() => unmark(b)">
+          :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']"
+          @click.stop.prevent="() => unmark(b)">
           mdi-close
         </ada-icon>
       </ada-btn>

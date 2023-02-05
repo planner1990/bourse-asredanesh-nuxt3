@@ -72,7 +72,5 @@ getOrders(
 );
 </script>
 <template>
-  <Transition name="page">
-    <list v-if="orders.items.length" :orders="orders.items"></list>
-  </Transition>
+  <list v-if="orders.items.length" :orders="orders.items"></list>
 </template>

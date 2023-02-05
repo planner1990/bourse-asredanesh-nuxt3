@@ -5,7 +5,6 @@ import { InstrumentSearchModel } from "~/types";
 
 definePageMeta({
   layout: "private-default",
-  pageTransition: { name: 'page' }
 });
 
 const route = useRoute();
