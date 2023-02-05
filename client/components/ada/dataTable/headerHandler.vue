@@ -1,30 +1,24 @@
 <script setup lang="ts">
-import { WatchListColumns, DefaultCols } from "@/types";
-import { useUser } from "~/composables";
+import { WatchListColumns } from "@/types";
 
 const props = defineProps<{
   headers: Array<WatchListColumns>;
 }>();
+const emit = defineEmits(["headersChanged"])
 
-const userManager = useUser();
-const me = userManager.me;
 let draggingCol: WatchListColumns | null = null;
 function drag(item: WatchListColumns) {
   draggingCol = item;
 }
 async function drop(item: WatchListColumns) {
   if (draggingCol && draggingCol.draggable && draggingCol != item) {
-    const hrs = [...(me.settings.columns ?? DefaultCols())];
+    const hrs = [...props.headers]
     const ind = hrs.findIndex((i) => i.value == draggingCol?.value);
     draggingCol = hrs[ind];
     hrs.splice(ind, 1);
     const target = hrs.findIndex((i) => i.value == item.value);
     hrs.splice(ind > target ? target : target + 1, 0, draggingCol);
-    userManager.setCols(hrs);
-    await userManager.update_settings({
-      path: "/columns",
-      value: hrs,
-    });
+    emit("headersChanged", hrs)
   }
   draggingCol = null;
 }
@@ -38,7 +32,6 @@ defineExpose({
 thead {
   >.headers {
     @apply tw-bg-primary tw-bg-opacity-10;
-    /* background-color: rgba(var(--c-primary), 0.1); */
 
     >.header {
       position: relative;

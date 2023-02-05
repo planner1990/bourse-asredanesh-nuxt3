@@ -116,10 +116,6 @@ defineExpose({
   userMenu,
   userMenuItems,
 });
-//TODO
-const me = () => {
-  console.log("me");
-};
 </script>
 
 <style lang="postcss" scoped>

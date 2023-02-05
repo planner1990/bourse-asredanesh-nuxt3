@@ -5,7 +5,6 @@ import {
   InstrumentCache,
   Side,
   InstrumentStatus,
-  InstrumentSearchModel,
 } from "@/types";
 import {
   useInstrument,
@@ -79,7 +78,6 @@ const canFocus = computed(() => {
     Math.floor(instrumentManager.width / 360)
   );
 });
-const me = userManager.me;
 
 const headers = computed(() => {
   const res: Array<WatchListColumns> = [];
@@ -88,7 +86,7 @@ const headers = computed(() => {
   actions.divider = false;
   res.push(actions);
   res.push(
-    ...((me.settings.columns ?? DefaultCols()).map((col: WatchListColumns) => {
+    ...((userManager.me.settings.columns ?? DefaultCols()).map((col: WatchListColumns) => {
       if (col == null)
         return {
           text: "",
@@ -105,6 +103,7 @@ const headers = computed(() => {
     "center",
     "123px"
   );
+  status.draggable = false;
   res.push(status);
   const more = new WatchListColumns("", "more");
   more.draggable = false;
@@ -112,6 +111,18 @@ const headers = computed(() => {
   res.push(more);
   return res;
 });
+
+function headerChange(value: Array<WatchListColumns>) {
+  const tmp = value
+  tmp.pop()
+  tmp.pop()
+  tmp.splice(0, 1)
+  userManager.me.settings.columns = tmp
+  userManager.update_settings({
+    path: "/columns",
+    value: value
+  })
+}
 
 ////////////////////////////
 
@@ -173,10 +184,11 @@ function drag(item: InstrumentCache) {
 async function drop(item: InstrumentCache) {
   if (dragItem && dragItem != item) {
     const wl = { ...props.searchModel }
-    const ind = wl.ids.findIndex((i: string) => i == dragItem?.id.toString());
+    const ind = wl.ids.findIndex((i: number) => i == dragItem?.id);
     wl.ids.splice(ind, 1);
-    const target = wl.ids.findIndex((i: string) => i == item.id.toString());
-    wl.ids.splice(ind > target ? target : target + 1, 0, dragItem?.id.toString());
+    const target = wl.ids.findIndex((i: number) => i == item.id);
+    wl.ids.splice(ind > target ? target : target + 1, 0, dragItem?.id);
+    userManager.me.settings.watch_lists[name] = wl.ids
     await userManager.update_settings({
       path: "/watch_lists/" + name,
       value: wl.ids,
@@ -326,8 +338,8 @@ refresh();
 
 <template>
   <div class="pb-1">
-    <ada-data-table :headers="headers" :items="instruments" item-key="id" class="watchlist" hide-default-header
-      hide-default-footer disable-pagination dense>
+    <ada-data-table :headers="headers" @headers-changed="headerChange" :items="instruments" item-key="id"
+      class="watchlist" hide-default-header hide-default-footer disable-pagination dense>
       <template #header.more>
         <dashboard-watch-list-header-selector />
       </template>

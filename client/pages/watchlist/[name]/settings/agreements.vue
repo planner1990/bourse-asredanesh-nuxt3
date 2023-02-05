@@ -85,25 +85,6 @@ async function getTradeHistories() {
 
 getTradeHistories();
 
-// function openExpansionPanel(item: any) {
-//   console.log(item.row)
-//   if (item && item.row === currentId.value) {
-//     expansionPanelFlag.value = !expansionPanelFlag.value;
-//   } else {
-//     expansionPanelFlag.value = true;
-//     currentId.value = item.row
-//   }
-// }
-
-// function openSubMenu(item: TabItem) {
-//   if (item && item.id === currentId.value) {
-//     expansionPanelFlag.value = !expansionPanelFlag.value;
-//   } else {
-//     expansionPanelFlag.value = true;
-//     currentId.value = item.id
-//   }
-// }
-
 function toggle(id: any) {
   const index = opened.indexOf(id);
   if (index > -1) {

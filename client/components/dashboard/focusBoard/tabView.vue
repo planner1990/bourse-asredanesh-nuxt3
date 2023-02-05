@@ -23,10 +23,7 @@ const tab = computed({
   },
 });
 const selected = computed(() => instrumentManager.state.selected);
-// const notifs = computed(
-//     () => notifManager.state.cache[props.value.instrumentCode]
-// );
-// console.log(notifs);
+
 function select(val: InstrumentCache) {
   const crt = instrumentManager.state.selected;
   if (crt == null || crt.id != val.id) instrumentManager.select(val);

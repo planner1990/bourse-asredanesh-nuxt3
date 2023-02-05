@@ -23,7 +23,7 @@ export type Log = {
 export type Setting = {
   lang: string;
   columns: Array<WatchListColumns>;
-  watch_lists: { [key: string]: Array<string> };
+  watch_lists: { [key: string]: Array<string | number> };
   home: string;
   bookmarks: Array<Bookmark>;
 };
@@ -33,10 +33,10 @@ export function DefaultSetting(): Setting {
     lang: "fa",
     bookmarks: [
       {
-        icon:"",
-        title:"دیدبان ۱",
-        to:"دیدبان ۱"
-      }
+        icon: "",
+        title: "دیدبان ۱",
+        to: "دیدبان ۱",
+      },
     ],
     columns: DefaultCols(),
     home: "watchlist/دیدبان%20۱",

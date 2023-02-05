@@ -158,7 +158,11 @@ export const useUser = defineStore("user", () => {
   }) {
     const res1 = state.user?.settings?.watch_lists[
       route.params.name as string
-    ].findIndex((item) => parseInt(item) === payload.item.id);
+    ].findIndex((item) =>
+      typeof item === "string"
+        ? parseInt(item) === payload.item.id
+        : item === payload.item.id
+    );
     state.user?.settings?.watch_lists[route.params.name as string].splice(
       res1,
       1

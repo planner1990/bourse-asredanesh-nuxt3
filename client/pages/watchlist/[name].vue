@@ -14,7 +14,7 @@ const loadingRef = ref(false);
 const name = (route.params.name as string) ?? "new";
 
 const showSearchModel = computed(() => {
-  return new InstrumentSearchModel(userManager.watchList[route.params.name as string]?.map((item) => parseInt(item)) ?? [])
+  return new InstrumentSearchModel(userManager.watchList[route.params.name as string]?.map((item) => typeof item === "string" ? parseInt(item) : item) ?? [])
 })
 
 const edited = computed(

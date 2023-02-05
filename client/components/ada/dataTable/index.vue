@@ -7,9 +7,13 @@ const props = withDefaults(defineProps<{
   itemKey?: string;
 }>(), {
   itemKey: "id",
-  headers: () => [] as Array<WatchListColumns>,
+  headers: () => [],
+  items: () => []
 });
-const data = computed(() => props.items);
+const emit = defineEmits(["headersChanged"])
+function headersChanged(value: Array<WatchListColumns>) {
+  emit("headersChanged", value)
+}
 </script>
 <style scoped lang="postcss">
 .ada-dataTable {
@@ -21,7 +25,7 @@ const data = computed(() => props.items);
   <div>
     <table class="ada-dataTable">
       <slot name="header">
-        <ada-data-table-header-handler :headers="headers">
+        <ada-data-table-header-handler @headers-changed="headersChanged" :headers="headers">
           <template v-for="header in headers" v-slot:[`header.${header.value}`]>
             <slot :header="header" :name="'header.' + header.value"></slot>
           </template>
@@ -29,7 +33,7 @@ const data = computed(() => props.items);
       </slot>
       <tbody>
         <slot>
-          <ada-data-table-row-handler v-for="item in data" :key="item[itemKey]" :model="{ headers, item }">
+          <ada-data-table-row-handler v-for="item in props.items" :key="item[itemKey]" :model="{ headers, item }">
             <template v-for="header in headers" v-slot:[`item.${header.value}`]>
               <slot :item="item" :name="'item.' + header.value"></slot>
             </template>
