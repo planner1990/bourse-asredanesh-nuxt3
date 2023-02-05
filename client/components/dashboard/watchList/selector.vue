@@ -47,6 +47,15 @@ async function remove(name: string) {
   await userManager.delete_settings({
     path: "/watch_lists/" + name,
   });
+  const markIndex = userManager.getBookmarks.findIndex((i) => i.text === name)
+  alert(markIndex)
+  if (markIndex != -1) {
+    userManager.getBookmarks.splice(markIndex, 1)
+    await userManager.update_settings({
+      path: "/bookmarks",
+      value: userManager.getBookmarks
+    });
+  }
   if (name == route.params.name) router.push(watchList.value[0].to);
 }
 
