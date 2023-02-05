@@ -48,7 +48,6 @@ async function remove(name: string) {
     path: "/watch_lists/" + name,
   });
   const markIndex = userManager.getBookmarks.findIndex((i) => i.text === name)
-  alert(markIndex)
   if (markIndex != -1) {
     userManager.getBookmarks.splice(markIndex, 1)
     await userManager.update_settings({
