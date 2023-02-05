@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch, ref, computed } from "vue";
 import { useAsrTrader } from "@/composables";
 const props = withDefaults(
   defineProps<{

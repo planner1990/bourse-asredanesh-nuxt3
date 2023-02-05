@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { Order, OrderSearchModel, PaginatedResult, TabItem } from "@/types";
 import { useInstrument, useOrder } from "~~/composables";
-import { watch } from "vue";
 
 const list = defineAsyncComponent(
   () => import("@/components/bottom-panel/orders.vue")

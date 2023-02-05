@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import { Ref } from "vue";
-
 const emit = defineEmits(["request", "update:modelValue"]);
 const props = defineProps(["modelValue" ,"timer", "height"])
 const appManager = useAsrTrader();
-const otpref: Ref<any> = ref(null);
+const otpref = ref<any>(null);
 
 const counter = ref(0);
 let timer: NodeJS.Timeout | null = null;

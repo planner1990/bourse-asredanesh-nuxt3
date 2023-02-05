@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Ref } from "vue";
 import { InstrumentCache, InstrumentSearchModel } from "@/types";
 import { useInstrument } from "~/composables";
 
@@ -13,7 +12,7 @@ const props = withDefaults(
 );
 
 const instrumentManager = useInstrument();
-let instrument: Ref<InstrumentCache> = ref(new InstrumentCache());
+let instrument = ref<InstrumentCache>(new InstrumentCache());
 instrumentManager
   .getInstrumentsDetail(new InstrumentSearchModel([props.insId]))
   .then((data) => {

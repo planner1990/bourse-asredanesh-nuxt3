@@ -7,13 +7,11 @@ import {
 } from "@/types";
 import {useI18n} from "vue-i18n"
 import {Agreements} from "~/types/oms/agreements";
-import {Ref, ref} from "vue";
 
 const i18n = useI18n();
 const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
-const expansionPanelFlag = ref<boolean>(false);
-const currentId = ref(null);
+
 let opened = reactive<Array<any>>([]);
 const props = withDefaults(
     defineProps<{

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Ref, StyleValue, ComputedRef } from "vue";
+import { StyleValue } from "vue";
 import { useAsrTrader } from "~/composables";
 
 const props = withDefaults(defineProps<{
@@ -21,10 +21,10 @@ const appManager = useAsrTrader();
 const rtl = computed(() => appManager.rtl);
 const locale = computed(() => appManager.locale);
 
-const menu: Ref<HTMLElement | null> = ref(null)
-const menuContent: Ref<HTMLElement | null> = ref(null)
+const menu = ref<HTMLElement | null>(null)
+const menuContent = ref<HTMLElement | null>(null)
 const properties = computed(() => menu.value?.getBoundingClientRect())
-const style: ComputedRef<StyleValue> = computed(() => {
+const style = computed<StyleValue>(() => {
   return {
     width: `${(properties.value?.width ?? 0) + props.mWidth}px`,
     left: `${(properties.value?.left ?? 0) + props.mLeft}px`,

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Ref } from "vue";
 import { ClientDistribution } from "@/types";
 import { useInstrument } from "~/composables";
 
@@ -17,7 +16,7 @@ const props = withDefaults(
 const instrumentManager = useInstrument();
 
 //TODO Replace in Vue3
-const distribution: Ref<ClientDistribution> = ref(instrumentManager.getClientDistribution(props.insId));
+const distribution = ref<ClientDistribution>(instrumentManager.getClientDistribution(props.insId));
 setInterval(() => {
   distribution.value = instrumentManager.getClientDistribution(props.insId)
 }, 700)
@@ -51,6 +50,7 @@ const total = computed(() => {
   .legal {
     @apply tw-text-info tw-bg-info tw-bg-opacity-10;
   }
+
   .col-border {
     border-bottom: 1px solid #e0e0e0;
   }

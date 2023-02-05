@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Ref, watch } from "vue";
-import { useInstrument, useOrder, useAxios, useAsrTrader } from "@/composables";
+import { useInstrument, useOrder, useAxios } from "@/composables";
 import {
   InstrumentCache,
   InstrumentSearchModel,
@@ -30,7 +29,7 @@ const i18n = useI18n();
 const axios = useAxios();
 const instrumentManager = useInstrument();
 const orderManager = useOrder();
-const active: Ref<InstrumentCache> = ref(new InstrumentCache());
+const active = ref<InstrumentCache>(new InstrumentCache());
 const priceLock = ref(false);
 const countLock = ref(false);
 const wage = ref({ buy: 0, sell: 0 });

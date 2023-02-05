@@ -1,4 +1,3 @@
-import { ref } from "vue";
 import UploadableFile from "~~/types/upload/UploadableFile";
 import FileTypes from "~~/types/imageTypes";
 

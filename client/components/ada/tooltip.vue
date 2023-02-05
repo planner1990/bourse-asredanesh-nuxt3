@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, StyleValue, ComputedRef } from "vue";
+import { StyleValue } from "vue";
 const props = withDefaults(
   defineProps<{
     position?: "above" | "left" | "right" | "under";
@@ -9,13 +9,13 @@ const props = withDefaults(
   }
 );
 
-const tooltip: Ref<HTMLElement | null> = ref(null);
-const tooltipContent: Ref<HTMLElement | null> = ref(null);
+const tooltip = ref<HTMLElement | null>(null);
+const tooltipContent = ref<HTMLElement | null>(null);
 const visible = ref(false);
 
 const properties = computed(() => tooltip.value?.getBoundingClientRect());
 const pContent = computed(() => tooltipContent.value?.getBoundingClientRect());
-const style: ComputedRef<StyleValue> = computed(() => {
+const style = computed<StyleValue>(() => {
   if (props.position === "left") {
     return {
       top: `${properties.value?.top ?? 0}px`,

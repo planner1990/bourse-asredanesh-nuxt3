@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Ref } from "vue";
 import { useInstrument } from "@/composables";
 import { Instrument, InstrumentSearchModel } from "@/types";
 import { field, fieldType } from "./types";
@@ -46,7 +45,7 @@ const fields: Array<field> = [
   new field("todayRange", fieldType.text, "oms.todayRange"),
   new field("lastTradeDate", fieldType.dateTime, null),
 ];
-let instrument: Ref<Instrument> = ref(new Instrument());
+let instrument = ref<Instrument>(new Instrument());
 function getClickEvent(type: fieldType) {
   switch (type) {
     case fieldType.price:

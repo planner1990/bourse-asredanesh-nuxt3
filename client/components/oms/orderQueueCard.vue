@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {  Ref } from "vue";
-import { Instrument, InstrumentCache, InstrumentSearchModel, OrderQueueItem } from "@/types";
+import { Instrument, InstrumentCache, OrderQueueItem } from "@/types";
 import { useAsrTrader, useInstrument } from "~/composables";
 
 const emit = defineEmits(["count", "price"]);
@@ -21,7 +20,7 @@ const props = withDefaults(
 const appManager = useAsrTrader();
 const instrumentManager = useInstrument();
 const formatter = appManager.formatter;
-const instrument: Ref<InstrumentCache | null> = ref(null);
+const instrument = ref<InstrumentCache | null>(null);
 const change = computed(() => (price: number) => {
   if (instrument.value && price) {
     return ((price - instrument.value.last) / price) * 100;

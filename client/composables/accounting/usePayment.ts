@@ -1,5 +1,4 @@
 import {defineStore} from "pinia";
-import {ref, computed, reactive} from "vue";
 import {useAxios} from "@/composables/useAxios";
 import {getAccountingDetail, getMethods} from "@/repositories/accounting/payment";
 import {PaymentMethod} from "~~/types";

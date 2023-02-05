@@ -1,4 +1,3 @@
-import { ref, reactive, toRefs } from 'vue'
 import { AutoCompleteItem } from '@/types'
 
 export const useAutoComplete = (options: Array<AutoCompleteItem>) => {

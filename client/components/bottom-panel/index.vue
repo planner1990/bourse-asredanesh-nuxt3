@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Ref } from "vue"
 import { useInstrument, useBottomPanel } from "~~/composables";
 import { TabItem } from "~~/types";
 
@@ -7,8 +6,8 @@ const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
 const router = useRouter()
 const route = useRoute()
-const menu: Ref<TabItem | null> = ref(null)
-const active: Ref<TabItem | null> = ref(null)
+const menu = ref<TabItem | null>(null)
+const active = ref<TabItem | null>(null)
 
 const tabs = computed(() => bottomPanel.tabs);
 const visibleTabs = computed(() => bottomPanel.tabs.filter((x) => x.show));

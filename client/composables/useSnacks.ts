@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
-import { Snack, SnackState } from "@/types/stores";
+import { Snack } from "@/types/stores";
 
 export const useSnacks = defineStore("snacks", () => {
   const state = reactive<{

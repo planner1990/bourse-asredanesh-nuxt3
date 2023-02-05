@@ -1,5 +1,3 @@
-import { ComputedRef } from "vue";
-
 export enum BookmarkPosition {
   ToolBar = 1,
   RightPanel = 2,

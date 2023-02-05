@@ -2,8 +2,6 @@
 import { useI18n } from "vue-i18n";
 import {
   Order,
-  OrderSearchModel,
-  PaginatedResult,
   WatchListColumns,
   OrderFlags,
   ValidationType,
@@ -11,23 +9,17 @@ import {
 import { useBottomPanel, useOrder, useLoading, useAxios } from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
-import { Ref } from "vue";
 
-const statusFlag: Ref<any> = ref(null);
+const statusFlag = ref<any>(null);
 
 const props = defineProps<{
   orders: Order[]
 }>()
 
-const bottomPanel = useBottomPanel();
-const loading = useLoading();
-
 // added use instrument for read selected index
 const orderManager = useOrder();
-const axios = useAxios();
-
 const i18n = useI18n();
-const route = useRoute()
+
 const cols = [
   new WatchListColumns(i18n.t("general.status").toString(), "flags"),
   new WatchListColumns(i18n.t("instrument.name").toString(), "name"),

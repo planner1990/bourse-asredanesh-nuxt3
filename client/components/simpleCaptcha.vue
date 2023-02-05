@@ -1,6 +1,5 @@
 <script lang="ts">
 import { useRuntimeConfig } from "#app";
-import { Ref } from "vue";
 import { required } from "@/utils/rules";
 
 export default defineComponent({
@@ -9,7 +8,7 @@ export default defineComponent({
   setup(props, ctx) {
     const config = useRuntimeConfig();
     const appManager = useAsrTrader();
-    const captcharef: Ref<any> = ref(null);
+    const captcharef = ref<any>(null);
     const url =
       config.public.VUE_APP_Host +
       "sso/captcha?width=100&height=" +

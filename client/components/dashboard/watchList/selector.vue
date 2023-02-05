@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Ref } from "vue";
 import { useUser } from "~/composables";
 import { TabItem, Bookmark } from "~/types";
 
@@ -16,8 +15,8 @@ const route = useRoute();
 const router = useRouter();
 const userManager = useUser();
 const selected = computed(() => watchList.value.find((item) => item.id == route.params.name) ?? watchList.value[0]);
-const isOpen: Ref<any> = ref(false);
-const currentId: Ref<any> = ref();
+const isOpen = ref(false);
+const currentId = ref<any>();
 const newName = ref("");
 const watchList = computed<Array<any>>(() => {
   var tmp: Array<any> = reactive([]);
