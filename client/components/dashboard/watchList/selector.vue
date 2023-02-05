@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { useUser } from "~/composables";
-import { TabItem } from "~/types";
+import { TabItem, Bookmark } from "~/types";
 
 const props = withDefaults(
   defineProps<{
@@ -75,10 +75,11 @@ watch(selected, select);
 
 async function setBookmark(item: any) {
   if (userManager.getBookmarks.findIndex((i) => i.text === item.id) == -1) {
-    const tempBookmark: any = {
+    const tempBookmark: Bookmark = {
       icon: "isax-graph",
       text: item.id,
-      to: item.to
+      title: item.id,
+      to: item.to,
     };
     userManager.getBookmarks.push(tempBookmark);
   } else {

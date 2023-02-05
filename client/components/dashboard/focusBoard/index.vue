@@ -10,8 +10,7 @@ const userManager = useUser();
 const sh = useShortcut();
 const route = useRoute();
 const toolbar = ref<HTMLElement | null>(null);
-const router = useRouter();
-const currentPath = ref("");
+const currentPath = computed(() => route.params.name);
 
 const instruments = computed(() => instrumentManager.getFocus);
 const viewMode = computed({
@@ -49,23 +48,14 @@ if (process.client) {
     window.removeEventListener("mousemove", resize);
   });
 }
-
-function goToFullPathBookmark(path: string) {
-  let currentRoute = route.fullPath.split("/").slice(3).join('/');
-  router.push(path + '/' + currentRoute);
+const urlReg = /^\/watchList\/[^\/]+/ig
+const bookmarkFullPath = computed(() => (path: string) => {
+  return route.fullPath.replace(urlReg, path)
+})
+function getMatchReg(path: string) {
+  return new RegExp(`^${path}[\/]?.*`, "ig")
 }
 
-function setActivateBookmark(paramsName: any) {
-  currentPath.value = paramsName;
-}
-
-watch(
-  () => route.params,
-  () => {
-    return setActivateBookmark(route.params.name);
-  },
-  { deep: true, immediate: true }
-)
 </script>
 
 <style lang="postcss" scoped>
@@ -197,8 +187,8 @@ watch(
       <span v-if="userManager.getBookmarks.length > 0"
         class="tw-h-7 tw-border-r-2 tw-rounded tw-border-primary-200 tw-mr-3 tw-ml-2">
       </span>
-      <ada-btn v-for="b in userManager.getBookmarks" :key="b.to" @click.stop="goToFullPathBookmark(b.to)"
-        class="bookmark" :class="[b.title == currentPath ? 'active' : '']">
+      <ada-btn v-for="b in userManager.getBookmarks" :key="b.to" class="bookmark"
+        :class="[b.title == currentPath ? 'active' : '']" :to="bookmarkFullPath(b.to)" :match="getMatchReg(b.to)">
         <span v-text="b.text != null ? b.text : $t(b.title)" class="text-overflow">
         </span>
         <ada-icon :size="14" class="tw-w-8 tw-h-full"
