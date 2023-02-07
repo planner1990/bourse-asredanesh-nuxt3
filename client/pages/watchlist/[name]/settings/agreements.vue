@@ -205,7 +205,6 @@ function toggle(id: any) {
 
 </style>
 <template>
-
   <div class="tw-w-full  tw-p-4 tw-mt-2">
     <table class="tw-w-full tw-bg-[#FBFBFB] tw-text-center">
       <tr class="agreements-header">
@@ -223,8 +222,7 @@ function toggle(id: any) {
             <ada-icon
                 class="tw-m-0 tw-p-0 tw-mx-2"
                 :size="18"
-                @click="toggle(cell.row)"
-            >
+                @click="toggle(cell.row)">
               mdi-{{ opened.includes(cell.row) ? 'chevron-up' : 'chevron-down' }}
             </ada-icon>
           </td>
@@ -267,32 +265,4 @@ function toggle(id: any) {
       </template>
     </table>
   </div>
-
-
-  <!--    <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"-->
-  <!--                    class="tw-w-full tw-h-full tw-overflow-y-auto">-->
-  <!--      &lt;!&ndash;      <template #item.totalTrades="{ item }">&ndash;&gt;-->
-  <!--      &lt;!&ndash;        <NumericField :value="item.totalTrades"/>&ndash;&gt;-->
-  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
-  <!--      &lt;!&ndash;      <template #item.totalShares="{ item }">&ndash;&gt;-->
-  <!--      &lt;!&ndash;        <NumericField :value="item.totalShares"/>&ndash;&gt;-->
-  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
-  <!--      &lt;!&ndash;      <template #item.totalTradeValue="{ item }">&ndash;&gt;-->
-  <!--      &lt;!&ndash;        <NumericField :value="item.totalTradeValue"/>&ndash;&gt;-->
-  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
-  <!--      &lt;!&ndash;      <template #item.dateTime="{ item }">&ndash;&gt;-->
-  <!--      &lt;!&ndash;        <DateTime :value="item.dateTime" :format="$t('general.date.d')" class="ltr"/>&ndash;&gt;-->
-  <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
-  <!--      <template #item.actions="{ item }">-->
-  <!--        <div class="text-no-wrap">-->
-  <!--          <ada-icon-->
-  <!--              class="tw-m-0 tw-p-0 tw-mx-2"-->
-  <!--              :size="18"-->
-  <!--              @click="openExpansionPanel(item)"-->
-  <!--          >-->
-  <!--            mdi-{{ expansionPanelFlag === true && currentId === item.row ? 'chevron-up' : 'chevron-down' }}-->
-  <!--          </ada-icon>-->
-  <!--        </div>-->
-  <!--      </template>-->
-  <!--    </ada-data-table>-->
 </template>

@@ -4,6 +4,7 @@ export * from "./restrictions";
 export * from "./tradeHistory";
 export * from "./notifications";
 export * from "./directorateList";
+export * from "./entryAndExitHistory";
 
 export class SameSectorQuery {
   instrument: number;

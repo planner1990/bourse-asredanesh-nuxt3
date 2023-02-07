@@ -22,7 +22,7 @@ function headersChanged(value: Array<WatchListColumns>) {
 }
 </style>
 <template>
-  <div>
+  <div class="table-container">
     <table class="ada-dataTable">
       <slot name="header">
         <ada-data-table-header-handler @headers-changed="headersChanged" :headers="headers">
