@@ -26,7 +26,7 @@ const watchList = computed<Array<any>>(() => {
       newName: k,
       text: k,
       id: k,
-      to: "/watchList/" + decodeURIComponent(k),
+      to: `/watchList/${decodeURIComponent(k)}`,
     });
   });
   return tmp;
@@ -59,13 +59,24 @@ async function remove(name: string) {
 }
 
 async function rename(item: any) {
-  Object.keys(userManager.watchList).forEach((i) => {
-    userManager.watchList[item.newName] = userManager.watchList[item.id];
-    delete userManager.watchList[item.id]
-  });
+  userManager.watchList[item.newName] = userManager.watchList[item.id];
+  delete userManager.watchList[item.id]
+  const markIndex = userManager.getBookmarks.findIndex((i) => i.text === item.id)
+  if (markIndex != -1) {
+    userManager.getBookmarks[markIndex] = {
+      icon: "isax-graph",
+      text: item.newName,
+      title: item.newName,
+      to: `/watchList/${decodeURIComponent(item.newName)}`,
+    };
+  }
   await userManager.update_settings({
     path: "/watch_lists",
     value: userManager.watchList,
+  });
+  await userManager.update_settings({
+    path: "/bookmarks",
+    value: userManager.getBookmarks
   });
   if (item.id == route.params.name) router.push("/watchList/" + item.newName);
 }
