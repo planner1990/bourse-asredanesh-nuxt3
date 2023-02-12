@@ -1,4 +1,25 @@
 {
+  "error": {
+    "0":"Network Error.",
+    "400": "User Error",
+    "401": "Authentication Needed",
+    "406": "Unacceptable",
+    "403": "Forbidden!",
+    "423": "Invalid Parameters",
+    "500": "Server Error",
+    "captcha": {
+      "empty": "Fill the captcha!"
+    },
+    "validation": {
+      "required": "{name} is required.",
+      "number": "{name} is a number.",
+      "boolean": "{name} is boolean",
+      "date": "Invalid date",
+      "length": "{name} should be {value} characters.",
+      "min": "{name} should be at least {value} characters.",
+      "max": "{name} should not be more than {value} characters."
+    }
+  },
   "general": {
     "me": "Me",
     "all": "All",
