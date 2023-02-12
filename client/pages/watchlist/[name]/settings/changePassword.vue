@@ -32,7 +32,7 @@ watch(seconds, () => {
   if (seconds.value === 0 && min.value === 0) {
     clearInterval(timer);
   }
-})
+});
 onMounted(() => {
   timer;
 });
