@@ -1,19 +1,22 @@
-FROM artifactory.asredanesh.com/docker/node:lts-stretch-slim
+FROM artifactory.asredanesh.com/docker/node:lts-18-slim
+RUN npm install -g pnpm
 # Install node packages
 WORKDIR /usr/src/app
 COPY ./client/package.json ./
-COPY ./client/yarn.lock ./
-RUN yarn install
+COPY ./client/.npmrc ./
+COPY ./client/pnpm-lock.yaml ./
+RUN pnpm install
 # Copy application source
 WORKDIR /usr/src
 COPY ./client ./app
 WORKDIR /usr/src/app
 # Build App
-RUN yarn build
+RUN pnpm build
 ENV HOST=0.0.0.0
 # Deploy
-CMD [ "yarn", "start" ]
+EXPOSE 3000
+CMD [ "pnpm", "start" ]
 # Temporary dev
-#CMD [ "yarn", "dev","--host","0.0.0.0","--host","bourse-ui" ]
+#CMD [ "pnpm", "dev","--host","0.0.0.0","--host","bourse-ui" ]
 #####
 
