@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { Ref } from "vue";
-import { AxiosError } from "axios";
-import { LoginModel, PasswordType } from "@/types";
-import { ErrorExtractor } from "~/utils/error";
-import { useVirtualKeyBoard } from "@/utils/virtualKeyBoard";
-import { useUser } from "@/composables";
-import { useI18n } from "vue-i18n";
-import { useForm, useField } from "vee-validate";
-import { object, string, number, mixed, lazy } from "yup";
-import { required } from "~~/utils/rules";
+import {Ref} from "vue";
+import {AxiosError} from "axios";
+import {LoginModel, PasswordType} from "@/types";
+import {ErrorExtractor} from "~/utils/error";
+import {useVirtualKeyBoard} from "@/utils/virtualKeyBoard";
+import {useUser} from "@/composables";
+import {useI18n} from "vue-i18n";
+import {useForm, useField} from "vee-validate";
+import {object, string, number, mixed, lazy} from "yup";
+import {required} from "~~/utils/rules";
 
 const appManager = useAsrTrader();
 const locale = appManager.locale;
@@ -28,35 +28,35 @@ const loading: Ref<boolean> = ref(false);
 const showPassword: Ref<boolean> = ref(false);
 
 const messageContent = await queryContent(
-  `${useAsrTrader().locale.split("-")[0]}/login/message`
+    `${useAsrTrader().locale.split("-")[0]}/login/message`
 ).find();
 
 //TODO create interface
 const loginSchema = object({
   userName: string().required(
-    i18n.t("error.validation.required", { name: i18n.t("user.username") })
+      i18n.t("error.validation.required", {name: i18n.t("user.username")})
   ),
   password: lazy(() =>
-    passwordType.value === PasswordType.static
-      ? string().required(
-          i18n.t("error.validation.required", { name: i18n.t("user.password") })
-        )
-      : string()
+      passwordType.value === PasswordType.static
+          ? string().required(
+              i18n.t("error.validation.required", {name: i18n.t("user.password")})
+          )
+          : string()
   ),
   otpModel: lazy(() =>
-    passwordType.value === PasswordType.smsOtp
-      ? string().required(
-          i18n.t("error.validation.required", { name: i18n.t("login.otp") })
-        )
-      : string()
+      passwordType.value === PasswordType.smsOtp
+          ? string().required(
+              i18n.t("error.validation.required", {name: i18n.t("login.otp")})
+          )
+          : string()
   ),
   captcha: string()
-    .typeError(
-      i18n.t("error.validation.number", { name: i18n.t("login.captcha") })
-    )
-    .required(
-      i18n.t("error.validation.required", { name: i18n.t("login.captcha") })
-    ).length(6, i18n.t("error.validation.length", { name: i18n.t("login.captcha"), value:6 })),
+      .typeError(
+          i18n.t("error.validation.number", {name: i18n.t("login.captcha")})
+      )
+      .required(
+          i18n.t("error.validation.required", {name: i18n.t("login.captcha")})
+      ).length(6, i18n.t("error.validation.length", {name: i18n.t("login.captcha"), value: 6})),
   passwordType: number().required(),
 });
 
@@ -80,12 +80,12 @@ const {
 });
 
 // const { value:userName, meta:metaUserName, handleBlur, validate } = useField<string>('userName', null, { validateOnValueUpdate: false })
-const { value: userName, meta: metaUserName } = useField<string>("userName");
-const { value: password, meta: metaPassword } = useField<string>("password");
+const {value: userName, meta: metaUserName} = useField<string>("userName");
+const {value: password, meta: metaPassword} = useField<string>("password");
 
-const { value: otpModel, meta: metaOtp } = useField<string>("otpModel");
+const {value: otpModel, meta: metaOtp} = useField<string>("otpModel");
 
-const { value: passwordType } = useField<PasswordType>("passwordType");
+const {value: passwordType} = useField<PasswordType>("passwordType");
 const {
   value: captcha,
   meta: metaCaptcha,
@@ -97,7 +97,7 @@ const {
 const rtl = appManager.rtl;
 
 const login = async () => {
-  const { valid } = await validate()
+  const {valid} = await validate()
   if (valid) {
     loading.value = true;
     try {
@@ -192,6 +192,7 @@ function setFocus(el: string | null = null) {
 
 #login-page {
   @apply tw-h-full;
+
   .login-page {
     @apply tw-flex tw-h-full;
 
@@ -206,9 +207,11 @@ function setFocus(el: string | null = null) {
         .scaffold {
           @apply tw-h-[38px] tw-px-1;
         }
+
         &.inValid .scaffold {
           @apply tw-border-error tw-shadow-[0_0_3px_0] tw-shadow-error;
         }
+
         &.valid .scaffold {
           @apply tw-border-success tw-shadow-[0_0_3px_0] tw-shadow-success;
         }
@@ -307,18 +310,18 @@ function setFocus(el: string | null = null) {
           <div class="logo"></div>
           <legend class="legend" v-text="$t('login.title')"></legend>
           <ada-input
-            v-model="userName"
-            tabIndex="1"
-            ref="userref"
-            name="username"
-            :label="$t('user.username')"
-            class="login-input"
-            :class="{
+              v-model="userName"
+              tabIndex="1"
+              ref="userref"
+              name="username"
+              :label="$t('user.username')"
+              class="login-input"
+              :class="{
               inValid: errors?.userName,
               valid: metaUserName?.valid && !errors?.userName,
             }"
-            @keyup.enter="setFocus()"
-            @focus="
+              @keyup.enter="setFocus()"
+              @focus="
               () => {
                 if (keyboard.active)
                   keyboard.setListener((key) => {
@@ -329,14 +332,15 @@ function setFocus(el: string | null = null) {
           >
             <template #prepend="{ active }">
               <ada-icon :size="21" :color="active ? 'primary' : 'black'"
-                >isax-user</ada-icon
+              >isax-user
+              </ada-icon
               >
             </template>
             <template #append>
               <ada-icon
-                class="tw-cursor-pointer"
-                :size="24"
-                @click="
+                  class="tw-cursor-pointer"
+                  :size="24"
+                  @click="
                   () => {
                     keyboard.active = !keyboard.active;
                     if (keyboard.active)
@@ -345,57 +349,57 @@ function setFocus(el: string | null = null) {
                       });
                   }
                 "
-                :class="keyboard.active ? 'tw-text-primary' : null"
+                  :class="keyboard.active ? 'tw-text-primary' : null"
               >
                 isax-keyboard
               </ada-icon>
             </template>
           </ada-input>
           <div
-            v-text="errors?.userName"
-            class="tw-text-error tw-h-[24px]"
+              v-text="errors?.userName"
+              class="tw-text-error tw-h-[24px]"
           ></div>
           <otp
-            v-if="passwordType == 2"
-            @update:modelValue="val => otpModel = val"
-            :modelValue="otpModel"
-            timer="90"
-            tabindex="2"
-            class="login-input"
-            :class="{
+              v-if="passwordType == 2"
+              @update:modelValue="val => otpModel = val"
+              :modelValue="otpModel"
+              timer="90"
+              tabindex="2"
+              class="login-input"
+              :class="{
               inValid: errors?.otpModel,
               valid: metaOtp?.valid && !errors?.otpModel && otpModel.length,
             }"
-            ref="otpref"
-            @request="requestOtp"
-            @keyup.enter="login"
+              ref="otpref"
+              @request="requestOtp"
+              @keyup.enter="login"
           />
           <div
-            v-if="passwordType == 2"
-            v-text="errors?.otpModel"
-            class="tw-text-error tw-h-[24px]"
+              v-if="passwordType == 2"
+              v-text="errors?.otpModel"
+              class="tw-text-error tw-h-[24px]"
           ></div>
           <ada-input
-            v-if="passwordType == 1"
-            v-model="password"
-            name="password"
-            tabIndex="2"
-            ref="passref"
-            :label="$t('user.password')"
-            class="tw-block login-input"
-            :class="{
+              v-if="passwordType == 1"
+              v-model="password"
+              name="password"
+              tabIndex="2"
+              ref="passref"
+              :label="$t('user.password')"
+              class="tw-block login-input"
+              :class="{
               'pass-star': !showPassword,
               inValid: errors?.password,
               valid: metaPassword?.valid && !errors?.password,
             }"
-            :type="showPassword ? 'text' : 'password'"
-            @keyup.enter="
+              :type="showPassword ? 'text' : 'password'"
+              @keyup.enter="
               () => {
                 if (false) login;
                 else setFocus('captch');
               }
             "
-            @focus="
+              @focus="
               () => {
                 if (keyboard.active)
                   keyboard.setListener((key) => {
@@ -408,23 +412,24 @@ function setFocus(el: string | null = null) {
           >
             <template #prepend="{ active }">
               <ada-icon :size="21" :color="active ? 'primary' : 'black'"
-                >isax-lock</ada-icon
+              >isax-lock
+              </ada-icon
               >
             </template>
             <template #append>
               <ada-icon
-                :size="24"
-                class="tw-mx-1 tw-cursor-pointer"
-                :color="showPassword ? 'primary' : null"
-                @click="showPassword = !showPassword"
+                  :size="24"
+                  class="tw-mx-1 tw-cursor-pointer"
+                  :color="showPassword ? 'primary' : null"
+                  @click="showPassword = !showPassword"
               >
                 isax-eye
               </ada-icon>
               <ada-icon
-                class="tw-cursor-pointer"
-                :size="24"
-                :class="keyboard.active ? 'tw-text-primary' : null"
-                @click="
+                  class="tw-cursor-pointer"
+                  :size="24"
+                  :class="keyboard.active ? 'tw-text-primary' : null"
+                  @click="
                   () => {
                     keyboard.active = !keyboard.active;
                     if (keyboard.active)
@@ -441,9 +446,9 @@ function setFocus(el: string | null = null) {
             </template>
           </ada-input>
           <div
-            v-if="passwordType == 1"
-            v-text="errors?.password"
-            class="tw-text-error tw-h-[24px]"
+              v-if="passwordType == 1"
+              v-text="errors?.password"
+              class="tw-text-error tw-h-[24px]"
           ></div>
           <div class="tw-h-2" :style="{ 'text-align': rtl ? 'left' : 'right' }">
             <nuxt-link to="/reset-password" class="tw-text-primary">
@@ -453,15 +458,15 @@ function setFocus(el: string | null = null) {
           <div class="tw-m-0 tw-mt-[4px] tw-p-0" style="font-size: 10px"></div>
           <div v-if="true" class="tw-m-0 tw-p-0 tw-mt-1 tw-mb-4">
             <simple-captcha
-              v-model="captcha"
-              tabIndex="3"
-              ref="captcharef"
-              class="captcha login-input"
-              :class="{
+                v-model="captcha"
+                tabIndex="3"
+                ref="captcharef"
+                class="captcha login-input"
+                :class="{
                 inValid: errors?.captcha,
                 valid: metaCaptcha?.valid && !errors?.captcha,
               }"
-              @keyup.enter="
+                @keyup.enter="
                 () => {
                   if (passref) login;
                   else if (otpref) {
@@ -470,41 +475,41 @@ function setFocus(el: string | null = null) {
                   }
                 }
               "
-              @focus="keyboard.active = false"
-              outlined
-              dense
+                @focus="keyboard.active = false"
+                outlined
+                dense
             />
             <div
-              class="tw-block tw-text-error tw-h-[24px]"
-              v-text="errors?.captcha"
+                class="tw-block tw-text-error tw-h-[24px]"
+                v-text="errors?.captcha"
             ></div>
           </div>
           <ada-toggle v-model="passwordType" class="tw-m-0 tw-p-0">
             <ada-radio-button
-              :items="[
+                :items="[
                 { value: 1, label: 'login.static' },
                 { value: 2, label: 'login.otp' },
               ]"
-              :size="24"
-              class="tw-flex tw-font-bold"
+                :size="24"
+                class="tw-flex tw-font-bold"
             >
             </ada-radio-button>
           </ada-toggle>
           <ada-btn
-            type="submit"
-            tabindex="6"
-            class="tw-h-[42px] tw-w-full tw-my-[16px] tw-bg-primary tw-text-white ripple"
+              type="submit"
+              tabindex="6"
+              class="tw-h-[42px] tw-w-full tw-my-[16px] tw-bg-primary tw-text-white ripple"
           >
             {{ $t("login.login") }}
           </ada-btn>
           <ada-btn
-            tabindex="7"
-            to="/registration"
-            class="tw-h-[42px] tw-w-full tw-bg-white tw-border tw-border-primary"
+              tabindex="7"
+              to="/registration"
+              class="tw-h-[42px] tw-w-full tw-bg-white tw-border tw-border-primary"
           >
             {{ $t("login.registration") }}
           </ada-btn>
-          <ContentDoc :path="messageContent[0]._path" class="messageContent" />
+          <ContentDoc :path="messageContent[0]._path" class="messageContent"/>
         </form>
       </fieldset>
       <ada-content-slider path="/login-slider" id="login-slider">
@@ -523,7 +528,7 @@ function setFocus(el: string | null = null) {
           <ada-icon :size="24">mdi-dots-horizontal</ada-icon>
         </ada-btn>
       </div>
-      <virtual-keyboard />
+      <virtual-keyboard/>
     </div>
   </div>
 </template>
