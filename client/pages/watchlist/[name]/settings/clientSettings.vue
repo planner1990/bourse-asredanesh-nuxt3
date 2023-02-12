@@ -10,7 +10,8 @@ const currentUser = computed(() => userManager.me);
 const triggerUploadModal = ref<boolean>(false);
 const uploadFile = useUploadAbleFile();
 const files = ref<UploadableFile[]>([]);
-const content = ref(null);
+const content = ref<any>(null);
+const uploadDisabled = computed(() => content.value == null)
 
 function downloadSettings() {
   const settings = URL.createObjectURL(
@@ -42,48 +43,65 @@ function receive_files_uploaded(e: any) {
     files.value[0].file.type === "application/json"
   ) {
     readerTextFile(files.value[0].file, (evt) => {
-      content.value = evt.target.result;
+      try {
+        content.value = JSON.parse(evt.target.result)
+      } catch { content.value = null } finally { }
     });
   }
 }
 
-function removeFile(file: UploadableFile): void {
-  const index = files.value.indexOf(file);
-  if (index > -1) files.value.splice(index, 1);
-}
-
 async function uploadSetting() {
-  if (content.value) {
-    await userManager.update_settings({
+  if (content.value != null) {
+    userManager.update_settings({
       path: "/",
-      value: JSON.parse(content.value),
-    });
-    triggerUploadModal.value = false
+      value: content.value,
+    }).finally(() => {
+      content.value = null
+      triggerUploadModal.value = false
+    })
   }
 }
 
 </script>
 <style lang="postcss" scoped>
 .container {
-  @apply tw-h-full tw-w-full tw-rounded-lg;
+  @apply tw-h-full;
   @apply tw-flex tw-flex-row tw-justify-center tw-items-center tw-text-center;
 
-  .ada-button {
-    @apply tw-mx-4 tw-p-3;
+  >div {
+    @apply tw-bg-primary/10 tw-border-2 tw-border-dashed tw-rounded tw-border-primary/50;
+    @apply tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center;
+    margin: 9px;
+    width: calc(100% - 9px);
+    height: calc(100% - 9px);
 
-    &:hover {
-      @apply tw-bg-primary tw-text-white;
+    .ada-button {
+      @apply tw-mx-4 tw-my-2 tw-p-3;
+
+      &.upload {
+        @apply tw-bg-primary tw-text-white;
+
+        &[disabled] {
+          @apply tw-opacity-100 tw-bg-gray4 tw-text-black/30;
+        }
+      }
+
+      &:hover {
+        @apply tw-bg-primary/90 tw-text-white;
+      }
     }
   }
 }
 </style>
 <template>
   <div class="container">
-    <ada-btn @click="downloadSettings">
-      {{ i18n.t("general.download") }} {{ i18n.t("general.settings") }}
-    </ada-btn>
-    <ada-btn>
-      {{ i18n.t("general.upload") }} {{ i18n.t("general.settings") }}
-    </ada-btn>
+    <div v-ada-drop-zone @uploaded_files="receive_files_uploaded">
+      <ada-btn @click="downloadSettings">
+        {{ i18n.t("general.download") }} {{ i18n.t("general.settings") }}
+      </ada-btn>
+      <ada-btn class="upload" @click="uploadSetting" :disabled="uploadDisabled">
+        {{ i18n.t("general.upload") }} {{ i18n.t("general.settings") }}
+      </ada-btn>
+    </div>
   </div>
 </template>

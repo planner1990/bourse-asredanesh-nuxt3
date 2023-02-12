@@ -286,7 +286,6 @@ export const useUser = defineStore("user", () => {
       // }
     } catch (e) {
       setSettingsChanged({ key: payload.path, value: null });
-      throw e;
     }
   }
 
