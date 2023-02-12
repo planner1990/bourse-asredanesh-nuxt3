@@ -136,7 +136,7 @@ export const useUser = defineStore("user", () => {
   }
 
   function setSettingsChanged(data: { key: string; value: any }) {
-    if (data.key != "/" && !state.settingsChanged[data.key])
+    if (data.value && data.key != "/" && !state.settingsChanged[data.key])
       state.settingsChanged[data.key] = reactive([...data.value]);
   }
 
