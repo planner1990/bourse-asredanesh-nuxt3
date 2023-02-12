@@ -471,8 +471,6 @@ watch(() => withdrawalBalance, (newVal) => {
 .menu {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25) !important;
   border-radius: 8px;
-  //width: 15% !important;
-
 }
 
 .calculator-container {

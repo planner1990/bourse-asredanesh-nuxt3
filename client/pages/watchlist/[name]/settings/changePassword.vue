@@ -22,8 +22,7 @@ function goToDeposit() {
 
     .card {
       @apply tw-p-[24px] tw-mx-auto tw-rounded-t-lg tw-flex tw-flex-wrap tw-justify-items-center tw-items-center tw-justify-between;
-    //max-width: 390px;
-
+      
       div {
         width: 30.5%;
         max-width: 332px;

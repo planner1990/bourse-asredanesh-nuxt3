@@ -254,11 +254,7 @@ refresh();
 
   .row-border {
     cursor: pointer;
-
-    &:hover {
-      //background-color: rgba(var(--c-primary), 0.07);
-    }
-
+    
     td {
       @apply tw-transition-all;
     }
