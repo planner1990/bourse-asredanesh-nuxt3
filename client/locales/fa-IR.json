@@ -412,7 +412,8 @@
       "financialInfo": "اطلاعات مالی",
       "entryAndExitHistory": "تاریخچه ورود و خروج",
       "changePassword": "تغییر کلمه عبور",
-      "agreements": "توافق نامه‌ها"
+      "agreements": "توافق نامه‌ها",
+      "clientSettings":"تنظیمات کاربری"
     },
     "accounting": "حسابداری",
     "trades": "@:oms.trades",

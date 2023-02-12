@@ -241,7 +241,8 @@
       "index": "Settings",
       "userInformation": "User information",
       "entryAndExitHistory": "Entry and exit history",
-      "agreements": "Agreements"
+      "agreements": "Agreements",
+      "clientSettings":"Client Settings"
     },
     "deposit": "Deposit",
     "refund": "Refund",

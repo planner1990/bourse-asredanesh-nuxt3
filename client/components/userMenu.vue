@@ -1,19 +1,12 @@
 <script setup lang="ts">
 import ProfilePicture from "@/components/sso/profilePicture.vue";
-import UploadableFile from "~/types/upload/UploadableFile";
-import { useUploadAbleFile, useLoading } from "~~/composables";
-
+import { useLoading } from "~~/composables";
 import { useUser } from "~/composables";
-import { DateTime } from "luxon";
 
 const loading = useLoading()
 const router = useRouter();
 const userManager = useUser();
-const triggerUploadModal = ref<boolean>(false);
 const currentUser = computed(() => userManager.me);
-const uploadFile = useUploadAbleFile();
-const files = ref<UploadableFile[]>([]);
-const content = ref(null);
 const route = useRoute();
 const logOutConfirmation = ref(false);
 
@@ -39,55 +32,7 @@ function goToProfile() {
   router.push(`/watchlist/${route.params.name}/settings`);
 }
 
-function downloadSettings() {
-  const settings = URL.createObjectURL(
-    new Blob([JSON.stringify(userManager.me.settings)], {
-      type: "application/json",
-    })
-  );
-  const a = document.createElement("a");
-  a.href = settings;
-  a.download =
-    currentUser.value.userName +
-    "-settings-" +
-    DateTime.now().toISO() +
-    ".json";
-  a.dispatchEvent(
-    new MouseEvent("click", {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    })
-  );
-}
 
-function receive_files_uploaded(e: any) {
-  files.value = e.detail.value;
-  const { readerTextFile } = uploadFile;
-  if (
-    files.value[0].file.type.indexOf("text") == 0 ||
-    files.value[0].file.type === "application/json"
-  ) {
-    readerTextFile(files.value[0].file, (evt) => {
-      content.value = evt.target.result;
-    });
-  }
-}
-
-function removeFile(file: UploadableFile): void {
-  const index = files.value.indexOf(file);
-  if (index > -1) files.value.splice(index, 1);
-}
-
-async function uploadSetting() {
-  if (content.value) {
-    await userManager.update_settings({
-      path: "/",
-      value: JSON.parse(content.value),
-    });
-    triggerUploadModal.value = false
-  }
-}
 
 defineExpose({
   ProfilePicture,
