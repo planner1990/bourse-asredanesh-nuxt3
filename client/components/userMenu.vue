@@ -18,15 +18,13 @@ const route = useRoute();
 const logOutConfirmation = ref(false);
 
 async function doLogout() {
-  try {
-    loading.showLoading(true)
-    await userManager.update_settings({
-      path: "/home",
-      value: route.fullPath
-    })
-  } finally {
+  loading.showLoading(true)
+  userManager.update_settings({
+    path: "/home",
+    value: route.fullPath
+  }).finally(() => {
     loading.showLoading(false)
-  }
+  })
   userManager.doLogout();
   router.push("/login");
 }
