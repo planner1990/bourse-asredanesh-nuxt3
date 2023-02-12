@@ -9,7 +9,7 @@ const amount = ref('');
 const step = ref(2);
 const min = ref(1);
 const seconds = ref(59);
-const fullTimer = ref("");
+const fullTimer = ref("01:59");
 const route = useRoute();
 
 function goToDeposit() {
