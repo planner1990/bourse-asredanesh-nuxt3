@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import ProfilePicture from "@/components/sso/profilePicture.vue";
 import UploadableFile from "~/types/upload/UploadableFile";
-import { useUploadAbleFile } from "~~/composables";
+import { useUploadAbleFile, useLoading } from "~~/composables";
 
-import { InstrumentCache, MenuItem } from "~/types";
 import { useUser } from "~/composables";
 import { DateTime } from "luxon";
 
+const loading = useLoading()
 const router = useRouter();
 const userManager = useUser();
-const userMenu = ref(false);
 const triggerUploadModal = ref<boolean>(false);
 const currentUser = computed(() => userManager.me);
 const uploadFile = useUploadAbleFile();
@@ -18,34 +17,16 @@ const content = ref(null);
 const route = useRoute();
 const logOutConfirmation = ref(false);
 
-const userMenuItems: Array<MenuItem> = [
-  {
-    icon: "mdi-account-cog",
-    to: `/watchlist/${route.params.name}/settings/userInformation`,
-    title: "menu.profile",
-  },
-  {
-    icon: "mdi-download",
-    title: "menu.saveSettings",
-    click: downloadSettings,
-    color: "info",
-  },
-  {
-    icon: "mdi-upload",
-    title: "menu.uploadSettings",
-    click: () => (triggerUploadModal.value = true),
-    color: "info",
-  },
-  {
-    icon: "mdi-logout",
-    color: "error",
-    click: doLogout,
-    title: "login.logout",
-  },
-];
-
-function doLogout() {
-  userMenu.value = false;
+async function doLogout() {
+  try {
+    loading.showLoading(true)
+    await userManager.update_settings({
+      path: "/home",
+      value: route.fullPath
+    })
+  } finally {
+    loading.showLoading(false)
+  }
   userManager.doLogout();
   router.push("/login");
 }
@@ -113,8 +94,6 @@ async function uploadSetting() {
 defineExpose({
   ProfilePicture,
   currentUser,
-  userMenu,
-  userMenuItems,
 });
 </script>
 
