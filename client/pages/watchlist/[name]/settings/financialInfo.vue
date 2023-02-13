@@ -16,7 +16,7 @@ const img = ref("/assets/images/Rectangle-493.png");
   @apply tw-w-full tw-h-full tw-p-3;
 
   .financialInfo {
-    @apply tw-bg-gray8 tw-bg-gray8 tw-h-full tw-flex lg:tw-flex-nowrap md:tw-flex-wrap;
+    @apply tw-bg-[#f8f8f8] tw-h-full tw-flex lg:tw-flex-nowrap md:tw-flex-wrap;
 
     div {
       @apply lg:tw-w-full md:tw-w-full lg:tw-mr-0 md:tw-mr-4 tw-p-6 tw-flex tw-content-start tw-flex-wrap;

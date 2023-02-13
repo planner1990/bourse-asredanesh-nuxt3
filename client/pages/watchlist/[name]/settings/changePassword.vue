@@ -1,16 +1,20 @@
 <script setup lang="ts">
 
-import {ref} from 'vue';
+import {Ref, ref} from 'vue';
+import {useField, useForm} from "vee-validate";
+import {PasswordType} from "~/types";
 
 const router = useRouter();
 const appManager = useAsrTrader();
 const lang: string = appManager.locale.split("-")[0];
 const amount = ref('');
-const step = ref(2);
+const step = ref(1);
 const min = ref(1);
 const seconds = ref(59);
 const fullTimer = ref("01:59");
 const route = useRoute();
+const showPassword: Ref<boolean> = ref(false);
+
 
 function goToDeposit() {
   router.push({path: `/watchlist/${route.params.name}/accounting/deposit`});
@@ -33,6 +37,11 @@ watch(seconds, () => {
     clearInterval(timer);
   }
 });
+
+function changeStep(steps: number) {
+  step.value = steps;
+}
+
 onMounted(() => {
   timer;
 });
@@ -91,6 +100,26 @@ onMounted(() => {
           padding-right: 8px;
         }
       }
+
+      .change-password-2 {
+        position: relative;
+
+        input::placeholder {
+          font-weight: 600;
+          font-size: 12px;
+          color: rgb(189, 189, 189);
+        }
+
+        input {
+          padding-right: 16px;
+        }
+
+        i {
+          position: absolute;
+          left: 12px;
+          top: 9px;
+        }
+      }
     }
   }
 }
@@ -102,25 +131,32 @@ onMounted(() => {
     <section>
       <div class="card" v-if="step === 1">
         <img src="@/assets/images/lock.png" alt="">
-        <div>شما میتوانید برای تغییر رمز عبور و گذر دو مرحله‌ای خود از این قسمت اقدام نمایید</div>
+        <div>
+          {{ $t("user.changePasswordFlag") }}
+        </div>
         <div class="card_password tw-flex tw-justify-between">
-          <div class="tw-text-gray3 tw-flex">رمز عبور:
+          <div class="tw-text-gray3 tw-flex">
+            {{ $t("user.password") }}:
             <div class="tw-text-black tw-font-extrabold tw-mt-1 tw-mr-2">**********</div>
           </div>
-          <div class="tw-text-info tw-font-extrabold tw-text-s tw-cursor-pointer">ویرایش رمز</div>
+          <div class="tw-text-info tw-font-extrabold tw-text-s tw-cursor-pointer" @click="changeStep(2)">
+            {{ $t("user.editPassword") }}
+          </div>
         </div>
         <div class="card_password tw-flex tw-justify-between tw-mt-0">
-          <div class="tw-text-gray3 tw-flex">گذر دو مرحله‌ای:
-            <div class="tw-text-black tw-font-extrabold tw-mt-1 tw-mr-2">غیر فعال است</div>
+          <div class="tw-text-gray3 tw-flex">{{ $t("user.twoSteps") }}:
+            <div class="tw-text-black tw-font-extrabold tw-mr-2">{{ $t("user.disabled") }}</div>
           </div>
-          <div class="tw-text-success tw-font-extrabold tw-text-s tw-cursor-pointer">فعالسازی</div>
+          <div class="tw-text-success tw-font-extrabold tw-text-s tw-cursor-pointer">{{ $t("user.activation") }}</div>
         </div>
       </div>
+
+
       <div class="card_step_2" v-if="step === 2">
         <img src="@/assets/images/change-password.png" alt="">
         <div class="tw-mt-4">کد پیامک شده به شماره ۹****۰۹۱۹۹۵ را وارد کنید</div>
         <div class="tw-w-full tw-mb-5 tw-mt-3 change-password">
-          <input type="text" placeholder="کد پیامک شده" class="tw-w-full tw-h-[42px] tw-rounded-lg"/>
+          <input type="text" :placeholder="$t('user.smsCode')" class="tw-w-full tw-h-[42px] tw-rounded-lg"/>
           <div class="otp-code">
             <img src="@/assets/images/clock.png" alt="" class="tw-ml-3">
             <span class="tw-text-primary tw-text-base tw-font-bold tw-min-w-[40px]">{{ fullTimer }}</span>
@@ -130,15 +166,69 @@ onMounted(() => {
             type="submit"
             tabindex="6"
             class="tw-h-[42px] tw-w-full tw-mb-[16px] tw-mt-[12px] tw-bg-primary tw-text-white ripple"
+            @click="changeStep(3)"
         >
-          تایید و ادامه
+          {{ $t("user.confirmAndContinue") }}
         </ada-btn>
         <ada-btn
             tabindex="7"
             class="tw-h-[42px] tw-w-full tw-border tw-border-gray4 tw-text-gray3 tw-bg-transparent"
+            @click="changeStep(1)"
         >
-          بازگشت
-          <!--          {{ $t("login.registration") }}-->
+          {{ $t("user.back") }}
+        </ada-btn>
+      </div>
+
+
+      <div class="card_step_2" v-if="step === 3">
+        <img src="@/assets/images/change-password-2.png" class="tw-mb-4" alt="">
+
+        <div class="tw-w-full tw-mb-3 tw-mt-3 change-password-2">
+          <input
+              :type="showPassword ? 'text' : 'password'"
+              class="tw-w-full tw-h-[42px] tw-bg-white tw-rounded-lg"
+              :placeholder="$t('user.newPassword')"
+          />
+          <ada-icon
+              :size="24"
+              class="tw-mx-1 tw-cursor-pointer"
+              :color="showPassword ? 'primary' : null"
+              @click.stop="showPassword = !showPassword"
+          >
+            isax-eye
+          </ada-icon>
+        </div>
+
+        <div class="tw-w-full tw-mb-5 tw-mt-3 change-password-2">
+          <input
+              :type="showPassword ? 'text' : 'password'"
+              class="tw-w-full tw-h-[42px] tw-bg-white tw-rounded-lg"
+              :placeholder="$t('user.repeatNewPassword')"
+          />
+          <ada-icon
+              :size="24"
+              class="tw-mx-1 tw-cursor-pointer"
+              :color="showPassword ? 'primary' : null"
+              @click.stop="showPassword = !showPassword"
+          >
+            isax-eye
+          </ada-icon>
+        </div>
+
+        <ada-btn
+            type="submit"
+            tabindex="6"
+            class="tw-h-[42px] tw-w-full tw-mb-[16px] tw-mt-[12px] tw-bg-primary tw-text-white ripple"
+            @click="changeStep(1)"
+        >
+          {{ $t("user.changePassword") }}
+        </ada-btn>
+        <ada-btn
+            tabindex="7"
+            class="tw-h-[42px] tw-w-full tw-border tw-border-gray4 tw-text-gray3 tw-bg-transparent"
+            @click="changeStep(2)"
+        >
+          {{ $t("user.back") }}
         </ada-btn>
       </div>
     </section>
