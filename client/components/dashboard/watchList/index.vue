@@ -89,20 +89,22 @@ const headers = computed(() => {
     ...((userManager.me.settings.columns ?? DefaultCols()).map((col: WatchListColumns) => {
       if (col == null)
         return {
+          id: "",
           text: "",
           value: "",
         };
       return Object.assign({}, col, {
-        text: col.text == "" ? "" : i18n.t(col.text),
+        text: col.text == "" ? "" : i18n.t(col.id),
       });
     }) as WatchListColumns[])
   );
   const status = new WatchListColumns(
-    i18n.t("instrument.notifications"),
+    "instrument.notifications",
     "notifications",
     "center",
     "123px"
   );
+  status.text = i18n.t(status.id)
   status.draggable = false;
   res.push(status);
   const more = new WatchListColumns("", "more");
@@ -254,7 +256,7 @@ refresh();
 
   .row-border {
     cursor: pointer;
-    
+
     td {
       @apply tw-transition-all;
     }

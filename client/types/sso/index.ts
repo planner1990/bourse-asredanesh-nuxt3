@@ -68,6 +68,7 @@ export type UserProfile = {
 };
 
 export class WatchListColumns {
+  id:string;
   text: string;
   value: string;
   align: string | null;
@@ -83,12 +84,13 @@ export class WatchListColumns {
   icon?: string | null;
   draggable: boolean;
   constructor(
-    text: string,
+    id:string,
     value: string,
     align: string = "center",
     width: string | null = null
   ) {
-    this.text = text;
+    this.id = id
+    this.text = id;
     this.value = value;
     this.align = align;
     this.draggable = true;
