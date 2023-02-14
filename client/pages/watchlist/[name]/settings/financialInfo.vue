@@ -16,10 +16,11 @@ const img = ref("/assets/images/Rectangle-493.png");
   @apply tw-w-full tw-h-full tw-p-3;
 
   .financialInfo {
-    @apply tw-bg-[#f8f8f8] tw-h-full tw-flex lg:tw-flex-nowrap md:tw-flex-wrap;
+    @apply tw-bg-[#f8f8f8] tw-rounded-lg tw-flex lg:tw-flex-nowrap md:tw-flex-wrap;
 
     div {
       @apply lg:tw-w-full md:tw-w-full lg:tw-mr-0 md:tw-mr-4 tw-p-6 tw-flex tw-content-start tw-flex-wrap;
+      line-height: 5px;
     }
 
     .financialInfo_avatar {
@@ -46,25 +47,31 @@ const img = ref("/assets/images/Rectangle-493.png");
         <div class="tw-w-1/3 financialInfo_avatar">
           <img src="@/assets/images/Rectangle-493.png" alt="">
         </div>
-        <div class="tw-w-2/3 tw-pr-0 tw-mt-4">
+        <div class="tw-w-2/3 tw-pr-0">
           <div class="tw-py-0 tw-text-xl tw-text-primary tw-font-semibold">حسین لطفی</div>
           <div class="tw-text-base tw-text-gray2 tw-font-normal"> {{ $t('user.profile.ExchangeCode') }}: لط ۱۲۳۵۳۰</div>
         </div>
       </div>
       <div>
-        <div class="tw-text-gray3">{{ $t('user.profile.customerBalance') }}: <span class="tw-text-black tw-mr-9">۱۰۰.۰۰۰.۰۰۰ ریال</span>
+        <div class="tw-text-gray3 tw-bg-white tw-rounded-lg tw-flex tw-justify-between tw-mb-5">
+          {{ $t('user.profile.customerBalance') }}: <span class="tw-text-black tw-mr-9">۱۰۰.۰۰۰.۰۰۰ ریال</span>
         </div>
-        <div class="tw-text-gray3">{{ $t('user.profile.accumulated') }}: <span class="tw-text-black tw-mr-9">۱۰۰.۰۰۰.۰۰۰ ریال</span>
+        <div class="tw-text-gray3 tw-bg-white tw-rounded-lg tw-flex tw-justify-between">
+          {{ $t('user.profile.accumulated') }}: <span class="tw-text-black tw-mr-9">۱۰۰.۰۰۰.۰۰۰ ریال</span>
         </div>
       </div>
       <div>
-        <div class="tw-text-gray3">{{ $t('user.profile.creditAmount') }}: <span
+        <div class="tw-text-gray3 tw-bg-white tw-rounded-lg tw-flex tw-justify-between tw-mb-5">
+          {{ $t('user.profile.creditAmount') }}: <span
             class="tw-text-black tw-mr-9">۰ ریال</span></div>
-        <div class="tw-text-error">{{ $t('user.profile.blocked') }}: <span class="tw-text-black tw-mr-9">۰ ریال</span>
+        <div class="tw-text-error tw-bg-white tw-rounded-lg tw-flex tw-justify-between">{{
+            $t('user.profile.blocked')
+          }}: <span class="tw-text-black tw-mr-9">۰ ریال</span>
         </div>
       </div>
       <div>
-        <div class="tw-text-success">{{ $t('user.profile.purchasingPower') }}: <span class="tw-text-black tw-mr-9">۱۲۰.۰۰۰.۰۰۰ ریال</span>
+        <div class="tw-text-success tw-bg-white tw-rounded-lg tw-flex tw-justify-between">
+          {{ $t('user.profile.purchasingPower') }}: <span class="tw-text-black tw-mr-9">۱۲۰.۰۰۰.۰۰۰ ریال</span>
         </div>
       </div>
     </div>
