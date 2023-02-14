@@ -99,8 +99,8 @@ function toggle(id: any) {
 .agreements-header {
   td {
     @apply tw-text-sm tw-font-semibold tw-text-[#757575];
-    background: linear-gradient(white, white) padding-box,
-    linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 224, 224, 1) 51%, rgba(255, 255, 255, 1) 100%) border-box;
+    //background: linear-gradient(white, white) padding-box,
+    //linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 224, 224, 1) 51%, rgba(255, 255, 255, 1) 100%) border-box;
     border-left: 1px solid transparent;
   }
 
@@ -205,8 +205,8 @@ function toggle(id: any) {
 
 </style>
 <template>
-  <div class="tw-w-full  tw-p-4 tw-mt-2">
-    <table class="tw-w-full tw-bg-[#FBFBFB] tw-text-center">
+  <div class="tw-w-full tw-p-4 tw-mt-2">
+    <table class="tw-w-full tw-bg-[#f0f0f0] tw-text-center tw-rounded-lg">
       <tr class="agreements-header">
         <td v-for="header in defaultCols" class="tw-p-2">{{ header.text }}</td>
       </tr>

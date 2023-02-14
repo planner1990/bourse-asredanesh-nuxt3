@@ -5,7 +5,7 @@
   @apply tw-w-full tw-h-full tw-p-3;
 
   .setting {
-    @apply tw-h-full tw-bg-gray8 tw-flex tw-flex-wrap;
+    @apply tw-h-full tw-bg-[#f8f8f8] tw-flex tw-flex-wrap;
 
     > div {
       @apply lg:tw-w-1/2 md:tw-w-full lg:tw-mr-0 md:tw-mr-4 tw-p-6 tw-flex tw-content-start tw-flex-wrap;
