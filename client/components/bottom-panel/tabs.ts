@@ -234,7 +234,7 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.stockIndex.otc",
         deletable: true,
         match:
-          /^\/watchlist\/.+\/stockIndex\/otc([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+          /^\/watchlist\/.+\/stockIndex\/otc$/g,
       },
     ],
     path: "stockIndex",
