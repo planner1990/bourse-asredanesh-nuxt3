@@ -93,15 +93,7 @@ function openRoute(path: string) {
     }
 
     div.center {
-      @apply tw-w-1/3;
-
-      .ada-badge:first-child :deep(.badge) {
-        @apply tw-bg-success;
-      }
-
-      .ada-badge:nth-child(2) :deep(.badge) {
-        @apply tw-bg-warning;
-      }
+      @apply tw-absolute tw-flex tw-w-full tw-justify-center;
     }
 
     div.end {
@@ -267,9 +259,9 @@ function openRoute(path: string) {
 ]" :size="18">
           mdi-menu-open
         </ada-icon>
-        <clock :format="$t('general.date.longdt')" class="tw-w-[175px]" />
+        <clock :format="$t('general.date.longdt')" class="tw-w-[220px]" />
       </div>
-      <div class="tw-flex">
+      <div class="center">
         <ada-badge class="tw-mx-5 tw-cursor-pointer" @click="openRoute('stockIndex')">
           <ada-icon :size="16" class="tw-ml-1 tw-text-success">isax-trend-up</ada-icon>
           <span v-text="$t('oms.bourseIndex')" class="tw-text-primary"></span>:
