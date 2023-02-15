@@ -15,6 +15,20 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
   registerTabs();
 
   const tabs = computed(() => Object.values(state.value._tabs));
+  const _current = ref<TabItem | null>(null);
+  const current = computed<TabItem | null>({
+    get() {
+      return _current.value;
+    },
+    set(tab) {
+      if (tab != null && tab.deletable) {
+        showTab(tab?.id);
+        if (_current.value != null && _current.value.deletable)
+          removeTab(_current.value.id);
+      }
+      _current.value = tab;
+    },
+  });
   const LeftPanelMini = computed({
     get: () => state.value.leftPanelMini,
     set(val) {
@@ -103,5 +117,6 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     expanded,
     loading,
     LeftPanelMini,
+    current,
   };
 });

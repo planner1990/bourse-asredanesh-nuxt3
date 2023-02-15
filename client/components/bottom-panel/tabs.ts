@@ -219,7 +219,7 @@ const panels: Array<TabItem> = [
   {
     id: "stockIndex",
     title: "bottom-panel.stockIndex.index",
-    match: /^\/watchlist\/.+\/stockIndex$/g,
+    match: /^\/watchlist\/.+\/stockIndex/g,
     children: [
       {
         id: "stockIndex.index",

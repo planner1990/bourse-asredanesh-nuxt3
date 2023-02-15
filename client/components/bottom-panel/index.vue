@@ -6,7 +6,6 @@ const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
 const router = useRouter()
 const route = useRoute()
-const menu = ref<TabItem | null>(null)
 const active = ref<TabItem | null>(null)
 
 const tabs = computed(() => bottomPanel.tabs);
@@ -16,7 +15,7 @@ const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
 function close() {
   router.push(`/watchlist/${route.params.name}`)
   active.value = null;
-  menu.value = null;
+  bottomPanel.current = null;
 }
 
 function expand() {
@@ -24,13 +23,6 @@ function expand() {
 }
 
 const expanded = computed(() => bottomPanel.expanded)
-watch(menu, (newVal, oldVal) => {
-  if (newVal != null && newVal.deletable) {
-    bottomPanel.showTab(newVal?.id)
-    if (oldVal != null && oldVal.deletable)
-      bottomPanel.removeTab(oldVal.id)
-  }
-})
 </script>
 
 <style lang="postcss" scoped>
@@ -156,20 +148,20 @@ watch(menu, (newVal, oldVal) => {
 
 <template>
   <footer class="ada-bottom-panel" :class="{
-    half: menu != null && !expanded,
-    expanded: menu != null && expanded,
+    half: bottomPanel.current != null && !expanded,
+    expanded: bottomPanel.current != null && expanded,
     slideToBottom
   }">
-    <div class="detail" v-if="menu">
+    <div class="detail" v-if="bottomPanel.current">
       <div class="contents">
         <slot></slot>
       </div>
       <header class="header">
         <ada-toggle v-model="active" class="b-tabs">
-          <ada-btn class="tab-title" v-for="(t, i) in menu?.children" :key="t.title" :model="t" :match="t.match"
+          <ada-btn class="tab-title" v-for="(t, i) in bottomPanel.current?.children" :key="t.title" :model="t" :match="t.match"
             :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
-            {{ $t(t.title) }} <span v-if="t.secondTitle">{{ ` - ${t.secondTitle}` }}</span>
-            <div v-if="i !== (menu.children?.length ?? 0) - 1" class="bar"></div>
+            {{ $t(t.title) }} <span v-if="t.secondTitle">6{{ ` - ${t.secondTitle}` }}</span>
+            <div v-if="i !== (bottomPanel.current.children?.length ?? 0) - 1" class="bar"></div>
           </ada-btn>
         </ada-toggle>
         <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
@@ -183,10 +175,10 @@ watch(menu, (newVal, oldVal) => {
         </ada-btn>
       </header>
     </div>
-    <ada-toggle class="b-tabs" v-model="menu">
+    <ada-toggle class="b-tabs" v-model="bottomPanel.current">
       <ada-btn class="tab-title" v-for="(t, i) in tabs" :key="t.title"
         :to="`/watchlist/${$route.params.name}/${t.path}`" v-show="t.show" :model="t" :match="t.match">
-        <span :class="{ 'active': menu != null && menu.title === t.title }">
+        <span :class="{ 'active': bottomPanel.current != null && bottomPanel.current?.title === t.title }">
           {{ $t(t.title) }}
           <span
             v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>

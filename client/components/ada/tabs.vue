@@ -13,7 +13,6 @@ const props = withDefaults(
 );
 const val = ref(props.modelValue);
 const name = ref(eval(props.nameKey.replace('$', 'props.modelValue')))
-const route = useRoute()
 
 provide("tab-ref", val);
 provide("tab-name", name);

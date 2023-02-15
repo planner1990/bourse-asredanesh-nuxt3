@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useUser } from "@/composables";
-import { useRoute } from "#app"
 
 const appManager = useAsrTrader();
 const userManager = useUser();
