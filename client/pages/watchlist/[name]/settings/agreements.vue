@@ -99,9 +99,7 @@ function toggle(id: any) {
 .agreements-header {
   td {
     @apply tw-text-sm tw-font-semibold tw-text-[#757575];
-    //background: linear-gradient(white, white) padding-box,
-    //linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 224, 224, 1) 51%, rgba(255, 255, 255, 1) 100%) border-box;
-    border-left: 1px solid transparent;
+  //background: linear-gradient(white, white) padding-box, //linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 224, 224, 1) 51%, rgba(255, 255, 255, 1) 100%) border-box; border-left: 1px solid transparent;
   }
 
   td:nth-child(6) {
@@ -118,6 +116,7 @@ function toggle(id: any) {
 .agreements-expansion {
   td {
     @apply tw-text-justify tw-px-12 tw-pt-3 tw-pb-9 tw-text-sm tw-text-gray2;
+    width: 500px;
   }
 }
 

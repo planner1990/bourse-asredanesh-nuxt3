@@ -10,7 +10,7 @@ export const useWebSocket = defineStore("webSocket", () => {
   const toSend: Array<any> = [];
   function connect() {
     connection = new WebSocket(
-      process.env.VUE_WSS_Host ?? "wss://localhost:7122/instrument/ws"
+      process.env.VUE_WSS_Host ?? "wss://bourse.asr24.com/api/ws/ws/IRO9PARK0011"
     );
     connection.binaryType = "arraybuffer";
     connection.onmessage = (msg) => {
