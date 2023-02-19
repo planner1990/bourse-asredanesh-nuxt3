@@ -252,7 +252,8 @@
     "software": "نرم افزار",
     "actions": "عملیات",
     "situation": "وضعیت",
-    "date": "تاریخ"
+    "date": "تاریخ",
+    "end": "پایانی"
   },
   "watchList": {
     "title": "دیدبان",

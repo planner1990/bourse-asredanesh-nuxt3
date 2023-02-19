@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import {useBottomPanel, useInstrument} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
-import NumericField from "@/components/numericField.vue";
 import {
   WatchListColumns,
-  TradesHistorySerachModel,
-  entryAndExitHistory,
+  TradesHistorySerachModel
 } from "@/types";
 import {useI18n} from "vue-i18n"
 
@@ -33,26 +31,28 @@ const model = computed({
     emit("update:modelValue", value)
   }
 })
-const entryAndExitHistoryList = reactive<Array<entryAndExitHistory>>([]);
+const entryAndExitHistoryList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
-  new WatchListColumns(i18n.t("instrument.row").toString(), "row"),
-  new WatchListColumns(i18n.t("instrument.ip").toString(), "ip"),
-  new WatchListColumns(i18n.t("instrument.software").toString(), "software"),
-  new WatchListColumns(i18n.t("instrument.actions").toString(), "actions"),
-  new WatchListColumns(i18n.t("instrument.situation").toString(), "situation"),
-  new WatchListColumns(i18n.t("instrument.date").toString(), "date")
+  new WatchListColumns(i18n.t("instrument.title").toString(), "title"),
+  new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
+  new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
+  new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
+  new WatchListColumns(i18n.t("oms.count").toString(), "count"),
+  new WatchListColumns(i18n.t("oms.amount").toString(), "amount"),
+  new WatchListColumns(i18n.t("oms.value").toString(), "value")
 ];
 
 
 async function getTradeHistories() {
   const data = {
-    row: "1",
-    ip: "185.168.12.21",
-    software: "Silver",
-    actions: "ورود",
-    situation: "موفق",
-    date: "موظف"
+    title: "صکوک مرابحه",
+    name: "خگستر۲",
+    last: "3,554",
+    end: "3,554",
+    count: "0",
+    amount: "0",
+    value: "0"
   }
   for (let i = 0; i <= 6; i++) {
     entryAndExitHistoryList.push(data);
@@ -72,7 +72,7 @@ getTradeHistories();
   border-color: #E0E0E0;
 }
 
-:deep(.row-border td){
+:deep(.row-border td) {
   border-bottom: 1px solid #ffffff;
 }
 
@@ -84,25 +84,45 @@ getTradeHistories();
   <div class="tw-mx-2 tw-pt-3">
     <ada-data-table :items="entryAndExitHistoryList" :headers="defaultCols" item-key="dateTime"
                     class="tw-w-full tw-h-full tw-overflow-y-auto">
-      <template #item.ip="{ item }">
-        <span class="tw-text-info">
-           {{ item.ip }}
+      <template #item.title="{ item }">
+        <span>
+           {{ item.title }}
         </span>
       </template>
-      <template #item.actions="{ item }">
-        <span class="tw-text-success">
-          {{ item.actions }}
+      <template #item.name="{ item }">
+        <span>
+          {{ item.name }}
         </span>
       </template>
-      <template #item.situation="{ item }">
-        <span class="tw-text-primary tw-font-medium">
-          {{ item.situation }}
+      <template #item.last="{ item }">
+        <span>
+          {{ item.last }} <span class="tw-text-gray5 tw-mx-3">|</span> 0
         </span>
       </template>
-      <template #item.date="{ item }">
-        <DateTime :format="$t('general.date.d')" class="ltr"/>
-        | ۱۲:۵۴:۲۰
+      <template #item.end="{ item }">
+        <span>
+          {{ item.end }} <span class="tw-text-gray5 tw-mx-3">|</span> 0
+        </span>
       </template>
+      <template #item.count="{ item }">
+        <span>
+          {{ item.count }}
+        </span>
+      </template>
+      <template #item.amount="{ item }">
+        <span>
+          {{ item.amount }}
+        </span>
+      </template>
+      <template #item.value="{ item }">
+        <span>
+          {{ item.value }}
+        </span>
+      </template>
+      <!--      <template #item.date="{ item }">-->
+      <!--        <DateTime :format="$t('general.date.d')" class="ltr"/>-->
+      <!--        | ۱۲:۵۴:۲۰-->
+      <!--      </template>-->
     </ada-data-table>
   </div>
 </template>
