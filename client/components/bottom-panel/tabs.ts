@@ -84,7 +84,7 @@ const panels: Array<TabItem> = [
                 title: "bottom-panel.furtherInformation.shareholders&Owners",
                 deletable: false,
                 match:
-                    /^\/watchlist\/.+\/furtherInformation\/shareholders&Owners$/g,
+                    /^\/watchlist\/.+\/furtherInformation\/shareholdersAndOwners$/g,
             },
             {
                 id: "furtherInformation.depth",
