@@ -116,6 +116,7 @@ function toggle(id: any) {
 .agreements-expansion {
   td {
     @apply tw-text-justify tw-px-12 tw-pt-3 tw-pb-9 tw-text-sm tw-text-gray2;
+    width: 500px;
   }
 }
 

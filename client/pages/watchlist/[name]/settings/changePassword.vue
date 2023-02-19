@@ -195,7 +195,7 @@ onMounted(() => {
               :color="showPassword ? 'primary' : null"
               @click.stop="showPassword = !showPassword"
           >
-            isax-eye
+            {{ showPassword === true ? 'mdi-eye-off' : 'mdi-eye' }}
           </ada-icon>
         </div>
 
@@ -211,7 +211,7 @@ onMounted(() => {
               :color="showPassword ? 'primary' : null"
               @click.stop="showPassword = !showPassword"
           >
-            isax-eye
+            {{ showPassword === true ? 'mdi-eye-off' : 'mdi-eye' }}
           </ada-icon>
         </div>
 
