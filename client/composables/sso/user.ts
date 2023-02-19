@@ -148,7 +148,13 @@ export const useUser = defineStore("user", () => {
     const parts = key.split("/");
     const last = parts[parts.length - 1];
     const tmp = key.replaceAll("/", ".").replace("." + last, "");
-    eval("state.user.settings" + tmp + "[last] = state.settingsChanged[key]");
+    const set = Function(
+      "settings",
+      "value",
+      `settings${tmp}[${last}] = value`
+    );
+    set(state.user.settings, state.settingsChanged[key]);
+    //eval("state.user.settings" + tmp + "[last] = state.settingsChanged[key]");
     settingsNotChanged(key);
   }
 
@@ -353,7 +359,6 @@ export const useUser = defineStore("user", () => {
     setUser,
     setSettings,
     setCols,
-    // setWatchlist,
     // Actions
     getUser,
     checkTries,

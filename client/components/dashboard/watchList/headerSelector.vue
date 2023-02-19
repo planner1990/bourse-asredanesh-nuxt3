@@ -1,14 +1,12 @@
 <script lang="ts">
 
-import {InstrumentCache, WatchListColumns, DefaultCols} from "@/types";
-import {useUser} from "~/composables";
+import { InstrumentCache, WatchListColumns, DefaultCols } from "@/types";
+import { useUser } from "~/composables";
 
 export default defineComponent({
   setup() {
     const userManager = useUser();
     const menu = ref(false);
-    const user = userManager.me;
-    const currentCols = computed(() => user.settings.columns ?? DefaultCols());
     const blackList = [
       "side",
       "priceChange",
@@ -20,19 +18,18 @@ export default defineComponent({
       "instrumentCode",
     ];
     const cols = Object.keys(new InstrumentCache()).filter(
-        (item) => blackList.indexOf(item) == -1
+      (item) => blackList.indexOf(item) == -1
     );
     const items = computed(() => {
       return cols
-          .map((key) => ({
-            selected: currentCols.value.findIndex((item) => item?.value == key) != -1,
-            value: key,
-          }))
-      // .sort((a, b) => (a.selected ? 0 : 1) - (b.selected ? 0 : 1));
+        .map((key) => ({
+          selected: userManager.me.settings.columns.findIndex((item) => item?.value == key) != -1,
+          value: key,
+        }))
     });
 
     async function toggleCol(name: string) {
-      const tmp = [...currentCols.value];
+      const tmp = userManager.me.settings.columns;
       const ind = tmp.findIndex((item) => item?.value == name);
       if (ind == -1) {
         const col = new WatchListColumns("instrument." + name, name);
@@ -90,7 +87,7 @@ export default defineComponent({
 }
 
 .item {
-  @apply tw-h-[32px]  tw-justify-start tw-items-center;
+  @apply tw-h-[32px] tw-justify-start tw-items-center;
 }
 
 .ada-list-item {
@@ -100,8 +97,7 @@ export default defineComponent({
 <template>
   <ada-menu :active="menu" :mTop="33.5" :mWidth="145" class="tw-w-fit tw-mx-auto" box-shadow>
     <template #activator>
-      <ada-btn
-          @click.stop="()=> menu = !menu" :class="{ active: menu }" v-ada-click-outside="()=> menu = false">
+      <ada-btn @click.stop="() => menu = !menu" :class="{ active: menu }" v-ada-click-outside="() => menu = false">
         <ada-icon :size="16">
           mdi-dots-horizontal-circle-outline
         </ada-icon>
@@ -117,14 +113,9 @@ export default defineComponent({
           <span v-text="$t('general.default-settings')"></span>
           <ada-icon class="tw-text-info" :size="16"> isax-rotate-left</ada-icon>
         </ada-list-item>
-        <hr class="divider tw-border-divider"/>
+        <hr class="divider tw-border-divider" />
         <ada-list-item v-for="i in items" :key="i.value" @click="toggleCol(i.value)" class="item">
-          <input
-              type="checkbox"
-              v-model="i.selected"
-              class="input-checkbox tw-mx-1.5 tw-mr-3"
-              tabindex="-1"
-          />
+          <input type="checkbox" v-model="i.selected" class="input-checkbox tw-mx-1.5 tw-mr-3" tabindex="-1" />
           <!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
           <span v-text="$t(`instrument.${i.value}`)"></span>
         </ada-list-item>
