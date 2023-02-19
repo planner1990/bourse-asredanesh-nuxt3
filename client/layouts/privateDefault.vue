@@ -40,6 +40,19 @@ function openRoute(path: string) {
   router.push(`/watchlist/${route.params.name}/${path}`);
 }
 
+
+
+// onMounted(() => {
+//   const socket = new WebSocket('wss://bourse.asr24.com/api/ws/ws/IRO9PARK0011');
+//   socket.onopen = function (event) {
+//     console.log(event);
+//     console.log("successfully");
+//   }
+//   socket.onmessage = function (event) {
+//     console.log(event);
+//     console.log("successfully on message");
+//   }
+// })
 </script>
 
 <style lang="postcss" scoped>

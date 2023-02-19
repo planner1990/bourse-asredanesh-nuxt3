@@ -1,6 +1,6 @@
 {
   "error": {
-    "0":"خطای سطح شبکه.",
+    "0": "خطای سطح شبکه.",
     "400": "خطای کاربری",
     "401": "نیاز به ورود مجدد",
     "406": "غیر قابل قبول",
@@ -84,9 +84,9 @@
     "chat": "گفتوگو",
     "supporter": "پشتیبان",
     "messagePlaceholder": "پیام خودرا وارد کنید",
-    "agreementsText":"متن بالا را خواندم و با آن موافقم!",
-    "notAgree":"موافق نیستم",
-    "ConfirmAgree":"تایید می‌کنم"
+    "agreementsText": "متن بالا را خواندم و با آن موافقم!",
+    "notAgree": "موافق نیستم",
+    "ConfirmAgree": "تایید می‌کنم"
   },
   "user": {
     "personality": {
@@ -252,7 +252,8 @@
     "software": "نرم افزار",
     "actions": "عملیات",
     "situation": "وضعیت",
-    "date": "تاریخ"
+    "date": "تاریخ",
+    "end": "پایانی"
   },
   "watchList": {
     "title": "دیدبان",
@@ -424,7 +425,7 @@
       "entryAndExitHistory": "تاریخچه ورود و خروج",
       "changePassword": "تغییر کلمه عبور",
       "agreements": "توافق نامه‌ها",
-      "clientSettings":"تنظیمات کاربری"
+      "clientSettings": "تنظیمات کاربری"
     },
     "accounting": "حسابداری",
     "trades": "@:oms.trades",
@@ -465,6 +466,11 @@
     },
     "furtherInformation": {
       "index": "اطلاعات تکمیلی",
+      "typesOfPapers": "انواع اوراق",
+      "shareholders&Owners": "سهامداران/دارندگان",
+      "dependentSymbols": "نمادهای وابسته",
+      "shareholdersAboveOnePercent": "سهامداران بالای یک درصد",
+      "automobileAndPartsManufacturing": "گروه: خودرو و ساخت قطعات",
       "depth": "عمق بازار",
       "myGroups": "همگروه ها - صنایع",
       "holdersGroups": "همگروه های سهامداری",
