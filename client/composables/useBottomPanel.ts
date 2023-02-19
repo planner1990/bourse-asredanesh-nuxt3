@@ -28,8 +28,6 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
           var item = state.value._tabs[ta];
           if (item.deletable && item.id != tab.id) item.show = false;
         }
-        if (_current.value != null && _current.value.deletable)
-          removeTab(_current.value.id);
       }
       _current.value = tab;
     },
