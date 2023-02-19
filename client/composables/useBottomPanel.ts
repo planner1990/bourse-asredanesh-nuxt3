@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { TabItem } from "@/types";
 import defaultTabs from "@/components/bottom-panel/tabs";
 import { getMenuItems } from "@/components/rightPanel/items";
+import { it } from "node:test";
 
 export const useBottomPanel = defineStore("bottom-panel", () => {
   const state = ref({
@@ -15,6 +16,24 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
   registerTabs();
 
   const tabs = computed(() => Object.values(state.value._tabs));
+  const _current = ref<TabItem | null>(null);
+  const current = computed<TabItem | null>({
+    get() {
+      return _current.value;
+    },
+    set(tab) {
+      if (tab != null && tab.deletable) {
+        showTab(tab?.id);
+        for (var ta in state.value._tabs) {
+          var item = state.value._tabs[ta];
+          if (item.deletable && item.id != tab.id) item.show = false;
+        }
+        if (_current.value != null && _current.value.deletable)
+          removeTab(_current.value.id);
+      }
+      _current.value = tab;
+    },
+  });
   const LeftPanelMini = computed({
     get: () => state.value.leftPanelMini,
     set(val) {
@@ -103,5 +122,6 @@ export const useBottomPanel = defineStore("bottom-panel", () => {
     expanded,
     loading,
     LeftPanelMini,
+    current,
   };
 });

@@ -35,17 +35,13 @@ watch(() => props.value, (newVal) => {
 
 ////////////
 
-const getText: (item: any) => string = eval(
-    "(item)=>{\
-      return " + props.textPath.replace(/^\$/, "item") + "?.toString();\
-  }"
-);
+const getText: (item: any) => string = Function('item',
+  `return ${props.textPath.replace(/^\$/, "item")}?.toString();`
+) as (item: any) => string;
 
-const getValue: (item: any) => any = eval(
-    "(item)=>{\
-      return " + props.keyPath.replace(/^\$/, "item") + ";\
-  }"
-);
+const getValue: (item: any) => any = Function('item',
+  `return ${props.keyPath.replace(/^\$/, "item")};`
+) as (item: any) => any;
 
 function select(item: any) {
   val.value = item
@@ -147,13 +143,13 @@ props.value ? select(props.value) : null
     <div class="label">
       {{ label }}
     </div>
-    <div class="input" @click="active = !active" v-ada-click-outside="()=> active = false">
+    <div class="input" @click="active = !active" v-ada-click-outside="() => active = false">
       <slot name="prepend"></slot>
       <ada-menu :mLeft="-24" :mTop="27.5" :mWidth="24" :active="active">
         <template #activator>
           <input type="text" class="tw-min-w-0 tw-max-w-full tw-h-full tw-flex-grow tw-px-2 tw-inline-block"
-                 :value="selectedText" readonly ref="inp" :aria-readonly="readonly"
-                 :placeholder="placeholder" v-bind="$attrs"/>
+            :value="selectedText" readonly ref="inp" :aria-readonly="readonly" :placeholder="placeholder"
+            v-bind="$attrs" />
         </template>
         <template #prepend-item>
           <slot name="prepend-item"></slot>

@@ -11,21 +11,18 @@ const props = withDefaults(
         nameKey: '$'
     }
 );
-const val = ref(props.modelValue);
-const name = ref(eval(props.nameKey.replace('$', 'props.modelValue')))
-const route = useRoute()
+const emit = defineEmits(["update:modelValue"]);
+const val = computed({
+    get: () => props.modelValue,
+    set(value) {
+        emit("update:modelValue", value)
+    }
+});
+const nameCalculator = Function("obj", `return ${props.nameKey.replace('$', 'obj')};`)
+const name = computed(() => nameCalculator(val.value))
 
 provide("tab-ref", val);
 provide("tab-name", name);
-
-watch(
-    () => props.modelValue,
-    (update) => {
-        val.value = update;
-        name.value = eval(props.nameKey.replace('$', 'update'));
-    }
-);
-
 
 </script>
 <style lang="postcss" scoped>

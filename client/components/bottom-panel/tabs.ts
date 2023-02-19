@@ -214,10 +214,22 @@ const panels: Array<TabItem> = [
         ],
         path: "more",
         deletable: false,
-        show: true,
-    },
-    {
-        id: "stockIndex",
+        match:
+          /^\/watchlist\/.+\/more\/directorate([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+      },
+    ],
+    path: "more",
+    deletable: false,
+    show: true,
+  },
+  {
+    id: "stockIndex",
+    title: "bottom-panel.stockIndex.index",
+    match: /^\/watchlist\/.+\/stockIndex/g,
+    children: [
+      {
+        id: "stockIndex.index",
+        path: "stockIndex",
         title: "bottom-panel.stockIndex.index",
         match: /^\/watchlist\/.+\/stockIndex$/g,
         children: [
