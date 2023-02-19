@@ -21,15 +21,8 @@ function goToDeposit() {
   @apply tw-bg-gray-100 tw-w-full tw-h-full;
 }
 
-header {
-  @apply tw-flex tw-col-span-2 tw-items-center tw-px-8 tw-text-primary tw-bg-primary tw-bg-opacity-10;
-  height: 42px;
-  width: 100%;
-  font-weight: bold;
-}
-
 .deposit {
-  @apply tw-grid tw-grid-cols-2 tw-gap-[16px] tw-m-0 tw-p-[16px] tw-justify-center;
+  @apply tw-grid tw-grid-cols-2 tw-gap-[12px] tw-m-0 tw-p-[12px] tw-justify-center;
   position: relative;
 
 
@@ -37,7 +30,7 @@ header {
     @apply tw-bg-white tw-rounded-t-lg;
     
     .card {
-      @apply tw-p-[24px] tw-mx-auto tw-rounded-t-lg;
+      @apply tw-p-[12px] tw-mx-auto tw-rounded-t-lg;
       max-width: 390px;
     }
 
@@ -147,7 +140,6 @@ header {
 
 <template>
   <div class="tmp-ctr">
-    <header>{{ $t("menu.depositReport") }}</header>
     <main class="deposit">
       <section>
         <form class="card">
@@ -177,18 +169,8 @@ header {
               </div>
             </div>
           </div>
-          <div>
-            <ada-btn
-              @click="goToDeposit"
-              >{{ $t("menu.deposit") }}</ada-btn
-            >
-            <ada-btn>{{
-              $t("accounting.deposit-report")
-            }}</ada-btn>
-          </div>
         </form>
       </section>
-
       <section>
         <div class="card">
           <ContentDoc :path="`${lang}/accounting/deposit`" class="doc" />

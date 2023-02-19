@@ -22,13 +22,9 @@ const router = useRouter();
   @apply tw-h-full tw-w-full;
 }
 
-header {
-  @apply tw-flex tw-col-span-2 tw-items-center tw-px-8 tw-w-full tw-h-[42px] tw-font-bold tw-text-black tw-bg-primary tw-bg-opacity-20;
-}
-
 .deposit {
-  @apply tw-grid tw-grid-cols-2 tw-gap-[16px] tw-m-0 tw-p-[16px] tw-relative tw-bg-primary tw-bg-opacity-10;
-  height: calc(100% - 42px);
+  @apply tw-grid tw-grid-cols-2 tw-gap-[12px] tw-m-0 tw-p-[12px] tw-relative tw-bg-primary tw-bg-opacity-10;
+  height: auto;
 
   &::before {
     content: "";
@@ -37,7 +33,7 @@ header {
   }
 
   .card {
-    @apply tw-p-[24px] tw-bg-white;
+    @apply tw-p-[12px] tw-bg-white;
     border-radius: var(--border-radius-panel);
 
     .label {
@@ -109,7 +105,6 @@ header {
 </style>
 <template>
   <div class="tmp-ctr">
-    <header>{{ $t("menu.deposit") }}</header>
     <main class="deposit">
       <form class="card">
         <div>
@@ -128,15 +123,6 @@ header {
               <img :src="'/images/banks/' + bank.name + '.png'" :alt="bank.name" />
             </ada-btn>
           </ada-toggle>
-          <div class="actions">
-            <ada-btn
-              to="/accounting/deposit-report"
-              >{{ $t("menu.depositReport") }}</ada-btn
-            >
-            <ada-btn :height="36" :width="142" dark>{{
-              $t("accounting.deposit")
-            }}</ada-btn>
-          </div>
         </div>
       </form>
       <div class="card">

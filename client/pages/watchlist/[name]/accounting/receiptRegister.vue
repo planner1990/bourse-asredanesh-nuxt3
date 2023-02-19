@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {ref} from 'vue';
+import { ref } from 'vue';
 
 const router = useRouter();
 const appManager = useAsrTrader();
@@ -12,39 +12,38 @@ const year = ref<string>('')
 const route = useRoute();
 
 function goToDeposit() {
-  router.push({path: `/watchlist/${route.params.name}/accounting/deposit`});
+  router.push({ path: `/watchlist/${route.params.name}/accounting/deposit` });
 }
 </script>
 
 <style lang="postcss" scoped>
 .tmp-ctr {
-  @apply tw-bg-gray-100 tw-w-full tw-h-full;
+  @apply tw-w-full tw-h-full;
 }
 
-header {
-  @apply tw-flex tw-col-span-2 tw-items-center tw-px-8 tw-text-primary tw-bg-primary tw-bg-opacity-10;
-  height: 42px;
-  width: 100%;
-  font-weight: bold;
-}
 
 .deposit {
-  @apply tw-grid tw-grid-cols-2 tw-gap-[16px] tw-m-0 tw-p-[16px] tw-justify-center;
-  position: relative;
+  @apply tw-grid tw-grid-cols-2 tw-gap-[12px] tw-m-0 tw-p-[12px] tw-relative tw-bg-primary tw-bg-opacity-10;
+  height: auto;
 
+  &::before {
+    content: "";
+    @apply tw-absolute tw-w-full tw-h-full tw-top-0 tw-left-0 tw-bg-white;
+    z-index: -1;
+  }
 
   section {
     @apply tw-bg-white tw-rounded-t-lg;
 
     .card {
-      @apply tw-p-[24px] tw-mx-auto tw-rounded-t-lg;
+      @apply tw-p-[12px] tw-mx-auto tw-rounded-t-lg;
       max-width: 390px;
     }
 
     form.card {
       @apply tw-flex tw-flex-col;
 
-      & > :first-child {
+      &> :first-child {
         @apply tw-flex tw-justify-between;
 
         .ada-input {
@@ -91,7 +90,7 @@ header {
         }
       }
 
-      & > :nth-child(2) {
+      &> :nth-child(2) {
         @apply tw-flex tw-justify-between tw-mt-6;
 
         .ada-select {
@@ -104,7 +103,7 @@ header {
         }
       }
 
-      & > :nth-child(3) {
+      &> :nth-child(3) {
         @apply tw-bg-info tw-bg-opacity-5 tw-my-6 tw-border tw-border-dashed tw-border-info tw-rounded-lg;
 
         .uploader {
@@ -116,7 +115,7 @@ header {
         }
       }
 
-      & > :nth-child(4) {
+      &> :nth-child(4) {
         @apply tw-flex tw-justify-between;
 
         .ada-button {
@@ -168,7 +167,6 @@ header {
 
 <template>
   <div class="tmp-ctr">
-    <header>{{ $t("menu.receiptRegister") }}</header>
     <main class="deposit">
       <section>
         <form class="card">
@@ -183,31 +181,20 @@ header {
           </div>
           <div>
             <div class="uploader">
-              <ada-icon class="uploader__icon--info" size="3.25rem"
-              >isax-document-upload-outline
-              </ada-icon
-              >
+              <ada-icon class="uploader__icon--info" size="3.25rem">isax-document-upload-outline
+              </ada-icon>
               <div>
-                <h5
-                    v-text="$t('accounting.upload')"
-                    class="uploader__title--info"
-                ></h5>
-                <p
-                    v-text="$t('accounting.desUpload')"
-                    class="uploader__description--gray"
-                ></p>
+                <h5 v-text="$t('accounting.upload')" class="uploader__title--info"></h5>
+                <p v-text="$t('accounting.desUpload')" class="uploader__description--gray"></p>
               </div>
             </div>
           </div>
           <div>
-            <ada-btn
-                @click="goToDeposit"
-            >{{ $t("menu.deposit") }}
-            </ada-btn
-            >
+            <ada-btn @click="goToDeposit">{{ $t("menu.deposit") }}
+            </ada-btn>
             <ada-btn>{{
-                $t("menu.receiptRegister")
-              }}
+              $t("menu.receiptRegister")
+            }}
             </ada-btn>
           </div>
         </form>
@@ -215,7 +202,7 @@ header {
 
       <section>
         <div class="card">
-          <ContentDoc :path="`${lang}/accounting/deposit`" class="doc"/>
+          <ContentDoc :path="`${lang}/accounting/deposit`" class="doc" />
         </div>
       </section>
       <!-- <footer class="tw-bg-info">rgrg</footer> -->
