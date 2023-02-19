@@ -166,17 +166,13 @@ export const useInstrument = defineStore("instrument", () => {
       );
       data.forEach((item) => {
         updateInstrument(item);
-
-        if (watch) websocket.addInstrumentToWatch(item);
         res.push(state.value.cache.get(item.id.toString()) as InstrumentCache);
       });
     }
-
     res.sort((a, b) => {
       return searchModel.ids.indexOf(a.id) - searchModel.ids.indexOf(b.id);
     });
-
-    if (watch) websocket.watchInstruments(null);
+    
     const ids = res.map((item) => item.id);
     if (ids.length > 0) {
       getInstrumentPrices(ids);

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useUser } from "~/composables";
-import { computed, ref } from 'vue'
+import { useUser, useWebSocket } from "~/composables";
 import { InstrumentSearchModel } from "~/types";
 
 definePageMeta({
@@ -10,6 +9,7 @@ definePageMeta({
 const route = useRoute();
 const userManager = useUser();
 const loadingRef = ref(false);
+const ws = useWebSocket();
 
 const name = (route.params.name as string) ?? "new";
 

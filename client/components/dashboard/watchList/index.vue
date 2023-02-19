@@ -11,6 +11,7 @@ import {
   useOrder,
   useUser,
   useNotifications,
+  useWebSocket
 } from "@/composables";
 import { useShortcut } from "@/utils/shortcutManager";
 import { useI18n } from "vue-i18n";
@@ -25,6 +26,7 @@ const props = withDefaults(
   }
 );
 
+const ws = useWebSocket();
 
 watch(
   () => props.searchModel,
@@ -63,6 +65,7 @@ async function refresh() {
   _instruments.push(
     ...(await instrumentManager.getInstrumentsDetail(props.searchModel, true))
   );
+  ws.connect(_instruments.map((item) => item.instrumentCode))
   await notificationManager.initNotifications(
     props.searchModel.ids.map((id: number) => id.toString())
   );
