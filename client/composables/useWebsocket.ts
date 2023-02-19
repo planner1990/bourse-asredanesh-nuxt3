@@ -1,21 +1,30 @@
 import { defineStore } from "pinia";
 import { encode, decode } from "@msgpack/msgpack";
+import { useUser } from ".";
 import { Instrument, InstrumentCache, ISharedObject } from "@/types";
 
 export const useWebSocket = defineStore("webSocket", () => {
   let connection: WebSocket | null = null;
-  const watch_list: { id: string; name: string; tid: number }[] = [];
   const handlers: { [key: string]: (obj: ISharedObject) => any } = {};
+  const runtimeConfig = useRuntimeConfig();
+  const user_manager = useUser();
 
-  const toSend: Array<any> = [];
-  function connect() {
+  const toWatch = ref<Array<string>>([]);
+  function connect(instruments: Array<string>) {
+    toWatch.value = instruments;
     connection = new WebSocket(
-      process.env.VUE_WSS_Host ?? "wss://bourse.asr24.com/api/ws/ws/IRO9PARK0011"
+      `${runtimeConfig.public.VUE_WSS_Host}${instruments.join(
+        ","
+      )}?access_token=${user_manager.getToken?.replace("Bearer ", "")}` ??
+        `wss://bourse.asr24.com/api/ws/ws/${instruments.join(
+          ","
+        )}?access_token=${user_manager.getToken?.replace("Bearer ", "")}`
     );
     connection.binaryType = "arraybuffer";
     connection.onmessage = (msg) => {
       if (typeof msg.data == "object") {
         const resp: ISharedObject = decode(msg.data) as ISharedObject;
+        console.log(resp);
         if (handlers[resp.typ]) {
           handlers[resp.typ](resp);
         } else {
@@ -24,19 +33,14 @@ export const useWebSocket = defineStore("webSocket", () => {
       }
     };
     connection.onopen = () => {
-      for (let i in toSend) {
-        send(toSend[i]);
-      }
       console.log(new Date(), "WS Connected.");
-      watchInstruments(null);
-      console.log(new Date(), "Re-watch.");
     };
     connection.onclose = reconnect;
   }
 
   function reconnect() {
     setTimeout(() => {
-      connect();
+      connect(toWatch.value);
     }, 2000);
   }
 
@@ -44,35 +48,8 @@ export const useWebSocket = defineStore("webSocket", () => {
     handlers[type] = handler;
   }
 
-  function addInstrumentToWatch(instrument: InstrumentCache | Instrument) {
-    watch_list.push({
-      id: instrument.instrumentId.toString(),
-      name: instrument.name,
-      tid: instrument.id,
-    });
-  }
-
-  function watchInstruments(
-    list: { id: string; name: string; tid: number }[] | null
-  ) {
-    send({
-      typ: "TSE_WATCHER",
-      time: 0,
-      packet_time: new Date().toISOString(),
-      obj: list ?? watch_list,
-    });
-  }
-
-  function send(msg: ISharedObject) {
-    if (connection && connection.readyState) connection?.send(encode(msg));
-    else toSend.push(msg);
-  }
-
   return {
     connect,
-    send,
-    watchInstruments,
-    addInstrumentToWatch,
     registerHandler,
   };
 });
