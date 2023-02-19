@@ -253,7 +253,11 @@
     "actions": "عملیات",
     "situation": "وضعیت",
     "date": "تاریخ",
-    "end": "پایانی"
+    "end": "پایانی",
+    "holder": "سهامدار / دارنده",
+    "share": "سهم",
+    "percent": "درصد",
+    "change": "تغییر"
   },
   "watchList": {
     "title": "دیدبان",
