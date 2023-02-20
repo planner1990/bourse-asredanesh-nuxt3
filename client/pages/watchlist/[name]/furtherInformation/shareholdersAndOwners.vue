@@ -59,15 +59,19 @@ getTradeHistories();
 <style lang="postcss" scoped>
 
 :deep(.headers[data-v-8d846923]) {
-  @apply tw-bg-[#F8F8F8] tw-text-gray3 tw-font-medium tw-rounded-full;
+  @apply tw-bg-primary tw-bg-opacity-10 tw-text-gray3 tw-font-medium tw-rounded-full;
 }
 
 :deep(.bar) {
   border-color: #E0E0E0;
 }
 
+:deep(tbody) {
+  background-color: rgba(248, 248, 248, 1);
+}
+
 :deep(.row-border td) {
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid rgba(224, 224, 224, 1) !important;
 }
 
 .table-container {
