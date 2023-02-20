@@ -66,7 +66,7 @@ getTradeHistories();
 }
 
 :deep(.bar) {
-  border-color: #E0E0E0;
+  @apply tw-border-default;
 }
 
 :deep(tbody) {
