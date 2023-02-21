@@ -29,7 +29,7 @@ export const useWealth = defineStore("wealth", () => {
       doAsync(() => {
         if (wealth)
           return wealth.every((item) =>
-            instrumentManager.updateInstrument(item)
+            instrumentManager.updateInstrumentById(item)
           );
       });
       return wealth;

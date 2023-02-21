@@ -24,11 +24,13 @@ export const useWebSocket = defineStore("webSocket", () => {
     connection.onmessage = (msg) => {
       if (typeof msg.data == "object") {
         const resp: ISharedObject = decode(msg.data) as ISharedObject;
-        console.log(resp);
         if (handlers[resp.typ]) {
           handlers[resp.typ](resp);
         } else {
-          console.log("Message-Type '" + resp.typ + "' is unhandled!");
+          console.log(
+            "Message-Type '" + resp.typ + "' is unhandled!",
+            decode(resp.obj ?? [0])
+          );
         }
       }
     };

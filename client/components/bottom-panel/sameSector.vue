@@ -35,7 +35,7 @@ async function getMygroups() {
     const searchModel = new SameSectorQuery(instrumentManager.getSelected?.id || 0, instrumentManager.getSelected?.sector || 0)
     const { data } = await instrumentManager.getTeammates(searchModel)
     if (data?.length > 0) {
-      const sameSectors = await instrumentManager.getInstrumentsDetail(new InstrumentSearchModel(data), false)
+      const sameSectors = await instrumentManager.getInstrumentsDetail(new InstrumentSearchModel(data))
       items.push(...sameSectors)
     }
   } catch (e) {

@@ -63,7 +63,7 @@ let instruments = computed(() => {
 async function refresh() {
   _instruments.splice(0, Infinity);
   _instruments.push(
-    ...(await instrumentManager.getInstrumentsDetail(props.searchModel, true))
+    ...(await instrumentManager.getInstrumentsDetail(props.searchModel))
   );
   ws.connect(_instruments.map((item) => item.instrumentCode))
   await notificationManager.initNotifications(
@@ -216,7 +216,7 @@ if (process.client) {
       const item = instrumentManager.state.selected;
       if (item) {
         instrumentManager.activateTab(item);
-        instrumentManager.updateInstrument(
+        instrumentManager.updateInstrumentById(
           Object.assign({}, item, {
             side: Side.Buy,
           })
@@ -231,7 +231,7 @@ if (process.client) {
       const item = instrumentManager.state.selected;
       if (item) {
         instrumentManager.activateTab(item);
-        instrumentManager.updateInstrument(
+        instrumentManager.updateInstrumentById(
           Object.assign({}, item, {
             id: item.id,
             side: Side.Sell,

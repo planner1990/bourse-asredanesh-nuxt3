@@ -15,7 +15,6 @@ export default defineComponent({
       "maxAllowedPrice",
       "minAllowedPrice",
       "instrumentId",
-      "instrumentCode",
     ];
     const cols = Object.keys(new InstrumentCache()).filter(
       (item) => blackList.indexOf(item) == -1

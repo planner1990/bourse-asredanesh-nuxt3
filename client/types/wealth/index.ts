@@ -5,9 +5,11 @@ export * from "./orderQueue";
 
 export class Wealth {
   id: number;
+  instrumentId: number;
   amount: number;
   constructor() {
     this.id = 0;
+    this.instrumentId = this.id
     this.amount = 0;
   }
 }

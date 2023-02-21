@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { decode } from "@msgpack/msgpack";
 import { InstrumentState } from "@/types/stores";
 import {
   ClientDistribution,
@@ -21,13 +22,14 @@ import { useWebSocket } from "../useWebsocket";
 
 export const useInstrument = defineStore("instrument", () => {
   const state = ref<InstrumentState>({
-    cache: new Map<string, InstrumentCache>(),
+    cache: reactive({}),
+    idCache: reactive({}),
     focus: reactive([]),
     focusViewMode: 0,
     selected: null,
     activeTab: null,
-    orderQueueCache: {},
-    clientDistributionCache: {},
+    orderQueueCache: reactive({}),
+    clientDistributionCache: reactive({}),
     width: process.client ? window.screen.availWidth : 800,
   });
   const axiosManager = useAxios();
@@ -35,36 +37,49 @@ export const useInstrument = defineStore("instrument", () => {
 
   const websocket = useWebSocket();
 
-  websocket.registerHandler("TSE_UPDATE", (data) => {
-    const inst = state.value.cache.get(data.obj.tid.toString());
+  websocket.registerHandler("price", (data) => {
+    const inst = state.value.cache[data.referenceNumber];
+    const parsedData = decode(data.obj) as any;
     if (inst) {
-      inst.lastTradeDate = data.obj.lastTradeDate;
-      if (data.obj.legalReal) {
-        state.value.clientDistributionCache[data.obj.tid] = data.obj.legalReal;
-      }
-      if (data.obj.price) {
-        inst.last = data.obj.price.last;
-        inst.opening = data.obj.price.opening;
-        inst.closing = data.obj.price.closing;
-        inst.lowest = data.obj.price.lowest;
-        inst.highest = data.obj.price.highest;
-        inst.yesterdayPrice = data.obj.price.yesterdayPrice;
-      }
-      if (data.obj.market) {
-        inst.totalShares = data.obj.market.totalShares;
-        inst.totalTrades = data.obj.market.totalTrades;
-        inst.totalTradesValue = data.obj.market.totalTradesValue;
-      }
+      inst.lastTradeDate = parsedData.dateTime;
+      inst.last = parsedData.last;
+      inst.opening = parsedData.opening;
+      inst.closing = parsedData.closing;
+      inst.lowest = parsedData.lowest;
+      inst.highest = parsedData.highest;
+      inst.yesterdayPrice = parsedData.yesterdayPrice;
     }
-    if (data.obj.queue) {
-      if (state.value.orderQueueCache[data.obj.id]) {
-        state.value.orderQueueCache[data.obj.id].splice(
-          0,
-          data.obj.queue.length,
-          ...data.obj.queue
-        );
-      } else state.value.orderQueueCache[data.obj.id] = data.obj.queue;
+  });
+
+  websocket.registerHandler("market", (data) => {
+    const inst = state.value.cache[data.referenceNumber];
+    const parsedData = decode(data.obj) as any;
+    if (inst) {
+      inst.totalShares = parsedData.totalShares;
+      inst.totalTrades = parsedData.totalTrades;
+      inst.totalTradesValue = parsedData.totalTradesValue;
     }
+  });
+
+  websocket.registerHandler("queue", (data) => {
+    console.log(data.referenceNumber);
+    const inst = state.value.orderQueueCache[data.referenceNumber];
+    const parsedData = decode(data.obj) as any;
+    if (typeof inst != undefined) {
+      state.value.orderQueueCache[data.referenceNumber].splice(
+        0,
+        parsedData.length,
+        ...parsedData
+      );
+    } else state.value.orderQueueCache[data.referenceNumber] = parsedData;
+  });
+
+  websocket.registerHandler("legal-real", (data) => {
+    const parsedData = decode(data.obj) as any;
+    Object.assign(
+      state.value.clientDistributionCache[data.referenceNumber],
+      parsedData
+    );
   });
 
   // Getters
@@ -77,11 +92,7 @@ export const useInstrument = defineStore("instrument", () => {
     },
   });
   const focusMode = computed(() => state.value.focusViewMode);
-  const getByKey = computed(
-    () =>
-      (key: number): InstrumentCache | null =>
-        state.value.cache.get(key.toString()) || null
-  );
+
   const getFocus = computed((): Array<InstrumentCache> => state.value.focus);
   const getActive = computed(
     (): InstrumentCache | null => state.value.activeTab
@@ -92,16 +103,14 @@ export const useInstrument = defineStore("instrument", () => {
   );
 
   // Mutations
-  function updateInstrument(
+  function updateInstrumentById(
     data: InstrumentCache | Instrument | DailyPrice | MarketHistory | Wealth
   ) {
-    const inst = state.value.cache.get(data.id.toString());
+    const inst = state.value.idCache[data.id];
     if (inst) Object.assign(inst, data);
-    else
-      state.value.cache.set(
-        data.id.toString(),
-        Object.assign(new InstrumentCache(), data)
-      );
+    else {
+      state.value.idCache[data.id] = Object.assign(new InstrumentCache(), data);
+    }
   }
   function setFocus(data: Array<InstrumentCache>) {
     state.value.focus = data;
@@ -133,13 +142,11 @@ export const useInstrument = defineStore("instrument", () => {
     state.value.width = width;
   }
 
- async function getInstrumentsDetail(
-    searchModel: InstrumentSearchModel,
-    watch: boolean = true
+  async function getInstrumentsDetail(
+    searchModel: InstrumentSearchModel
   ): Promise<Array<InstrumentCache>> {
     const res: Array<InstrumentCache> = [];
     const missing: Array<number> = [];
-
     if (
       searchModel.boardIds.length == 0 &&
       searchModel.secIds.length == 0 &&
@@ -147,7 +154,7 @@ export const useInstrument = defineStore("instrument", () => {
     ) {
       let tmp = null;
       for (let i in searchModel.ids) {
-        tmp = state.value.cache.get(searchModel.ids[i].toString());
+        tmp = state.value.idCache[searchModel.ids[i]];
         if (tmp?.name) res.push(tmp);
         else missing.push(searchModel.ids[i]);
       }
@@ -165,14 +172,20 @@ export const useInstrument = defineStore("instrument", () => {
         axios
       );
       data.forEach((item) => {
-        updateInstrument(item);
-        res.push(state.value.cache.get(item.id.toString()) as InstrumentCache);
+        state.value.cache[item.instrumentCode] = Object.assign(
+          new InstrumentCache(),
+          state.value.idCache[item.id],
+          item,
+          state.value.cache[item.instrumentCode]
+        );
+        state.value.idCache[item.id] = state.value.cache[item.instrumentCode];
+        res.push(state.value.idCache[item.id]);
       });
     }
     res.sort((a, b) => {
       return searchModel.ids.indexOf(a.id) - searchModel.ids.indexOf(b.id);
     });
-    
+
     const ids = res.map((item) => item.id);
     if (ids.length > 0) {
       getInstrumentPrices(ids);
@@ -190,7 +203,7 @@ export const useInstrument = defineStore("instrument", () => {
     } = await manager.getDailyPrice(ids, axios);
     data.forEach((item) => {
       item.id = item.instrumentId;
-      updateInstrument(item);
+      updateInstrumentById(item);
     });
     return data;
   }
@@ -211,16 +224,17 @@ export const useInstrument = defineStore("instrument", () => {
     } = await manager.getInstrumentMarketHistory(ids, axios);
     data.forEach((item) => {
       item.id = item.instrumentId;
-      updateInstrument(item);
+      updateInstrumentById(item);
     });
     return data;
   }
   function getOrderQueue(
     inst: Instrument | InstrumentCache
   ): Array<OrderQueueItem> {
-    let queue = state.value.orderQueueCache[inst.instrumentCode];
-    if (queue) return queue;
-    else {
+    const queue = state.value.orderQueueCache[inst.instrumentCode];
+    console.log("all", state.value.orderQueueCache);
+    console.log(inst.instrumentCode, queue);
+    if (typeof queue == "undefined") {
       state.value.orderQueueCache[inst.instrumentCode] = reactive([
         new OrderQueueItem(),
         new OrderQueueItem(),
@@ -286,13 +300,12 @@ export const useInstrument = defineStore("instrument", () => {
     // Getters
     width,
     focusMode,
-    getByKey,
     getFocus,
     getActive,
     getSelected,
     getSelectedIndex,
     //Mutations
-    updateInstrument,
+    updateInstrumentById,
     setFocus,
     addFocus,
     setFocusMode,

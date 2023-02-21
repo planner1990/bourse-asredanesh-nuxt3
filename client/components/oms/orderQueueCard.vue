@@ -44,7 +44,7 @@ const totalSell = computed(() => {
 const totalQueue = computed(() => totalBuy.value + totalSell.value);
 
 //TODO Replace in vue 3
-const queue = ref<OrderQueueItem[]>(instrumentManager.getOrderQueue(props.inst));// computed(() => instrumentManager.getOrderQueue(props.inst));
+const queue = computed(() => instrumentManager.getOrderQueue(props.inst));
 
 defineExpose({
   formatter,
@@ -94,6 +94,7 @@ defineExpose({
       position: relative;
     }
   }
+
   .col-border {
     border-bottom: 1px solid #e0e0e0;
   }
@@ -142,11 +143,11 @@ defineExpose({
       ">
         <numeric-field :value="item.buy.price">
           <!-- <span
-            :class="[change(item.sell.price) < 0 ? 'error--text' : 'success--text']"
-            style="font-size: 7px !important"
-          >
-            (%{{ formatter.format(change(item.buy.price)) }})
-          </span> -->
+              :class="[change(item.sell.price) < 0 ? 'error--text' : 'success--text']"
+              style="font-size: 7px !important"
+            >
+              (%{{ formatter.format(change(item.buy.price)) }})
+            </span> -->
         </numeric-field>
         <div class="bar"></div>
       </div>
@@ -157,11 +158,11 @@ defineExpose({
       ">
         <numeric-field :value="item.sell.price">
           <!-- <span
-            :class="[change(item.sell.price) < 0 ? 'error--text' : 'success--text']"
-            style="font-size: 7px !important"
-          >
-            (%{{ formatter.format(change(item.buy.price)) }})
-          </span> -->
+              :class="[change(item.sell.price) < 0 ? 'error--text' : 'success--text']"
+              style="font-size: 7px !important"
+            >
+              (%{{ formatter.format(change(item.buy.price)) }})
+            </span> -->
         </numeric-field>
       </div>
       <div class="field">
