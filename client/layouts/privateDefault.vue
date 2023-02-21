@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { useUser } from "@/composables";
+import { useUser, useWebSocket } from "@/composables";
 
 const appManager = useAsrTrader();
 const userManager = useUser();
 const bottomPanelManager = useBottomPanel();
 const locale = computed(() => appManager.locale);
 const rtl = computed(() => appManager.rtl);
+const ws = useWebSocket();
+
+await ws.connect([])
+
 const rightMenu = ref({
   mini: true,
   drawer: true,

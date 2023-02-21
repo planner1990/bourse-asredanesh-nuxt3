@@ -1,9 +1,9 @@
 export interface ISharedObject {
   typ: string;
-  packet_time: string;
-  time: Array<number>;
-  obj: Uint8Array;
+  packetTime: string | null;
+  time: Array<number> | null;
+  obj: Uint8Array | null;
   referenceNumber: string;
-  detail: Uint8Array;
+  detail: Uint8Array | null;
   agent: string;
 }

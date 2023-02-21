@@ -4,15 +4,16 @@ import { useUser } from ".";
 import { Instrument, InstrumentCache, ISharedObject } from "@/types";
 
 export const useWebSocket = defineStore("webSocket", () => {
-  let connection: WebSocket | null = null;
   const handlers: { [key: string]: (obj: ISharedObject) => any } = {};
   const runtimeConfig = useRuntimeConfig();
   const user_manager = useUser();
+  const connection = ref<WebSocket>();
+  const toSend: Array<ISharedObject> = [];
 
   const toWatch = ref<Array<string>>([]);
-  function connect(instruments: Array<string>) {
+  async function connect(instruments: Array<string>) {
     toWatch.value = instruments;
-    connection = new WebSocket(
+    connection.value = await new WebSocket(
       `${runtimeConfig.public.VUE_WSS_Host}${instruments.join(
         ","
       )}?access_token=${user_manager.getToken?.replace("Bearer ", "")}` ??
@@ -20,8 +21,8 @@ export const useWebSocket = defineStore("webSocket", () => {
           ","
         )}?access_token=${user_manager.getToken?.replace("Bearer ", "")}`
     );
-    connection.binaryType = "arraybuffer";
-    connection.onmessage = (msg) => {
+    connection.value.binaryType = "arraybuffer";
+    connection.value.onmessage = (msg) => {
       if (typeof msg.data == "object") {
         const resp: ISharedObject = decode(msg.data) as ISharedObject;
         if (handlers[resp.typ]) {
@@ -34,10 +35,19 @@ export const useWebSocket = defineStore("webSocket", () => {
         }
       }
     };
-    connection.onopen = () => {
+    connection.value.onopen = () => {
       console.log(new Date(), "WS Connected.");
+      for (let i in toSend) {
+        send(toSend[i]);
+      }
+      toSend.splice(0, toSend.length);
     };
-    connection.onclose = reconnect;
+    connection.value.onclose = reconnect;
+  }
+
+  function send(data: ISharedObject) {
+    if (connection.value?.readyState == 1) connection.value?.send(encode(data));
+    else toSend.push(data);
   }
 
   function reconnect() {
@@ -53,5 +63,6 @@ export const useWebSocket = defineStore("webSocket", () => {
   return {
     connect,
     registerHandler,
+    send,
   };
 });

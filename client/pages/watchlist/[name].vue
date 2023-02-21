@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useUser, useWebSocket } from "~/composables";
+import { useUser } from "~/composables";
 import { InstrumentSearchModel } from "~/types";
 
 definePageMeta({
@@ -9,7 +9,6 @@ definePageMeta({
 const route = useRoute();
 const userManager = useUser();
 const loadingRef = ref(false);
-const ws = useWebSocket();
 
 const name = (route.params.name as string) ?? "new";
 

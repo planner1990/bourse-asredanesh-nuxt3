@@ -39,7 +39,7 @@ export const useInstrument = defineStore("instrument", () => {
 
   websocket.registerHandler("price", (data) => {
     const inst = state.value.cache[data.referenceNumber];
-    const parsedData = decode(data.obj) as any;
+    const parsedData = data.obj ? (decode(data.obj) as any) : {};
     if (inst) {
       inst.lastTradeDate = parsedData.dateTime;
       inst.last = parsedData.last;
@@ -53,7 +53,7 @@ export const useInstrument = defineStore("instrument", () => {
 
   websocket.registerHandler("market", (data) => {
     const inst = state.value.cache[data.referenceNumber];
-    const parsedData = decode(data.obj) as any;
+    const parsedData = data.obj ? (decode(data.obj) as any) : {};
     if (inst) {
       inst.totalShares = parsedData.totalShares;
       inst.totalTrades = parsedData.totalTrades;
@@ -64,7 +64,7 @@ export const useInstrument = defineStore("instrument", () => {
   websocket.registerHandler("queue", (data) => {
     console.log(data.referenceNumber);
     const inst = state.value.orderQueueCache[data.referenceNumber];
-    const parsedData = decode(data.obj) as any;
+    const parsedData = data.obj ? (decode(data.obj) as any) : {};
     if (typeof inst != undefined) {
       state.value.orderQueueCache[data.referenceNumber].splice(
         0,
@@ -75,7 +75,7 @@ export const useInstrument = defineStore("instrument", () => {
   });
 
   websocket.registerHandler("legal-real", (data) => {
-    const parsedData = decode(data.obj) as any;
+    const parsedData = data.obj ? (decode(data.obj) as any) : {};
     Object.assign(
       state.value.clientDistributionCache[data.referenceNumber],
       parsedData

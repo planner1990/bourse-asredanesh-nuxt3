@@ -15,6 +15,8 @@ import {
 } from "@/composables";
 import { useShortcut } from "@/utils/shortcutManager";
 import { useI18n } from "vue-i18n";
+import { DateTime } from "luxon"
+import { encode } from "@msgpack/msgpack";
 
 const props = withDefaults(
   defineProps<{
@@ -65,7 +67,15 @@ async function refresh() {
   _instruments.push(
     ...(await instrumentManager.getInstrumentsDetail(props.searchModel))
   );
-  ws.connect(_instruments.map((item) => item.instrumentCode))
+  ws.send({
+    agent: "Web-Client",
+    referenceNumber: "",
+    typ: "Instrument.Register",
+    time: null,
+    packetTime: DateTime.now().toISO(),
+    obj: encode(_instruments.map((item) => item.instrumentCode)),
+    detail: null
+  });
   await notificationManager.initNotifications(
     props.searchModel.ids.map((id: number) => id.toString())
   );
