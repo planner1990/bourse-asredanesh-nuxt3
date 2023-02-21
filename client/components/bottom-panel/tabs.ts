@@ -64,11 +64,12 @@ const panels: Array<TabItem> = [
         title: "bottom-panel.completeInfo.index",
         children: [
             {
-                id: "furtherInformation.typesOfPapers",
+                id: "furtherInformation.depth",
                 path: "furtherInformation",
-                title: "bottom-panel.furtherInformation.typesOfPapers",
+                title: "bottom-panel.furtherInformation.depth",
                 deletable: false,
-                match: /^\/watchlist\/.+\/furtherInformation$/g,
+                match:
+                    /^\/watchlist\/.+\/furtherInformation$/g,
             },
             {
                 id: "furtherInformation.type",
@@ -79,22 +80,6 @@ const panels: Array<TabItem> = [
                     /^\/watchlist\/.+\/furtherInformation\/type$/g,
             },
             {
-                id: "furtherInformation.shareholders&Owners",
-                path: "furtherInformation/shareholdersAndOwners",
-                title: "bottom-panel.furtherInformation.shareholders&Owners",
-                deletable: false,
-                match:
-                    /^\/watchlist\/.+\/furtherInformation\/shareholdersAndOwners$/g,
-            },
-            {
-                id: "furtherInformation.depth",
-                path: "furtherInformation/depth",
-                title: "bottom-panel.furtherInformation.depth",
-                deletable: false,
-                match:
-                    /^\/watchlist\/.+\/furtherInformation\/depth$/g,
-            },
-            {
                 id: "furtherInformation.dependentSymbols",
                 path: "furtherInformation/dependentSymbols",
                 title: "bottom-panel.furtherInformation.dependentSymbols",
@@ -103,20 +88,35 @@ const panels: Array<TabItem> = [
                     /^\/watchlist\/.+\/furtherInformation\/dependentSymbols$/g,
             },
             {
-                id: "furtherInformation.shareholdersAboveOnePercent",
-                path: "furtherInformation/shareholdersAboveOnePercent",
-                title: "bottom-panel.furtherInformation.shareholdersAboveOnePercent",
+                id: "furtherInformation.typesOfPapers",
+                path: "furtherInformation/typesOfPapers",
+                title: "bottom-panel.furtherInformation.typesOfPapers",
                 deletable: false,
-                match:
-                    /^\/watchlist\/.+\/furtherInformation\/shareholdersAboveOnePercent$/g,
+                match: /^\/watchlist\/.+\/furtherInformation\/typesOfPapers$/g,
             },
             {
-                id: "furtherInformation.automobileAndPartsManufacturing",
-                path: "furtherInformation/automobileAndPartsManufacturing",
-                title: "bottom-panel.furtherInformation.automobileAndPartsManufacturing",
+                id: "furtherInformation.industryCohorts",
+                path: "furtherInformation/IndustryCohorts",
+                title: "bottom-panel.furtherInformation.industryCohorts",
                 deletable: false,
                 match:
-                    /^\/watchlist\/.+\/furtherInformation\/automobileAndPartsManufacturing$/g,
+                    /^\/watchlist\/.+\/furtherInformation\/IndustryCohorts$/g,
+            },
+            {
+                id: "furtherInformation.shareholders&Owners",
+                path: "furtherInformation/shareholdersAndOwners",
+                title: "bottom-panel.furtherInformation.shareholders&Owners",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/furtherInformation\/shareholdersAndOwners$/g,
+            },
+            {
+                id: "furtherInformation.shareholderGroups",
+                path: "furtherInformation/shareholderGroups",
+                title: "bottom-panel.furtherInformation.shareholderGroups",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/furtherInformation\/shareholderGroups$/g,
             },
         ],
         match: /^\/watchlist\/.+\/furtherInformation$/g,

@@ -34,23 +34,25 @@ const model = computed({
 const entryAndExitHistoryList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
+  new WatchListColumns(i18n.t("instrument.title").toString(), "title"),
+  new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
+  new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
+  new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
   new WatchListColumns(i18n.t("oms.count").toString(), "count"),
   new WatchListColumns(i18n.t("oms.amount").toString(), "amount"),
-  new WatchListColumns(i18n.t("oms.buy").toString(), "buy"),
-  new WatchListColumns(i18n.t("oms.sell").toString(), "sell"),
-  new WatchListColumns(i18n.t("oms.amount").toString(), "amount"),
-  new WatchListColumns(i18n.t("oms.count").toString(), "count")
+  new WatchListColumns(i18n.t("oms.value").toString(), "value")
 ];
 
 
 async function getTradeHistories() {
   const data = {
-    count: "3",
-    amount: "63,342",
-    buy: "3,769",
-    sell: "3,770",
-    amount2: "64,535",
-    count2: "4"
+    title: "صکوک مرابحه",
+    name: "خگستر۲",
+    last: "3,554",
+    end: "3,554",
+    count: "0",
+    amount: "0",
+    value: "0"
   }
   for (let i = 0; i <= 6; i++) {
     entryAndExitHistoryList.push(data);
@@ -86,9 +88,29 @@ getTradeHistories();
   <div class="tw-mx-2 tw-pt-3">
     <ada-data-table :items="entryAndExitHistoryList" :headers="defaultCols" item-key="dateTime"
                     class="tw-w-full tw-h-full tw-overflow-y-auto">
+      <template #item.title="{ item }">
+        <span>
+           {{ item.title }}
+        </span>
+      </template>
+      <template #item.name="{ item }">
+        <span>
+          {{ item.name }}
+        </span>
+      </template>
+      <template #item.last="{ item }">
+        <span>
+          {{ item.last }} <span class="tw-text-gray5 tw-mx-3">|</span> 0
+        </span>
+      </template>
+      <template #item.end="{ item }">
+        <span>
+          {{ item.end }} <span class="tw-text-gray5 tw-mx-3">|</span> 0
+        </span>
+      </template>
       <template #item.count="{ item }">
         <span>
-           {{ item.count }}
+          {{ item.count }}
         </span>
       </template>
       <template #item.amount="{ item }">
@@ -96,26 +118,15 @@ getTradeHistories();
           {{ item.amount }}
         </span>
       </template>
-      <template #item.buy="{ item }">
+      <template #item.value="{ item }">
         <span>
-          {{ item.buy }}
+          {{ item.value }}
         </span>
       </template>
-      <template #item.sell="{ item }">
-        <span>
-          {{ item.sell }}
-        </span>
-      </template>
-      <template #item.amount2="{ item }">
-        <span>
-          {{ item.amount2 }}
-        </span>
-      </template>
-      <template #item.count2="{ item }">
-        <span>
-          {{ item.count2 }}
-        </span>
-      </template>
+      <!--      <template #item.date="{ item }">-->
+      <!--        <DateTime :format="$t('general.date.d')" class="ltr"/>-->
+      <!--        | ۱۲:۵۴:۲۰-->
+      <!--      </template>-->
     </ada-data-table>
   </div>
 </template>
