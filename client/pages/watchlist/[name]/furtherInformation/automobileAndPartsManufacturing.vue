@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {useBottomPanel, useInstrument} from "~~/composables";
-import DateTime from "@/components/date/time.vue";
 import {
   WatchListColumns,
   TradesHistorySerachModel
@@ -34,7 +33,6 @@ const model = computed({
 const entryAndExitHistoryList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
-  new WatchListColumns(i18n.t("instrument.title").toString(), "title"),
   new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
   new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
   new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
@@ -46,7 +44,6 @@ const defaultCols = [
 
 async function getTradeHistories() {
   const data = {
-    title: "صکوک مرابحه",
     name: "خگستر۲",
     last: "3,554",
     end: "3,554",
@@ -88,11 +85,6 @@ getTradeHistories();
   <div class="tw-mx-2 tw-pt-3">
     <ada-data-table :items="entryAndExitHistoryList" :headers="defaultCols" item-key="dateTime"
                     class="tw-w-full tw-h-full tw-overflow-y-auto">
-      <template #item.title="{ item }">
-        <span>
-           {{ item.title }}
-        </span>
-      </template>
       <template #item.name="{ item }">
         <span>
           {{ item.name }}
@@ -123,10 +115,6 @@ getTradeHistories();
           {{ item.value }}
         </span>
       </template>
-      <!--      <template #item.date="{ item }">-->
-      <!--        <DateTime :format="$t('general.date.d')" class="ltr"/>-->
-      <!--        | ۱۲:۵۴:۲۰-->
-      <!--      </template>-->
     </ada-data-table>
   </div>
 </template>
