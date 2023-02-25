@@ -97,9 +97,11 @@ function toggle(id: any) {
 <style lang="postcss" scoped>
 
 .agreements-header {
+  @apply tw-bg-primary tw-bg-opacity-10;
+  height: 32px;
+
   td {
     @apply tw-text-sm tw-font-semibold tw-text-[#757575];
-    border-left: 1px solid transparent;
   }
 
   td:nth-child(6) {
@@ -207,10 +209,13 @@ function toggle(id: any) {
   <div class="tw-w-full tw-p-4 tw-mt-2">
     <table class="tw-w-full tw-bg-[#f0f0f0] tw-text-center tw-rounded-lg">
       <tr class="agreements-header">
-        <td v-for="header in defaultCols" class="tw-p-2">{{ header.text }}</td>
+        <td v-for="header in defaultCols" class="tw-p-2">
+          {{ header.text }}
+        </td>
       </tr>
       <template v-for="cell in directorateList">
-        <tr :class="{ opened: opened.includes(cell.row) }" class="agreements-cells">
+        <tr :class="{ opened: opened.includes(cell.row) }" class="agreements-cells"
+            :style="{ 'border-bottom':  opened.includes(cell.row) ? '1px solid transparent' : '1px solid rgb(216, 216, 216)' }">
           <td>{{ cell.row }}</td>
           <td>{{ cell.title }}</td>
           <td>{{ cell.zone }}</td>
