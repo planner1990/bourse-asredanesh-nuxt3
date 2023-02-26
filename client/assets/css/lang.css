@@ -2,11 +2,11 @@
 @import "../fonts/times.css";
 
 [class^="fa"], [class*=" fa"] * {
-  font-family: "Iran Sans X FaNum" !important;
+  font-family: "Iran Sans X FaNum", serif !important;
 }
 
 .en * {
-  font-family: "Times New Roman" !important;
+  font-family: "Times New Roman", serif !important;
 }
 
 @layer utilities {
