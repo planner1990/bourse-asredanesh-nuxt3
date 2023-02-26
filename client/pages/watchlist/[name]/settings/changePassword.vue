@@ -50,14 +50,15 @@ onMounted(() => {
 
 <style lang="postcss" scoped>
 .tmp-ctr {
-  @apply tw-bg-gray-100 tw-w-full tw-p-[12px];
+  @apply tw-bg-white tw-w-full tw-p-[12px];
 
   section {
     @apply tw-rounded-t-lg;
 
     .card {
-      @apply tw-mx-auto tw-my-4 tw-flex tw-flex-wrap tw-justify-items-center tw-items-center tw-justify-center;
-      width: 420px;
+      @apply tw-mx-auto tw-my-4 tw-flex tw-flex-col tw-flex-wrap tw-justify-items-center tw-items-center tw-justify-center tw-rounded-lg tw-px-28 tw-py-9;
+      min-width: 420px;
+      width: 49%;
 
       &_password {
         @apply tw-bg-white tw-px-4 tw-mt-4 tw-mb-3 tw-rounded-lg tw-w-full tw-h-[40px];
@@ -129,28 +130,44 @@ onMounted(() => {
 <template>
   <div class="tmp-ctr">
     <section>
-      <div class="card" v-if="step === 1">
-        <img src="@/assets/images/lock.png" alt="">
-        <div>
-          {{ $t("user.changePasswordFlag") }}
+      <div v-if="step === 1" class="tw-flex">
+        <div class="card tw-bg-gray-100 tw-ml-3 tw-justify-start">
+          <img src="@/assets/images/security-user.png" alt="">
+          <div>
+            {{ $t("user.changeUsernameFlag") }}
+          </div>
+          <div class="card_password tw-flex tw-justify-between">
+            <div class="tw-text-gray3 tw-flex">
+              {{ $t("user.username") }}:
+              <div class="tw-text-black tw-font-extrabold tw-mt-1 tw-mr-2">ilotfi</div>
+            </div>
+            <div class="tw-text-info tw-font-extrabold tw-text-s tw-cursor-pointer">
+              {{ $t("user.editUsername") }}
+            </div>
+          </div>
         </div>
-        <div class="card_password tw-flex tw-justify-between">
-          <div class="tw-text-gray3 tw-flex">
-            {{ $t("user.password") }}:
-            <div class="tw-text-black tw-font-extrabold tw-mt-1 tw-mr-2">**********</div>
+        <div class="card tw-bg-gray-100">
+          <img src="@/assets/images/lock.png" alt="">
+          <div>
+            {{ $t("user.changePasswordFlag") }}
           </div>
-          <div class="tw-text-info tw-font-extrabold tw-text-s tw-cursor-pointer" @click="changeStep(2)">
-            {{ $t("user.editPassword") }}
+          <div class="card_password tw-flex tw-justify-between">
+            <div class="tw-text-gray3 tw-flex">
+              {{ $t("user.password") }}:
+              <div class="tw-text-black tw-font-extrabold tw-mt-1 tw-mr-2">**********</div>
+            </div>
+            <div class="tw-text-info tw-font-extrabold tw-text-s tw-cursor-pointer" @click="changeStep(2)">
+              {{ $t("user.editPassword") }}
+            </div>
           </div>
-        </div>
-        <div class="card_password tw-flex tw-justify-between tw-mt-0">
-          <div class="tw-text-gray3 tw-flex">{{ $t("user.twoSteps") }}:
-            <div class="tw-text-black tw-font-extrabold tw-mr-2">{{ $t("user.disabled") }}</div>
+          <div class="card_password tw-flex tw-justify-between tw-mt-0">
+            <div class="tw-text-gray3 tw-flex">{{ $t("user.twoSteps") }}:
+              <div class="tw-text-black tw-font-extrabold tw-mr-2">{{ $t("user.disabled") }}</div>
+            </div>
+            <div class="tw-text-success tw-font-extrabold tw-text-s tw-cursor-pointer">{{ $t("user.activation") }}</div>
           </div>
-          <div class="tw-text-success tw-font-extrabold tw-text-s tw-cursor-pointer">{{ $t("user.activation") }}</div>
         </div>
       </div>
-
 
       <div class="card_step_2" v-if="step === 2">
         <img src="@/assets/images/change-password.png" alt="">
