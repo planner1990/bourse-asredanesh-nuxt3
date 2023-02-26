@@ -9,6 +9,8 @@ variables:
   VUE_APP_I18N_FALLBACK_LOCALE: "en"
   VUE_APP_NAME: "Bourse Panel"
   REF_NAME: $CI_COMMIT_REF_NAME
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_DEPTH: 1
 
 
 build-image-General:
