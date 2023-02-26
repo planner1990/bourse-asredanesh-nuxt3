@@ -111,7 +111,7 @@ function toggle(id: any) {
 
 .agreements-cells {
   td {
-    @apply tw-h-9 tw-text-sm tw-text-gray2 tw-font-medium  ;
+    @apply tw-h-9 tw-text-sm tw-text-gray2 tw-font-medium tw-h-[36px];
   }
 }
 
