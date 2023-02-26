@@ -1,0 +1,3 @@
+[submodule "client/content"]
+	path = client/content
+	url = https://gitlab.asredanesh.com/ada-services/bourse/ui-content.git
