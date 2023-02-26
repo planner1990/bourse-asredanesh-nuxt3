@@ -29,11 +29,7 @@ build-image-General:
       -t $CONTAINER_NAME .
     - docker tag $CONTAINER_NAME  $repository/docker/bourse/$CONTAINER_NAME:$CI_COMMIT_REF_NAME
     - docker push $repository/docker/bourse/$CONTAINER_NAME:$CI_COMMIT_REF_NAME
-    - docker logout
-  except:
-    changes:
-      - docker-compose.yml
-      - .gitlab-ci.yml
+    - docker logout  
 
 #### Deploy section ####
 
