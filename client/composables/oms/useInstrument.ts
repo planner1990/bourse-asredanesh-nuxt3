@@ -65,7 +65,7 @@ export const useInstrument = defineStore("instrument", () => {
     console.log(data.referenceNumber);
     const inst = state.value.orderQueueCache[data.referenceNumber];
     const parsedData = data.obj ? (decode(data.obj) as any) : {};
-    if (typeof inst != undefined) {
+    if (typeof inst != "undefined") {
       state.value.orderQueueCache[data.referenceNumber].splice(
         0,
         parsedData.length,
@@ -76,6 +76,12 @@ export const useInstrument = defineStore("instrument", () => {
 
   websocket.registerHandler("legal-real", (data) => {
     const parsedData = data.obj ? (decode(data.obj) as any) : {};
+    if (
+      typeof state.value.clientDistributionCache[data.referenceNumber] ==
+      "undefined"
+    )
+      state.value.clientDistributionCache[data.referenceNumber] =
+        new ClientDistribution();
     Object.assign(
       state.value.clientDistributionCache[data.referenceNumber],
       parsedData
