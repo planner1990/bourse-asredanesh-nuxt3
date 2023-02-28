@@ -206,7 +206,7 @@ function toggle(id: any) {
 
 </style>
 <template>
-  <div class="tw-w-full tw-p-4 tw-mt-2">
+  <div class="tw-w-full tw-p-3">
     <table class="tw-w-full tw-bg-[#f0f0f0] tw-text-center tw-rounded-lg">
       <tr class="agreements-header">
         <td v-for="header in defaultCols" class="tw-p-2">

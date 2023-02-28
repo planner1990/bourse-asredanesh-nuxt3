@@ -50,15 +50,15 @@ onMounted(() => {
 
 <style lang="postcss" scoped>
 .tmp-ctr {
-  @apply tw-bg-white tw-w-full tw-p-[12px];
+  @apply tw-bg-white tw-w-full tw-p-[12px] tw-h-full;
 
   section {
-    @apply tw-rounded-t-lg;
+    @apply tw-rounded-t-lg tw-h-full;
 
     .card {
-      @apply tw-mx-auto tw-my-4 tw-flex tw-flex-col tw-flex-wrap tw-justify-items-center tw-items-center tw-justify-center tw-rounded-lg tw-px-28 tw-py-9;
+      @apply tw-h-full tw-mb-4 tw-flex tw-flex-col tw-flex-wrap tw-justify-items-center tw-items-center tw-justify-center tw-rounded-lg tw-px-28 tw-py-9;
       min-width: 420px;
-      width: 49%;
+      width: 50%;
 
       &_password {
         @apply tw-bg-white tw-px-4 tw-mt-4 tw-mb-3 tw-rounded-lg tw-w-full tw-h-[40px];
@@ -130,7 +130,7 @@ onMounted(() => {
 <template>
   <div class="tmp-ctr">
     <section>
-      <div v-if="step === 1" class="tw-flex">
+      <div v-if="step === 1" class="tw-flex tw-h-full">
         <div class="card tw-bg-gray-100 tw-ml-3 tw-justify-start">
           <img src="@/assets/images/security-user.png" alt="">
           <div>
@@ -146,7 +146,7 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div class="card tw-bg-gray-100">
+        <div class="card tw-bg-gray-100 tw-justify-start">
           <img src="@/assets/images/lock.png" alt="">
           <div>
             {{ $t("user.changePasswordFlag") }}

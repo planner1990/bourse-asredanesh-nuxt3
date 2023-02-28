@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUser, useWebSocket } from "@/composables";
+import {useCompany, useUser, useWebSocket} from "@/composables";
 
 const appManager = useAsrTrader();
 const userManager = useUser();
@@ -7,8 +7,10 @@ const bottomPanelManager = useBottomPanel();
 const locale = computed(() => appManager.locale);
 const rtl = computed(() => appManager.rtl);
 const ws = useWebSocket();
-
 await ws.connect([])
+const companyManager = useCompany();
+console.log(companyManager, "company manager");
+
 
 const rightMenu = ref({
   mini: true,
@@ -43,7 +45,6 @@ const route = useRoute();
 function openRoute(path: string) {
   router.push(`/watchlist/${route.params.name}/${path}`);
 }
-
 
 
 // onMounted(() => {
@@ -88,7 +89,7 @@ function openRoute(path: string) {
 .page {
   @apply tw-relative tw-block tw-overflow-clip tw-h-screen tw-pt-[42px] tw-bg-gray4/5;
 
-  >header {
+  > header {
     @apply tw-flex tw-fixed tw-w-full tw-justify-between tw-items-center tw-align-middle;
     top: 0;
     left: 0;
@@ -100,7 +101,7 @@ function openRoute(path: string) {
       @apply tw-leading-[42px];
     }
 
-    >a span {
+    > a span {
       @apply tw-text-primary;
     }
 
@@ -119,7 +120,7 @@ function openRoute(path: string) {
     }
   }
 
-  >main {
+  > main {
     @apply tw-w-full tw-overflow-y-clip;
     height: calc(100vh - 42px);
     box-sizing: border-box;
@@ -129,7 +130,7 @@ function openRoute(path: string) {
     }
   }
 
-  >.footer {
+  > .footer {
     @apply tw-flex tw-items-center tw-w-full tw-justify-center tw-transition-all tw-ease-in-out tw-duration-700;
     height: 0;
     position: fixed;
@@ -212,11 +213,11 @@ function openRoute(path: string) {
 
 <style lang="postcss">
 .page {
-  header>.end {
+  header > .end {
     .userMenu .ada-button {
       @apply tw-flex tw-items-center tw-bg-transparent tw-transition-all;
 
-      >div {
+      > div {
         @apply tw-flex tw-justify-center tw-items-center;
       }
 
@@ -251,7 +252,7 @@ function openRoute(path: string) {
     <header>
       <div class="start">
         <nuxt-link class="tw-flex tw-px-2 tw-items-center tw-justify-center" :to="home">
-          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png" />
+          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png"/>
           <span v-if="!rightMenu.mini && rightMenu.drawer" class="tw-mr-2">
             {{ $t("general.proxyCompany") }}
           </span>
@@ -275,7 +276,7 @@ function openRoute(path: string) {
 ]" :size="18">
           mdi-menu-open
         </ada-icon>
-        <clock :format="$t('general.date.longdt')" class="tw-w-[220px]" />
+        <clock :format="$t('general.date.longdt')" class="tw-w-[220px]"/>
       </div>
       <div class="center">
         <ada-badge class="tw-mx-5 tw-cursor-pointer" @click="openRoute('stockIndex')">
@@ -298,19 +299,19 @@ function openRoute(path: string) {
         </ada-badge>
       </div>
       <div class="end">
-        <user-menu />
+        <user-menu/>
       </div>
     </header>
     <right-panel v-model:mini="rightMenu.mini" v-model:clipped="clipped" v-model="rightMenu.drawer"
-      class="shadow left" />
-    <left-panel v-model:mini="lmini" v-model:clipped="clipped" v-model="leftMenu.drawer" class="shadow right" />
+                 class="shadow left"/>
+    <left-panel v-model:mini="lmini" v-model:clipped="clipped" v-model="leftMenu.drawer" class="shadow right"/>
     <main class="dashboardmain-page" :class="{
       collaps,
       showFinancInfo,
       left: !lmini
     }">
       <div class="dashboardmain-nuxt" :class="{ showFinancInfo }">
-        <nuxt-page />
+        <nuxt-page/>
       </div>
     </main>
     <footer class="footer dashboardmain-page" :class="{
@@ -323,18 +324,18 @@ function openRoute(path: string) {
           <span class="badge-content"> ۲٬۰۰۰٬۰۰۰</span>
         </ada-badge>
         <ada-badge class="tw-ml-3">{{
-          $t("accounting.account.blockedAmount")
-        }}<span class="badge-content">0</span></ada-badge>
+            $t("accounting.account.blockedAmount")
+          }}<span class="badge-content">0</span></ada-badge>
         <ada-badge class="tw-ml-3">
           {{ $t("accounting.account.onlineBlockedAmount") }}
           <span class="badge-content">0</span>
         </ada-badge>
         <ada-badge class="tw-ml-3">{{
-          $t("accounting.account.remaining")
-        }}<span class="badge-content">0</span></ada-badge>
+            $t("accounting.account.remaining")
+          }}<span class="badge-content">0</span></ada-badge>
         <ada-badge class="tw-ml-3">{{
-          $t("accounting.account.credit")
-        }}<span class="badge-content">0</span></ada-badge>
+            $t("accounting.account.credit")
+          }}<span class="badge-content">0</span></ada-badge>
       </div>
       <div class="cw">
         &copy; {{ new Date().getFullYear() }} {{ $t("general.company") }}
@@ -350,6 +351,6 @@ function openRoute(path: string) {
     <ada-btn class="floating-button tw-right-2" @click="openRoute('chatRoom/room')">
       <ada-icon color="white" :size="24"> isax-messages-2-bold</ada-icon>
     </ada-btn>
-    <ada-snacks />
+    <ada-snacks/>
   </div>
 </template>

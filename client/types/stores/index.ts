@@ -74,3 +74,8 @@ export interface SnackState {
 export interface NotificationState {
   cache: { [key: string]: Array<Notification> };
 }
+
+export interface CompanyState {
+  cache: { [key: string]: Array<Notification> };
+  selected: InstrumentCache | null;
+}
