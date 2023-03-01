@@ -85,7 +85,7 @@ getTradeHistories();
 }
 </style>
 <template>
-  <div class="tw-mx-2 tw-pt-3">
+  <div class="tw-mx-3 tw-pt-3">
     <ada-data-table :items="entryAndExitHistoryList" :headers="defaultCols" item-key="dateTime"
                     class="tw-w-full tw-h-full tw-overflow-y-auto">
       <template #item.title="{ item }">

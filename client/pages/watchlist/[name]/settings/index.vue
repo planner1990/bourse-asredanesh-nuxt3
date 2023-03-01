@@ -5,10 +5,10 @@
   @apply tw-w-full tw-h-full tw-p-3;
 
   .setting {
-    @apply tw-h-full tw-flex tw-flex-wrap;
+    @apply tw-h-full tw-flex;
 
     > div {
-      @apply lg:tw-w-[48%] md:tw-w-full lg:tw-mr-0 md:tw-mr-4 tw-p-6 tw-rounded-lg;
+      @apply lg:tw-w-[50%] md:tw-w-full lg:tw-mr-0 md:tw-mr-4 tw-p-6 tw-rounded-lg;
 
       .setting-account-information {
         @apply tw-w-2/5 tw-h-7 tw-mb-7 tw-text-base tw-font-normal tw-text-gray3 tw-bg-white tw-h-[40px] tw-leading-[40px] tw-rounded-lg tw-pr-4 tw-min-w-[290px];

@@ -69,7 +69,7 @@ async function uploadSetting() {
   @apply tw-flex tw-flex-row tw-justify-center tw-items-center tw-text-center;
 
   >div {
-    @apply tw-bg-primary/10 tw-border-2 tw-border-dashed tw-rounded tw-border-primary/50;
+    @apply tw-bg-gray-100 tw-border-2 tw-border-dashed tw-rounded tw-border-primary/50;
     @apply tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center;
     margin: 9px;
     width: calc(100% - 9px);

@@ -98,7 +98,7 @@
     "username": "نام کاربری",
     "password": "رمز عبور",
     "editPassword": "ویرایش رمز",
-    "editUsername": "ویرایش ",
+    "editUsername": "ویرایش",
     "twoSteps": "گذر دو مرحله\u200Cای",
     "disabled": "غیر فعال است",
     "activation": "فعالسازی",
@@ -259,7 +259,18 @@
     "holder": "سهامدار / دارنده",
     "share": "سهم",
     "percent": "درصد",
-    "change": "تغییر"
+    "change": "تغییر",
+    "numberOfPurchases": "تعداد خرید",
+    "totalPurchaseValue": "ارزش کل خرید",
+    "averagePrice": "ق میانگین",
+    "headToHeadSellingPrice": "ق سر به سر فروش",
+    "sharePrice": "قیمت سهم",
+    "netSalesValue": "خالص ارزش فروش",
+    "profitAndLossOfSale": "سود زیان فروش",
+    "profitAndLossBalance": "سود و زیان مانده",
+    "profitAndLossBalancePercent": "٪ سود و زیان مانده",
+    "profitAndLossOfTotal": "سود و زیان کل",
+    "fromPortfolio": "٪ از پورتفو"
   },
   "watchList": {
     "title": "دیدبان",
