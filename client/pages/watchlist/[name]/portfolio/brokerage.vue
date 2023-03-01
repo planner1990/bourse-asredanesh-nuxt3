@@ -34,15 +34,21 @@ const model = computed({
     emit("update:modelValue", value)
   }
 })
-let directorateList = reactive<Array<Agreements>>([]);
+let directorateList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
-  new WatchListColumns(i18n.t("instrument.row").toString(), "row"),
-  new WatchListColumns(i18n.t("instrument.title").toString(), "title"),
-  new WatchListColumns(i18n.t("instrument.zone").toString(), "zone"),
-  new WatchListColumns(i18n.t("instrument.dateOfAgreement").toString(), "dateOfAgreement"),
-  new WatchListColumns(i18n.t("instrument.expirationOfAgreement").toString(), "expirationOfAgreement"),
-  new WatchListColumns(i18n.t("instrument.situationOfAgreement").toString(), "situationOfAgreement"),
+  new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
+  new WatchListColumns(i18n.t("instrument.numberOfPurchases").toString(), "numberOfPurchases"),
+  new WatchListColumns(i18n.t("instrument.totalPurchaseValue").toString(), "totalPurchaseValue"),
+  new WatchListColumns(i18n.t("instrument.averagePrice").toString(), "averagePrice"),
+  new WatchListColumns(i18n.t("instrument.headToHeadSellingPrice").toString(), "headToHeadSellingPrice"),
+  new WatchListColumns(i18n.t("instrument.sharePrice").toString(), "sharePrice", "", ""),
+  new WatchListColumns(i18n.t("instrument.netSalesValue").toString(), "netSalesValue"),
+  new WatchListColumns(i18n.t("instrument.profitAndLossOfSale").toString(), "profitAndLossOfSale"),
+  new WatchListColumns(i18n.t("instrument.profitAndLossBalance").toString(), "profitAndLossBalance"),
+  new WatchListColumns(i18n.t("instrument.profitAndLossBalancePercent").toString(), "profitAndLossBalancePercent"),
+  new WatchListColumns(i18n.t("instrument.profitAndLossOfTotal").toString(), "profitAndLossOfTotal"),
+  new WatchListColumns(i18n.t("instrument.fromPortfolio").toString(), "fromPortfolio"),
   new WatchListColumns("", "actions", "center", "100px")
 ];
 
@@ -51,12 +57,18 @@ async function getTradeHistories() {
   for (let i = 0; i < 5; i++) {
     directorateList.push(
         {
-          row: i + 1,
-          title: "بيانيه ريسک معاملات بازار پايه",
-          zone: "معامله در بازار (پایه فرابورس)",
-          dateOfAgreement: "۱۴۰۰/۰۱/۱۰",
-          expirationOfAgreement: "۱۴۰۰/۰۱/۱۰",
-          situationOfAgreement: "تایید شده"
+          name: "فرآور",
+          numberOfPurchases: "۶۶۷.۶۳۵",
+          totalPurchaseValue: "۲.۷۰۴.۴۲۵.۹۹۷",
+          averagePrice: "۴.۰۵۱",
+          headToHeadSellingPrice: "۴.۰۸۷",
+          sharePrice: "۴.۲۶۴",
+          netSalesValue: "۲.۸۲۵.۰۵۲.۶۳۷",
+          profitAndLossOfSale: "۰",
+          profitAndLossBalance: "۱۱۷.۳۱۷.۸۴۳",
+          profitAndLossBalancePercent: "٪ ۴.۳۴",
+          profitAndLossOfTotal: "۱۱۷.۳۱۷.۸۴۳",
+          fromPortfolio: "۴۹.۴۷",
         }
     );
   }
