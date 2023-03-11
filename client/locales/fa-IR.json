@@ -270,7 +270,12 @@
     "profitAndLossBalance": "سود و زیان مانده",
     "profitAndLossBalancePercent": "٪ سود و زیان مانده",
     "profitAndLossOfTotal": "سود و زیان کل",
-    "fromPortfolio": "٪ از پورتفو"
+    "fromPortfolio": "٪ از پورتفو",
+    "numberOfShares": "تعداد سهام",
+    "lastUpdates": "زمان آخرین بروزرسانی",
+    "priceOfShares": "قیمت سهام",
+    "valueOfShares": "ارزش سهام",
+    "assemblies": "مجامع"
   },
   "watchList": {
     "title": "دیدبان",
@@ -352,7 +357,8 @@
     "tradeHistory": "@:general.history @:oms.trades",
     "tradeTypes": "@:general.types @:oms.trade",
     "shareTypes": "@:general.types @:oms.share",
-    "stockPercent": "@:general.percent @:oms.shares"
+    "stockPercent": "@:general.percent @:oms.shares",
+    "addManual": "افزودن تراکنش دستی"
   },
   "wealth": {
     "wealth": "دارایی",
@@ -433,7 +439,7 @@
     "portfolio": {
       "index": "پورتفوی",
       "realtime": "@:menu.portfolio.index @:menu.realtime",
-      "brokerage": "@:menu.portfolio.index سپرده گزاری"
+      "brokerage": "@:menu.portfolio.index سپرده گذاری"
     },
     "settings": {
       "index": "@:general.settings",

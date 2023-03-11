@@ -67,7 +67,7 @@ getTradeHistories();
   @apply tw-bg-primary tw-bg-opacity-10 tw-text-gray3 tw-font-medium tw-rounded-full;
 }
 :deep(tbody) {
-  @apply tw-bg-[#F8F8F8];
+  @apply tw-bg-grayF8;
 }
 :deep(.bar) {
   @apply tw-border-primary tw-border-opacity-40;
