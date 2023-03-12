@@ -39,7 +39,7 @@
 <template>
   <div class="setting-container">
     <div class="setting">
-      <div class="tw-bg-[#f8f8f8]">
+      <div class="tw-bg-grayF8">
         <div class="setting-account-information">
           <ada-icon :size="20">isax-frame-bold</ada-icon>
           {{ $t('user.profile.fullName') }}: <span> حسین لطفی</span>
@@ -61,7 +61,7 @@
           {{ $t('user.profile.username') }}: <span> ilotfi</span>
         </div>
       </div>
-      <div class="tw-bg-[#f8f8f8] tw-mr-3">
+      <div class="tw-bg-grayF8 tw-mr-3">
         <div class="tw-text-primary tw-text-base tw-font-bold tw-mr-8"> {{ $t('user.profile.message') }}:</div>
         <div class="tw-mb-7 tw-relative tw-text-base tw-font-normal tw-text-gray3 tw-mx-9 tw-mr-8">
           <ada-icon :size="20">isax-message-tick-bold</ada-icon>

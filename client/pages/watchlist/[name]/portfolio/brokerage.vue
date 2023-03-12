@@ -3,17 +3,18 @@ import {useBottomPanel, useInstrument} from "~~/composables";
 
 import {
   WatchListColumns,
-  TradesHistorySerachModel, TabItem
+  TradesHistorySerachModel
 } from "@/types";
 import {useI18n} from "vue-i18n"
-import {Agreements} from "~/types/oms/agreements";
 import ExpansionTable from "~/components/ada/expansionTable.vue";
+import {style} from "postcss-minify-font-values/types/lib/keywords";
 
 const i18n = useI18n();
 const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
-
+const componentClass = ref<string>("");
 let opened = reactive<Array<any>>([]);
+
 const props = withDefaults(
     defineProps<{
       modelValue?: TradesHistorySerachModel
@@ -37,19 +38,13 @@ const model = computed({
 let directorateList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
-  new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
-  new WatchListColumns(i18n.t("instrument.numberOfPurchases").toString(), "numberOfPurchases"),
-  new WatchListColumns(i18n.t("instrument.totalPurchaseValue").toString(), "totalPurchaseValue"),
-  new WatchListColumns(i18n.t("instrument.averagePrice").toString(), "averagePrice"),
-  new WatchListColumns(i18n.t("instrument.headToHeadSellingPrice").toString(), "headToHeadSellingPrice"),
-  new WatchListColumns(i18n.t("instrument.sharePrice").toString(), "sharePrice", "", ""),
-  new WatchListColumns(i18n.t("instrument.netSalesValue").toString(), "netSalesValue"),
-  new WatchListColumns(i18n.t("instrument.profitAndLossOfSale").toString(), "profitAndLossOfSale"),
-  new WatchListColumns(i18n.t("instrument.profitAndLossBalance").toString(), "profitAndLossBalance"),
-  new WatchListColumns(i18n.t("instrument.profitAndLossBalancePercent").toString(), "profitAndLossBalancePercent"),
-  new WatchListColumns(i18n.t("instrument.profitAndLossOfTotal").toString(), "profitAndLossOfTotal"),
-  new WatchListColumns(i18n.t("instrument.fromPortfolio").toString(), "fromPortfolio"),
-  new WatchListColumns("", "actions", "center", "100px")
+  new WatchListColumns(i18n.t("instrument.companyName").toString(), "companyName"),
+  new WatchListColumns(i18n.t("oms.count").toString(), "count"),
+  new WatchListColumns(i18n.t("instrument.numberOfShares").toString(), "numberOfShares"),
+  new WatchListColumns(i18n.t("instrument.lastUpdates").toString(), "lastUpdates"),
+  new WatchListColumns(i18n.t("instrument.priceOfShares").toString(), "priceOfShares"),
+  new WatchListColumns(i18n.t("instrument.valueOfShares").toString(), "valueOfShares"),
+  new WatchListColumns(i18n.t("instrument.assemblies").toString(), "assemblies", "center"),
 ];
 
 
@@ -57,18 +52,13 @@ async function getTradeHistories() {
   for (let i = 0; i < 5; i++) {
     directorateList.push(
         {
-          name: "فرآور",
-          numberOfPurchases: "۶۶۷.۶۳۵",
-          totalPurchaseValue: "۲.۷۰۴.۴۲۵.۹۹۷",
-          averagePrice: "۴.۰۵۱",
-          headToHeadSellingPrice: "۴.۰۸۷",
-          sharePrice: "۴.۲۶۴",
-          netSalesValue: "۲.۸۲۵.۰۵۲.۶۳۷",
-          profitAndLossOfSale: "۰",
-          profitAndLossBalance: "۱۱۷.۳۱۷.۸۴۳",
-          profitAndLossBalancePercent: "٪ ۴.۳۴",
-          profitAndLossOfTotal: "۱۱۷.۳۱۷.۸۴۳",
-          fromPortfolio: "۴۹.۴۷",
+          row: i + 1,
+          companyName: "فرآور",
+          count: "۶۶۷.۶۳۵",
+          numberOfShares: "۲.۷۰۴.۴۲۵.۹۹۷",
+          lastUpdates: "۴.۰۵۱",
+          priceOfShares: "۴.۰۸۷",
+          valueOfShares: "۴.۲۶۴",
         }
     );
   }
@@ -77,46 +67,87 @@ async function getTradeHistories() {
 
 getTradeHistories();
 
+function toggle(id: any) {
+  const index = opened.indexOf(id);
+  if (index > -1) {
+    opened.splice(index, 1)
+  } else {
+    opened.push(id)
+  }
+}
+
 </script>
+<style scoped lang="postcss">
+:deep(.bar) {
+  @apply tw-border-default;
+}
 
+:deep(tbody) {
+  background-color: rgba(248, 248, 248, 1);
+}
+
+:deep(.row-border td) {
+  border-bottom: 1px solid rgba(224, 224, 224, 1) !important;
+}
+
+.table-container {
+  border-radius: 12px
+}
+
+.img-icon {
+  display: unset;
+}
+
+.radio-button input[type="radio"]:checked + label {
+  @apply tw-text-primary tw-font-semibold;
+}
+
+
+</style>
 <template>
-  <div class="tw-w-full">
-    <expansion-table :cells="directorateList" :default-cols="defaultCols">
-      <template #expansion-message>
-        <td colspan="6">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-          چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
-          کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده
-          شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص
-          طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در
-          ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات
-          پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-
-          <div class="tw-flex tw-justify-between tw-mt-5">
-            <div class="tw-flex tw-text-primary tw-items-center">
-              <div class="checkbox">
-                <input type="checkbox" id="checkbox2" name="" value="">
-                <label for="checkbox2"><span></span></label>
-              </div>
-              <div class="tw-mr-3 tw-font-semibold"><span v-text="$t('general.agreementsText')"></span></div>
-            </div>
-            <div>
-              <ada-btn class="agreements-button">
-                <ada-icon class="agreements-button_icon" :size="13">
-                  isax-tick-circle
-                </ada-icon>
-                <span v-text="$t('general.ConfirmAgree')"></span>
-              </ada-btn>
-              <ada-btn
-                  class="disagreement-button">
-                <ada-icon :size="13" class="disagreement-button_icon">
-                  isax-close-circle
-                </ada-icon>
-                <span v-text="$t('general.notAgree')"></span>
-              </ada-btn>
-            </div>
-          </div>
-        </td>
+  <div class="tw-mx-3 tw-pt-3">
+    <div class="tw-mr-3 tw-mb-2 tw-flex tw-text-gray3 radio-button">
+      <span>مبنای محاسبه ارزش فروش:</span>
+      <input type="radio" class="tw-mr-3" id="radio1" name="radios" checked>
+      <label class="radio tw-flex tw-mr-1" for="radio1">آخرین قیمت</label>
+      <input type="radio" class="tw-mr-5" id="radio2" name="radios">
+      <label class="radio tw-flex tw-mr-1" for="radio2">قیمت پایانی</label>
+    </div>
+    <ada-data-table-expansion :items="directorateList" :headers="defaultCols" item-key="dateTime"
+                              class="tw-w-full tw-h-full tw-overflow-y-auto">
+      <template #item.count="{ item }">
+        <span>
+           {{ item.count }}
+        </span>
       </template>
-    </expansion-table>
+      <template #item.amount="{ item }">
+        <span>
+          {{ item.amount }}
+        </span>
+      </template>
+      <template #item.buy="{ item }">
+        <span>
+          {{ item.buy }}
+        </span>
+      </template>
+      <template #item.sell="{ item }">
+        <span>
+          {{ item.sell }}
+        </span>
+      </template>
+      <template #item.amount2="{ item }">
+        <span>
+          {{ item.amount2 }}
+        </span>
+      </template>
+      <template #item.count2="{ item }">
+        <span>
+          {{ item.count2 }}
+        </span>
+      </template>
+      <template #item.assemblies="{ item }">
+        <img class="img-icon" src="@/assets/images/search-normal.png" alt="">
+      </template>
+    </ada-data-table-expansion>
   </div>
 </template>

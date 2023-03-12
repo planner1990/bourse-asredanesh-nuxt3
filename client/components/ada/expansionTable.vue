@@ -15,7 +15,8 @@ let opened = reactive<Array<any>>([]);
 const props = defineProps<{
   defaultCols: WatchListColumns[];
   text?: any;
-  cells: Agreements[]
+  cells: Agreements[];
+  dynamicClass?: string;
 }>();
 const emit = defineEmits(["update:modelValue"]);
 
@@ -160,7 +161,7 @@ function toggle(id: any) {
         </td>
       </tr>
       <template v-for="cell in cells">
-        <tr :class="{ opened: opened.includes(cell.row) }" class="agreements-cells tw-bg-[#F8F8F8]"
+        <tr :class="{ opened: opened.includes(cell.row) }" class="agreements-cells tw-bg-grayF8"
             :style="{ 'border-bottom':  opened.includes(cell.row) ? '1px solid transparent' : '1px solid rgba(216,216,216,0.6)' }">
           <td v-for="item in cell">{{ item }}</td>
           <td>
