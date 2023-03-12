@@ -7,12 +7,11 @@ import {
 } from "@/types";
 import {useI18n} from "vue-i18n"
 import ExpansionTable from "~/components/ada/expansionTable.vue";
-import {style} from "postcss-minify-font-values/types/lib/keywords";
+import RealTimeTable from "~/pages/watchlist/[name]/portfolio/realTimeTable.vue";
 
 const i18n = useI18n();
 const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
-const componentClass = ref<string>("");
 let opened = reactive<Array<any>>([]);
 
 const props = withDefaults(
@@ -111,9 +110,44 @@ function toggle(id: any) {
   @apply tw-text-primary tw-font-semibold;
 }
 </style>
+<!--<template>-->
+<!--  <div class="tw-mx-3 tw-pt-3">-->
+<!--    <div class="tw-flex tw-justify-between tw-mb-2">-->
+<!--      <div class="tw-mr-3 tw-flex tw-justify-center tw-items-center tw-text-gray3 radio-button">-->
+<!--        <span>مبنای محاسبه ارزش فروش:</span>-->
+<!--        <input type="radio" class="tw-mr-3" id="radio1" name="radios" checked>-->
+<!--        <label class="radio tw-flex tw-mr-1" for="radio1">آخرین قیمت</label>-->
+<!--        <input type="radio" class="tw-mr-5" id="radio2" name="radios">-->
+<!--        <label class="radio tw-flex tw-mr-1" for="radio2">قیمت پایانی</label>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <ada-btn id="btn-edit"-->
+<!--                 class="tw-ml-6 tw-bg-primary tw-text-white tw-min-w-[115px] tw-min-h-[24px] tw-text-[10px] tw-px-3 tw-py-2 tw-rounded-lg">-->
+<!--          <ada-icon :size="16" class="tw-text-white tw-ml-2">isax-add</ada-icon>-->
+<!--          {{ $t("oms.addManual") }}-->
+<!--        </ada-btn>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <ada-data-table-expansion :items="directorateList" :headers="defaultCols" item-key="dateTime"-->
+<!--                              class="tw-w-full tw-h-full tw-overflow-y-auto">-->
+<!--      <template #item.actions="{ item }">-->
+<!--        <span>-->
+<!--         <ada-icon-->
+<!--             class="tw-m-0 tw-p-0 tw-mx-2"-->
+<!--             :size="18"-->
+<!--             @click="toggle(item.row)">-->
+<!--          mdi-{{ opened.includes(item.row) ? 'chevron-up' : 'chevron-down' }}-->
+<!--         </ada-icon>-->
+<!--        </span>-->
+<!--      </template>-->
+<!--    </ada-data-table-expansion>-->
+<!--  </div>-->
+<!--</template>-->
+
+
 <template>
-  <div class="tw-mx-3 tw-pt-3">
-    <div class="tw-flex tw-justify-between tw-mb-2">
+  <div class="tw-w-full">
+    <div class="tw-flex tw-justify-between tw-mt-3">
       <div class="tw-mr-3 tw-flex tw-justify-center tw-items-center tw-text-gray3 radio-button">
         <span>مبنای محاسبه ارزش فروش:</span>
         <input type="radio" class="tw-mr-3" id="radio1" name="radios" checked>
@@ -124,96 +158,17 @@ function toggle(id: any) {
       <div>
         <ada-btn id="btn-edit"
                  class="tw-ml-6 tw-bg-primary tw-text-white tw-min-w-[115px] tw-min-h-[24px] tw-text-[10px] tw-px-3 tw-py-2 tw-rounded-lg">
-          <ada-icon :size="16" class="tw-text-white tw-ml-2"> isax-add</ada-icon>
+          <ada-icon :size="16" class="tw-text-white tw-ml-2">isax-add</ada-icon>
           {{ $t("oms.addManual") }}
         </ada-btn>
       </div>
     </div>
-    <ada-data-table-expansion :items="directorateList" :headers="defaultCols" item-key="dateTime"
-                              class="tw-w-full tw-h-full tw-overflow-y-auto">
-      <template #item.count="{ item }">
-        <span>
-           {{ item.count }}
-        </span>
+    <expansion-table :cells="directorateList" :default-cols="defaultCols">
+      <template #expansion-message>
+        <td colspan="14">
+          <real-time-table></real-time-table>
+        </td>
       </template>
-      <template #item.amount="{ item }">
-        <span>
-          {{ item.amount }}
-        </span>
-      </template>
-      <template #item.buy="{ item }">
-        <span>
-          {{ item.buy }}
-        </span>
-      </template>
-      <template #item.sell="{ item }">
-        <span>
-          {{ item.sell }}
-        </span>
-      </template>
-      <template #item.amount2="{ item }">
-        <span>
-          {{ item.amount2 }}
-        </span>
-      </template>
-      <template #item.count2="{ item }">
-        <span>
-          {{ item.count2 }}
-        </span>
-      </template>
-      <template #item.actions="{ item }">
-        <span>
-         <ada-icon
-             class="tw-m-0 tw-p-0 tw-mx-2"
-             :size="18"
-             @click="toggle(item.row)">
-          mdi-{{ opened.includes(item.row) ? 'chevron-up' : 'chevron-down' }}
-         </ada-icon>
-        </span>
-      </template>
-    </ada-data-table-expansion>
+    </expansion-table>
   </div>
 </template>
-
-
-<!--<template>-->
-<!--  <div class="tw-w-full">-->
-<!--    <expansion-table :cells="directorateList" :default-cols="defaultCols">-->
-<!--      <template #expansion-message>-->
-<!--        <td colspan="6">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.-->
-<!--          چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و-->
-<!--          کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده-->
-<!--          شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص-->
-<!--          طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در-->
-<!--          ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات-->
-<!--          پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.-->
-
-<!--          <div class="tw-flex tw-justify-between tw-mt-5">-->
-<!--            <div class="tw-flex tw-text-primary tw-items-center">-->
-<!--              <div class="checkbox">-->
-<!--                <input type="checkbox" id="checkbox2" name="" value="">-->
-<!--                <label for="checkbox2"><span></span></label>-->
-<!--              </div>-->
-<!--              <div class="tw-mr-3 tw-font-semibold"><span v-text="$t('general.agreementsText')"></span></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <ada-btn class="agreements-button">-->
-<!--                <ada-icon class="agreements-button_icon" :size="13">-->
-<!--                  isax-tick-circle-->
-<!--                </ada-icon>-->
-<!--                <span v-text="$t('general.ConfirmAgree')"></span>-->
-<!--              </ada-btn>-->
-<!--              <ada-btn-->
-<!--                  class="disagreement-button">-->
-<!--                <ada-icon :size="13" class="disagreement-button_icon">-->
-<!--                  isax-close-circle-->
-<!--                </ada-icon>-->
-<!--                <span v-text="$t('general.notAgree')"></span>-->
-<!--              </ada-btn>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </td>-->
-<!--      </template>-->
-<!--    </expansion-table>-->
-<!--  </div>-->
-<!--</template>-->

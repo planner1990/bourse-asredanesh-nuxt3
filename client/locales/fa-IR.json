@@ -275,7 +275,17 @@
     "lastUpdates": "زمان آخرین بروزرسانی",
     "priceOfShares": "قیمت سهام",
     "valueOfShares": "ارزش سهام",
-    "assemblies": "مجامع"
+    "assemblies": "مجامع",
+    "typeOfTransaction": "نوع تراکنش",
+    "totalPurchase": "کل خرید",
+    "totalSell": "کل فروش",
+    "remainingNumber": "تعداد مانده",
+    "average": "میانگین",
+    "remainTotal": "کل مانده",
+    "sellFinished": "تمام شده فروش",
+    "profitAndLossSold": "سود و زیان فروش رفته",
+    "description": "شرح",
+    "mainDetail": "جزییات"
   },
   "watchList": {
     "title": "دیدبان",

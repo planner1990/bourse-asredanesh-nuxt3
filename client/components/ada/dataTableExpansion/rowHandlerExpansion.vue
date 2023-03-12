@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import {WatchListColumns} from "~~/types";
-let opened = reactive<Array<any>>([]);
 const props = defineProps<{
   model: {
     headers: WatchListColumns[];
     item: any;
   };
 }>();
-function toggle(id: any) {
-  const index = opened.indexOf(id);
-  if (index > -1) {
-    opened.splice(index, 1)
-  } else {
-    opened.push(id)
-  }
-}
 </script>
 
 <style lang="postcss" scoped>
@@ -45,4 +36,8 @@ function toggle(id: any) {
       </slot>
     </td>
   </tr>
+  <tr>
+    <slot name="expansion"></slot>
+  </tr>
+
 </template>

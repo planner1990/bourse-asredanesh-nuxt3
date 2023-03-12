@@ -40,7 +40,7 @@ function toggle(id: any) {
   height: 32px !important;
 
   td {
-    @apply tw-text-sm tw-font-semibold tw-text-[#757575];
+    @apply tw-text-sm tw-font-semibold tw-text-[#4C4C4C];
   }
 
   td:nth-child(6) {
