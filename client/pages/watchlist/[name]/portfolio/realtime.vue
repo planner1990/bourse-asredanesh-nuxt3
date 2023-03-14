@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {useBottomPanel, useInstrument} from "~~/composables";
-
 import {
   WatchListColumns,
   TradesHistorySerachModel
@@ -8,12 +7,13 @@ import {
 import {useI18n} from "vue-i18n"
 import ExpansionTable from "~/components/ada/expansionTable.vue";
 import RealTimeTable from "~/pages/watchlist/[name]/portfolio/realTimeTable.vue";
+import Input from "~/components/date/input.vue";
 
 const i18n = useI18n();
 const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
 let opened = reactive<Array<any>>([]);
-
+const transactionShowFlag = ref<boolean>(false);
 const props = withDefaults(
     defineProps<{
       modelValue?: TradesHistorySerachModel
@@ -88,6 +88,10 @@ function toggle(id: any) {
   }
 }
 
+function addTransaction() {
+  transactionShowFlag.value = !transactionShowFlag.value;
+}
+
 </script>
 <style scoped lang="postcss">
 :deep(.bar) {
@@ -108,6 +112,10 @@ function toggle(id: any) {
 
 .radio-button input[type="radio"]:checked + label {
   @apply tw-text-primary tw-font-semibold;
+}
+
+:deep(.scaffold) {
+  border: none;
 }
 </style>
 <!--<template>-->
@@ -156,11 +164,55 @@ function toggle(id: any) {
         <label class="radio tw-flex tw-mr-1" for="radio2">قیمت پایانی</label>
       </div>
       <div>
-        <ada-btn id="btn-edit"
+        <ada-btn @click="addTransaction"
                  class="tw-ml-6 tw-bg-primary tw-text-white tw-min-w-[115px] tw-min-h-[24px] tw-text-[10px] tw-px-3 tw-py-2 tw-rounded-lg">
           <ada-icon :size="16" class="tw-text-white tw-ml-2">isax-add</ada-icon>
           {{ $t("oms.addManual") }}
         </ada-btn>
+      </div>
+    </div>
+    <div class="tw-px-3" v-if="transactionShowFlag">
+      <div class="tw-mt-3 tw-rounded-lg tw-p-4 tw-bg-[#F2F2F2] tw-h-[143px]">
+        <div class="tw-flex tw-justify-between">
+          <div class="tw-text-primary tw-text-sm tw-font-bold	">افزودن تراکنش دسته‌ای</div>
+          <div>
+            <ada-icon :size="16" class="tw-text-primary tw-cursor-pointer" @click="addTransaction">mdi-close</ada-icon>
+          </div>
+        </div>
+        <div class="tw-flex tw-mt-4 tw-mb-3">
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-input :placeholder="$t('instrument.name')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-input :placeholder="$t('wealth.order.type.title')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-input :placeholder="$t('oms.count')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-input :placeholder="$t('wealth.order.enteredPrice')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-input :placeholder="$t('oms.value')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+        </div>
+        <div class="tw-flex tw-mt-4 tw-mb-3">
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-input :placeholder="$t('instrument.date')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-input :placeholder="$t('instrument.time')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+          <div class="tw-w-2/5 tw-ml-3">
+            <ada-input :placeholder="$t('instrument.description')" class="tw-h-9 tw-bg-white"></ada-input>
+          </div>
+          <div class="tw-w-1/5 tw-ml-3">
+            <ada-btn
+                class="tw-w-full tw-bg-primary tw-text-white tw-min-h-[24px] tw-text-[10px] tw-px-3 tw-py-2 tw-rounded-lg">
+              {{ $t("instrument.requestRegistration") }}
+            </ada-btn>
+          </div>
+        </div>
       </div>
     </div>
     <expansion-table :cells="directorateList" :default-cols="defaultCols">

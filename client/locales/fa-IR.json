@@ -285,7 +285,9 @@
     "sellFinished": "تمام شده فروش",
     "profitAndLossSold": "سود و زیان فروش رفته",
     "description": "شرح",
-    "mainDetail": "جزییات"
+    "mainDetail": "جزییات",
+    "time": "زمان",
+    "requestRegistration": "ثبت درخواست"
   },
   "watchList": {
     "title": "دیدبان",
