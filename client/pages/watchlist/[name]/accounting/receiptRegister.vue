@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 const router = useRouter();
 const appManager = useAsrTrader();
@@ -12,7 +12,7 @@ const year = ref<string>('')
 const route = useRoute();
 
 function goToDeposit() {
-  router.push({ path: `/watchlist/${route.params.name}/accounting/deposit` });
+  router.push({path: `/watchlist/${route.params.name}/accounting/deposit`});
 }
 </script>
 
@@ -23,7 +23,7 @@ function goToDeposit() {
 
 
 .deposit {
-  @apply tw-grid tw-grid-cols-2 tw-gap-[12px] tw-m-0 tw-p-[12px] tw-relative tw-bg-primary tw-bg-opacity-10;
+  @apply tw-grid tw-grid-cols-2 tw-gap-[12px] tw-m-0 tw-p-[12px] tw-relative tw-bg-white;
   height: auto;
 
   &::before {
@@ -33,7 +33,7 @@ function goToDeposit() {
   }
 
   section {
-    @apply tw-bg-white tw-rounded-t-lg;
+    @apply tw-bg-white tw-rounded-lg tw-bg-grayF8;
 
     .card {
       @apply tw-p-[12px] tw-mx-auto tw-rounded-t-lg;
@@ -43,7 +43,7 @@ function goToDeposit() {
     form.card {
       @apply tw-flex tw-flex-col;
 
-      &> :first-child {
+      & > :first-child {
         @apply tw-flex tw-justify-between;
 
         .ada-input {
@@ -54,6 +54,7 @@ function goToDeposit() {
           }
 
           & :deep(.label) {
+            @apply tw-text-gray2 tw-font-medium tw-text-sm;
             max-width: 95px;
           }
 
@@ -90,7 +91,7 @@ function goToDeposit() {
         }
       }
 
-      &> :nth-child(2) {
+      & > :nth-child(2) {
         @apply tw-flex tw-justify-between tw-mt-6;
 
         .ada-select {
@@ -103,7 +104,7 @@ function goToDeposit() {
         }
       }
 
-      &> :nth-child(3) {
+      & > :nth-child(3) {
         @apply tw-bg-info tw-bg-opacity-5 tw-my-6 tw-border tw-border-dashed tw-border-info tw-rounded-lg;
 
         .uploader {
@@ -115,7 +116,7 @@ function goToDeposit() {
         }
       }
 
-      &> :nth-child(4) {
+      & > :nth-child(4) {
         @apply tw-flex tw-justify-between;
 
         .ada-button {
@@ -123,10 +124,12 @@ function goToDeposit() {
 
           &:first-child {
             @apply tw-bg-transparent tw-border tw-text-primary tw-border-primary hover:tw-bg-primary hover:tw-text-white;
+            font-size: 0.85rem !important;
           }
 
           &:nth-child(2) {
             @apply tw-bg-primary tw-text-white;
+            font-size: 0.85rem !important;
           }
         }
       }
@@ -137,6 +140,7 @@ function goToDeposit() {
     @apply tw-col-span-2;
   }
 }
+
 </style>
 
 //TODO set in assetst css files // globally
@@ -171,13 +175,16 @@ function goToDeposit() {
       <section>
         <form class="card">
           <div>
-            <ada-currency-input v-model="amount" label="مبلغ واریز (ریال)"></ada-currency-input>
-            <date-input v-model:day="day" v-model:month="month" v-model:year="year" label="تاریخ واریز"></date-input>
-            <ada-input dir="rtl" type="number" label="شماره"></ada-input>
+            <ada-currency-input v-model="amount" :label="$t('accounting.depositAmount')"></ada-currency-input>
+            <date-input v-model:day="day" v-model:month="month" v-model:year="year"
+                        :label="$t('accounting.depositDate')"></date-input>
+            <ada-input dir="rtl" type="number" :label="$t('accounting.receipt')"></ada-input>
           </div>
           <div>
-            <select-box placeholder="شماره حساب کارگزار"></select-box>
-            <select-box placeholder="علت واریز وجه"></select-box>
+            <select-box :placeholder="$t('accounting.brokerAccountNumber')"
+                        class="tw-text-gray2 tw-font-medium tw-text-sm"></select-box>
+            <select-box :placeholder="$t('accounting.reasonForDeposit')"
+                        class="tw-text-gray2 tw-font-medium tw-text-sm"></select-box>
           </div>
           <div>
             <div class="uploader">
@@ -190,11 +197,11 @@ function goToDeposit() {
             </div>
           </div>
           <div>
-            <ada-btn @click="goToDeposit">{{ $t("menu.deposit") }}
+            <ada-btn @click="goToDeposit" class="tw-h-[36px] tw-text-sm tw-font-semibold">
+              {{ $t("accounting.depositReport") }}
             </ada-btn>
-            <ada-btn>{{
-              $t("menu.receiptRegister")
-            }}
+            <ada-btn class="tw-h-[36px] tw-text-sm tw-font-semibold">
+              {{ $t("accounting.sendFile") }}
             </ada-btn>
           </div>
         </form>
@@ -202,7 +209,19 @@ function goToDeposit() {
 
       <section>
         <div class="card">
-          <ContentDoc :path="`${lang}/accounting/deposit`" class="doc" />
+          <!--          <ContentDoc :path="`${lang}/accounting/receiptRegister`" class="doc"/>-->
+          <div class="tw-text-error">
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
+            بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.
+          </div>
+          <div class="tw-text-gray3 tw-mt-6">
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
+            بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.
+          </div>
+          <div class="tw-text-gray3 tw-mt-9">
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
+            بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.
+          </div>
         </div>
       </section>
       <!-- <footer class="tw-bg-info">rgrg</footer> -->

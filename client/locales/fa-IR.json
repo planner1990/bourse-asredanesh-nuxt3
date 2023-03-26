@@ -314,7 +314,13 @@
     "upload": "آپلود فایل",
     "desUpload": "فایل خود را بکشید و اینجا رها کنید ویا اینجا کلیک کنید",
     "depositReport": "گزارش واریز وجه",
-    "payment": "پرداخت"
+    "payment": "پرداخت",
+    "sendFile": "ارسال فایل",
+    "receipt": "شماره رسید",
+    "depositAmount": "مبلغ واریز (ریال)",
+    "depositDate": "تاریخ فیش",
+    "reasonForDeposit": "علت واریز وجه",
+    "brokerAccountNumber": "شماره حساب کارگزار"
   },
   "oms": {
     "openingTrade": "عرضه اولیه",
