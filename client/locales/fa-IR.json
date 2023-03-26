@@ -306,13 +306,15 @@
     },
     "deposit": "واریز",
     "deposit-report": "@:general.report @:accounting.deposit وجه",
-    "gateway": "درگاه",
+    "gateway": "انتخاب درگاه",
     "amount": "مبلغ",
     "currency": {
       "rial": "ریال"
     },
     "upload": "آپلود فایل",
-    "desUpload": "فایل خود را بکشید و اینجا رها کنید ویا اینجا کلیک کنید"
+    "desUpload": "فایل خود را بکشید و اینجا رها کنید ویا اینجا کلیک کنید",
+    "depositReport": "گزارش واریز وجه",
+    "payment": "پرداخت"
   },
   "oms": {
     "openingTrade": "عرضه اولیه",
