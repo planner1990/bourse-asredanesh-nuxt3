@@ -224,7 +224,6 @@ function goToDeposit() {
           </div>
         </div>
       </section>
-      <!-- <footer class="tw-bg-info">rgrg</footer> -->
     </main>
   </div>
 </template>
