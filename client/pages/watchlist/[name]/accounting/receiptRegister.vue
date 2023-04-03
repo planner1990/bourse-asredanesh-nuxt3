@@ -33,7 +33,7 @@ function goToDeposit() {
   }
 
   section {
-    @apply tw-bg-white tw-rounded-lg tw-bg-grayF8;
+    @apply tw-rounded-lg tw-bg-grayF8;
 
     .card {
       @apply tw-p-[12px] tw-mx-auto tw-rounded-lg;

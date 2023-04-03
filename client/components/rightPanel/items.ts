@@ -66,6 +66,15 @@ export function getMenuItems(): Array<TabItem> {
           deletable: false,
         },
         {
+          id: "credits",
+          icon: "lotfi-empty-wallet-tick",
+          title: "menu.credits",
+          path: "accounting/credits",
+          match:
+              /^\/watchlist\/.+\/accounting\/credits([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+          deletable: false,
+        },
+        {
           id: "refund",
           icon: "isax-card-send",
           title: "menu.refund",
@@ -73,15 +82,6 @@ export function getMenuItems(): Array<TabItem> {
           color: "error",
           match:
             /^\/watchlist\/.+\/accounting\/refund([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-          deletable: false,
-        },
-        {
-          id: "credits",
-          icon: "lotfi-empty-wallet-tick",
-          title: "menu.credits",
-          path: "accounting/credits",
-          match:
-            /^\/watchlist\/.+\/accounting\/credits([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
           deletable: false,
         },
       ],
