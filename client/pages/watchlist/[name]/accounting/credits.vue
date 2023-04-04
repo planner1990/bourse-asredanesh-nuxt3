@@ -202,7 +202,6 @@ getTradeHistories();
                         <option value="volvo">وضعیت</option>
                         <option value="saab">Saab</option>
                         <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
                     </select>
                     <ada-icon :size="14" class="tw-absolute tw-top-2 tw-left-2">
                         isax-arrow-down
