@@ -1,4 +1,4 @@
-FROM artifactory.asredanesh.com/docker/node:lts-18-slim
+FROM artifactory.asredanesh.com/docker/node:lts-alpine3.17
 RUN npm install -g pnpm
 # Install node packages
 WORKDIR /usr/src/app
