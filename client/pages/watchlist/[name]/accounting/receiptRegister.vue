@@ -168,7 +168,6 @@ function goToDeposit() {
   }
 }
 </style>
-
 <template>
   <div class="tmp-ctr">
     <main class="deposit">
