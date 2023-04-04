@@ -164,7 +164,6 @@ function goToDeposit() {
         @apply tw-text-gray3;
       }
     }
-
   }
 }
 </style>
