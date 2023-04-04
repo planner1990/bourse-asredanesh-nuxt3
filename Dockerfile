@@ -18,5 +18,4 @@ EXPOSE 3000
 CMD [ "pnpm", "start" ]
 # Temporary dev
 #CMD [ "pnpm", "dev","--host","0.0.0.0","--host","bourse-ui" ]
-#####
-
+###

@@ -16,7 +16,7 @@ variables:
 build-image-General:
   stage: build-image
   tags:
-    - SftWre
+    - OVH
   script:
     - echo $VUE_APP_BASE_ROUTE
     - docker login -u $user_repository -p $pass_repository https://$repository
