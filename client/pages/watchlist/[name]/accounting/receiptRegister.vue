@@ -174,12 +174,6 @@ function goToDeposit() {
     <main class="deposit">
       <section>
         <form class="card">
-            <div>
-                <ada-currency-input v-model="amount" :label="$t('accounting.depositAmount')"></ada-currency-input>
-                <date-input v-model:day="day" v-model:month="month" v-model:year="year"
-                            :label="$t('accounting.depositDate')"></date-input>
-                <ada-input dir="rtl" type="number" :label="$t('accounting.receipt')"></ada-input>
-            </div>
           <div>
             <ada-currency-input v-model="amount" :label="$t('accounting.depositAmount')"></ada-currency-input>
             <date-input v-model:day="day" v-model:month="month" v-model:year="year"
