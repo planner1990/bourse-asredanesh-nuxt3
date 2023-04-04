@@ -336,7 +336,8 @@
     "depositAmount": "مبلغ واریز (ریال)",
     "depositDate": "تاریخ فیش",
     "reasonForDeposit": "علت واریز وجه",
-    "brokerAccountNumber": "شماره حساب کارگزار"
+    "brokerAccountNumber": "شماره حساب کارگزار",
+    "paymentDate": "تاریخ پرداخت"
   },
   "oms": {
     "openingTrade": "عرضه اولیه",
