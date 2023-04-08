@@ -2,12 +2,14 @@ import { User, WealthSearchModel } from "@/types";
 import { refreshKey, tokenKey, userKey } from "@/types/stores";
 import { useUser, useWealth } from "~/composables";
 import { needLogin } from "@/plugins/auth";
+import { Pinia } from "pinia";
 
 export default defineNuxtPlugin(async ({ $pinia }) => {
+  const pinia = $pinia as Pinia;
   const route = useRoute();
   const router = useRouter();
-  const userManager = useUser($pinia);
-  const wealthManager = useWealth($pinia);
+  const userManager = useUser(pinia);
+  const wealthManager = useWealth(pinia);
   let refresh = localStorage.getItem(refreshKey);
   let jwt = sessionStorage.getItem(tokenKey);
   let user = localStorage.getItem(userKey);

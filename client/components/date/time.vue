@@ -8,7 +8,7 @@ const props = withDefaults(
     format?: string;
   }>(),
   {
-    value: DateTime.now().toISO(),
+    value: DateTime.now().toISO() as string,
     format: "yyyy-MM-dd HH:mm:ss",
   }
 );

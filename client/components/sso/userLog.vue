@@ -2,10 +2,11 @@
 import { Paginated, Log, WatchListColumns } from "@/types";
 import { DateTime } from "luxon";
 import { useAsrTrader, useUser } from "~/composables";
+import { useI18n } from "vue-i18n"
 
 const userManager = useUser();
 const appManager = useAsrTrader();
-const { $i18n: i18n } = useNuxtApp();
+const i18n = useI18n();
 const res: Array<Log> = reactive([]);
 const headers: Array<WatchListColumns> = [
   new WatchListColumns("dateTime", "dateTime"),

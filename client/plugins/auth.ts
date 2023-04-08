@@ -1,4 +1,5 @@
 import { useUser } from "@/composables";
+import { Pinia } from "pinia";
 
 //TODO How to move it to the config
 const publicPages = [
@@ -22,7 +23,8 @@ export default defineNuxtPlugin(({ $pinia }) => {
   addRouteMiddleware(
     "auth",
     (to, from) => {
-      const userManager = useUser($pinia);
+      const pinia = $pinia as Pinia;
+      const userManager = useUser(pinia);
       if (needLogin(to.path) && !userManager.isLogin) {
         return navigateTo("/login", { redirectCode: 401 });
       }

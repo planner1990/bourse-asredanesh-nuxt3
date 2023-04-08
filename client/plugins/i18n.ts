@@ -1,12 +1,14 @@
 import { defineNuxtPlugin } from "#app";
 import { createI18n } from "vue-i18n";
 import { useAsrTrader } from "@/composables";
+import { Pinia } from "pinia";
 
 import fa from "@/locales/fa-IR.json";
 import en from "@/locales/en-US.json";
 
 export default defineNuxtPlugin(({ $pinia, vueApp }) => {
-  const app = useAsrTrader($pinia);
+  const pinia = $pinia as Pinia;
+  const app = useAsrTrader(pinia);
   const i18n = createI18n({
     legacy: false,
     globalInjection: true,
