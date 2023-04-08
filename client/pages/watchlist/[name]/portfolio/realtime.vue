@@ -118,41 +118,6 @@ function addTransaction() {
   border: none;
 }
 </style>
-<!--<template>-->
-<!--  <div class="tw-mx-3 tw-pt-3">-->
-<!--    <div class="tw-flex tw-justify-between tw-mb-2">-->
-<!--      <div class="tw-mr-3 tw-flex tw-justify-center tw-items-center tw-text-gray3 radio-button">-->
-<!--        <span>مبنای محاسبه ارزش فروش:</span>-->
-<!--        <input type="radio" class="tw-mr-3" id="radio1" name="radios" checked>-->
-<!--        <label class="radio tw-flex tw-mr-1" for="radio1">آخرین قیمت</label>-->
-<!--        <input type="radio" class="tw-mr-5" id="radio2" name="radios">-->
-<!--        <label class="radio tw-flex tw-mr-1" for="radio2">قیمت پایانی</label>-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <ada-btn id="btn-edit"-->
-<!--                 class="tw-ml-6 tw-bg-primary tw-text-white tw-min-w-[115px] tw-min-h-[24px] tw-text-[10px] tw-px-3 tw-py-2 tw-rounded-lg">-->
-<!--          <ada-icon :size="16" class="tw-text-white tw-ml-2">isax-add</ada-icon>-->
-<!--          {{ $t("oms.addManual") }}-->
-<!--        </ada-btn>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <ada-data-table-expansion :items="directorateList" :headers="defaultCols" item-key="dateTime"-->
-<!--                              class="tw-w-full tw-h-full tw-overflow-y-auto">-->
-<!--      <template #item.actions="{ item }">-->
-<!--        <span>-->
-<!--         <ada-icon-->
-<!--             class="tw-m-0 tw-p-0 tw-mx-2"-->
-<!--             :size="18"-->
-<!--             @click="toggle(item.row)">-->
-<!--          mdi-{{ opened.includes(item.row) ? 'chevron-up' : 'chevron-down' }}-->
-<!--         </ada-icon>-->
-<!--        </span>-->
-<!--      </template>-->
-<!--    </ada-data-table-expansion>-->
-<!--  </div>-->
-<!--</template>-->
-
-
 <template>
   <div class="tw-w-full">
     <div class="tw-flex tw-justify-between tw-mt-3">
