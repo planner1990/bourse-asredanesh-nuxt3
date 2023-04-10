@@ -138,9 +138,14 @@ getTradeHistories();
                     {{ $t("user.search") }}
                 </ada-btn>
                 <ada-btn @click="addFilters"
-                         class="tw-ml-6 tw-bg-transparent tw-text-primary tw-border tw-border-primary
-                        tw-min-w-[85px] tw-min-h-[27px] tw-text-[10px] tw-px-3 tw-rounded-[6px]">
-                    <ada-icon :size="14" class="tw-text-primary tw-ml-2">isax-filter</ada-icon>
+                         class="tw-ml-6
+                        tw-min-w-[85px] tw-min-h-[27px] tw-text-[10px] tw-px-3 tw-rounded-[6px]"
+                         :class="showFilter ? 'tw-bg-primary tw-text-white' :
+                         'tw-bg-transparent tw-text-primary tw-border tw-border-primary'">
+                    <ada-icon :size="14" class="tw-ml-2"
+                              :class="showFilter ? 'tw-text-white' :
+                         'tw-text-primary'">isax-filter
+                    </ada-icon>
                     {{ $t("instrument.filter") }}
                 </ada-btn>
             </div>
