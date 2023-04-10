@@ -38,6 +38,7 @@ module.exports = {
         gray5: "rgb(224, 224, 224)",
         gray7: "rgb(230, 230, 230)",
         gray8: "rgb(251, 251, 251)",
+        gray9: "rgb(151, 151, 151)",
         grayF8: "rgb(248, 248, 248)",
         grayF6: "rgb(238,238,238)",
         white: "rgb(255,255,255)",

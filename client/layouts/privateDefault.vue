@@ -9,7 +9,6 @@ const rtl = computed(() => appManager.rtl);
 const ws = useWebSocket();
 await ws.connect([])
 const companyManager = useCompany();
-console.log(companyManager, "company manager");
 
 
 const rightMenu = ref({
