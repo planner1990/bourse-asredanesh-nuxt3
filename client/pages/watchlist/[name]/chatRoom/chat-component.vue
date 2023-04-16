@@ -3,19 +3,18 @@ import {nextTick} from 'vue'
 
 const tab = ref<number>(1);
 const yourMessage = ref<string>("");
-const items = reactive<string>(["tab 1", "tab 2"]);
-const messages = reactive<string>([
+const items = reactive<any>(["tab 1", "tab 2"]);
+const messages = reactive<any>([
     {text: "سلام. چطور می توانم کمکتان کنم؟", role: "admin"},
     {text: "سلام. چطور می توانم پول خودم را برداشت کنم؟", role: "costumer"},
 ]);
 const chatArea = ref()
 
-function changeTab(tabNumber) {
+function changeTab(tabNumber: number) {
     tab.value = tabNumber;
-    console.log(tab.value);
 }
 
-async function sendMessage(direction) {
+async function sendMessage(direction: string) {
     if (!yourMessage.value) {
         return;
     }
