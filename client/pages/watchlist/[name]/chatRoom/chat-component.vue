@@ -178,7 +178,7 @@ async function sendMessage(direction: string) {
                 </TransitionGroup>
                 <ada-btn
                         class="tw-ml-6 tw-bg-primary tw-text-white tw-min-w-[70px]
-                        tw-min-h-[36px] tw-text-[13px] tw-px-3 tw-py-2 tw-rounded-lg tw-sticky tw-right-3/4 tw-bottom-0">
+                        tw-min-h-[36px] tw-text-[13px] tw-px-3 tw-py-2 tw-rounded-lg tw-sticky tw-right-3/4 tw-bottom-6">
                     <ada-icon :size="18" class="tw-text-white tw-ml-2">isax-add</ada-icon>
                     گفتگو جدید
                 </ada-btn>
