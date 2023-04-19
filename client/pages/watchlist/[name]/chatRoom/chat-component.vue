@@ -138,7 +138,7 @@ async function sendMessage(direction: string) {
                             <div class="tw-flex tw-bg-opacity-10 tw-bg-info tw-px-3 tw-rounded-full tw-mx-3">
                                 <ada-icon :size="20" class="tw-text-success">isax-profile-2user-bold</ada-icon>
                             </div>
-                            <div>
+                            <div class="tw-w-full">
                                 <div class="tw-flex tw-justify-between tw-font-semibold">
                                     <div>حسین لطفی</div>
                                     <div>۱۲:۵۶</div>
@@ -152,7 +152,7 @@ async function sendMessage(direction: string) {
                             <div class="tw-flex tw-bg-opacity-10 tw-bg-info tw-px-3 tw-rounded-full tw-mx-3">
                                 <ada-icon :size="20" class="tw-text-info">isax-frame-bold</ada-icon>
                             </div>
-                            <div>
+                            <div class="tw-w-full">
                                 <div class="tw-flex tw-justify-between tw-font-semibold">
                                     <div>حسین لطفی</div>
                                     <div>۱۲:۵۶</div>
@@ -166,7 +166,7 @@ async function sendMessage(direction: string) {
                             <div class="tw-flex tw-bg-opacity-10 tw-bg-info tw-px-3 tw-rounded-full tw-mx-3">
                                 <ada-icon :size="20" class="tw-text-success">isax-profile-2user-bold</ada-icon>
                             </div>
-                            <div>
+                            <div class="tw-w-full">
                                 <div class="tw-flex tw-justify-between tw-font-semibold">
                                     <div>حسین لطفی</div>
                                     <div>۱۲:۵۶</div>

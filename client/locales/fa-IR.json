@@ -303,7 +303,8 @@
     "priceFrom": "مبلغ از...",
     "priceTo": "مبلغ تا...",
     "dateFrom": "تاریخ از...",
-    "dateTo": "تاریخ تا..."
+    "dateTo": "تاریخ تا...",
+    "system": "سامانه"
   },
   "watchList": {
     "title": "دیدبان",
@@ -507,8 +508,8 @@
     "realtime": "لحظه‌ای",
     "credits": "گردش حساب",
     "tradesReport": "@:general.report @:oms.trades",
-    "switchBrokerage": "@:general.switch @:oms.brokerage",
-    "switchBrokerageReport": "@:general.report @:general.switch @:oms.brokerage",
+    "switchBrokerage": "تغییر کارگزار ناظر",
+    "switchBrokerageReport": "گزارش تغییر کارگزار ناظر",
     "brokerage": "@:oms.brokerage",
     "conditional": "@:general.conditional",
     "saveSettings": "@:general.download @:general.settings",
