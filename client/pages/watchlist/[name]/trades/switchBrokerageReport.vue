@@ -38,12 +38,9 @@ const defaultCols = [
     new WatchListColumns(i18n.t("instrument.row").toString(), "row"),
     new WatchListColumns(i18n.t("instrument.time").toString(), "time"),
     new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
-    new WatchListColumns(i18n.t("instrument.position").toString(), "position"),
-    new WatchListColumns(i18n.t("instrument.date").toString(), "date"),
-    new WatchListColumns(i18n.t("instrument.hour").toString(), "hour"),
-    new WatchListColumns(i18n.t("instrument.volTotal").toString(), "volTotal"),
-    new WatchListColumns(i18n.t("instrument.price").toString(), "price"),
-    new WatchListColumns(i18n.t("accounting.account.credit").toString(), "credit")
+    new WatchListColumns(i18n.t("instrument.system").toString(), "system"),
+    new WatchListColumns(i18n.t("instrument.situation").toString(), "situation"),
+    new WatchListColumns(i18n.t("instrument.actions").toString(), "actions")
 ];
 
 
@@ -53,12 +50,9 @@ async function getTradeHistories() {
         bank: "مهریران ۶۴۹۶۲۶۲۶۴",
         time: "۱۴۰۱/۰۲/۰۴",
         name: "خگستر",
-        position: "کارگزاری",
-        date: "۱۴۰۱/۰۲/۰۴",
-        hour: "۱۲:۲۰",
-        volTotal: "۱۲۰",
-        price: 12000000,
-        credit: 21000000,
+        system: "سامانه بورس",
+        situation: "در حال انجام",
+        actions: "---",
     }
     for (let i = 0; i <= 4; i++) {
         directorateList.push(data);
@@ -71,7 +65,11 @@ getTradeHistories();
 <style lang="postcss" scoped>
 
 :deep(input::placeholder) {
-    @apply tw-text-gray2;
+    @apply tw-text-gray4 tw-font-light;
+}
+
+:deep(.label) {
+    @apply tw-mb-3;
 }
 
 :deep(.headers[data-v-8d846923]) {
@@ -94,7 +92,7 @@ getTradeHistories();
     div {
         :deep(input) {
             @apply tw-border tw-border-gray4;
-            width: 20%;
+            width: 12%;
         }
 
         &:last-child {
@@ -104,7 +102,7 @@ getTradeHistories();
 }
 
 .select-box {
-    width: 23%;
+    width: 12%;
     position: relative;
 
     select {
@@ -112,65 +110,85 @@ getTradeHistories();
         border-radius: 6px;
         width: 100%;
         padding: 0 4px;
-        color: rgb(79, 79, 79);
+        color: rgb(189, 189, 189);
         appearance: none;
         background-repeat: no-repeat;
         background-position: right 1rem center;
         background-size: 1em;
+        background-color: white;
     }
+}
+
+label {
+    @apply tw-font-semibold tw-text-sm tw-mb-3;
+
 }
 </style>
 <template>
-    <div class="tw-px-2 tw-pt-9 tw-bg-grayF6">
-        <div v-if="showFilter">
-            <div class="tw-flex tw-mb-9 filter-boxes tw-justify-between">
-                <div class="tw-flex">
-                    <div class="tw-ml-11 tw-mr-4">
-                        <ada-input :placeholder="$t('instrument.search')"
-                                   class="tw-h-9 tw-rounded-[6px] tw-bg-grayF6"></ada-input>
-                    </div>
-                    <div class="tw-ml-11 select-box">
-                        <select name="cars" id="cars"
-                                class="tw-h-9">
-                            <option value="volvo">وضعیت</option>
-                            <option value="saab">Saab</option>
-                            <option value="opel">Opel</option>
-                            <option value="audi">Audi</option>
-                        </select>
-                        <ada-icon :size="14" class="tw-absolute tw-top-2 tw-left-2">
-                            isax-arrow-down
-                        </ada-icon>
-                    </div>
-                    <div class="tw-ml-11">
-                        <ada-input :placeholder="$t('instrument.dateFrom')"
-                                   class="tw-h-9 tw-rounded-[6px] tw-bg-grayF6"></ada-input>
-                    </div>
-                    <div class="tw-ml-11">
-                        <ada-input :placeholder="$t('instrument.dateTo')"
-                                   class="tw-h-9 tw-rounded-[6px] tw-bg-grayF6"></ada-input>
-                    </div>
-                    <div class="tw-ml-11 select-box">
-                        <select name="cars" id="cars"
-                                class="tw-h-9">
-                            <option value="volvo">وضعیت</option>
-                            <option value="saab">Saab</option>
-                            <option value="opel">Opel</option>
-                            <option value="audi">Audi</option>
-                        </select>
-                        <ada-icon :size="14" class="tw-absolute tw-top-2 tw-left-2">
-                            isax-arrow-down
-                        </ada-icon>
-                    </div>
+    <div class="tw-px-2 tw-bg-grayF6">
+        <div v-if="showFilter" class="tw-pt-5">
+            <div class="tw-flex tw-items-end tw-mb-9 filter-boxes">
+                <div class="tw-ml-11 tw-mr-4">
+                    <ada-input :placeholder="$t('instrument.dateFrom')" label="از تاریخ"
+                               class="tw-h-9 tw-rounded-[6px] tw-bg-white"></ada-input>
                 </div>
-                <div class="tw-ml-6 tw-flex">
-                    <ada-btn class="tw-h-full tw-w-full tw-bg-primary tw-text-white tw-min-w-[137px] tw-ml-3">
+                <div class="tw-ml-11">
+                    <ada-input :placeholder="$t('instrument.dateTo')" label="تا تاریخ"
+                               class="tw-h-9 tw-rounded-[6px] tw-bg-white"></ada-input>
+                </div>
+                <div class="tw-ml-11">
+                    <ada-input :placeholder="$t('instrument.search')" label="نماد"
+                               class="tw-h-9 tw-rounded-[6px] tw-bg-white"></ada-input>
+                </div>
+                <div class="tw-ml-11 select-box">
+                    <label for="situation" class="tw-block">وضعیت</label>
+                    <select name="situation" id="situation"
+                            class="tw-h-9">
+                        <option value="volvo">همه موارد</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                    </select>
+                    <ada-icon :size="14" class="tw-absolute tw-top-10 tw-left-2">
+                        isax-arrow-down
+                    </ada-icon>
+                </div>
+                <div class="tw-ml-11 select-box">
+                    <label for="attachment" class="tw-block">پیوست</label>
+                    <select name="attachment" id="attachment"
+                            class="tw-h-9">
+                        <option value="volvo">همه موارد</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                    </select>
+                    <ada-icon :size="14" class="tw-absolute tw-top-10 tw-left-2">
+                        isax-arrow-down
+                    </ada-icon>
+                </div>
+                <div class="tw-ml-3">
+                    <ada-btn
+                            class="tw-h-full tw-w-full tw-bg-primary tw-text-white tw-min-w-[100px] tw-min-h-[27px] tw-font-semibold tw-text-sm">
                         {{ $t("instrument.filter") }}
                     </ada-btn>
-                    <ada-btn class="tw-h-full tw-bg-error tw-text-white tw-px-3 tw-min-w-[73px]">
+                </div>
+                <div class="tw-justify-end tw-flex tw-ml-6">
+                    <ada-btn
+                            class="tw-h-full tw-bg-gray5 tw-text-gray3 tw-px-3 tw-min-w-[73px] tw-min-h-[27px] tw-font-semibold tw-text-sm">
                         {{ $t("general.delete") }}
                     </ada-btn>
+                </div>
+                <div class="tw-flex">
                     <ada-btn
-                            class="tw-min-w-[85px] tw-min-h-[27px] tw-text-[10px] tw-px-3 tw-rounded-[6px] tw-mr-3"
+                            class="tw-ml-3 tw-min-w-[85px] tw-min-h-[27px] tw-text-[10px] tw-px-3 tw-rounded-[6px]"
+                            :class="showFilter ? 'tw-bg-error tw-text-white' :
+                         'tw-bg-gray5 tw-text-gray3 tw-border-none'">
+                        <ada-icon :size="14" class="tw-ml-2" :class="showFilter ? 'tw-text-white' : 'tw-text-gray3'">
+                            isax-document-text
+                        </ada-icon>
+                        {{ $t("instrument.pdf") }}
+                    </ada-btn>
+                    <ada-btn
+                            class="tw-min-w-[70px] tw-min-h-[27px] tw-text-[10px] tw-px-3 tw-rounded-[6px] tw-ml-5"
                             :class="showFilter ? 'tw-bg-success tw-text-white' :
                          'tw-bg-gray5 tw-text-gray3 tw-border-none'">
                         <ada-icon :size="14" class="tw-ml-2" :class="showFilter ? 'tw-text-white' : 'tw-text-gray3'">
@@ -183,11 +201,14 @@ getTradeHistories();
         </div>
         <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
                         class="tw-w-full tw-h-full tw-overflow-y-auto">
-            <template #item.price="{ item }">
-                <NumericField :value="item.price"/>
+            <template #item.receiptAmount="{ item }">
+                <NumericField :value="item.receiptAmount" class="tw-text-success"/>
             </template>
-            <template #item.credit="{ item }">
-                <NumericField :value="item.credit"/>
+            <template #item.registeredAmount="{ item }">
+                <NumericField :value="item.registeredAmount" class="tw-text-success"/>
+            </template>
+            <template #item.status="{ item }">
+                <span class="tw-text-info">{{ item.status }}</span>
             </template>
         </ada-data-table>
     </div>

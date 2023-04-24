@@ -95,6 +95,7 @@
     },
     "title": "جست و جوی کاربران",
     "search": "جستجو",
+    "description": "توضیحات",
     "username": "نام کاربری",
     "password": "رمز عبور",
     "editPassword": "ویرایش رمز",
@@ -298,15 +299,16 @@
     "brokerMessage": "پیام کارگزار",
     "searchCredit": "دنبال چی میگردی؟",
     "filter": "فیلتر کردن",
-    "pdf": "فایل پی دی اف",
-    "excel": "فایل اکسل",
+    "pdf": "پی دی اف",
+    "excel": "اکسل",
     "priceFrom": "مبلغ از...",
     "priceTo": "مبلغ تا...",
     "dateFrom": "تاریخ از...",
     "dateTo": "تاریخ تا...",
     "system": "سامانه",
     "hour": "ساعت",
-    "volTotal": "حجم کل"
+    "volTotal": "حجم کل",
+    "switchBrokerageReport": "گزارش تغییر کارگزار ناظر"
   },
   "watchList": {
     "title": "دیدبان",

@@ -160,7 +160,7 @@ const router = useRouter();
                 </div>
             </form>
             <section>
-                <div class="card">
+                <div class="card tw-h-full">
                     <div class="tw-text-error">
                         افزودن شماره حساب جدید
                     </div>
