@@ -251,7 +251,7 @@ function openRoute(path: string) {
     <header>
       <div class="start">
         <nuxt-link class="tw-flex tw-px-2 tw-items-center tw-justify-center" :to="home">
-          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png"/>
+          <img class="tw-m-0 tw-p-0 tw-h-[20px]" src="/logo.png" alt="logo"/>
           <span v-if="!rightMenu.mini && rightMenu.drawer" class="tw-mr-2">
             {{ $t("general.proxyCompany") }}
           </span>
@@ -283,7 +283,7 @@ function openRoute(path: string) {
           <span v-text="$t('oms.bourseIndex')" class="tw-text-primary"></span>:
           <span class="tw-text-sm badge-content">{{ formatter.format(1502605.15) }}
             <span v-text="
-              `(${new Number(8471.09).toLocaleString(appManager.locale)})`
+              `(${Number(8471.09).toLocaleString(appManager.locale)})`
             " class="tw-text-error"></span>
           </span>
         </ada-badge>
@@ -292,7 +292,7 @@ function openRoute(path: string) {
           <span v-text="$t('oms.superBourseIndex')" class="tw-text-primary"></span>:
           <span class="tw-text-sm badge-content">{{ formatter.format(20136.69) }}
             <span v-text="
-              `(${new Number(84.12).toLocaleString(appManager.locale)})`
+              `(${Number(84.12).toLocaleString(appManager.locale)})`
             " class="tw-text-error"></span>
           </span>
         </ada-badge>

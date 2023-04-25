@@ -116,7 +116,7 @@ const items = getMenuItems();
       <ada-toggle class="tw-flex-wrap">
         <ada-tooltip v-for="item in items" :key="item.title" position="left">
           <template #activator>
-            <ada-btn :to="`/watchlist/${$route.params.name}/${item.path}`" :match="item.match" :model="item">
+            <ada-btn :to="`/watchlist/${$route.params.name}/${item.path}`" :match="item.match" :model="item" >
               <ada-icon size="18" :class="[item.color ? `tw-text-${item.color}` : null]">
                 {{ item.icon }}
               </ada-icon>

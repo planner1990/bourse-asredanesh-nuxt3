@@ -21,17 +21,17 @@ export default defineNuxtConfig({
             VUE_APP_Host: process.env.VUE_APP_Host,
             VUE_WSS_Host: process.env.VUE_WSS_Host,
         },
-        sentry: {
-            config: {
-                environment: process.env.SENTRY_ENVIRONMENT,
-            },
-            serverConfig: {
-                // Any server-specific config
-            },
-            clientConfig: {
-                // Any client-specific config
-            },
-        },
+        // sentry: {
+        //     config: {
+        //         environment: process.env.SENTRY_ENVIRONMENT,
+        //     },
+        //     serverConfig: {
+        //         // Any server-specific config
+        //     },
+        //     clientConfig: {
+        //         // Any client-specific config
+        //     },
+        // },
     },
     postcss: {
         plugins: {
