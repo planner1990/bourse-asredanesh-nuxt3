@@ -126,7 +126,7 @@ getTradeHistories();
 }
 </style>
 <template>
-    <div class="tw-px-2 tw-bg-grayF6">
+    <div class="tw-px-2 tw-bg-grayF6 tw-h-full tw-overflow-auto">
         <div class="tw-flex tw-justify-between tw-py-3 tw-px-6">
             <div class="tw-flex">
                 <ada-input :placeholder="$t('instrument.searchCredit')"
@@ -219,7 +219,7 @@ getTradeHistories();
             </div>
         </div>
         <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
-                        class="tw-w-full tw-h-full tw-overflow-y-auto">
+                        class="tw-w-full tw-overflow-y-auto">
             <template #item.receiptAmount="{ item }">
                 <NumericField :value="item.receiptAmount" class="tw-text-success"/>
             </template>

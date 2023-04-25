@@ -23,8 +23,7 @@ function goToDeposit() {
 
 
 .deposit {
-  @apply tw-grid tw-grid-cols-2 tw-gap-[12px] tw-m-0 tw-p-[12px] tw-relative tw-bg-white;
-  height: auto;
+  @apply tw-grid tw-grid-cols-2 tw-gap-[12px] tw-m-0 tw-p-[12px] tw-relative tw-bg-white tw-h-full;
 
   &::before {
     content: "";

@@ -59,7 +59,7 @@ async function getTradeHistories() {
         price: 12000,
         credit: 100000,
     }
-    for (let i = 0; i <= 4; i++) {
+    for (let i = 0; i <= 6; i++) {
         directorateList.push(data);
     }
     bottomPanelManager.setLoading(false);
@@ -126,7 +126,7 @@ label {
 }
 </style>
 <template>
-    <div class="tw-px-2 tw-bg-grayF6">
+    <div class="tw-px-2 tw-bg-grayF6 tw-h-full">
         <div v-if="showFilter" class="tw-pt-5 tw-flex tw-items-center tw-justify-between">
             <div class="tw-flex tw-items-end tw-mb-9 filter-boxes">
                 <div class="tw-ml-11 tw-mr-4">
@@ -181,7 +181,7 @@ label {
             </ada-btn>
         </div>
         <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
-                        class="tw-w-full tw-h-full tw-overflow-y-auto">
+                        class="tw-w-full tw-bg-grayF6 tw-overflow-y-auto">
             <template #item.volTotal="{ item }">
                 <NumericField :value="item.volTotal"/>
             </template>

@@ -125,7 +125,7 @@ label {
 }
 </style>
 <template>
-    <div class="tw-px-2 tw-bg-grayF6">
+    <div class="tw-px-2 tw-bg-grayF6 tw-h-full">
         <div v-if="showFilter" class="tw-pt-5">
             <div class="tw-flex tw-items-end tw-mb-9 filter-boxes">
                 <div class="tw-ml-11 tw-mr-4">
@@ -200,7 +200,7 @@ label {
             </div>
         </div>
         <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
-                        class="tw-w-full tw-h-full tw-overflow-y-auto">
+                        class="tw-w-full tw-bg-grayF6 tw-overflow-y-auto">
             <template #item.receiptAmount="{ item }">
                 <NumericField :value="item.receiptAmount" class="tw-text-success"/>
             </template>

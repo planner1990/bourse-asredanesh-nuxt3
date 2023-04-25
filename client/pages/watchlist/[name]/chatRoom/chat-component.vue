@@ -34,6 +34,7 @@ async function sendMessage(direction: string) {
 </script>
 
 <style scoped lang="postcss">
+
 :deep(input::placeholder) {
     @apply tw-text-gray2;
 }
@@ -108,7 +109,7 @@ async function sendMessage(direction: string) {
 </style>
 
 <template>
-    <div class="tw-flex tw-bg-grayF6 tw-h-[290px]">
+    <div class="tw-flex tw-bg-grayF6 tw-h-full">
         <div class="tw-w-1/4 tw-bg-white tw-p-3 tw-overflow-y-auto">
             <ada-input :placeholder="$t('user.search')"
                        class="tw-h-9 tw-bg-white">
@@ -186,38 +187,40 @@ async function sendMessage(direction: string) {
 
 
         </div>
-        <div class="tw-w-3/4 tw-p-3">
+        <div class="tw-w-3/4 tw-p-3 tw-flex tw-flex-col tw-justify-between">
             <!----------------------  Chat Header  -------------------------->
-            <div class="tw-bg-white tw-h-12 tw-rounded-lg tw-flex tw-items-center tw-justify-between tw-px-4">
+            <div>
+                <div class="tw-bg-white tw-h-12 tw-rounded-lg tw-flex tw-items-center tw-justify-between tw-px-4">
                 <span>
                     <ada-icon :size="18" class="tw-text-gray9 tw-bg-white tw-mr-2 tw-cursor-pointer">
                         isax-search-normal-1
                     </ada-icon>
                 </span>
-                <span class="tw-font-semibold tw-text-sm">
+                    <span class="tw-font-semibold tw-text-sm">
                     حسین لطفی
                 </span>
-                <span>
+                    <span>
                     <ada-icon :size="18" class="tw-text-gray9 tw-cursor-pointer">
                        mdi-dots-vertical
                     </ada-icon>
                 </span>
+                </div>
+
+                <!----------------------  Chat Box  -------------------------->
+
+                <section ref="chatArea" class="chat-area">
+                    <p
+                            v-for="message in messages"
+                            class="message tw-mb-2"
+                            :class="{ 'message-out': message.role === 'costumer', 'message-in': message.role === 'admin' }"
+                    >
+                        {{ message.text }}
+                    </p>
+                </section>
             </div>
-            <!----------------------  Chat Box  -------------------------->
 
-            <section ref="chatArea" class="chat-area">
-                <p
-                        v-for="message in messages"
-                        class="message tw-mb-2"
-                        :class="{ 'message-out': message.role === 'costumer', 'message-in': message.role === 'admin' }"
-                >
-                    {{ message.text }}
-                </p>
-            </section>
 
-            <div
-                    class="tw-mt-3"
-            >
+            <div class="tw-mt-3">
                 <ada-input
                         class="tw-h-9"
                         v-model="yourMessage"

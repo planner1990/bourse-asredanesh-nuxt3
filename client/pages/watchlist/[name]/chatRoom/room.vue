@@ -7,7 +7,7 @@ import ChatComponent from "~/pages/watchlist/[name]/chatRoom/chat-component.vue"
 </style>
 
 <template>
-    <div>
+    <div class="tw-h-full">
         <chat-component></chat-component>
     </div>
 </template>
