@@ -27,6 +27,10 @@ const router = useRouter();
 
     .card {
         @apply tw-p-[12px] tw-bg-grayF8 tw-rounded-lg;
+
+        .label {
+            @apply tw-text-primary tw-font-semibold tw-text-sm;
+        }
     }
 
     form {
@@ -34,6 +38,63 @@ const router = useRouter();
             > div {
                 @apply tw-m-auto;
                 max-width: 65%;
+
+                > .banks {
+                    @apply tw-flex tw-justify-between tw-w-full tw-mb-7 tw-h-[64px];
+
+                    > button {
+                        @apply tw-flex tw-justify-center tw-items-center tw-border tw-border-default tw-rounded-lg  tw-w-[64px] tw-text-white tw-bg-white;
+
+                        &.active {
+                            @apply tw-border-primary;
+
+
+                        }
+                    }
+                }
+
+                > .actions {
+                    @apply tw-h-12 tw-my-[16px] tw-flex tw-justify-between;
+
+                    .ada-button {
+                        width: 45%;
+
+                        &:nth-child(1) {
+                            @apply tw-bg-white tw-border tw-border-primary tw-bg-opacity-90 hover:tw-bg-primary hover:tw-bg-opacity-90 hover:tw-text-white;
+                        }
+
+                        &:nth-child(2) {
+                            @apply tw-bg-primary tw-bg-opacity-90 tw-text-white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+</style>
+
+<style lang="postcss">
+.deposit {
+    .card {
+        .ada-input {
+            @apply tw-mt-4;
+
+            .label {
+                @apply tw-mt-2 tw-text-primary tw-font-semibold tw-text-sm tw-mb-3;
+            }
+
+            .scaffold {
+                @apply tw-border tw-border-primary tw-px-3 tw-h-[42px] tw-bg-white tw-mb-3;
+
+                > span {
+                    @apply tw-bg-primary tw-bg-opacity-10 tw-block tw-relative tw-h-full tw-text-center;
+                    @apply tw-font-semibold tw-text-sm tw-flex tw-justify-center tw-items-center tw-w-12 tw-right-3 tw-text-primary;
+                }
+
+                &.active {
+                    @apply tw-border-primary;
+                }
             }
         }
     }
