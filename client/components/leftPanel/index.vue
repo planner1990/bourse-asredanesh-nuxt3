@@ -170,7 +170,7 @@ function focus() {
         issuePrice: 0,
         firstTradeDate: "2010-08-10T20:30:00.000+00:00",
         lastTradeDate: "12:30:01",
-        expirationDate: null,
+        expirationDate: "12:30:01",
         lastModification: "2020-06-12T20:30:00.000+00:00",
         status: 7,
         instrumentCode: "IRO1BDAN0001",
@@ -200,7 +200,7 @@ function focus() {
         company: 19700455,
         segment: 1,
         flags: 1,
-        lastPrice: null,
+        lastPrice: "null",
         mdsboard: 21
     }
     instrumentManager.activateTab(item);
