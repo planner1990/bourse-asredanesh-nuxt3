@@ -1,8 +1,9 @@
 export interface Agreements {
-    row: number;
+    id: number;
     title: string;
-    zone: string;
-    dateOfAgreement: string;
-    expirationOfAgreement: string;
-    situationOfAgreement: string;
+    area: string;
+    startDate: string;
+    endDate: string;
+    situationOfAgreement?: string;
+    description?: string;
 }
