@@ -43,9 +43,9 @@ const defaultCols = [
     new WatchListColumns("", "actions", "center", "100px")
 ];
 
-const {data} = await useFetch(() => getAgreementsList(axios).then(res => {
-    agreementsList = res.data;
-}))
+// const {data} = await useFetch(() => getAgreementsList(axios).then(res => {
+//     agreementsList = res.data;
+// }))
 </script>
 
 <template>

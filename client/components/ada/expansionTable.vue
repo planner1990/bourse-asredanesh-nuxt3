@@ -32,13 +32,13 @@ function toggle(id: any) {
     }
 }
 
-function doConfirmAgreement(id) {
+function doConfirmAgreement(id: number) {
     confirmAgreement(id, axios).then(res => {
         console.log(res);
     })
 }
 
-function doCheck(id) {
+function doCheck(id: number) {
     isChecked.push(id);
 }
 
@@ -196,9 +196,9 @@ function doCheck(id) {
                         <div class="tw-flex tw-justify-between tw-mt-5">
                             <div class="tw-flex tw-text-primary tw-items-center">
                                 <div class="checkbox">
-                                    <input type="checkbox" :id="cell.id" :name="cell.id" v-model="cell.id"
+                                    <input type="checkbox" :id="String(cell.id)" :name="String(cell.id)" v-model="cell.id"
                                            @click="doCheck(cell.id)">
-                                    <label :for="cell.id"><span></span></label>
+                                    <label :for="String(cell.id)"><span></span></label>
                                 </div>
                                 <div class="tw-mr-3 tw-font-semibold"><span
                                         v-text="$t('general.agreementsText')"></span>
