@@ -51,8 +51,7 @@ async function getTradeHistories() {
                 area: "بيانيه ريسک معاملات بازار پايه",
                 title: "معامله در بازار (پایه فرابورس)",
                 startDate: "۱۴۰۰/۰۱/۱۰",
-                endDate: "۱۴۰۰/۰۱/۱۰",
-                situationOfAgreement: "تایید شده"
+                endDate: "۱۴۰۰/۰۱/۱۰"
             }
         );
     }
