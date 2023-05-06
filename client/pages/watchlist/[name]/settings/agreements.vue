@@ -43,6 +43,23 @@ const defaultCols = [
     new WatchListColumns("", "actions", "center", "100px")
 ];
 
+async function getTradeHistories() {
+    for (let i = 0; i < 5; i++) {
+        agreementsList.push(
+            {
+                id: i + 1,
+                area: "بيانيه ريسک معاملات بازار پايه",
+                title: "معامله در بازار (پایه فرابورس)",
+                startDate: "۱۴۰۰/۰۱/۱۰",
+                endDate: "۱۴۰۰/۰۱/۱۰",
+                situationOfAgreement: "تایید شده"
+            }
+        );
+    }
+    bottomPanelManager.setLoading(false);
+}
+
+getTradeHistories();
 // const {data} = await useFetch(() => getAgreementsList(axios).then(res => {
 //     agreementsList = res.data;
 // }))

@@ -13,4 +13,5 @@ export * from "./upload"
 
 export * from "./chat"
 export * from "./useLoading"
+export * from "./useOrderQue"
 

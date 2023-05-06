@@ -79,3 +79,8 @@ export interface CompanyState {
   cache: { [key: string]: Array<Notification> };
   selected: InstrumentCache | null;
 }
+
+export interface OrderQueState {
+  amount: number,
+  totalVolume: number
+}
