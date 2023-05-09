@@ -29,8 +29,8 @@ export const useWebSocket = defineStore("webSocket", () => {
           handlers[resp.typ](resp);
         } else {
           console.log(
-            "Message-Type '" + resp.typ + "' is unhandled!",
-            decode(resp.obj ?? [0])
+              "Message-Type '" + resp.typ + "' is unhandled!",
+              decode(resp.obj ?? [0])
           );
         }
       }

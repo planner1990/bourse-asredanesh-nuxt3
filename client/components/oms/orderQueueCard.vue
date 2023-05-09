@@ -157,8 +157,8 @@ defineExpose({
       ">
                 <numeric-field :value="item.buy.count"></numeric-field>
             </div>
-            <div class="field" @click.ctrl="getCumulativeVolume(item.buy.amount, index)"
-                 :class="amountCum[index]?.id ? 'tw-bg-primary' : '' ">
+            <div class="field" @click.ctrl="getCumulativeVolume(item.buy.amount, index)">
+                <!--                :class="amountCum[index]?.id ? 'tw-bg-primary' : '' "-->
                 <numeric-field :value="item.buy.amount"
                                @click="getAmount(item.buy.amount)"
                 ></numeric-field>
