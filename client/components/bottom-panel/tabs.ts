@@ -10,11 +10,16 @@ const panels: Array<TabItem> = [
         children: [
             {
                 id: "orders.all",
-                path: "orders?offset=0&length=20",
+                path: `orders?offset=0&length=20&flags=${
+                    OrderFlags.Confirmed |
+                    OrderFlags.PreOpening |
+                    OrderFlags.Created |
+                    OrderFlags.Sent
+                }`,
                 title: "bottom-panel.orders.open",
                 deletable: false,
                 match:
-                    /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=(?!1|8|54)[^\/&]+))[&]?)*([\/]{1})?)(?!&today)$/g,
+                    /^\/watchlist\/.+\/orders([?]((((?!flags)[^=\/&]+=[^\/&]+)|(flags=(?!1|8|64)[^\/&]+))[&]?)*([\/]{1})?)(?!&today)$/g,
             },
             {
                 id: "orders.today",
@@ -27,15 +32,12 @@ const panels: Array<TabItem> = [
             {
                 id: "orders.actives",
                 path: `orders?offset=0&length=20&flags=${
-                    OrderFlags.Confirmed |
-                    OrderFlags.PreOpening |
-                    OrderFlags.Created |
-                    OrderFlags.Sent
+                    OrderFlags.Done
                 }`,
                 title: "bottom-panel.orders.actives",
                 deletable: false,
                 match:
-                    /^\/watchlist\/.+\/orders[?]((?!flags)[^&=\/]+[=][^&=\/]+[&]?)*(flags=54[&]?)((?!flags)[^&=\/]+[=][^&=\/]+[&]?)*$/g,
+                    /^\/watchlist\/.+\/orders[?]((?!flags)[^&=\/]+[=][^&=\/]+[&]?)*(flags=64[&]?)((?!flags)[^&=\/]+[=][^&=\/]+[&]?)*$/g,
             },
             {
                 id: "orders.drafts",

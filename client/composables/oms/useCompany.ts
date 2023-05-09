@@ -17,7 +17,6 @@ export const useCompany = defineStore("company", () => {
     websocket.registerHandler("Company'sBoard", (data) => {
         const inst = state.value.cache[data.referenceNumber];
         const parsedData = data.obj ? (decode(data.obj) as any) : {};
-        debugger;
         if (typeof inst != "undefined") {
             console.log(parsedData, "qqqqqqqqqqqqqqqqqq");
         }

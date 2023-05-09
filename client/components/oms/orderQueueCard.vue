@@ -22,6 +22,7 @@ const instrumentManager = useInstrument();
 const orderQueManager = useOrderQue();
 const formatter = appManager.formatter;
 const instrument = ref<InstrumentCache | null>(null);
+const amountCum = reactive<Array<{id: number, amount: number}>>([]);
 const change = computed(() => (price: number) => {
     if (instrument.value && price) {
         return ((price - instrument.value.last) / price) * 100;
@@ -49,6 +50,24 @@ const queue = computed(() => instrumentManager.getOrderQueue(props.inst));
 
 function getAmount(amount: number) {
     orderQueManager.showAmount(amount)
+}
+
+function getCumulativeVolume(amount: number, index: number) {
+    let sum = 0;
+    if (amountCum.length === 0) {
+        amountCum.push({id: index, amount});
+    } else if (amountCum.length !== 0 && amountCum.findIndex((item) => item.id === index) == -1) {
+        amountCum.push({id: index, amount});
+    }
+    for (let index = 0; index < amountCum.length; index++) {
+        sum += amountCum[index].amount;
+    }
+    orderQueManager.showAmount(sum);
+}
+
+function resetCumulativeVol() {
+    amountCum.splice(0);
+    orderQueManager.resetAmount();
 }
 
 defineExpose({
@@ -106,7 +125,7 @@ defineExpose({
 }
 </style>
 <template>
-    <div class="order-queue" fluid>
+    <div class="order-queue" fluid @focusout="resetCumulativeVol" tabindex="0">
         <header>
             <div class="buy">
                 {{ $t("oms.count") }}
@@ -138,8 +157,11 @@ defineExpose({
       ">
                 <numeric-field :value="item.buy.count"></numeric-field>
             </div>
-            <div class="field" @click="getAmount(item.buy.amount)">
-                <numeric-field :value="item.buy.amount"></numeric-field>
+            <div class="field" @click.ctrl="getCumulativeVolume(item.buy.amount, index)"
+                 :class="amountCum[index]?.id ? 'tw-bg-primary' : '' ">
+                <numeric-field :value="item.buy.amount"
+                               @click="getAmount(item.buy.amount)"
+                ></numeric-field> -  {{amountCum[index]?.id}} - {{index}}
             </div>
             <div class="copy-cursor field" @click="
         () => {

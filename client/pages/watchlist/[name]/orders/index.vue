@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { Order, OrderSearchModel, PaginatedResult, TabItem } from "@/types";
-import { useInstrument, useOrder } from "~~/composables";
+import {Order, OrderSearchModel, PaginatedResult, TabItem} from "@/types";
+import {useInstrument, useOrder} from "~~/composables";
 
 const list = defineAsyncComponent(
-  () => import("@/components/bottom-panel/orders.vue")
+    () => import("@/components/bottom-panel/orders.vue")
 );
 
 const props = defineProps<{
-  modelValue: TabItem;
-  tabs: Array<TabItem>;
+    modelValue: TabItem;
+    tabs: Array<TabItem>;
 }>();
 
 const orderManager = useOrder();
@@ -17,18 +17,18 @@ const bottomPanel = useBottomPanel();
 
 const key = ref(1)
 
-const orders = reactive<{ items: Order[] }>({ items: [] });
+const orders = reactive<{ items: Order[] }>({items: []});
 
 watch(
-  () => [route.query, orderManager.last_update],
-  () => {
-    getOrders(
-      route.params.name && route.query.length
-        ? route.query as any as OrderSearchModel
-        : { offset: 0, length: 20 } as OrderSearchModel
-    );
+    () => [route.query, orderManager.last_update],
+    () => {
+        getOrders(
+            route.params.name && route.query.length
+                ? route.query as any as OrderSearchModel
+                : {offset: 0, length: 20} as OrderSearchModel
+        );
 
-  }
+    }
 );
 
 
@@ -36,40 +36,40 @@ const instrumentManager = useInstrument();
 const selected = computed(() => instrumentManager.state.selected);
 const router = useRouter();
 watch(
-  selected,
-  () => {
-    if (selected.value) {
-      router.push({
-        path: `/watchlist/${route.params.name}/orders`,
-        query: { offset: 0, length: 20, instId: selected.value.id }
-      });
-    } else {
-      router.push({
-        path: `/watchlist/${route.params.name}/orders`,
-        query: { offset: 0, length: 20 }
-      });
+    selected,
+    () => {
+        if (selected.value) {
+            router.push({
+                path: `/watchlist/${route.params.name}/orders`,
+                query: {offset: 0, length: 20, instId: selected.value.id}
+            });
+        } else {
+            router.push({
+                path: `/watchlist/${route.params.name}/orders`,
+                query: {offset: 0, length: 20}
+            });
+        }
     }
-  }
 );
 
 
 async function getOrders(qu: OrderSearchModel) {
-  bottomPanel.setLoading(true);
-  orders.items.splice(0, Infinity);
-  await orderManager
-    .getOrders(qu)
-    .then((res: PaginatedResult<Order> | undefined) => {
-      if (res) orders.items.push(...res.data);
-      bottomPanel.setLoading(false);
-    });
+    bottomPanel.setLoading(true);
+    orders.items.splice(0, Infinity);
+    await orderManager
+        .getOrders(qu)
+        .then((res: PaginatedResult<Order> | undefined) => {
+            if (res) orders.items.push(...res.data);
+            bottomPanel.setLoading(false);
+        });
 }
 
 getOrders(
-  route.params.name && route.query.length
-    ? route.query as any as OrderSearchModel
-    : { offset: 0, length: 20 } as OrderSearchModel
+    route.params.name && route.query.length
+        ? route.query as any as OrderSearchModel
+        : {offset: 0, length: 20} as OrderSearchModel
 );
 </script>
 <template>
-  <list v-if="orders.items.length" :orders="orders.items"></list>
+    <list v-if="orders.items.length" :orders="orders.items"></list>
 </template>

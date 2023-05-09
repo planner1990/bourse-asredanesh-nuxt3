@@ -211,22 +211,22 @@ export function getMenuItems(): Array<TabItem> {
             ],
         },
         {
-            id: "technical",
+            id: "technicals",
             icon: "isax-status-up",
             title: "menu.technical",
-            path: "technical",
+            path: "technicals",
             match:
-                /^\/watchlist\/.+\/technical$/g,
+                /^\/watchlist\/.+\/technicals$/g,
             show: false,
             deletable: true,
             children: [
                 {
-                    id: "technical.info",
+                    id: "technicals.info",
                     icon: "isax-graph",
                     title: "menu.technical",
-                    path: "technical",
+                    path: "technicals",
                     color: "success",
-                    match: /^\/watchlist\/.+\/technical$/g,
+                    match: /^\/watchlist\/.+\/technicals$/g,
                     deletable: true,
                 },
             ],

@@ -13,8 +13,13 @@ export const useOrderQue =
             state.amount = amount;
         }
 
+        function resetAmount() {
+            state.amount = 0;
+        }
+
         return {
             orderQueAmount,
             showAmount,
+            resetAmount
         };
     });

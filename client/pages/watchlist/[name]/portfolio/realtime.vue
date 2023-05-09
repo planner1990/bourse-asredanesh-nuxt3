@@ -8,6 +8,7 @@ import {useI18n} from "vue-i18n"
 import ExpansionTable from "~/components/ada/expansionTable.vue";
 import RealTimeTable from "~/pages/watchlist/[name]/portfolio/realTimeTable.vue";
 import Input from "~/components/date/input.vue";
+import RealTimeExpansionTable from "~/pages/watchlist/[name]/portfolio/realTimeExpansionTable.vue";
 
 const i18n = useI18n();
 const bottomPanelManager = useBottomPanel();
@@ -180,12 +181,12 @@ function addTransaction() {
         </div>
       </div>
     </div>
-    <expansion-table :cells="directorateList" :default-cols="defaultCols">
+    <real-time-expansion-table :cells="directorateList" :default-cols="defaultCols">
       <template #expansion-message>
         <td colspan="14">
           <real-time-table></real-time-table>
         </td>
       </template>
-    </expansion-table>
+    </real-time-expansion-table>
   </div>
 </template>
