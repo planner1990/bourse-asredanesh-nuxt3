@@ -274,6 +274,13 @@ function focus() {
             height: calc(100vh - 109px);
         }
     }
+
+    .close-btn {
+        position: absolute;
+        left: -13px;
+        bottom: 23px;
+        z-index: 99999999;
+    }
 }
 </style>
 
@@ -333,6 +340,12 @@ function focus() {
                                           @triggerShowMessage="trigger_show_message"/>
                 </div>
             </div>
+            <ada-btn
+                    class="tw-ml-6 tw-min-w-[70px] tw-text-lg tw-text-error close-btn"
+                    @click="$emit('update:mini', !mini)">
+                <ada-icon :size="18" class="tw-text-error">mdi-close</ada-icon>
+                بستن
+            </ada-btn>
         </ada-tabs>
     </ada-nav>
 </template>
