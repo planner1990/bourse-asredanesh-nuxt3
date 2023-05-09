@@ -22,7 +22,7 @@ const instrumentManager = useInstrument();
 const orderQueManager = useOrderQue();
 const formatter = appManager.formatter;
 const instrument = ref<InstrumentCache | null>(null);
-const amountCum = reactive<Array<{id: number, amount: number}>>([]);
+const amountCum = reactive<Array<{ id: number, amount: number }>>([]);
 const change = computed(() => (price: number) => {
     if (instrument.value && price) {
         return ((price - instrument.value.last) / price) * 100;
@@ -161,7 +161,7 @@ defineExpose({
                  :class="amountCum[index]?.id ? 'tw-bg-primary' : '' ">
                 <numeric-field :value="item.buy.amount"
                                @click="getAmount(item.buy.amount)"
-                ></numeric-field> -  {{amountCum[index]?.id}} - {{index}}
+                ></numeric-field>
             </div>
             <div class="copy-cursor field" @click="
         () => {
