@@ -62,7 +62,6 @@ export const useInstrument = defineStore("instrument", () => {
     });
 
     websocket.registerHandler("queue", (data) => {
-        console.log(data.referenceNumber);
         const inst = state.value.orderQueueCache[data.referenceNumber];
         const parsedData = data.obj ? (decode(data.obj) as any) : {};
         if (typeof inst != "undefined") {
