@@ -194,10 +194,14 @@ const placeOrder = ({draft}: { draft: boolean }) => handleSubmit(async (values, 
                 .placeOrder(param)
                 .then((res) => {
                     if (res.status === 201) {
-                        router.push({path: `/watchlist/${route.params.name}/orders?offset=0&length=20`});
                         orderManager.last_update = new Date().toISOString();
                         actions.resetForm();
                         orderManager.updateForm(new OrderClass());
+                        if (draft) {
+                            router.push(`/watchlist/${route.params.name}/orders?offset=0&length=20&flags=1`);
+                        } else {
+                            router.push(`/watchlist/${route.params.name}/orders?offset=0&length=20&flags=54`);
+                        }
                     }
                 })
         } catch (e) {
@@ -692,7 +696,7 @@ watch(() => withdrawalBalance, (newVal) => {
                         <div class="bar"></div>
                     </div>
                     <div class="tw-justify-between">
-                        <span>{{ $t("oms.tradeValue") }}: </span>
+                        <span>{{ $t("oms.tradeValue") }}:</span>
                         <numeric-field :value="buyTradeValue"/>
                     </div>
                     <div class="tw-justify-center">

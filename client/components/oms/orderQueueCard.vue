@@ -192,8 +192,8 @@ defineExpose({
                       </span> -->
                 </numeric-field>
             </div>
-            <div class="field" @click="getAmount(item.sell.amount)">
-                <numeric-field :value="item.sell.amount"></numeric-field>
+            <div class="field" @click.ctrl="getCumulativeVolume(item.sell.amount, index)">
+                <numeric-field :value="item.sell.amount" @click="getAmount(item.sell.amount)"></numeric-field>
             </div>
             <div class="copy-cursor field" @click="
         () => {

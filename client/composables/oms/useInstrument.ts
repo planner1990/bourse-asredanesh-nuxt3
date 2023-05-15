@@ -245,8 +245,6 @@ export const useInstrument = defineStore("instrument", () => {
         inst: Instrument | InstrumentCache
     ): Array<OrderQueueItem> {
         const queue = state.value.orderQueueCache[inst.instrumentCode];
-        console.log("all", state.value.orderQueueCache);
-        console.log(inst.instrumentCode, queue);
         if (typeof queue == "undefined") {
             state.value.orderQueueCache[inst.instrumentCode] = reactive([
                 new OrderQueueItem(),
