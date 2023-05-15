@@ -36,7 +36,7 @@ const drawer = computed({
 
 const loading = ref(false);
 
-const messages = reactive<Message[]>([])
+const messages = reactive<Message[]>([]);
 
 const origins = messageManager.state.origins;
 
@@ -105,6 +105,7 @@ async function load(query: MessageQuery) {
 }
 
 async function trigger_show_message(message: Message) {
+    console.log(message, "left panel")
     if (message.id == messageManager.message_active?.id) return
     try {
         bottomPanel.setLoading(true);
