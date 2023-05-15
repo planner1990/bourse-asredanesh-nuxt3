@@ -28,10 +28,10 @@ export const useWebSocket = defineStore("webSocket", () => {
         if (handlers[resp.typ]) {
           handlers[resp.typ](resp);
         } else {
-          console.log(
-              "Message-Type '" + resp.typ + "' is unhandled!",
-              decode(resp.obj ?? [0])
-          );
+          // console.log(
+          //     "Message-Type '" + resp.typ + "' is unhandled!",
+          //     decode(resp.obj ?? [0])
+          // );
         }
       }
     };

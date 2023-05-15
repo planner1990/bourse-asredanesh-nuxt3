@@ -41,7 +41,7 @@ function show_message() {
     title: props.title,
     preview: props.preview,
     origin: props.origin,
-    type: props.type,
+    type: props['messageType'],
     flags: props.flags,
     message: props.message,
     seenDate: props.seenDate,
