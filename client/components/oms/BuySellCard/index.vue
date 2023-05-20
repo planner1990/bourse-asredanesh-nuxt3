@@ -37,6 +37,8 @@ const wage = ref({buy: 0, sell: 0});
 const activeCalculator = ref<boolean>(false);
 const activeCalculatorSell = ref<boolean>(false);
 const wholePrice = ref<number>(0);
+const thresholdQuantityOfBuy = ref<number>(0);
+const thresholdPriceOfBuy = ref<number>(0);
 const order = computed(() => orderManager.getForm(props.insId.toString()));
 const router = useRouter();
 const route = useRoute();
@@ -234,6 +236,8 @@ async function getDetail() {
         .getInstrumentsDetail(new InstrumentSearchModel([props.insId]))
         .then((data: Array<InstrumentCache>) => {
             active.value = data[0];
+            thresholdQuantityOfBuy.value = data[0].minQuantityPerOrder;
+            thresholdPriceOfBuy.value = data[0].minAllowedPrice;
             setFieldValue('quantity', 0)
             setFieldValue('enteredPrice', active.value.minAllowedPrice)
 
@@ -570,12 +574,12 @@ watch(() => withdrawalBalance, (newVal) => {
                     </div>
                     <div class="tw-justify-between">
                         <span>{{ $t("oms.countThreshold") }}: </span>
-                        <numeric-field :value="1000"/>
+                        <numeric-field :value="thresholdQuantityOfBuy"/>
                         <div class="bar"></div>
                     </div>
                     <div class="tw-justify-between">
                         <span>{{ $t("oms.priceThreshold") }}: </span>
-                        <numeric-field :value="1000"/>
+                        <numeric-field :value="thresholdPriceOfBuy"/>
                     </div>
                     <div class="tw-justify-between">
                         <ada-currency-input :label="$t('oms.count')" v-model="quantity"
@@ -724,12 +728,12 @@ watch(() => withdrawalBalance, (newVal) => {
                     </div>
                     <div class="tw-justify-between">
                         <span>{{ $t("oms.countThreshold") }}: </span>
-                        <numeric-field :value="1000"/>
+                        <numeric-field :value="thresholdQuantityOfBuy"/>
                         <div class="bar"></div>
                     </div>
                     <div class="tw-justify-between">
                         <span>{{ $t("oms.priceThreshold") }}: </span>
-                        <numeric-field :value="1000"/>
+                        <numeric-field :value="thresholdPriceOfBuy"/>
                     </div>
                     <div class="tw-justify-between">
                         <ada-currency-input :label="$t('oms.count')" v-model="quantity"
