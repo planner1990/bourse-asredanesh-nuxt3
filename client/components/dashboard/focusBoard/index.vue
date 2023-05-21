@@ -205,19 +205,20 @@ async function drop(item: InstrumentCache) {
             <ada-btn v-for="b in userManager.getBookmarks" :key="b.to" class="bookmark"
                      :class="[b.title == currentPath ? 'active' : '']" :to="bookmarkFullPath(b.to)"
                      :match="getMatchReg(b.to)"
-                     draggable="true" @dragstart="(ev) => drag(b)" @dragover="
-        (ev) => {
-          ev.preventDefault();
-          if (ev.dataTransfer) {
-            ev.dataTransfer.dropEffect = 'move';
-          }
-        }
-      " dropzone="true" @drop="
-  (ev) => {
-    ev.preventDefault();
-    drop(b);
-  }
-">
+                     >
+<!--                draggable="true" @dragstart="(ev) => drag(b)" @dragover="-->
+<!--                (ev) => {-->
+<!--                ev.preventDefault();-->
+<!--                if (ev.dataTransfer) {-->
+<!--                ev.dataTransfer.dropEffect = 'move';-->
+<!--                }-->
+<!--                }-->
+<!--                " dropzone="true" @drop="-->
+<!--                (ev) => {-->
+<!--                ev.preventDefault();-->
+<!--                drop(b);-->
+<!--                }-->
+<!--                "-->
                 <span v-text="b.text != null ? b.text : $t(b.title)" class="text-overflow"></span>
                 <ada-icon :size="14" class="tw-w-8 tw-h-full"
                           :class="[b.title == currentPath ? 'tw-text-default' : 'tw-text-primary']"
