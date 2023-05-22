@@ -31,7 +31,7 @@ const fields: Array<field> = [
     new field("totalTradesValue", fieldType.price, "oms.tradeValue"),
     new field("highest", fieldType.price, null, getClickEvent(fieldType.price)),
     new field("marketValue", fieldType.price, "oms.marketValue"),
-    new field("lastPrice", fieldType.price, "instrument.last", getClickEvent(fieldType.price)),
+    new field("last", fieldType.price, "instrument.last", getClickEvent(fieldType.price)),
     new field("buyPrice", fieldType.price, "oms.buyPrice", getClickEvent(fieldType.price)),
     new field("closing", fieldType.price, null, getClickEvent(fieldType.price)),
     new field("sellPrice", fieldType.price, "oms.buyPrice", getClickEvent(fieldType.price)),
@@ -60,6 +60,7 @@ function getClickEvent(type: fieldType) {
 instrumentManager
     .getInstrumentsDetail(new InstrumentSearchModel([props.insId]))
     .then((data: Array<Instrument>) => {
+        console.log(instrument);
         instrument.value = data[0];
     });
 </script>

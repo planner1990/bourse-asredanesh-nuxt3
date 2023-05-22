@@ -413,18 +413,21 @@ refresh();
                     <numeric-field :value="item.opening"/>
                 </template>
                 <template #item.closing>
-                    <numeric-field :value="item.closing"/>
+                    <numeric-field :value="item.closing"
+                                   :class="item.closing < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'"/>
+                </template>
+                <template #item.last>
+                    <numeric-field :value="item.last"
+                                   :class="item.last < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'"/>
                 </template>
                 <template #item.yesterdayPrice>
                     <numeric-field :value="item.yesterdayPrice"/>
                 </template>
                 <template #item.lowest>
-                    <numeric-field :class="item.lowest < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'"
-                                   :value="item.lowest"/>
+                    <numeric-field :value="item.lowest"/>
                 </template>
                 <template #item.highest>
-                    <numeric-field :class="item.highest < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'"
-                                   :value="item.highest"/>
+                    <numeric-field :value="item.highest"/>
                 </template>
                 <template #item.totalTrades>
                     <numeric-field :value="item.totalTrades"/>
