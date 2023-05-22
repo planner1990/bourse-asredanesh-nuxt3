@@ -29,6 +29,6 @@ const messageBody = computed(() => messageManager.message_active?.message.body);
 <template>
     <div class="tw-w-full tw-h-full">
         <component v-if="componentName" :is="componentName" v-model="componentModel"></component>
-        <div class="tw-mx-5 tw-pt-3">{{ messageBody }}</div>
+        <div class="tw-mx-6 tw-pt-3 tw-text-justify tw-text-lg">{{ messageBody }}</div>
     </div>
 </template>
