@@ -213,6 +213,62 @@ const panels: Array<TabItem> = [
                 match:
                     /^\/watchlist\/.+\/more\/directorate([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
             },
+            {
+                id: "more.changeOfStatus",
+                path: "more/changeOfStatus",
+                title: "bottom-panel.more.changeOfStatus",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/more\/changeOfStatus([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            },
+            {
+                id: "more.paperSpecifications",
+                path: "more/paperSpecifications",
+                title: "bottom-panel.more.paperSpecifications",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/more\/paperSpecifications([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            },
+            {
+                id: "more.paperInformation",
+                path: "more/paperInformation",
+                title: "bottom-panel.more.paperInformation",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/more\/paperInformation([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            },
+            {
+                id: "more.paperPillars",
+                path: "more/paperPillars",
+                title: "bottom-panel.more.paperPillars",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/more\/paperPillars([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            },
+            {
+                id: "more.paymentDue",
+                path: "more/paymentDue",
+                title: "bottom-panel.more.paymentDue",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/more\/paymentDue([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            },
+            {
+                id: "more.efficiencyYTM",
+                path: "more/efficiencyYTM",
+                title: "bottom-panel.more.efficiencyYTM",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/more\/efficiencyYTM([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            },
+            {
+                id: "more.efficiencyYTS",
+                path: "more/efficiencyYTS",
+                title: "bottom-panel.more.efficiencyYTS",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/more\/efficiencyYTS([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            }
         ],
         path: "more",
         deletable: false,

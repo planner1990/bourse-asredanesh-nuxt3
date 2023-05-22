@@ -561,7 +561,14 @@
     "more": {
       "presentation": "@:oms.presentation",
       "directorate": "هیئت مدیره",
-      "index": "مشخصات"
+      "index": "مشخصات",
+      "paperSpecifications": "مشخصات اوراق",
+      "paperInformation": "اطلاعات اوراق",
+      "paperPillars": "ارکان اوراق",
+      "paymentDue": "سررسید پرداخت",
+      "efficiencyYTM": "بازده YTM",
+      "efficiencyYTS": "بازده YTS",
+      "changeOfStatus": "تغییر وضعیت"
     },
     "statisticsKeys": {
       "index": "ترین ‌ها",
