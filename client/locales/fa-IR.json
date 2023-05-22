@@ -308,6 +308,7 @@
     "system": "سامانه",
     "hour": "ساعت",
     "volTotal": "حجم کل",
+    "typeOfPapers": "نوع اوراق",
     "switchBrokerageReport": "گزارش تغییر کارگزار ناظر"
   },
   "watchList": {

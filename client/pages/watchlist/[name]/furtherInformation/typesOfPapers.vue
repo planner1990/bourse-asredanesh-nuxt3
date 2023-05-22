@@ -34,7 +34,7 @@ const model = computed({
 const entryAndExitHistoryList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
-  new WatchListColumns(i18n.t("instrument.title").toString(), "title"),
+  new WatchListColumns(i18n.t("instrument.typeOfPapers").toString(), "title"),
   new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
   new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
   new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
@@ -46,7 +46,7 @@ const defaultCols = [
 
 async function getTradeHistories() {
   const data = {
-    title: "صکوک مرابحه",
+    title: "حق تقدم",
     name: "خگستر۲",
     last: "3,554",
     end: "3,554",
@@ -54,7 +54,7 @@ async function getTradeHistories() {
     amount: "0",
     value: "0"
   }
-  for (let i = 0; i <= 6; i++) {
+  for (let i = 1; i <= 1; i++) {
     entryAndExitHistoryList.push(data);
   }
   bottomPanelManager.setLoading(false);

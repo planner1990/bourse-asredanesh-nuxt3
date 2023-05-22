@@ -121,7 +121,7 @@ const panels: Array<TabItem> = [
                     /^\/watchlist\/.+\/furtherInformation\/shareholderGroups$/g,
             },
         ],
-        match: /^\/watchlist\/.+\/furtherInformation$/g,
+        match: /^\/watchlist\/.+\/furtherInformation/g,
         path: "furtherInformation",
         deletable: false,
         show: true,
@@ -163,7 +163,7 @@ const panels: Array<TabItem> = [
     {
         id: "statisticsKeys",
         title: "bottom-panel.statisticsKeys.index",
-        match: /^\/watchlist\/.+\/statisticsKeys$/g,
+        match: /^\/watchlist\/.+\/statisticsKeys/g,
         children: [
             {
                 id: "statisticsKeys.marketTrend",
@@ -196,7 +196,7 @@ const panels: Array<TabItem> = [
     {
         id: "more",
         title: "bottom-panel.more.index",
-        match: /^\/watchlist\/.+\/more$/g,
+        match: /^\/watchlist\/.+\/more/g,
         children: [
             {
                 id: "more.presentation",
