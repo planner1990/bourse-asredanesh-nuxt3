@@ -1,5 +1,5 @@
 <template>
-  conditional-trade
+    <not-found></not-found>
 </template>
 
 

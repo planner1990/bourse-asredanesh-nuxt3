@@ -1,5 +1,5 @@
 <template>
-  profit
+    <not-found></not-found>
 </template>
 
 

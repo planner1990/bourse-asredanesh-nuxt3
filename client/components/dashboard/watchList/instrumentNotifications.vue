@@ -21,7 +21,6 @@ const formatter = appManager.formatter;
 const notifs = computed(
   () => notifManager.state.cache[props.value.instrumentCode]
 );
-
 function openMsg(n: number) {
   let code: MessageCode = 'RLC';
   switch (n) {

@@ -1,5 +1,5 @@
 <template>
-  drafts
+    <not-found></not-found>
 </template>
 
 

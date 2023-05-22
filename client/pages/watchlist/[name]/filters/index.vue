@@ -1,5 +1,5 @@
 <template>
-  filters
+    <not-found></not-found>
 </template>
 
 

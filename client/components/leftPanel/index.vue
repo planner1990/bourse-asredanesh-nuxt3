@@ -105,7 +105,6 @@ async function load(query: MessageQuery) {
 }
 
 async function trigger_show_message(message: Message) {
-    console.log(message, "left panel")
     if (message.id == messageManager.message_active?.id) return
     try {
         bottomPanel.setLoading(true);
@@ -113,24 +112,25 @@ async function trigger_show_message(message: Message) {
         const tab = {
             id: "messages",
             title: bottomPanel.getTitle(mes.origin),
-            match: /^\/watchlist\/.+\/messages\/[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+            match: /^\/watchlist\/.+\/messages\?id=[^\/]+([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
             children: [
                 {
                     id: `msg.${mes.id}`,
                     title: bottomPanel.getTitle(mes.origin),
                     secondTitle: mes.title,
                     deletable: false,
-                    path: `messages/${mes.id}`,
+                    path: `messages?id=${mes.id}`,
                 },
             ],
-            path: `messages/${mes.id}`,
+            path: `messages?id=${mes.id}`,
             show: false,
             deletable: true
         };
+        console.log(mes);
         seenMessage(mes)
         bottomPanel.registerTab(tab as TabItem);
         messageManager.message_active = message
-        await router.push(`/watchlist/${route.params.name}/messages/${mes.id}`)
+        await router.push({path: `/watchlist/${route.params.name}/messages`, query: {id: mes.id}});
     } catch (e) {
         console.log(e);
     } finally {
@@ -140,8 +140,9 @@ async function trigger_show_message(message: Message) {
 
 function seenMessage(message: Message) {
     const res = messages.find((item) => item.id === message.id)
-    if (res)
+    if (res) {
         res.seenDate = new Date().toLocaleDateString(locale)
+    }
 }
 
 loadMessages();

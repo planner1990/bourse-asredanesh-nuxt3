@@ -1,5 +1,5 @@
 <template>
-    alerts
+    <not-found></not-found>
 </template>
 
 

@@ -1,5 +1,5 @@
 <template>
-  technical
+    <not-found></not-found>
 </template>
 
 

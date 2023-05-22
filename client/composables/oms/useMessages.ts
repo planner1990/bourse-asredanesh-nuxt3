@@ -79,9 +79,7 @@ export const useMessages = defineStore("messages", () => {
     async function getMessage(id: number): Promise<Message> {
         const msg = state._messagesCache[id];
         if (msg)
-            return new Promise((resolve) => {
-                resolve(msg);
-            });
+            return msg;
         const {data} = await GetMessage(id, axios);
         return data;
     }

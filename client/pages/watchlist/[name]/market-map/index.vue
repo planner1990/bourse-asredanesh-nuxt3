@@ -1,5 +1,5 @@
 <template>
-  market-map
+    <not-found></not-found>
 </template>
 
 
