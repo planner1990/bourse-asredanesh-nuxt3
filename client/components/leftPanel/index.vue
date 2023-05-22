@@ -228,7 +228,7 @@ function focus() {
         @apply tw-items-center tw-px-2 tw-shadow-[0_2px_3px_1px] tw-shadow-primary/20;
         padding-top: 8px;
         height: calc(100vh - 42px);
-        padding-bottom: 20px;
+        padding-bottom: 9px;
         min-width: 48px;
         width: 48px;
         max-width: 48px;
@@ -308,10 +308,12 @@ function focus() {
             </ada-list>
             <ada-tooltip position="right">
                 <template #activator>
-                    <ada-btn :width="32" :height="32"
-                             class="tw-mt-1" @click="focus">
+                    <ada-btn :width="30" :height="30"
+                             class="tw-ml-2" @click="focus">
                         <!-- <span v-text="$t('oms.openingTrade')"></span> -->
-                        <ada-icon size="2rem" class="tw-text-gray2">lotfi-calendar-search-1</ada-icon>
+                        <ada-icon size="21px" class="tw-text-white tw-bg-primary tw-rounded-full tw-p-[7px]">
+                            mdi-application-cog
+                        </ada-icon>
                     </ada-btn>
                 </template>
                 <span v-text="$t('oms.openingTrade')"></span>
