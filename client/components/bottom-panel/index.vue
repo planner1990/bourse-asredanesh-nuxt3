@@ -164,10 +164,18 @@ function expand() {
             </div>
             <header class="header">
                 <ada-toggle v-model="active" class="b-tabs tw-overflow-x-auto tw-overflow-y-hidden">
-                    <ada-btn class="tab-title" v-for="(t, i) in bottomPanel.current?.children" :key="t.title" :model="t"
+                    <ada-btn class="tab-title tw-flex tw-justify-center tw-items-center"
+                             v-for="(t, i) in bottomPanel.current?.children" :key="t.title" :model="t"
                              :match="t.match" :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
-                        {{ $t(t.title) }} <span v-if="t.secondTitle">6{{ ` - ${t.secondTitle}` }}</span>
+                        <span>{{ $t(t.title) }}</span> <span v-if="t.secondTitle">6{{ ` - ${t.secondTitle}` }}</span>
                         <div v-if="i !== (bottomPanel.current.children?.length ?? 0) - 1" class="bar"></div>
+                        <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDownItems">
+                            <select name="cars" id="cars" style="width: 10px;">
+                                <option class="tw-mx-3" value="saab" v-for="dropDownItem in t.dropDownItems">
+                                    {{ dropDownItem.title }}
+                                </option>
+                            </select>
+                        </div>
                     </ada-btn>
                 </ada-toggle>
                 <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"

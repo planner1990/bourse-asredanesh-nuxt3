@@ -46,6 +46,7 @@ export interface TabItem {
   children?: Array<TabItem>;
   deletable: boolean;
   show?: boolean;
+  dropDownItems?: Array<any>;
 }
 
 export enum DeepOptions {

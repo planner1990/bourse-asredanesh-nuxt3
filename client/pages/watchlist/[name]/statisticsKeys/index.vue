@@ -1,4 +1,7 @@
-<template>روند بازار</template>
+<template>
+    <not-found></not-found>
+</template>
 
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>

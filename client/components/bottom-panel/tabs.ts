@@ -95,6 +95,11 @@ const panels: Array<TabItem> = [
                 title: "bottom-panel.furtherInformation.typesOfPapers",
                 deletable: false,
                 match: /^\/watchlist\/.+\/furtherInformation\/typesOfPapers$/g,
+                dropDownItems: [
+                    {title: "حق تقدم"},
+                    {title: "انواع اوراق دوم"},
+                    {title: "انواع اوراق سوم"}
+                ]
             },
             {
                 id: "furtherInformation.industryCohorts",
@@ -171,6 +176,11 @@ const panels: Array<TabItem> = [
                 title: "bottom-panel.statisticsKeys.marketTrend",
                 deletable: false,
                 match: /^\/watchlist\/.+\/statisticsKeys$/g,
+                dropDownItems: [
+                    {title: "روند بازار اول"},
+                    {title: "روند بازار دوم"},
+                    {title: "روند بازار سوم"}
+                ]
             },
             {
                 id: "statisticsKeys.technical",
@@ -179,6 +189,11 @@ const panels: Array<TabItem> = [
                 deletable: false,
                 match:
                     /^\/watchlist\/.+\/statisticsKeys\/technical([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+                dropDownItems: [
+                    {title: "ابزار تکنیکال اول"},
+                    {title: "ابزار تکنیکال دوم"},
+                    {title: "ابزار تکنیکال سوم"}
+                ]
             },
             {
                 id: "statisticsKeys.fundamental",
@@ -187,6 +202,11 @@ const panels: Array<TabItem> = [
                 deletable: false,
                 match:
                     /^\/watchlist\/.+\/statisticsKeys\/fundamental([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
+                dropDownItems: [
+                    {title: "ابزار بنیادی اول"},
+                    {title: "ابزار بنیادی دوم"},
+                    {title: "ابزار بنیادی سوم"}
+                ]
             },
         ],
         deletable: false,
