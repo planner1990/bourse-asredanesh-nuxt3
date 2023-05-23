@@ -309,7 +309,10 @@
     "hour": "ساعت",
     "volTotal": "حجم کل",
     "typeOfPapers": "نوع اوراق",
-    "switchBrokerageReport": "گزارش تغییر کارگزار ناظر"
+    "switchBrokerageReport": "گزارش تغییر کارگزار ناظر",
+    "index": "شاخص",
+    "maximum": "بیشترین",
+    "minimum": "کمترین"
   },
   "watchList": {
     "title": "دیدبان",

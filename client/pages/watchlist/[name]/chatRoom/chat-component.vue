@@ -211,7 +211,7 @@ async function sendMessage(direction: string) {
                 <section ref="chatArea" class="chat-area">
                     <p
                             v-for="message in messages"
-                            class="message tw-mb-2"
+                            class="message tw-mb-2 tw-text-base"
                             :class="{ 'message-out': message.role === 'costumer', 'message-in': message.role === 'admin' }"
                     >
                         {{ message.text }}
