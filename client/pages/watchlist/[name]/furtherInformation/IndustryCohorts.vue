@@ -34,6 +34,7 @@ const entryAndExitHistoryList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
   new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
+    new WatchListColumns(i18n.t("instrument.actions").toString(), "actions"),
   new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
   new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
   new WatchListColumns(i18n.t("oms.count").toString(), "count"),
@@ -90,6 +91,19 @@ getTradeHistories();
           {{ item.name }}
         </span>
       </template>
+        <template #item.actions>
+            <div class="text-no-wrap">
+                <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-text-info" :size="16">
+                    isax-eye
+                </ada-icon>
+                <ada-icon class="tw-m-0 tw-p-0 tw-ml-2 tw-text-success" :size="16">
+                    isax-bag-tick-2
+                </ada-icon>
+                <ada-icon class="tw-m-0 tw-p-0 tw-text-error" :size="16">
+                    isax-bag-cross-1
+                </ada-icon>
+            </div>
+        </template>
       <template #item.last="{ item }">
         <span>
           {{ item.last }} <span class="tw-text-gray5 tw-mx-3">|</span> 0
