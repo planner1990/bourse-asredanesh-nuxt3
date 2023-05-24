@@ -55,7 +55,11 @@ const panels: Array<TabItem> = [
             },
         ],
         match: /^\/watchlist\/.+\/orders([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-        path: "orders?offset=0&length=20",
+        path: `orders?offset=0&length=20&flags=${OrderFlags.Confirmed |
+            OrderFlags.PreOpening |
+            OrderFlags.Created |
+            OrderFlags.Sent
+            }`,
         deletable: false,
         show: true,
     },
