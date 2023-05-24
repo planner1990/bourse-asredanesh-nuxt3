@@ -58,8 +58,8 @@ const messageQuery = messageManager.state.messageQuery
 messageQuery.filters.origins = origins;
 
 const items: Array<MenuItem> = [
-    {icon: "", title: "general.me"},
-    {icon: "", title: "general.all"},
+    { icon: "", title: "general.me" },
+    { icon: "", title: "general.all" },
 ];
 const categories = messageManager.state.categories;
 
@@ -79,7 +79,7 @@ watch(
         }
         loadMessages();
     },
-    {deep: true}
+    { deep: true }
 );
 
 watch(categories, () => {
@@ -130,7 +130,7 @@ async function trigger_show_message(message: Message) {
         seenMessage(mes)
         bottomPanel.registerTab(tab as TabItem);
         messageManager.message_active = message
-        await router.push({path: `/watchlist/${route.params.name}/messages`, query: {id: mes.id}});
+        await router.push({ path: `/watchlist/${route.params.name}/messages`, query: { id: mes.id } });
     } catch (e) {
         console.log(e);
     } finally {
@@ -144,6 +144,8 @@ function seenMessage(message: Message) {
         res.seenDate = new Date().toLocaleDateString(locale)
     }
 }
+
+
 
 loadMessages();
 
@@ -277,6 +279,22 @@ function focus() {
         }
     }
 
+    .first-offer {
+        animation: blink-animation 2s steps(24, start) infinite;
+
+        @keyframes blink-animation {
+            0% {
+                @apply tw-bg-error tw-text-white;
+            }
+            50% {
+                @apply tw-bg-success tw-text-white;
+            }
+            100% {
+                @apply tw-bg-error tw-text-white;
+            }
+        }
+    }
+
     .close-btn {
         position: absolute;
         left: -13px;
@@ -288,7 +306,7 @@ function focus() {
 
 <template>
     <ada-nav v-model="drawer" min-width="48px" max-width="256px" :mini="mini" mobile-breakpoint="960" fixed
-             class="l-panel tw-left-0 tw-flex-row-reverse">
+        class="l-panel tw-left-0 tw-flex-row-reverse">
         <ada-toggle class="tabs tw-flex tw-flex-col tw-justify-between" vertical v-model="toggleMenu">
             <ada-list class="tw-pb-1 tw-overflow-visible">
                 <ada-list-item v-for="item in items" :key="item.title" :value="item">
@@ -301,17 +319,16 @@ function focus() {
                 <ada-list-item class="tw-mt-1">
                     <template #item>
                         <div>
-                            <hr class="divider"/>
+                            <hr class="divider" />
                         </div>
                     </template>
                 </ada-list-item>
             </ada-list>
             <ada-tooltip position="right">
                 <template #activator>
-                    <ada-btn :width="30" :height="30"
-                             class="tw-ml-2" @click="focus">
+                    <ada-btn :width="30" :height="30" class="tw-ml-2" @click="focus">
                         <!-- <span v-text="$t('oms.openingTrade')"></span> -->
-                        <ada-icon size="21px" class="tw-text-white tw-bg-primary tw-rounded-full tw-p-[7px]">
+                        <ada-icon size="21px" class="first-offer tw-rounded-full tw-p-[7px]">
                             mdi-application-cog
                         </ada-icon>
                     </ada-btn>
@@ -321,32 +338,29 @@ function focus() {
         </ada-toggle>
         <ada-tabs class="tab-items" v-model="toggleMenu">
             <div class="categories">
-        <span v-for="category in categories" :key="category.title" :class="[
-          `${category.active ? category.bg + ' ' + category.color : ''}`,
-        ]" v-text="$t(category.title)" @click="
-  () => {
-    category.active = !category.active;
-    if (category.active) origins.push(category.code);
-    else origins.splice(origins.indexOf(category.code), 1);
-    // loadMyMessages();
-    loadMessages();
-  }
+                <span v-for="category in categories" :key="category.title" :class="[
+                    `${category.active ? category.bg + ' ' + category.color : ''}`,
+                ]" v-text="$t(category.title)" @click="
+    () => {
+        category.active = !category.active;
+        if (category.active) origins.push(category.code);
+        else origins.splice(origins.indexOf(category.code), 1);
+        // loadMyMessages();
+        loadMessages();
+    }
 "></span>
             </div>
             <div id="messages">
                 <div v-for="message in messages" :key="message.id">
-                    <hr class="line"/>
+                    <hr class="line" />
                     <LeftPanelMessageItem :id="message.id" :dateTime="message.dateTime" :title="message.title"
-                                          :preview="message.preview" :origin="message.origin" :type="message.origin"
-                                          :flags="message.flags"
-                                          :message="message.message.body" :seenDate="message.seenDate"
-                                          style="height: 60px"
-                                          @triggerShowMessage="trigger_show_message"/>
+                        :preview="message.preview" :origin="message.origin" :type="message.origin" :flags="message.flags"
+                        :message="message.message.body" :seenDate="message.seenDate" style="height: 60px"
+                        @triggerShowMessage="trigger_show_message" />
                 </div>
             </div>
-            <ada-btn
-                    class="tw-ml-6 tw-min-w-[70px] tw-text-lg tw-text-error close-btn"
-                    @click="$emit('update:mini', !mini)">
+            <ada-btn class="tw-ml-6 tw-min-w-[70px] tw-text-lg tw-text-error close-btn"
+                @click="$emit('update:mini', !mini)">
                 <ada-icon :size="18" class="tw-text-error">mdi-close</ada-icon>
                 بستن
             </ada-btn>
