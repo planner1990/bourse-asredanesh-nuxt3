@@ -1,3 +1,5 @@
+import { AutoCompleteItem } from "./collection";
+
 export enum BookmarkPosition {
   ToolBar = 1,
   RightPanel = 2,
@@ -46,7 +48,7 @@ export interface TabItem {
   children?: Array<TabItem>;
   deletable: boolean;
   show?: boolean;
-  dropDownItems?: Array<any>;
+  dropDown?: { items: Array<AutoCompleteItem>, show: boolean };
 }
 
 export enum DeepOptions {

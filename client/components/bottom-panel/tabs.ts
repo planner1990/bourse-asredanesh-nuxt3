@@ -1,5 +1,5 @@
-import {TabItem, OrderFlags} from "@/types";
-import {DateTime} from "luxon";
+import { TabItem, OrderFlags, AutoCompleteItem } from "@/types";
+import { DateTime } from "luxon";
 
 const now = DateTime.now();
 
@@ -10,12 +10,11 @@ const panels: Array<TabItem> = [
         children: [
             {
                 id: "orders.all",
-                path: `orders?offset=0&length=20&flags=${
-                    OrderFlags.Confirmed |
+                path: `orders?offset=0&length=20&flags=${OrderFlags.Confirmed |
                     OrderFlags.PreOpening |
                     OrderFlags.Created |
                     OrderFlags.Sent
-                }`,
+                    }`,
                 title: "bottom-panel.orders.open",
                 deletable: false,
                 match:
@@ -31,9 +30,8 @@ const panels: Array<TabItem> = [
             },
             {
                 id: "orders.actives",
-                path: `orders?offset=0&length=20&flags=${
-                    OrderFlags.Done
-                }`,
+                path: `orders?offset=0&length=20&flags=${OrderFlags.Done
+                    }`,
                 title: "bottom-panel.orders.actives",
                 deletable: false,
                 match:
@@ -95,25 +93,28 @@ const panels: Array<TabItem> = [
                 title: "bottom-panel.furtherInformation.typesOfPapers",
                 deletable: false,
                 match: /^\/watchlist\/.+\/furtherInformation\/typesOfPapers$/g,
-                dropDownItems: [
-                    {title: "حق تقدم"},
-                    {title: "گواهی سپرده"},
-                    {title: "اوراق مشارکت"},
-                    {title: "آتی سهام"},
-                    {title: "اختیار معامله خرید"},
-                    {title: "اختیار معامله فروش"},
-                    {title: "اختیار معامله خرید تبعی"},
-                    {title: "اختیار معامله فروش تبعی"},
-                    {title: "اسناد خزانه"},
-                    {title: "اختیار معامله خرید اسناد خزانه"},
-                    {title: "اختیار معامله فروش اسناد خزانه"},
-                    {title: "صکوک ساخت"},
-                    {title: "صکوک دین"},
-                    {title: "صکوک مرابحه"},
-                    {title: "صکوک اجاره"},
-                    {title: "صکوک رهن"},
-                    {title: "صکوک منفعت"}
-                ]
+                dropDown: {
+                    items: [
+                        new AutoCompleteItem("1", "حق تقدم"),
+                        new AutoCompleteItem("2", "گواهی سپرده"),
+                        new AutoCompleteItem("3", "اوراق مشارکت"),
+                        new AutoCompleteItem("4", "آتی سهام"),
+                        new AutoCompleteItem("5", "اختیار معامله خرید"),
+                        new AutoCompleteItem("6", "اختیار معامله فروش"),
+                        new AutoCompleteItem("7", "اختیار معامله خرید تبعی"),
+                        new AutoCompleteItem("8", "اختیار معامله فروش تبعی"),
+                        new AutoCompleteItem("9", "اسناد خزانه"),
+                        new AutoCompleteItem("10", "اختیار معامله خرید اسناد خزانه"),
+                        new AutoCompleteItem("11", "اختیار معامله فروش اسناد خزانه"),
+                        new AutoCompleteItem("12", "صکوک ساخت"),
+                        new AutoCompleteItem("13", "صکوک دین"),
+                        new AutoCompleteItem("14", "صکوک مرابحه"),
+                        new AutoCompleteItem("15", "صکوک اجاره"),
+                        new AutoCompleteItem("16", "صکوک رهن"),
+                        new AutoCompleteItem("17", "صکوک منفعت")
+                    ],
+                    show: false
+                }
             },
             {
                 id: "furtherInformation.industryCohorts",
@@ -190,13 +191,16 @@ const panels: Array<TabItem> = [
                 title: "bottom-panel.statisticsKeys.boardReading",
                 deletable: false,
                 match: /^\/watchlist\/.+\/boardReading$/g,
-                dropDownItems: [
-                    {title: "بیشترین ورود نقدینگی حقیقی"},
-                    {title: "بیشترین ورود نقدینگی حقوقی"},
-                    {title: "حجم های مشکوک"},
-                    {title: "بیشترین سرانه خرید حقیقی"},
-                    {title: "بیشترین سرانه خرید حقوقی"}
-                ]
+                dropDown: {
+                    items: [
+                        new AutoCompleteItem("1", "بیشترین ورود نقدینگی حقیقی"),
+                        new AutoCompleteItem("2", "بیشترین ورود نقدینگی حقوقی"),
+                        new AutoCompleteItem("3", "حجم های مشکوک"),
+                        new AutoCompleteItem("4", "بیشترین سرانه خرید حقیقی"),
+                        new AutoCompleteItem("5", "بیشترین سرانه خرید حقوقی")
+                    ],
+                    show: false
+                }
             },
             {
                 id: "statisticsKeys.descriptive",
@@ -204,12 +208,15 @@ const panels: Array<TabItem> = [
                 title: "bottom-panel.statisticsKeys.descriptive",
                 deletable: false,
                 match: /^\/watchlist\/.+\/descriptive$/g,
-                dropDownItems: [
-                    {title: "صف خرید"},
-                    {title: "وصف فروش"},
-                    {title: "آستانه صف خرید"},
-                    {title: "آستانه صف فروش"}
-                ]
+                dropDown: {
+                    items: [
+                        new AutoCompleteItem("1", "صف خرید"),
+                        new AutoCompleteItem("2", "وصف فروش"),
+                        new AutoCompleteItem("3", "آستانه صف خرید"),
+                        new AutoCompleteItem("4", "آستانه صف فروش")
+                    ],
+                    show: false
+                }
             },
             {
                 id: "statisticsKeys.technical",
@@ -218,11 +225,14 @@ const panels: Array<TabItem> = [
                 deletable: false,
                 match:
                     /^\/watchlist\/.+\/statisticsKeys\/technical([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-                dropDownItems: [
-                    {title: "احتمال پایان روند نزولی"},
-                    {title: "احتمال پایان روند صعودی"},
-                    {title: "نقطه اشباع خرید rsi"}
-                ]
+                dropDown: {
+                    items: [
+                        new AutoCompleteItem("1", "احتمال پایان روند نزولی"),
+                        new AutoCompleteItem("2", "احتمال پایان روند صعودی"),
+                        new AutoCompleteItem("3", "نقطه اشباع خرید rsi")
+                    ],
+                    show: false
+                }
             },
             {
                 id: "statisticsKeys.fundamental",
@@ -231,10 +241,13 @@ const panels: Array<TabItem> = [
                 deletable: false,
                 match:
                     /^\/watchlist\/.+\/statisticsKeys\/fundamental([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
-                dropDownItems: [
-                    {title: "بزرگتر از قیمت ذاتی"},
-                    {title: "کوچکتر از قیمت ذاتی"}
-                ]
+                dropDown: {
+                    items: [
+                        new AutoCompleteItem("1", "بزرگتر از قیمت ذاتی"),
+                        new AutoCompleteItem("2", "کوچکتر از قیمت ذاتی")
+                    ],
+                    show: false
+                }
             },
         ],
         deletable: false,

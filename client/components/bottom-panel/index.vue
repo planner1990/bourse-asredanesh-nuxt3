@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {useInstrument, useBottomPanel} from "~~/composables";
-import {TabItem} from "~~/types";
+import { useInstrument, useBottomPanel } from "~~/composables";
+import { TabItem } from "~~/types";
 
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
@@ -19,7 +19,6 @@ const active = computed<TabItem | null>({
 const tabs = computed(() => bottomPanel.tabs);
 const visibleTabs = computed(() => bottomPanel.tabs.filter((x) => x.show));
 const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
-const menu = ref(false);
 
 function close() {
     router.push(`/watchlist/${route.params.name}`)
@@ -29,10 +28,6 @@ function close() {
 
 function expand() {
     bottomPanel.toggleExpand();
-}
-
-function showDropDown() {
-    menu.value = !menu.value;
 }
 </script>
 
@@ -72,13 +67,13 @@ function showDropDown() {
         /* background-color: red; */
     }
 
-    > .detail {
+    >.detail {
         @apply tw-relative tw-w-full tw-bg-white;
         font-size: 1rem;
         line-height: 1.5;
         height: calc(100% - 32px);
 
-        > .header {
+        >.header {
             @apply tw-absolute tw-flex tw-flex-grow tw-items-center tw-w-full tw-bg-primary/10 tw-shadow tw-shadow-primary/50;
             top: 0;
             left: 0;
@@ -90,7 +85,7 @@ function showDropDown() {
             }
         }
 
-        > .contents {
+        >.contents {
             @apply tw-mt-[32px];
             overflow-y: auto;
             height: calc(100% - 32px);
@@ -159,10 +154,10 @@ function showDropDown() {
 
 <template>
     <footer class="ada-bottom-panel" :class="{
-    half: bottomPanel.current != null && !bottomPanel.expanded,
-    expanded: bottomPanel.current != null && bottomPanel.expanded,
-    slideToBottom
-  }">
+        half: bottomPanel.current != null && !bottomPanel.expanded,
+        expanded: bottomPanel.current != null && bottomPanel.expanded,
+        slideToBottom
+    }">
         <div class="detail" v-if="bottomPanel.current">
             <div class="contents">
                 <slot></slot>
@@ -170,17 +165,18 @@ function showDropDown() {
             <header class="header">
                 <ada-toggle v-model="active" class="b-tabs tw-overflow-x-auto tw-overflow-y-hidden">
                     <ada-btn class="tab-title tw-flex tw-justify-center tw-items-center"
-                             v-for="(t, i) in bottomPanel.current?.children" :key="t.title" :model="t"
-                             :match="t.match" :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
+                        v-for="(t, i) in bottomPanel.current?.children" :key="t.title" :model="t" :match="t.match"
+                        :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
                         <span>{{ $t(t.title) }}</span> <span v-if="t.secondTitle">6{{ ` - ${t.secondTitle}` }}</span>
                         <div v-if="i !== (bottomPanel.current.children?.length ?? 0) - 1" class="bar"></div>
-
                         <!----------------------------------- drop down for bottom panel ------------------------------------------->
-                        <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDownItems">
-                            <ada-menu :active="menu" :mTop="33.5" :mWidth="147" class="tw-w-fit tw-mx-auto" box-shadow>
+                        <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDown">
+                            <ada-menu :active="t.dropDown.show" :mTop="33.5" :mWidth="147" class="tw-w-fit tw-mx-auto"
+                                box-shadow>
                                 <template #activator>
-                                    <ada-btn @click.stop="showDropDown" :class="{ active: menu }"
-                                             v-ada-click-outside="() => menu = false" class="tw-bg-transparent">
+                                    <ada-btn @click.stop="() => { if (t.dropDown) t.dropDown.show = !t.dropDown.show; }"
+                                        :class="{ active: t.dropDown.show }"
+                                        class="tw-bg-transparent">
                                         <ada-icon :size="16">
                                             mdi-chevron-down
                                         </ada-icon>
@@ -195,11 +191,11 @@ function showDropDown() {
                                                 </ada-icon>
                                             </template>
                                         </ada-input>
-                                        <hr class="divider tw-border-divider tw-mt-3"/>
-                                        <ada-list-item v-for="dropDownItem in t.dropDownItems" :key="dropDownItem.title"
-                                                       class="item">
+                                        <hr class="divider tw-border-divider tw-mt-3" />
+                                        <ada-list-item v-for="dropDown in t.dropDown?.items" :key="dropDown.id"
+                                            class="item">
                                             <!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
-                                            <span v-text="dropDownItem.title"></span>
+                                            <span v-text="dropDown.fullName"></span>
                                         </ada-list-item>
                                     </ada-list>
                                 </template>
@@ -210,10 +206,10 @@ function showDropDown() {
                     </ada-btn>
                 </ada-toggle>
                 <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
-                         :class="[bottomPanel.expanded && active != null ? 'tw-bg-primary' : 'tw-bg-transparent']"
-                         @click="expand">
+                    :class="[bottomPanel.expanded && active != null ? 'tw-bg-primary' : 'tw-bg-transparent']"
+                    @click="expand">
                     <ada-icon :class="[bottomPanel.expanded && active != null ? 'tw-text-white' : 'tw-text-primary']"
-                              :size="16">
+                        :size="16">
                         isax-maximize-3
                     </ada-icon>
                 </ada-btn>
@@ -224,17 +220,16 @@ function showDropDown() {
         </div>
         <ada-toggle class="b-tabs tw-overflow-x-auto tw-overflow-y-hidden" v-model="bottomPanel.current">
             <ada-btn class="tab-title" v-for="(t, i) in tabs" :key="t.title"
-                     :to="`/watchlist/${$route.params.name}/${t.path}`"
-                     v-show="t.show" :model="t" :match="t.match">
-        <span :class="{ 'active': bottomPanel.current != null && bottomPanel.current?.title === t.title }">
-          {{ $t(t.title) }}
-          <span
-                  v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>
-        </span>
+                :to="`/watchlist/${$route.params.name}/${t.path}`" v-show="t.show" :model="t" :match="t.match">
+                <span :class="{ 'active': bottomPanel.current != null && bottomPanel.current?.title === t.title }">
+                    {{ $t(t.title) }}
+                    <span
+                        v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>
+                </span>
                 <div v-if="i < visibleTabs.length - 1" class="bar"></div>
                 <ada-btn v-if="t.deletable"
-                         class="tw-absolute tw-items-center tw-leading-[12px] tw-top-2 tw-left-2 tw-h-[18px] tw-w-[18px] tw-bg-error"
-                         @click.stop.prevent="() => { bottomPanel.removeTab(t.id); router.push(`/watchlist/${route.params.name}`); }">
+                    class="tw-absolute tw-items-center tw-leading-[12px] tw-top-2 tw-left-2 tw-h-[18px] tw-w-[18px] tw-bg-error"
+                    @click.stop.prevent="() => { bottomPanel.removeTab(t.id); router.push(`/watchlist/${route.params.name}`); }">
                     <ada-icon class="tw-font-bold tw-text-white">
                         mdi-close
                     </ada-icon>

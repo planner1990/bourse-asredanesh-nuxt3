@@ -14,17 +14,17 @@ export class AutoCompleteItem implements AutoCompleteItemInterface {
   id: string;
   name: string;
   fullName: string;
-  constructor(id: string, name: string, fullname: string = "") {
+  constructor(id: string, name: string, fullname: string | null = null) {
     this.id = id;
     this.name = name;
-    this.fullName = fullname;
+    this.fullName = fullname || name;
   }
 }
 
 
 
 
-export const defaultWealthValidityItems: AutoCompleteItemInterface[]  = [
+export const defaultWealthValidityItems: AutoCompleteItemInterface[] = [
   new AutoCompleteItem("1", "روز"),
   new AutoCompleteItem("4", "انجام و حذف"),
   new AutoCompleteItem("3", "تا لغو"),
