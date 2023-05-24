@@ -3,6 +3,7 @@ import { SearchModel } from "..";
 export class Instrument {
   [x: string]: any;
   id: number;
+  type: number;
   instrumentId: number;
   instrumentCode: string;
   code: string;
@@ -31,6 +32,7 @@ export class Instrument {
 
   constructor() {
     this.id = 0;
+    this.type = 1;
     this.instrumentId = 0;
     this.instrumentCode = this.instrumentId.toString();
     this.baseVol = 0;

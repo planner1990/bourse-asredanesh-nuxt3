@@ -308,11 +308,14 @@
     "system": "سامانه",
     "hour": "ساعت",
     "volTotal": "حجم کل",
-    "typeOfPapers": "نوع اوراق",
+    "tools": "نوع اوراق",
     "switchBrokerageReport": "گزارش تغییر کارگزار ناظر",
     "index": "شاخص",
     "maximum": "بیشترین",
-    "minimum": "کمترین"
+    "minimum": "کمترین",
+    "types": {
+      "400": "حق تقدم"
+    }
   },
   "watchList": {
     "title": "دیدبان",
@@ -535,7 +538,7 @@
     },
     "furtherInformation": {
       "index": "اطلاعات تکمیلی",
-      "typesOfPapers": "انواع اوراق",
+      "tools": "انواع اوراق",
       "shareholders&Owners": "سهامداران/دارندگان",
       "dependentSymbols": "نمادهای وابسته",
       "shareholderGroups": "همگروه ها - سهامداران",

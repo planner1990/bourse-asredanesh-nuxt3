@@ -20,6 +20,7 @@ export interface IInstrumentCache
 
 export class InstrumentCache implements IInstrumentCache {
   id: number;
+  type: number;
   code: string;
   name: string;
   fullName: string;
@@ -60,6 +61,7 @@ export class InstrumentCache implements IInstrumentCache {
   notifications: Array<Notification>;
   constructor() {
     this.id = 0;
+    this.type = 1;
     this.code = "";
     this.name = "";
     this.fullName = "";

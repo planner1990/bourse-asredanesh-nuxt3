@@ -92,11 +92,11 @@ const panels: Array<TabItem> = [
                     /^\/watchlist\/.+\/furtherInformation\/dependentSymbols$/g,
             },
             {
-                id: "furtherInformation.typesOfPapers",
-                path: "furtherInformation/typesOfPapers",
-                title: "bottom-panel.furtherInformation.typesOfPapers",
+                id: "furtherInformation.tools",
+                path: "furtherInformation/tools",
+                title: "bottom-panel.furtherInformation.tools",
                 deletable: false,
-                match: /^\/watchlist\/.+\/furtherInformation\/typesOfPapers$/g,
+                match: /^\/watchlist\/.+\/furtherInformation\/tools$/g,
                 dropDown: {
                     items: [
                         new AutoCompleteItem("1", "حق تقدم"),
