@@ -31,9 +31,8 @@ function expand() {
     bottomPanel.toggleExpand();
 }
 
-function showDropDown(dropDownItem) {
+function showDropDown() {
     menu.value = !menu.value;
-    console.log(dropDownItem);
 }
 </script>
 
@@ -180,7 +179,7 @@ function showDropDown(dropDownItem) {
                         <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDownItems">
                             <ada-menu :active="menu" :mTop="33.5" :mWidth="147" class="tw-w-fit tw-mx-auto" box-shadow>
                                 <template #activator>
-                                    <ada-btn @click.stop="showDropDown(t.dropDownItems)" :class="{ active: menu }"
+                                    <ada-btn @click.stop="showDropDown" :class="{ active: menu }"
                                              v-ada-click-outside="() => menu = false" class="tw-bg-transparent">
                                         <ada-icon :size="16">
                                             mdi-chevron-down
