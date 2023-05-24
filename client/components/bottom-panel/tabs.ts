@@ -97,8 +97,22 @@ const panels: Array<TabItem> = [
                 match: /^\/watchlist\/.+\/furtherInformation\/typesOfPapers$/g,
                 dropDownItems: [
                     {title: "حق تقدم"},
-                    {title: "انواع اوراق دوم"},
-                    {title: "انواع اوراق سوم"}
+                    {title: "گواهی سپرده"},
+                    {title: "اوراق مشارکت"},
+                    {title: "آتی سهام"},
+                    {title: "اختیار معامله خرید"},
+                    {title: "اختیار معامله فروش"},
+                    {title: "اختیار معامله خرید تبعی"},
+                    {title: "اختیار معامله فروش تبعی"},
+                    {title: "اسناد خزانه"},
+                    {title: "اختیار معامله خرید اسناد خزانه"},
+                    {title: "اختیار معامله فروش اسناد خزانه"},
+                    {title: "صکوک ساخت"},
+                    {title: "صکوک دین"},
+                    {title: "صکوک مرابحه"},
+                    {title: "صکوک اجاره"},
+                    {title: "صکوک رهن"},
+                    {title: "صکوک منفعت"}
                 ]
             },
             {
@@ -171,15 +185,30 @@ const panels: Array<TabItem> = [
         match: /^\/watchlist\/.+\/statisticsKeys/g,
         children: [
             {
-                id: "statisticsKeys.marketTrend",
-                path: "statisticsKeys",
-                title: "bottom-panel.statisticsKeys.marketTrend",
+                id: "statisticsKeys.boardReading",
+                path: "statisticsKeys/boardReading",
+                title: "bottom-panel.statisticsKeys.boardReading",
                 deletable: false,
-                match: /^\/watchlist\/.+\/statisticsKeys$/g,
+                match: /^\/watchlist\/.+\/boardReading$/g,
                 dropDownItems: [
-                    {title: "روند بازار اول"},
-                    {title: "روند بازار دوم"},
-                    {title: "روند بازار سوم"}
+                    {title: "بیشترین ورود نقدینگی حقیقی"},
+                    {title: "بیشترین ورود نقدینگی حقوقی"},
+                    {title: "حجم های مشکوک"},
+                    {title: "بیشترین سرانه خرید حقیقی"},
+                    {title: "بیشترین سرانه خرید حقوقی"}
+                ]
+            },
+            {
+                id: "statisticsKeys.descriptive",
+                path: "statisticsKeys/descriptive",
+                title: "bottom-panel.statisticsKeys.descriptive",
+                deletable: false,
+                match: /^\/watchlist\/.+\/descriptive$/g,
+                dropDownItems: [
+                    {title: "صف خرید"},
+                    {title: "وصف فروش"},
+                    {title: "آستانه صف خرید"},
+                    {title: "آستانه صف فروش"}
                 ]
             },
             {
@@ -190,9 +219,9 @@ const panels: Array<TabItem> = [
                 match:
                     /^\/watchlist\/.+\/statisticsKeys\/technical([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
                 dropDownItems: [
-                    {title: "ابزار تکنیکال اول"},
-                    {title: "ابزار تکنیکال دوم"},
-                    {title: "ابزار تکنیکال سوم"}
+                    {title: "احتمال پایان روند نزولی"},
+                    {title: "احتمال پایان روند صعودی"},
+                    {title: "نقطه اشباع خرید rsi"}
                 ]
             },
             {
@@ -203,14 +232,13 @@ const panels: Array<TabItem> = [
                 match:
                     /^\/watchlist\/.+\/statisticsKeys\/fundamental([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
                 dropDownItems: [
-                    {title: "ابزار بنیادی اول"},
-                    {title: "ابزار بنیادی دوم"},
-                    {title: "ابزار بنیادی سوم"}
+                    {title: "بزرگتر از قیمت ذاتی"},
+                    {title: "کوچکتر از قیمت ذاتی"}
                 ]
             },
         ],
         deletable: false,
-        path: "statisticsKeys",
+        path: "statisticsKeys/boardReading",
         show: true,
     },
     {

@@ -578,7 +578,9 @@
       "index": "ترین ‌ها",
       "marketTrend": "روند بازار",
       "technical": "تکنیکال",
-      "fundamental": "بنیادی"
+      "fundamental": "بنیادی",
+      "boardReading": "تابلوخوانی",
+      "descriptive": "توصیفی"
     },
     "stockIndex": {
       "index": "شاخص بورس",

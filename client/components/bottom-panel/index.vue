@@ -19,6 +19,7 @@ const active = computed<TabItem | null>({
 const tabs = computed(() => bottomPanel.tabs);
 const visibleTabs = computed(() => bottomPanel.tabs.filter((x) => x.show));
 const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
+const menu = ref(false);
 
 function close() {
     router.push(`/watchlist/${route.params.name}`)
@@ -28,6 +29,11 @@ function close() {
 
 function expand() {
     bottomPanel.toggleExpand();
+}
+
+function showDropDown(dropDownItem) {
+    menu.value = !menu.value;
+    console.log(dropDownItem);
 }
 </script>
 
@@ -169,13 +175,39 @@ function expand() {
                              :match="t.match" :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
                         <span>{{ $t(t.title) }}</span> <span v-if="t.secondTitle">6{{ ` - ${t.secondTitle}` }}</span>
                         <div v-if="i !== (bottomPanel.current.children?.length ?? 0) - 1" class="bar"></div>
+
+                        <!----------------------------------- drop down for bottom panel ------------------------------------------->
                         <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDownItems">
-                            <select name="cars" id="cars" style="width: 10px;">
-                                <option class="tw-mx-3" value="saab" v-for="dropDownItem in t.dropDownItems">
-                                    {{ dropDownItem.title }}
-                                </option>
-                            </select>
+                            <ada-menu :active="menu" :mTop="33.5" :mWidth="147" class="tw-w-fit tw-mx-auto" box-shadow>
+                                <template #activator>
+                                    <ada-btn @click.stop="showDropDown(t.dropDownItems)" :class="{ active: menu }"
+                                             v-ada-click-outside="() => menu = false" class="tw-bg-transparent">
+                                        <ada-icon :size="16">
+                                            mdi-chevron-down
+                                        </ada-icon>
+                                    </ada-btn>
+                                </template>
+                                <template #items>
+                                    <ada-list class="tw-p-0 tw-m-0 tw-shadow-inner tw-shadow-slate-300 tw-px-3 tw-pt-3">
+                                        <ada-input :placeholder="$t('user.search')">
+                                            <template #prepend="{ active }">
+                                                <ada-icon :size="14" class="tw-text-gray9 tw-pr-2">
+                                                    isax-search-normal-1
+                                                </ada-icon>
+                                            </template>
+                                        </ada-input>
+                                        <hr class="divider tw-border-divider tw-mt-3"/>
+                                        <ada-list-item v-for="dropDownItem in t.dropDownItems" :key="dropDownItem.title"
+                                                       class="item">
+                                            <!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
+                                            <span v-text="dropDownItem.title"></span>
+                                        </ada-list-item>
+                                    </ada-list>
+                                </template>
+                            </ada-menu>
                         </div>
+
+                        <!----------------------------------- /  drop down for bottom panel ------------------------------------------->
                     </ada-btn>
                 </ada-toggle>
                 <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
