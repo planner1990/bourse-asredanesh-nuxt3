@@ -102,7 +102,7 @@ function setName(value: MessageOrigin) {
             <div class="tw-mr-2 tw-w-5/6">
                 <div class="tw-flex tw-items-center tw-justify-between">
                     <h4 :class="[seenDate ? 'tw-text-gray3' : 'tw-text-primary', 'tw-text-lg']" v-text="title"></h4>
-                    <span :class="[seenDate ? 'tw-text-gray4' : 'tw-text-gray3']" v-text="date()"></span>{{seenDate}}
+                    <span :class="[seenDate ? 'tw-text-gray4' : 'tw-text-gray3']" v-text="date()"></span>
                 </div>
                 <p :class="[seenDate ? 'tw-text-gray4' : 'tw-text-gray3']" class="tw-mt-[5px] tw-text-sm"
                    v-text="message"></p>
