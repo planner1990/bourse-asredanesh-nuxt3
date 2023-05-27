@@ -5,7 +5,7 @@ import {useAsrTrader} from "~/composables";
 const props = withDefaults(defineProps<{
         mLeft?: number,
         mTop?: number,
-        active?: boolean,
+        active?: boolean | Function,
         mWidth?: number,
         boxShadow?: boolean
     }>(),

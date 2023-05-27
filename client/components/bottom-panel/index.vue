@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useInstrument, useBottomPanel } from "~~/composables";
-import { TabItem } from "~~/types";
+import {useInstrument, useBottomPanel} from "~~/composables";
+import {TabItem} from "~~/types";
+import {boolean} from "yup";
 
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
@@ -29,6 +30,15 @@ function close() {
 function expand() {
     bottomPanel.toggleExpand();
 }
+
+function triggerDropDown(t) {
+    if (t.dropDown) t.dropDown.show = !t.dropDown.show;
+    watch(t, () => {
+        t.match.test(route.fullPath);
+    })
+}
+
+
 </script>
 
 <style lang="postcss" scoped>
@@ -67,13 +77,13 @@ function expand() {
         /* background-color: red; */
     }
 
-    >.detail {
+    > .detail {
         @apply tw-relative tw-w-full tw-bg-white;
         font-size: 1rem;
         line-height: 1.5;
         height: calc(100% - 32px);
 
-        >.header {
+        > .header {
             @apply tw-absolute tw-flex tw-flex-grow tw-items-center tw-w-full tw-bg-primary/10 tw-shadow tw-shadow-primary/50;
             top: 0;
             left: 0;
@@ -85,7 +95,7 @@ function expand() {
             }
         }
 
-        >.contents {
+        > .contents {
             @apply tw-mt-[32px];
             overflow-y: auto;
             height: calc(100% - 32px);
@@ -165,18 +175,19 @@ function expand() {
             <header class="header">
                 <ada-toggle v-model="active" class="b-tabs tw-overflow-x-auto tw-overflow-y-hidden">
                     <ada-btn class="tab-title tw-flex tw-justify-center tw-items-center"
-                        v-for="(t, i) in bottomPanel.current?.children" :key="t.title" :model="t" :match="t.match"
-                        :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
+                             v-for="(t, i) in bottomPanel.current?.children" :key="t.title" :model="t" :match="t.match"
+                             :to="`/watchlist/${$route.params.name}/${t.path ?? ''}`">
                         <span>{{ $t(t.title) }}</span> <span v-if="t.secondTitle">6{{ ` - ${t.secondTitle}` }}</span>
                         <div v-if="i !== (bottomPanel.current.children?.length ?? 0) - 1" class="bar"></div>
                         <!----------------------------------- drop down for bottom panel ------------------------------------------->
                         <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDown">
-                            <ada-menu :active="t.dropDown.show" :mTop="33.5" :mWidth="147" class="tw-w-fit tw-mx-auto"
-                                box-shadow>
+                            <ada-menu :active="t.dropDown?.show && t.match.test(route.fullPath)" :mTop="33.5"
+                                      :mWidth="147" class="tw-w-fit tw-mx-auto"
+                                      box-shadow>
                                 <template #activator>
-                                    <ada-btn @click.stop="() => { if (t.dropDown) t.dropDown.show = !t.dropDown.show; }"
-                                        :class="{ active: t.dropDown.show }"
-                                        class="tw-bg-transparent">
+                                    <ada-btn @click="triggerDropDown(t)"
+                                             :class="{ active: t.dropDown.show }"
+                                             class="tw-bg-transparent">
                                         <ada-icon :size="16">
                                             mdi-chevron-down
                                         </ada-icon>
@@ -191,9 +202,9 @@ function expand() {
                                                 </ada-icon>
                                             </template>
                                         </ada-input>
-                                        <hr class="divider tw-border-divider tw-mt-3" />
+                                        <hr class="divider tw-border-divider tw-mt-3"/>
                                         <ada-list-item v-for="dropDown in t.dropDown?.items" :key="dropDown.id"
-                                            class="item">
+                                                       class="item">
                                             <!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
                                             <span v-text="dropDown.fullName"></span>
                                         </ada-list-item>
@@ -206,10 +217,10 @@ function expand() {
                     </ada-btn>
                 </ada-toggle>
                 <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
-                    :class="[bottomPanel.expanded && active != null ? 'tw-bg-primary' : 'tw-bg-transparent']"
-                    @click="expand">
+                         :class="[bottomPanel.expanded && active != null ? 'tw-bg-primary' : 'tw-bg-transparent']"
+                         @click="expand">
                     <ada-icon :class="[bottomPanel.expanded && active != null ? 'tw-text-white' : 'tw-text-primary']"
-                        :size="16">
+                              :size="16">
                         isax-maximize-3
                     </ada-icon>
                 </ada-btn>
@@ -220,16 +231,16 @@ function expand() {
         </div>
         <ada-toggle class="b-tabs tw-overflow-x-auto tw-overflow-y-hidden" v-model="bottomPanel.current">
             <ada-btn class="tab-title" v-for="(t, i) in tabs" :key="t.title"
-                :to="`/watchlist/${$route.params.name}/${t.path}`" v-show="t.show" :model="t" :match="t.match">
+                     :to="`/watchlist/${$route.params.name}/${t.path}`" v-show="t.show" :model="t" :match="t.match">
                 <span :class="{ 'active': bottomPanel.current != null && bottomPanel.current?.title === t.title }">
                     {{ $t(t.title) }}
                     <span
-                        v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>
+                            v-text="instrumentManager.state.selected && !t.deletable ? '-' + instrumentManager.state.selected.name : ''"></span>
                 </span>
                 <div v-if="i < visibleTabs.length - 1" class="bar"></div>
                 <ada-btn v-if="t.deletable"
-                    class="tw-absolute tw-items-center tw-leading-[12px] tw-top-2 tw-left-2 tw-h-[18px] tw-w-[18px] tw-bg-error"
-                    @click.stop.prevent="() => { bottomPanel.removeTab(t.id); router.push(`/watchlist/${route.params.name}`); }">
+                         class="tw-absolute tw-items-center tw-leading-[12px] tw-top-2 tw-left-2 tw-h-[18px] tw-w-[18px] tw-bg-error"
+                         @click.stop.prevent="() => { bottomPanel.removeTab(t.id); router.push(`/watchlist/${route.params.name}`); }">
                     <ada-icon class="tw-font-bold tw-text-white">
                         mdi-close
                     </ada-icon>
