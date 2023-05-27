@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {useInstrument, useBottomPanel} from "~~/composables";
 import {TabItem} from "~~/types";
-import {boolean} from "yup";
 
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
