@@ -187,7 +187,7 @@ function closeDropDown(tab: any) {
                         <!----------------------------------- drop down for bottom panel ------------------------------------------->
                         <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDown"
                              @focusout="closeDropDown(t)">
-                            <ada-menu :active="t.dropDown?.show && (t.match).test(route.fullPath)" :mTop="33.5"
+                            <ada-menu :active="t.dropDown?.show && t.match?.test(route.fullPath)" :mTop="33.5"
                                       :mWidth="147" class="tw-w-fit tw-mx-auto"
                                       box-shadow>
                                 <template #activator>
