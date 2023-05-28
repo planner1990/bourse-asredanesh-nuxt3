@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {useBottomPanel, useInstrument} from "~~/composables";
 import {
-  WatchListColumns,
-  TradesHistorySerachModel
+    WatchListColumns,
+    TradesHistorySerachModel, SameSectorQuery
 } from "@/types";
 import {useI18n} from "vue-i18n"
 
@@ -42,6 +42,13 @@ const defaultCols = [
   new WatchListColumns(i18n.t("oms.value").toString(), "value")
 ];
 
+const teammateList = computed(() => {
+    const teammate: SameSectorQuery = {
+       instrument: 1,
+       sector: 2
+    }
+    instrumentManager.getTeammates(teammate);
+})
 
 async function getTradeHistories() {
   const data = {
