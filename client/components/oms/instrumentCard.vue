@@ -60,7 +60,6 @@ function getClickEvent(type: fieldType) {
 instrumentManager
     .getInstrumentsDetail(new InstrumentSearchModel([props.insId]))
     .then((data: Array<Instrument>) => {
-        console.log(instrument);
         instrument.value = data[0];
     });
 </script>

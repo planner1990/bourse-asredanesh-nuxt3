@@ -12,6 +12,7 @@ import LastPrice from "@/components/oms/lastPrice.vue";
 const bottomPanel = useBottomPanel();
 const instrumentManager = useInstrument();
 const instruments = computed(() => instrumentManager.getFocus);
+
 const count = ref(0);
 const price = ref(0);
 const tab = computed({
@@ -145,9 +146,10 @@ defineExpose({
                     :class="{ selected: (selected && selected.id == item.id) }"
             >
                 <ada-badge dot left offset-y="75%" offset-x="-5">
-                    {{ item.name }}&nbsp;
-                    <numeric-field :value="item.last"/>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div class="tw-text-[9px]" dir="ltr" :class="item.last < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'">
+                    {{ item.name }} - &nbsp;
+                    <numeric-field :value="item.last" class="tw-text-black"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="tw-text-[9px]" dir="ltr"
+                         :class="item.last < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'">
                         (% {{ formatter.format(Math.abs((item.yesterdayPrice - item.last) * 100 / item.last)) }})
                     </div>
                 </ada-badge>
