@@ -30,14 +30,14 @@ function expand() {
     bottomPanel.toggleExpand();
 }
 
-function triggerDropDown(t) {
+function triggerDropDown(t: any) {
     if (t.dropDown) t.dropDown.show = !t.dropDown.show;
     watch(t, () => {
         t.match.test(route.fullPath);
     })
 }
 
-function closeDropDown(tab) {
+function closeDropDown(tab: any) {
     if (tab.dropDown) {
         tab.dropDown.show = false
     }
@@ -187,7 +187,7 @@ function closeDropDown(tab) {
                         <!----------------------------------- drop down for bottom panel ------------------------------------------->
                         <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDown"
                              @focusout="closeDropDown(t)">
-                            <ada-menu :active="t.dropDown?.show && t.match.test(route.fullPath)" :mTop="33.5"
+                            <ada-menu :active="t.dropDown?.show && (t.match).test(route.fullPath)" :mTop="33.5"
                                       :mWidth="147" class="tw-w-fit tw-mx-auto"
                                       box-shadow>
                                 <template #activator>
