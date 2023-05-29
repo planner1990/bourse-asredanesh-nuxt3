@@ -48,7 +48,7 @@ const instAndSectorId = computed(() => furtherInformationManager.instrumentIdAnd
 watch(furtherInformationManager, () => {
     getTeammateList();
 })
-let ids = [];
+let ids: any[] = [];
 
 async function getTeammateList() {
 
@@ -69,7 +69,6 @@ async function getInstrumentDetailTeammate() {
     entryAndExitHistoryList.splice(0);
     await instrumentManager
         .getInstrumentsDetail(new InstrumentSearchModel(ids)).then(response => {
-            console.log(response, "getInstrumentDetailTeammate")
             entryAndExitHistoryList.push(response);
         })
 }
