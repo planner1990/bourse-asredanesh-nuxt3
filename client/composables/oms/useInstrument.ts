@@ -279,6 +279,17 @@ export const useInstrument = defineStore("instrument", () => {
         return state.value.clientDistributionCache[id.toString()];
     }
 
+    // async function getInstrumentsDetailForTeammate(
+    //     searchModel: []
+    // ): Promise<PaginatedResult<number>> {
+    //     const {data} = await manager.getTeammates(
+    //         searchModel.instrument,
+    //         searchModel.sector,
+    //         axios
+    //     );
+    //     return data;
+    // }
+
     async function getTeammates(
         searchModel: SameSectorQuery
     ): Promise<PaginatedResult<number>> {
