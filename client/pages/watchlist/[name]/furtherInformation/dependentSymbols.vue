@@ -3,7 +3,7 @@ import {useBottomPanel, useInstrument} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import {
   WatchListColumns,
-  TradesHistorySerachModel
+  TradesHistorySerachModel, Side, InstrumentCache
 } from "@/types";
 import {useI18n} from "vue-i18n"
 
@@ -35,6 +35,7 @@ const entryAndExitHistoryList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
   new WatchListColumns(i18n.t("instrument.title").toString(), "title"),
+  new WatchListColumns(i18n.t("instrument.actions").toString(), "actions"),
   new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
   new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
   new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
@@ -61,6 +62,67 @@ async function getTradeHistories() {
 }
 
 getTradeHistories();
+
+function focus() {
+  const item = {
+    id: 919,
+    code: "BDAN1",
+    name: "دانا",
+    fullName: "بيمه دانا",
+    sector: 680,
+    categoryName: "",
+    baseVol: 4851543,
+    tradeVal: 0,
+    settlementDelay: 3,
+    maxAllowedPrice: 0,
+    minAllowedPrice: 0,
+    namedPrice: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    shares: 4000000000,
+    companyName: "",
+    maxQuantityPerOrder: 100000,
+    minQuantityPerOrder: 1,
+    issuePrice: 0,
+    firstTradeDate: "2010-08-10T20:30:00.000+00:00",
+    lastTradeDate: "12:30:01",
+    expirationDate: "12:30:01",
+    lastModification: "2020-06-12T20:30:00.000+00:00",
+    status: 7,
+    instrumentCode: "IRO1BDAN0001",
+    instrumentId: 919,
+    dateTime: "2020-06-14T20:30:00.000+00:00",
+    opening: 4456,
+    closing: 4372,
+    highest: 4580,
+    lowest: 4250,
+    priceChange: 370,
+    yesterdayPrice: 4353,
+    totalShares: 117197115,
+    totalTrades: 6665,
+    totalTradesValue: 512332551609,
+    amount: 0,
+    last: 4284,
+    notifications: [],
+    latinFullName: "Dana Insurance",
+    market: 1,
+    board: 5,
+    type: 300,
+    category: 2,
+    group: 25,
+    priceType: "TEST1",
+    priceRate: 10,
+    quantityRate: 1,
+    company: 19700455,
+    segment: 1,
+    flags: 1,
+    lastPrice: "null",
+    mdsboard: 21
+  }
+  instrumentManager.setShowBuySellFlag('hidden');
+  instrumentManager.activateTab(item);
+  instrumentManager.addFocus(item, 'hidden');
+}
 </script>
 <style lang="postcss" scoped>
 
@@ -92,6 +154,14 @@ getTradeHistories();
         <span>
            {{ item.title }}
         </span>
+      </template>
+      <template #item.actions>
+        <div class="text-no-wrap">
+          <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-text-info tw-cursor-pointer"
+                    @click="focus" :size="16">
+            isax-eye
+          </ada-icon>
+        </div>
       </template>
       <template #item.name="{ item }">
         <span>

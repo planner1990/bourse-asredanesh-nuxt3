@@ -51,6 +51,7 @@ export interface InstrumentState {
   orderQueueCache: { [key: string]: Array<OrderQueueItem> };
   clientDistributionCache: { [key: string]: ClientDistribution };
   width: number;
+  isShowBuyAndSellFlag?: string
 }
 
 export interface Snack {

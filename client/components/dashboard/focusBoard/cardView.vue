@@ -14,6 +14,7 @@ const maxwidthVal = computed(
 );
 
 const selected = computed(() => instrumentManager.state.selected)
+const isShowBuySell = computed(() => instrumentManager.isShowBuySellFlag);
 
 function close(item: InstrumentCache) {
   instrumentManager.removeFocus(item.id);
@@ -146,11 +147,11 @@ defineExpose({
         </div>
         <div class="actions">
           <ada-btn depressed dark small class="buy"
-                   @click.stop="() => order(item, Side.Buy)">
+                   @click.stop="() => order(item, Side.Buy)" v-if="!isShowBuySell">
             {{ $t("oms.buy") }}
           </ada-btn>
           <ada-btn depressed dark small class="sell"
-                   @click.stop="() => order(item, Side.Sell)">
+                   @click.stop="() => order(item, Side.Sell)" v-if="!isShowBuySell">
             {{ $t("oms.sell") }}
           </ada-btn>
           <ada-btn @click.stop="() => close(item)" class="close" depressed small>
