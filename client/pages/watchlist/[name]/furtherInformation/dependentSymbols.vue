@@ -119,7 +119,6 @@ function focus() {
     lastPrice: "null",
     mdsboard: 21
   }
-  instrumentManager.setShowBuySellFlag('hidden');
   instrumentManager.activateTab(item);
   instrumentManager.addFocus(item, 'hidden');
 }
