@@ -121,7 +121,7 @@ function addTransaction() {
 </style>
 <template>
   <div class="tw-w-full">
-    <div class="tw-flex tw-justify-between tw-mt-3">
+    <div class="tw-flex tw-justify-between tw-mt-3 tw-mr-3">
       <div class="tw-mr-3 tw-flex tw-justify-center tw-items-center tw-text-gray3 radio-button">
         <span>مبنای محاسبه ارزش فروش:</span>
         <input type="radio" class="tw-mr-3" id="radio1" name="radios" checked>

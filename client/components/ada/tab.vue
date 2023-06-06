@@ -12,8 +12,6 @@ const props = withDefaults(defineProps<{
 const val: Ref<any> = inject("tab-ref", ref(null));
 const name: Ref<any> = inject("tab-name", ref(null));
 
-
-    
 const route = useRoute()
 
 const cls = computed(() => val.value == props.model || name.value == props.name || route.path.includes(props.to) ? 'tab--active' : '')

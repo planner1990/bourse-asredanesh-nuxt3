@@ -105,8 +105,8 @@ function toggle(id: any) {
 
 </style>
 <template>
-  <div class="tw-mx-3 tw-pt-3">
-    <div class="tw-mr-3 tw-mb-2 tw-flex tw-text-gray3 radio-button">
+  <div class="tw-mx-3 tw-pt-5">
+    <div class="tw-mr-3 tw-mb-5 tw-flex tw-text-gray3 radio-button">
       <span>مبنای محاسبه ارزش فروش:</span>
       <input type="radio" class="tw-mr-3" id="radio1" name="radios" checked>
       <label class="radio tw-flex tw-mr-1" for="radio1">آخرین قیمت</label>

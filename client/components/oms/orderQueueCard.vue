@@ -127,7 +127,7 @@ defineExpose({
 }
 </style>
 <template>
-    <div class="order-queue" fluid @focusout="resetCumulativeVol" tabindex="0">
+    <div class="order-queue" fluid tabindex="0">
         <header>
             <div class="buy">
                 {{ $t("oms.count") }}

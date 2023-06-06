@@ -14,7 +14,6 @@ const instrumentManager = useInstrument();
 const instruments = computed(() => instrumentManager.getFocus);
 const isShowBuySell = computed(() => instrumentManager.isShowBuySellFlag);
 
-
 const count = ref(0);
 const price = ref(0);
 const tab = computed({
@@ -26,7 +25,6 @@ const tab = computed({
   },
 });
 const selected = computed(() => instrumentManager.state.selected);
-
 function select(val: InstrumentCache) {
   const crt = instrumentManager.state.selected;
   if (crt == null || crt.id != val.id) instrumentManager.select(val);
@@ -142,7 +140,7 @@ defineExpose({
           v-for="(item, i) in instruments"
           :key="item.id"
           :model="item"
-          name-key="$.id"
+          name-key="$.instrumentCode"
           :height="32"
           class="tab"
           :class="{ selected: (selected && selected.id == item.id) }"
@@ -161,13 +159,14 @@ defineExpose({
         <div v-if="(i != instruments.length - 1)" class="bar"></div>
       </ada-btn>
     </ada-toggle>
-    <ada-tabs v-model="tab">
+    <ada-tabs v-model="tab" name-key="$.instrumentCode">
       <ada-tab
           class="detail"
           :class="isShowBuySell ? 'tw-justify-start' : ''"
           v-for="item in instruments"
           :key="item.id"
           :model="item"
+          :name="item.instrumentCode"
       >
         <div class="panel">
           <oms-order-queue-card
