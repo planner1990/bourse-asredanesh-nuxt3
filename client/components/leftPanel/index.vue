@@ -206,8 +206,9 @@ const item = {
 }
 
 function focus() {
-  instrumentManager.activateTab(item);
   instrumentManager.addFocus(item);
+  instrumentManager.activateTab(item);
+  instrumentManager.setFocusMode(0);
 }
 </script>
 
@@ -326,7 +327,6 @@ function focus() {
       <ada-tooltip position="right">
         <template #activator>
           <ada-btn :width="30" :height="30" class="tw-ml-2" @click="focus">
-            <!-- <span v-text="$t('oms.openingTrade')"></span> -->
             <ada-icon size="21px" class="first-offer tw-rounded-full tw-p-[7px]">
               mdi-application-cog
             </ada-icon>
