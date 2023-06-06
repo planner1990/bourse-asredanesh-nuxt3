@@ -11,7 +11,7 @@ import {
     useOrder,
     useUser,
     useNotifications,
-    useWebSocket, useFurtherInformation
+    useWebSocket,
 } from "@/composables";
 import {useShortcut} from "@/utils/shortcutManager";
 import {useI18n} from "vue-i18n";
@@ -51,8 +51,6 @@ const itemToDelete = ref<InstrumentCache | null>(null);
 const _instruments: Array<InstrumentCache> = reactive([]);
 const confirmInstrumentRemoval = ref(false);
 const notificationManager = useNotifications();
-const furtherInformationManager = useFurtherInformation();
-
 //////////////////////
 
 const name = route.params.name as string;
@@ -164,7 +162,6 @@ function parseStatus(state: number) {
 }
 
 function select(item: InstrumentCache) {
-    furtherInformationManager.setInstrumentIdAndSectorId(item.instrumentId, item.sector)
     const crt = instrumentManager.state.selected;
     if (crt == null || crt.id != item.id) instrumentManager.select(item);
     else instrumentManager.select(null);

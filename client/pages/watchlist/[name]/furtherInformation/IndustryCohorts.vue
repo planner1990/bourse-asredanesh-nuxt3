@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import {useBottomPanel, useFurtherInformation, useInstrument} from "~~/composables";
+import { useFurtherInformation, useInstrument } from "~~/composables";
 import {
     WatchListColumns,
     TradesHistorySerachModel, SameSectorQuery, InstrumentSearchModel, InstrumentCache
 } from "@/types";
-import {useI18n} from "vue-i18n"
+import { useI18n } from "vue-i18n"
 import DateTime from "~/components/date/time.vue";
 
 const i18n = useI18n();
-const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
 const furtherInformationManager = useFurtherInformation();
+const instruments: Array<InstrumentCache> = reactive([]);
 const props = withDefaults(
     defineProps<{
         modelValue?: TradesHistorySerachModel
@@ -31,8 +31,6 @@ const model = computed({
         emit("update:modelValue", value)
     }
 })
-const entryAndExitHistoryList = reactive<Array<any>>([]);
-const inst = instrumentManager.getSelected;
 const defaultCols = [
     new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
     new WatchListColumns(i18n.t("instrument.actions").toString(), "actions"),
@@ -43,39 +41,29 @@ const defaultCols = [
     new WatchListColumns(i18n.t("oms.value").toString(), "value")
 ];
 
-const instAndSectorId = computed(() => furtherInformationManager.instrumentIdAndSectorId);
-
-watch(furtherInformationManager, () => {
+watch(() => instrumentManager.getSelected, () => {
     getTeammateList();
 })
-let ids: any[] = [];
 
 async function getTeammateList() {
-
-    const teammate: SameSectorQuery = {
-        instrument: instAndSectorId.value.instrumentId,
-        sector: instAndSectorId.value.sectorId
-    }
-    await instrumentManager.getTeammates(teammate).then(res => {
-            ids = [...res.data];
-            getInstrumentDetailTeammate();
-            ids.splice(0);
+    if (instrumentManager.getSelected) {
+        const teammate: SameSectorQuery = {
+            instrument: instrumentManager.getSelected.id,
+            sector: instrumentManager.getSelected.sector
         }
-    );
-
-}
-
-async function getInstrumentDetailTeammate() {
-    entryAndExitHistoryList.splice(0);
-    await instrumentManager
-        .getInstrumentsDetail(new InstrumentSearchModel(ids)).then(response => {
-            entryAndExitHistoryList.push(response);
-        })
+        await instrumentManager.getTeammates(teammate).then(async res => {
+            await instrumentManager
+                .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(res =>
+                    instruments.splice(0, instruments.length, ...res)
+                );
+        }
+        );
+    }
 }
 
 function focus(item: InstrumentCache) {
-    instrumentManager.activateTab(item);
     instrumentManager.addFocus(item);
+    instrumentManager.activateTab(item);
 }
 
 const canFocus = computed(() => {
@@ -86,25 +74,10 @@ const canFocus = computed(() => {
     );
 });
 
-// async function getTradeHistories() {
-//     const data = {
-//         name: "خگستر۲",
-//         last: "3,554",
-//         end: "3,554",
-//         count: "0",
-//         amount: "0",
-//         value: "0"
-//     }
-//     for (let i = 0; i <= 6; i++) {
-//         entryAndExitHistoryList.push(data);
-//     }
-//     bottomPanelManager.setLoading(false);
-// }
-//
-// getTradeHistories();
+getTeammateList()
+
 </script>
 <style lang="postcss" scoped>
-
 :deep(.headers[data-v-8d846923]) {
     @apply tw-bg-primary tw-bg-opacity-10 tw-text-gray3 tw-font-medium tw-rounded-full;
 }
@@ -127,19 +100,18 @@ const canFocus = computed(() => {
 </style>
 <template>
     <div class="tw-mx-3 tw-pt-3">
-        <ada-data-table :items="entryAndExitHistoryList[0]" :headers="defaultCols" item-key="dateTime"
-                        class="tw-w-full tw-h-full tw-overflow-y-auto">
+        <ada-data-table :items="instruments" :headers="defaultCols" item-key="id"
+            class="tw-w-full tw-h-full tw-overflow-y-auto">
             <template #item.name="{ item }">
-        <span>
-          {{ item.name }}
-        </span>
+                <span>
+                    {{ item.name }}
+                </span>
             </template>
-            <template #item.actions="{item}">
+            <template #item.actions="{ item }">
                 <div class="text-no-wrap">
                     <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-text-info tw-cursor-pointer" :size="16"
-                              @click.stop.prevent="() => focus(item)"
-                              :class="[canFocus ? 'tw-text-info' : 'tw-text-gray-500']"
-                              :disabled="!canFocus">
+                        @click.stop.prevent="() => focus(item)" :class="[canFocus ? 'tw-text-info' : 'tw-text-gray-500']"
+                        :disabled="!canFocus">
                         isax-eye
                     </ada-icon>
                     <ada-icon class="tw-m-0 tw-p-0 tw-ml-2 tw-text-success" :size="16">
@@ -151,22 +123,18 @@ const canFocus = computed(() => {
                 </div>
             </template>
             <template #item.last="{ item }">
-        <span>
-            <numeric-field :value="item.last"></numeric-field>
-            <span class="tw-text-gray5 tw-mx-3">|</span>
-            <DateTime :value="item.lastModification"
-                      :format="$t('general.date.dt')"
-                      class="ltr"/>
-        </span>
+                <span>
+                    <numeric-field :value="item.last"></numeric-field>
+                    <span class="tw-text-gray5 tw-mx-3">|</span>
+                    <DateTime :value="item.lastModification" :format="$t('general.date.dt')" class="ltr" />
+                </span>
             </template>
             <template #item.end="{ item }">
-        <span>
-            <numeric-field :value="item.closing"></numeric-field>
-            <span class="tw-text-gray5 tw-mx-3">|</span>
-            <DateTime :value="item.lastTradeDate"
-                      :format="$t('general.date.dt')"
-                      class="ltr"/>
-        </span>
+                <span>
+                    <numeric-field :value="item.closing"></numeric-field>
+                    <span class="tw-text-gray5 tw-mx-3">|</span>
+                    <DateTime :value="item.lastTradeDate" :format="$t('general.date.dt')" class="ltr" />
+                </span>
             </template>
             <template #item.count="{ item }">
                 <numeric-field :value="item.totalTrades"></numeric-field>
