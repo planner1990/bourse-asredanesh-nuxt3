@@ -9,7 +9,6 @@ import DateTime from "~/components/date/time.vue";
 
 const i18n = useI18n();
 const instrumentManager = useInstrument();
-const furtherInformationManager = useFurtherInformation();
 const instruments: Array<InstrumentCache> = reactive([]);
 const props = withDefaults(
     defineProps<{
@@ -52,10 +51,13 @@ async function getTeammateList() {
             sector: instrumentManager.getSelected.sector
         }
         await instrumentManager.getTeammates(teammate).then(async res => {
-            await instrumentManager
-                .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(res =>
-                    instruments.splice(0, instruments.length, ...res)
-                );
+            if (res.data)
+                await instrumentManager
+                    .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(res =>
+                        instruments.splice(0, instruments.length, ...res)
+                    );
+            else
+                instruments.splice(0, instruments.length)
         }
         );
     }
@@ -68,8 +70,7 @@ function focus(item: InstrumentCache) {
 
 const canFocus = computed(() => {
     if (!process.client) return false;
-    return (
-        instrumentManager.getFocus.length <
+    return (instrumentManager.getFocus.length <
         Math.floor(instrumentManager.width / 360)
     );
 });
