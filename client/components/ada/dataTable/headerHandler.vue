@@ -36,7 +36,6 @@ thead {
   > .headers {
     @apply tw-bg-stickyHeader tw-sticky;
     top: 2px;
-    z-index: 99999;
 
     > .header {
       position: relative;

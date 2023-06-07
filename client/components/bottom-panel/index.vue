@@ -97,6 +97,7 @@ function closeDropDown(tab: any) {
 
             .b-tabs {
                 @apply tw-bg-transparent;
+              z-index: 2;
             }
         }
 
