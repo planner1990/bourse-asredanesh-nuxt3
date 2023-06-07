@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WatchListColumns } from "@/types";
+import {WatchListColumns} from "@/types";
 
 const props = defineProps<{
   headers: Array<WatchListColumns>;
@@ -7,9 +7,11 @@ const props = defineProps<{
 const emit = defineEmits(["headersChanged"])
 
 let draggingCol: WatchListColumns | null = null;
+
 function drag(item: WatchListColumns) {
   draggingCol = item;
 }
+
 async function drop(item: WatchListColumns) {
   if (draggingCol && draggingCol.draggable && draggingCol != item) {
     const hrs = [...props.headers]
@@ -22,6 +24,7 @@ async function drop(item: WatchListColumns) {
   }
   draggingCol = null;
 }
+
 defineExpose({
   drag,
   drop
@@ -30,10 +33,12 @@ defineExpose({
 
 <style lang="postcss" scoped>
 thead {
-  >.headers {
-    @apply tw-bg-primary tw-bg-opacity-10;
+  > .headers {
+    @apply tw-bg-stickyHeader tw-sticky;
+    top: 2px;
+    z-index: 99999;
 
-    >.header {
+    > .header {
       position: relative;
       border: none !important;
       height: var(--row-height);
@@ -49,8 +54,8 @@ thead {
 
 <template>
   <thead>
-    <tr v-bind="$attrs" class="headers">
-      <th :draggable="header.draggable" @dragstart="() => drag(header)" @dragover="
+  <tr v-bind="$attrs" class="headers">
+    <th :draggable="header.draggable" @dragstart="() => drag(header)" @dragover="
         (ev) => {
           ev.preventDefault();
           if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move';
@@ -65,16 +70,16 @@ thead {
           width: header.width ? header.width : '',
           'min-width': header.width ? header.width : '',
         }" :class="['tw-text-' + header.align, header.class]" class="header">
-        <slot :header="header" :name="'header.' + header.value">
-          <h6>
-            {{ header.text }}
-          </h6>
-          <ada-icon v-if="header.icon" :size="16">
-            {{ header.icon }}
-          </ada-icon>
-          <div v-if="header.divider && index != headers.length - 1" class="bar"></div>
-        </slot>
-      </th>
-    </tr>
+      <slot :header="header" :name="'header.' + header.value">
+        <h6>
+          {{ header.text }}
+        </h6>
+        <ada-icon v-if="header.icon" :size="16">
+          {{ header.icon }}
+        </ada-icon>
+        <div v-if="header.divider && index != headers.length - 1" class="bar"></div>
+      </slot>
+    </th>
+  </tr>
   </thead>
 </template>

@@ -44,6 +44,7 @@ module.exports = {
         white: "rgb(255,255,255)",
         black: "rgb(0,0,0)",
         tooltip: "rgba(0, 0, 0, 0.85)",
+        stickyHeader: "#e7eaf9",
       },
     },
   },
