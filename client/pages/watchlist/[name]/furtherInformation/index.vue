@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {useBottomPanel, useFurtherInformation, useInstrument} from "~~/composables";
+import { useBottomPanel, useFurtherInformation, useInstrument } from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import {
     WatchListColumns,
-    TradesHistorySerachModel
+    TradesHistorySerachModel,
+    OrderQueueItem
 } from "@/types";
-import {useI18n} from "vue-i18n"
+import { useI18n } from "vue-i18n"
 
 const i18n = useI18n();
-const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
 const FurtherInformationManager = useFurtherInformation();
 const props = withDefaults(
@@ -31,25 +31,20 @@ const model = computed({
         emit("update:modelValue", value)
     }
 })
-const entryAndExitHistoryList = reactive<Array<any>>([]);
 const inst = instrumentManager.getSelected;
 const defaultCols = [
-    new WatchListColumns(i18n.t("oms.count").toString(), "count"),
-    new WatchListColumns(i18n.t("oms.amount").toString(), "amount"),
-    new WatchListColumns(i18n.t("oms.buy").toString(), "buy"),
-    new WatchListColumns(i18n.t("oms.sell").toString(), "sell"),
-    new WatchListColumns(i18n.t("oms.amount").toString(), "amount2"),
-    new WatchListColumns(i18n.t("oms.count").toString(), "count2")
+    new WatchListColumns(i18n.t("oms.count").toString(), "count", 'center', '16.5%'),
+    new WatchListColumns(i18n.t("oms.amount").toString(), "amount", 'center', '16.5%'),
+    new WatchListColumns(i18n.t("oms.buy").toString(), "buy", 'center', '16.5%'),
+    new WatchListColumns(i18n.t("oms.sell").toString(), "sell", 'center', '16.5%'),
+    new WatchListColumns(i18n.t("oms.amount").toString(), "amount2", 'center', '16.5%'),
+    new WatchListColumns(i18n.t("oms.count").toString(), "count2", 'center', '16.5%')
 ];
-const queue = computed(() => FurtherInformationManager.queueData);
-watch(queue, () => {
-    entryAndExitHistoryList.splice(0);
-    entryAndExitHistoryList.push(queue.value[0].value);
-})
+
+const queue = computed(() => instrumentManager.getSelected ? instrumentManager.getOrderQueue(instrumentManager.getSelected) : []);
 
 </script>
 <style lang="postcss" scoped>
-
 :deep(.headers[data-v-8d846923]) {
     @apply tw-bg-primary tw-bg-opacity-10 tw-text-gray3 tw-font-medium tw-rounded-full;
 }
@@ -72,8 +67,8 @@ watch(queue, () => {
 </style>
 <template>
     <div class="tw-mx-3 tw-pt-3">
-        <ada-data-table :items="entryAndExitHistoryList[0]" :headers="defaultCols" item-key="dateTime"
-                        class="tw-w-full tw-h-full tw-overflow-y-auto">
+        <ada-data-table :items="queue" :headers="defaultCols" item-key="dateTime"
+            class="tw-w-full tw-h-full tw-overflow-y-auto">
             <template #item.buy="{ item }">
                 <numeric-field :value="item.buy.price"></numeric-field>
             </template>
