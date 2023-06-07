@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useFurtherInformation, useInstrument } from "~~/composables";
+import { useInstrument } from "~~/composables";
 import {
-    WatchListColumns,
-    TradesHistorySerachModel, SameSectorQuery, InstrumentSearchModel, InstrumentCache
+    WatchListColumns, SameSectorQuery, InstrumentSearchModel, InstrumentCache
 } from "@/types";
 import { useI18n } from "vue-i18n"
 import DateTime from "~/components/date/time.vue";
@@ -12,24 +11,16 @@ const instrumentManager = useInstrument();
 const instruments: Array<InstrumentCache> = reactive([]);
 const props = withDefaults(
     defineProps<{
-        modelValue?: TradesHistorySerachModel
+        modelValue?: SameSectorQuery
     }>(),
     {
         modelValue: () => ({
-            offset: 0,
-            length: 17,
+            instrument: 0,
+            sector: 0
         })
     });
 const emit = defineEmits(["update:modelValue"]);
 
-const model = computed({
-    get() {
-        return props.modelValue
-    },
-    set(value) {
-        emit("update:modelValue", value)
-    }
-})
 const defaultCols = [
     new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
     new WatchListColumns(i18n.t("instrument.actions").toString(), "actions"),
@@ -41,16 +32,17 @@ const defaultCols = [
 ];
 
 watch(() => instrumentManager.getSelected, () => {
-    getTeammateList();
+    const val = {
+        instrument: instrumentManager.getSelected?.id || 0,
+        sector: instrumentManager.getSelected?.sector || 0
+    }
+    emit("update:modelValue", val)
+    getTeammateList(val)
 })
 
-async function getTeammateList() {
+async function getTeammateList(model: SameSectorQuery) {
     if (instrumentManager.getSelected) {
-        const teammate: SameSectorQuery = {
-            instrument: instrumentManager.getSelected.id,
-            sector: instrumentManager.getSelected.sector
-        }
-        await instrumentManager.getTeammates(teammate).then(async res => {
+        await instrumentManager.getTeammates(model).then(async res => {
             if (res.data)
                 await instrumentManager
                     .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(res =>
@@ -66,6 +58,8 @@ async function getTeammateList() {
 function focus(item: InstrumentCache) {
     instrumentManager.addFocus(item);
     instrumentManager.activateTab(item);
+    instrumentManager.setFocusMode(0);
+    instrumentManager.select(item)
 }
 
 const canFocus = computed(() => {
@@ -75,7 +69,7 @@ const canFocus = computed(() => {
     );
 });
 
-getTeammateList()
+getTeammateList(props.modelValue)
 
 </script>
 <style lang="postcss" scoped>
@@ -98,6 +92,18 @@ getTeammateList()
 .table-container {
     border-radius: 12px
 }
+
+.actions {
+    i.icon {
+        &.isax-eye {
+            @apply tw-text-info;
+
+            &:disabled {
+                @apply tw-text-gray-500;
+            }
+        }
+    }
+}
 </style>
 <template>
     <div class="tw-mx-3 tw-pt-3">
@@ -109,10 +115,9 @@ getTeammateList()
                 </span>
             </template>
             <template #item.actions="{ item }">
-                <div class="text-no-wrap">
-                    <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-text-info tw-cursor-pointer" :size="16"
-                        @click.stop.prevent="() => focus(item)" :class="[canFocus ? 'tw-text-info' : 'tw-text-gray-500']"
-                        :disabled="!canFocus">
+                <div class="text-no-wrap actions">
+                    <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-cursor-pointer" :size="16"
+                        @click.stop.prevent="() => focus(item)" :disabled="!canFocus ? 'disabled' : ''">
                         isax-eye
                     </ada-icon>
                     <ada-icon class="tw-m-0 tw-p-0 tw-ml-2 tw-text-success" :size="16">
