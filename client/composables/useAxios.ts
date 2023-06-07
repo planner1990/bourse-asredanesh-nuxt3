@@ -3,7 +3,6 @@ import { useAsrTrader, useSnacks, useUser } from ".";
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { defineStore } from "pinia";
 import { ErrorExtractor } from "~/utils/error";
-import * as Sentry from "@sentry/vue";
 
 export const useAxios = defineStore("axios", () => {
   const appconfig = useRuntimeConfig();
@@ -45,7 +44,6 @@ export const useAxios = defineStore("axios", () => {
       },
       async (err) => {
         let error = ErrorExtractor(err);
-        Sentry.captureException(err);
         if (error.code === 401) {
           //TODO Handel refresh token
           try {

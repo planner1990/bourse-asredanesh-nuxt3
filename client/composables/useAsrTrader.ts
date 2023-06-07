@@ -5,7 +5,7 @@ export const useAsrTrader = defineStore("app", () => {
   const runtimeConfig = useRuntimeConfig()
   const state: RootState = reactive({
     menu: null,
-    locale: runtimeConfig.VUE_APP_I18N_LOCALE
+    locale: runtimeConfig.public.VUE_APP_I18N_LOCALE
   });
 
   // Getters

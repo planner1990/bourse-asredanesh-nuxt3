@@ -8,12 +8,12 @@ const props = withDefaults(
         inst: Instrument | InstrumentCache;
         copy?: boolean;
         responsive?: boolean;
-        "extra-col"?: boolean;
+        extraCol?: boolean;
     }>(),
     {
         copy: false,
         responsive: false,
-        "extra-col": false,
+        extraCol: false,
     }
 );
 
