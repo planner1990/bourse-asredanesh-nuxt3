@@ -33,7 +33,7 @@ function headersChanged(value: Array<WatchListColumns>) {
       </slot>
       <tbody>
         <slot>
-          <ada-data-table-row-handler v-for="item in props.items" :key="item[itemKey]" :model="{ headers, item }">
+          <ada-data-table-row-handler v-for="item in props.items" :key="item[itemKey]" :model="{ headers, item }" >
             <template v-for="header in headers" v-slot:[`item.${header.value}`]>
               <slot :item="item" :name="'item.' + header.value"></slot>
             </template>
