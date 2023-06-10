@@ -23,13 +23,13 @@ const props = withDefaults(
 const emit = defineEmits(["update:modelValue"]);
 
 const defaultCols = [
-  new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
-  new WatchListColumns(i18n.t("instrument.actions").toString(), "actions"),
-  new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
-  new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
-  new WatchListColumns(i18n.t("oms.count").toString(), "count"),
-  new WatchListColumns(i18n.t("oms.amount").toString(), "amount"),
-  new WatchListColumns(i18n.t("oms.value").toString(), "value")
+  new WatchListColumns(i18n.t("instrument.name").toString(), "name", "center", "80px"),
+  new WatchListColumns(i18n.t("instrument.actions").toString(), "actions", "center", "80px"),
+  new WatchListColumns(i18n.t("instrument.last").toString(), "last", "center", "20%"),
+  new WatchListColumns(i18n.t("instrument.end").toString(), "end", "center", "20%"),
+  new WatchListColumns(i18n.t("oms.count").toString(), "count", "center", "10%"),
+  new WatchListColumns(i18n.t("oms.amount").toString(), "amount", "center", "10%"),
+  new WatchListColumns(i18n.t("oms.value").toString(), "value", "center", "15%")
 ];
 
 watch(() => instrumentManager.getSelected, () => {
