@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Instrument, InstrumentCache, OrderQueueItem} from "@/types";
-import {useAsrTrader, useInstrument, useOrderQue, useFurtherInformation} from "~/composables";
+import {useAsrTrader, useInstrument, useOrderQue} from "~/composables";
 
 const emit = defineEmits(["count", "price"]);
 const props = withDefaults(
@@ -20,7 +20,6 @@ const props = withDefaults(
 const appManager = useAsrTrader();
 const instrumentManager = useInstrument();
 const orderQueManager = useOrderQue();
-const FurtherInformationManager = useFurtherInformation();
 const formatter = appManager.formatter;
 const instrument = ref<InstrumentCache | null>(null);
 const amountCum = reactive<Array<{ id: number, amount: number }>>([]);
@@ -48,7 +47,6 @@ const totalQueue = computed(() => totalBuy.value + totalSell.value);
 
 //TODO Replace in vue 3
 const queue = computed(() => instrumentManager.getOrderQueue(props.inst));
-FurtherInformationManager.setQueueData(queue);
 
 function getAmount(amount: number) {
     orderQueManager.showAmount(amount)

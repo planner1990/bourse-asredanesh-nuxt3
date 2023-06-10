@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { useBottomPanel, useFurtherInformation, useInstrument } from "~~/composables";
-import DateTime from "@/components/date/time.vue";
+import { useInstrument } from "~~/composables";
 import {
     WatchListColumns,
-    TradesHistorySerachModel,
-    OrderQueueItem
+    TradesHistorySerachModel
 } from "@/types";
 import { useI18n } from "vue-i18n"
 
 const i18n = useI18n();
 const instrumentManager = useInstrument();
-const FurtherInformationManager = useFurtherInformation();
 const props = withDefaults(
     defineProps<{
         modelValue?: TradesHistorySerachModel
@@ -67,7 +64,7 @@ const queue = computed(() => instrumentManager.getSelected ? instrumentManager.g
 </style>
 <template>
     <div class="tw-mx-3 tw-pt-3">
-        <ada-data-table :items="queue" :headers="defaultCols" item-key="dateTime"
+        <ada-data-table :items="queue" :headers="defaultCols"
             class="tw-w-full tw-h-full tw-overflow-y-auto">
             <template #item.buy="{ item }">
                 <numeric-field :value="item.buy.price"></numeric-field>
