@@ -118,7 +118,7 @@ getTeammateList(props.modelValue)
   @apply tw-text-gray-500;
 }
 
-.isNotDisabled {
+.isAble {
   @apply tw-text-info;
 }
 </style>
@@ -133,7 +133,7 @@ getTeammateList(props.modelValue)
       <template #item.actions="{ item }">
         <div class="text-no-wrap">
           <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-cursor-pointer" :size="16"
-                    @click.stop.prevent="() => focus(item)" :class="[canFocus ? 'isNotDisabled' : 'isDisabled']"
+                    @click.stop.prevent="() => focus(item)" :class="[canFocus ? 'isAble' : 'isDisabled']"
                     :disabled="!canFocus">
             isax-eye
           </ada-icon>

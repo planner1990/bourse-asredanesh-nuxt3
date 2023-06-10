@@ -4,13 +4,13 @@ import {
   Message,
   MessageQuery,
   TabItem,
-  MenuItem, InstrumentCache, InstrumentSearchModel,
+  MenuItem, InstrumentCache, InstrumentSearchModel, Side,
 } from "@/types";
 import {
   useAsrTrader,
   useBottomPanel,
   useMessages,
-  useInstrument,
+  useInstrument, useOrder,
 } from "~/composables";
 
 const emit = defineEmits(["openWatchList", "update:modelValue", "update:mini"]);
@@ -23,7 +23,7 @@ const locale = appManager.locale;
 const toggleMenu = ref<null | string>(null);
 const router = useRouter()
 const route = useRoute()
-
+const orderManager = useOrder();
 
 const drawer = computed({
   get() {
@@ -154,6 +154,7 @@ async function focus() {
   instrumentManager.addFocus(items[0]);
   instrumentManager.activateTab(items[0]);
   instrumentManager.setFocusMode(0);
+  orderManager.setSide(Side.Buy, String(919));
   instrumentManager.select(items[0])
 }
 </script>
