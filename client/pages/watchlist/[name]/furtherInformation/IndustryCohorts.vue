@@ -31,6 +31,11 @@ const defaultCols = [
   new WatchListColumns(i18n.t("oms.amount").toString(), "amount", "center", "10%"),
   new WatchListColumns(i18n.t("oms.value").toString(), "value", "center", "15%")
 ];
+const valueFromInstrumentManager = {
+  instrument: instrumentManager.getSelected?.id || 0,
+  sector: instrumentManager.getSelected?.sector || 0
+}
+getTeammateList(valueFromInstrumentManager);
 
 watch(() => instrumentManager.getSelected, () => {
   const val = {
@@ -42,15 +47,18 @@ watch(() => instrumentManager.getSelected, () => {
 })
 
 async function getTeammateList(model: SameSectorQuery) {
+  console.log(model);
   if (instrumentManager.getSelected) {
     await instrumentManager.getTeammates(model).then(async res => {
           if (res.data)
             await instrumentManager
-                .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(res =>
-                    instruments.splice(0, instruments.length, ...res)
+                .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(response => {
+                      instruments.splice(0, instruments.length, ...response);
+                    }
                 );
-          else
+          else {
             instruments.splice(0, instruments.length)
+          }
         }
     );
   }
