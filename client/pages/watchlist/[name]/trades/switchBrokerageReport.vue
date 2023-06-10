@@ -199,7 +199,7 @@ label {
                 </div>
             </div>
         </div>
-        <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
+        <ada-data-table :items="directorateList" :headers="defaultCols"
                         class="tw-w-full tw-bg-grayF6 tw-overflow-y-auto">
             <template #item.receiptAmount="{ item }">
                 <NumericField :value="item.receiptAmount" class="tw-text-success"/>

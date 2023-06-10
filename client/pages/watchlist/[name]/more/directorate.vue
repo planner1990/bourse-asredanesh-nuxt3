@@ -97,7 +97,7 @@ getTradeHistories();
 <template>
   <div class="tw-mx-2">
     <div class="header-directorate">اسامی اعضای هیئت مدیره</div>
-    <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
+    <ada-data-table :items="directorateList" :headers="defaultCols"
                     class="tw-w-full tw-h-full tw-overflow-y-auto">
       <template #item.totalTrades="{ item }">
         <NumericField :value="item.totalTrades"/>

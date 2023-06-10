@@ -90,7 +90,7 @@ getTradeHistories();
 </script>
 
 <template>
-  <ada-data-table :items="tradeHistories" :headers="cols" item-key="dateTime"
+  <ada-data-table :items="tradeHistories" :headers="cols" item-key="instrumentId"
     class="tw-w-full tw-h-full tw-overflow-y-auto">
     <template #item.totalTrades="{ item }">
       <NumericField :value="item.totalTrades" />

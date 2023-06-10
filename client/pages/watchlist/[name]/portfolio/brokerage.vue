@@ -113,7 +113,7 @@ function toggle(id: any) {
       <input type="radio" class="tw-mr-5" id="radio2" name="radios">
       <label class="radio tw-flex tw-mr-1" for="radio2">قیمت پایانی</label>
     </div>
-    <ada-data-table-expansion :items="directorateList" :headers="defaultCols" item-key="dateTime"
+    <ada-data-table-expansion :items="directorateList" :headers="defaultCols"
                               class="tw-w-full tw-h-full tw-overflow-y-auto">
       <template #item.count="{ item }">
         <span>

@@ -180,7 +180,7 @@ label {
                 {{ $t("instrument.excel") }}
             </ada-btn>
         </div>
-        <ada-data-table :items="directorateList" :headers="defaultCols" item-key="dateTime"
+        <ada-data-table :items="directorateList" :headers="defaultCols"
                         class="tw-w-full tw-bg-grayF6 tw-overflow-y-auto">
             <template #item.volTotal="{ item }">
                 <NumericField :value="item.volTotal"/>
