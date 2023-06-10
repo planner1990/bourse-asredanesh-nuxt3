@@ -20,6 +20,7 @@ export class Instrument {
   buyPrice: number;
   sellPrice: number;
   shares: number;
+  company: number;
   companyName: string;
   maxQuantityPerOrder: number;
   minQuantityPerOrder: number;
@@ -38,6 +39,7 @@ export class Instrument {
     this.baseVol = 0;
     this.categoryName = "";
     this.code = "";
+    this.company = 0;
     this.companyName = "";
     this.expirationDate = "";
     this.firstTradeDate = "";
@@ -92,13 +94,16 @@ export class InstrumentSearchModel implements SearchModel {
   offset: number;
   length: number;
   echo: any;
+  companyId: number | null;
   constructor(
     ids: Array<number> = [],
     boards: Array<number> = [],
     secids: Array<number> = [],
+    companyId: number | null = null,
     offset: number = 0,
     length: number = 10
   ) {
+    this.companyId = companyId;
     this.ids = ids;
     this.boardIds = boards;
     this.secIds = secids;
