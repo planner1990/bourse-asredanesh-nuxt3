@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useFurtherInformation, useInstrument} from "~~/composables";
+import { useInstrument} from "~~/composables";
 import {
   WatchListColumns,
   TradesHistorySerachModel
