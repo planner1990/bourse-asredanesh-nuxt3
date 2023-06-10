@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import {useBottomPanel, useFurtherInformation, useInstrument} from "~~/composables";
-import DateTime from "@/components/date/time.vue";
+import { useFurtherInformation, useInstrument} from "~~/composables";
 import {
   WatchListColumns,
-  TradesHistorySerachModel,
-  OrderQueueItem
+  TradesHistorySerachModel
 } from "@/types";
 import {useI18n} from "vue-i18n"
 
 const i18n = useI18n();
 const instrumentManager = useInstrument();
-const FurtherInformationManager = useFurtherInformation();
 const props = withDefaults(
     defineProps<{
       modelValue?: TradesHistorySerachModel
