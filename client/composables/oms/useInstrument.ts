@@ -165,6 +165,7 @@ export const useInstrument = defineStore("instrument", () => {
         const res: Array<InstrumentCache> = [];
         const missing: Array<number> = [];
         if (
+            searchModel.companyId == null &&
             searchModel.boardIds.length == 0 &&
             searchModel.secIds.length == 0 &&
             searchModel.ids.length != 0
@@ -178,6 +179,7 @@ export const useInstrument = defineStore("instrument", () => {
         }
 
         if (
+            searchModel.companyId != null ||
             missing.length > 0 ||
             searchModel.boardIds.length > 0 ||
             searchModel.secIds.length > 0

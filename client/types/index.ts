@@ -35,6 +35,7 @@ export class InstrumentCache implements IInstrumentCache {
   buyPrice: number;
   sellPrice: number;
   shares: number;
+  company: number;
   companyName: string;
   maxQuantityPerOrder: number;
   minQuantityPerOrder: number;
@@ -76,6 +77,7 @@ export class InstrumentCache implements IInstrumentCache {
     this.buyPrice = 0;
     this.sellPrice = 0;
     this.shares = 0;
+    this.company = 0;
     this.companyName = "";
     this.maxQuantityPerOrder = 0;
     this.minQuantityPerOrder = 0;

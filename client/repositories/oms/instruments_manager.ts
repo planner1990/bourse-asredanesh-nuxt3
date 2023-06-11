@@ -19,16 +19,12 @@ export async function getInstruments(
   axios: AxiosInstance
 ): Promise<AxiosResponse<PaginatedResult<Instrument>>> {
   return axios.get(
-    "/oms/instruments/filter?ids=" +
-      searchModel.ids +
-      "&offset=" +
-      searchModel.offset +
-      "&length=" +
-      searchModel.length +
-      "&secIds=" +
-      (searchModel.secIds ?? "") +
-      "&boardIds=" +
-      (searchModel.boardIds ?? "")
+    "/oms/instruments/filter?ids=" + searchModel.ids +
+    "&offset=" + searchModel.offset +
+    "&length=" + searchModel.length +
+    "&secIds=" + (searchModel.secIds ?? "") +
+    "&boardIds=" + (searchModel.boardIds ?? "") 
+    + (searchModel.companyId ? "&compId=" + searchModel.companyId : "")
   );
 }
 
@@ -38,9 +34,9 @@ export async function getDailyPrice(
 ): Promise<AxiosResponse<PaginatedResult<DailyPrice>>> {
   return axios.get(
     "/oms/instruments/daily-price?ids=" +
-      instruments +
-      "&offset=0&length=" +
-      instruments.length
+    instruments +
+    "&offset=0&length=" +
+    instruments.length
   );
 }
 
@@ -60,9 +56,9 @@ export async function getInstrumentMarketHistory(
 ): Promise<AxiosResponse<PaginatedResult<MarketHistory>>> {
   return axios.get(
     "oms/instruments/market-history?ids=" +
-      instruments +
-      "&offset=0&length=" +
-      instruments.length
+    instruments +
+    "&offset=0&length=" +
+    instruments.length
   );
 }
 

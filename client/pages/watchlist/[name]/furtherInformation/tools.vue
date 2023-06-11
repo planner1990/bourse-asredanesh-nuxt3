@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {useBottomPanel, useInstrument, useOrder} from "~~/composables";
+import { useBottomPanel, useInstrument, useOrder } from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import {
   WatchListColumns,
   TradesHistorySerachModel, Side, InstrumentCache
 } from "@/types";
-import {useI18n} from "vue-i18n"
-import {InstrumentSearchModel} from "@/types";
+import { useI18n } from "vue-i18n"
+import { InstrumentSearchModel } from "@/types";
 
 const i18n = useI18n();
 const bottomPanelManager = useBottomPanel();
@@ -14,27 +14,17 @@ const instrumentManager = useInstrument();
 const orderManager = useOrder();
 
 const props = withDefaults(
-    defineProps<{
-      modelValue?: TradesHistorySerachModel
-    }>(),
-    {
-      modelValue: () => ({
-        offset: 0,
-        length: 17,
-      })
-    });
+  defineProps<{
+    modelValue?: TradesHistorySerachModel
+  }>(),
+  {
+    modelValue: () => ({
+      offset: 0,
+      length: 17,
+    })
+  });
 const emit = defineEmits(["update:modelValue"]);
 
-const model = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value) {
-    emit("update:modelValue", value)
-  }
-})
-const entryAndExitHistoryList = reactive<Array<InstrumentCache>>([]);
-const inst = instrumentManager.getSelected;
 const defaultCols = [
   new WatchListColumns(i18n.t("instrument.tools"), "type"),
   new WatchListColumns(i18n.t("instrument.actions"), "actions"),
@@ -50,19 +40,12 @@ const defaultCols = [
   new WatchListColumns(i18n.t("instrument.closing"), "closing"),
 ];
 
+const instruments: Array<InstrumentCache> = reactive([])
 
-async function getTradeHistories() {
-  const data = await instrumentManager.getInstrumentsDetail(new InstrumentSearchModel([1106]))
-  for (let inst in data) {
-    entryAndExitHistoryList.push(data[inst]);
-  }
+async function getTradeHistories(inst: InstrumentCache) {
+  const data = await instrumentManager.getInstrumentsDetail(new InstrumentSearchModel([], [], [], inst.company))
+  instruments.splice(0, Infinity, ...data);
   bottomPanelManager.setLoading(false);
-}
-
-function select(item: InstrumentCache) {
-  const crt = instrumentManager.state.selected;
-  if (crt == null || crt.id != item.id) instrumentManager.select(item);
-  else instrumentManager.select(null);
 }
 
 function order(item: InstrumentCache, side: Side) {
@@ -73,19 +56,29 @@ function order(item: InstrumentCache, side: Side) {
 }
 
 function focus(item: InstrumentCache) {
-  instrumentManager.activateTab(item);
   instrumentManager.addFocus(item);
+  instrumentManager.activateTab(item);
+  instrumentManager.setFocusMode(0);
+  instrumentManager.select(item)
 }
 
 const canFocus = computed(() => {
   if (!process.client) return false;
   return (
-      instrumentManager.getFocus.length <
-      Math.floor(instrumentManager.width / 360)
+    instrumentManager.getFocus.length <
+    Math.floor(instrumentManager.width / 360)
   );
 });
 
-getTradeHistories();
+watch(() => instrumentManager.getSelected, (update) => {
+  if (update)
+    getTradeHistories(update);
+  else
+    instruments.splice(0, Infinity)
+})
+
+if (instrumentManager.getSelected)
+  getTradeHistories(instrumentManager.getSelected);
 </script>
 <style lang="postcss" scoped>
 :deep(.headers[data-v-8d846923]) {
@@ -110,69 +103,69 @@ getTradeHistories();
 </style>
 <template>
   <div class="tw-mx-3 tw-pt-3">
-    <ada-data-table :items="entryAndExitHistoryList" :headers="defaultCols" item-key="instrumentId"
-                    class="tw-w-full tw-h-full tw-overflow-y-auto">
+    <ada-data-table :items="instruments" :headers="defaultCols" item-key="instrumentId"
+      class="tw-w-full tw-h-full tw-overflow-y-auto">
       <template #item.type="{ item }">
-                <span>
-                    {{ $t("instrument.types." + item.type) }}
-                </span>
+        <span>
+          {{ $t("instrument.types." + item.type) }}
+        </span>
       </template>
       <template #item.actions="{ item }">
         <div class="text-no-wrap tw-cursor-pointer">
           <ada-icon class="tw-m-0 tw-p-0 tw-mx-2" :class="[canFocus ? 'tw-text-info' : '']"
-                    @click.stop.prevent="() => focus(item)" :disabled="!canFocus" :size="16">
+            @click.stop.prevent="() => focus(item)" :disabled="!canFocus" :size="16">
             isax-eye
           </ada-icon>
           <ada-icon :class="[
-                        'tw-m-0 tw-p-0 tw-cursor-pointer',
-                        (item.status & 3) != 3 ? null : 'tw-text-success',
-                    ]" @click.stop.prevent="() => order(item, Side.Buy)" :disabled="(item.status & 3) != 3" :size="16">
+            'tw-m-0 tw-p-0 tw-cursor-pointer',
+            (item.status & 3) != 3 ? null : 'tw-text-success',
+          ]" @click.stop.prevent="() => order(item, Side.Buy)" :disabled="(item.status & 3) != 3" :size="16">
             isax-bag-tick-2
           </ada-icon>
           <ada-icon :class="[
-                        'tw-m-0 tw-p-0 tw-mx-2 tw-cursor-pointer',
-                        (item.status & 3) != 3 ? null : 'tw-text-error',
-                    ]" @click.stop="() => order(item, Side.Sell)" :disabled="(item.status & 3) != 3" :size="16">
+            'tw-m-0 tw-p-0 tw-mx-2 tw-cursor-pointer',
+            (item.status & 3) != 3 ? null : 'tw-text-error',
+          ]" @click.stop="() => order(item, Side.Sell)" :disabled="(item.status & 3) != 3" :size="16">
             isax-bag-cross-1
           </ada-icon>
         </div>
       </template>
       <template #item.wealth="{ item }">
-        <numeric-field :value="item.amount"/>
+        <numeric-field :value="item.amount" />
       </template>
       <template #item.opening="{ item }">
-        <numeric-field :value="item.opening"/>
+        <numeric-field :value="item.opening" />
       </template>
       <template #item.closing="{ item }">
         <numeric-field :value="item.closing"
-                       :class="item.closing < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'"/>
+          :class="item.closing < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'" />
       </template>
       <template #item.last="{ item }">
         <numeric-field :value="item.last"
-                       :class="item.last < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'"/>
+          :class="item.last < item.yesterdayPrice ? 'tw-text-error' : 'tw-text-success'" />
       </template>
       <template #item.yesterdayPrice="{ item }">
-        <numeric-field :value="item.yesterdayPrice"/>
+        <numeric-field :value="item.yesterdayPrice" />
       </template>
       <template #item.lowest="{ item }">
-        <numeric-field :value="item.lowest"/>
+        <numeric-field :value="item.lowest" />
       </template>
       <template #item.highest="{ item }">
-        <numeric-field :value="item.highest"/>
+        <numeric-field :value="item.highest" />
       </template>
       <template #item.totalTrades="{ item }">
-        <numeric-field :value="item.totalTrades"/>
+        <numeric-field :value="item.totalTrades" />
       </template>
       <template #item.totalShares="{ item }">
-        <numeric-field :value="item.totalShares"/>
+        <numeric-field :value="item.totalShares" />
       </template>
       <template #item.totalTradesValue="{ item }">
-        <numeric-field :value="item.totalTradesValue"/>
+        <numeric-field :value="item.totalTradesValue" />
       </template>
       <template #item.status="{ item }">
-                <span>
-                    {{ $t("instrument.state." + item.status) }}
-                </span>
+        <span>
+          {{ $t("instrument.state." + item.status) }}
+        </span>
       </template>
     </ada-data-table>
   </div>
