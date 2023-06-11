@@ -48,7 +48,6 @@ watch(() => instrumentManager.getSelected, () => {
 })
 
 async function getTeammateList(model: SameSectorQuery) {
-  console.log(model);
   if (instrumentManager.getSelected) {
     await instrumentManager.getTeammates(model).then(async res => {
           if (res.data)
