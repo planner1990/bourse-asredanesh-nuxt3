@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useInstrument, useOrder} from "~~/composables";
+import {useInstrument, useOrder, useWebSocket} from "~~/composables";
 import {
   WatchListColumns, SameSectorQuery, InstrumentSearchModel, InstrumentCache, Side
 } from "@/types";
@@ -10,6 +10,7 @@ const i18n = useI18n();
 const instrumentManager = useInstrument();
 const orderManager = useOrder();
 const instruments: Array<InstrumentCache> = reactive([]);
+const ws = useWebSocket();
 const props = withDefaults(
     defineProps<{
       modelValue?: SameSectorQuery
@@ -48,12 +49,13 @@ watch(() => instrumentManager.getSelected, () => {
 })
 
 async function getTeammateList(model: SameSectorQuery) {
-  console.log(model);
   if (instrumentManager.getSelected) {
     await instrumentManager.getTeammates(model).then(async res => {
           if (res.data)
             await instrumentManager
                 .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(response => {
+                  let instrumentCode = response.map(item => item.instrumentCode);
+                  ws.register(instrumentCode);
                       instruments.splice(0, instruments.length, ...response);
                     }
                 );
