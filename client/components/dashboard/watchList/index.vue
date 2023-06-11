@@ -408,6 +408,16 @@ refresh();
                 <template #item.wealth>
                     <numeric-field :value="item.amount"/>
                 </template>
+                <template #item.flow>
+                    <span>
+                        {{ $t("instrument.flows." + item.flow) }}
+                    </span>
+                </template>
+                <template #item.market>
+                    <span>
+                        {{ $t("instrument.markets." + item.market) }}
+                    </span>
+                </template>
                 <template #item.opening>
                     <numeric-field :value="item.opening"/>
                 </template>

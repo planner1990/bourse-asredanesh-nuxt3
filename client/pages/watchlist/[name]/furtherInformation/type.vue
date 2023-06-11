@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import {useBottomPanel, useInstrument} from "~~/composables";
+import { useBottomPanel, useInstrument } from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import {
   WatchListColumns,
-  TradesHistorySerachModel
+  InstrumentSearchModel
 } from "@/types";
-import {useI18n} from "vue-i18n"
+import { useI18n } from "vue-i18n"
 
 const i18n = useI18n();
 const bottomPanelManager = useBottomPanel();
 const instrumentManager = useInstrument();
 
 const props = withDefaults(
-    defineProps<{
-      modelValue?: TradesHistorySerachModel
-    }>(),
-    {
-      modelValue: () => ({
-        offset: 0,
-        length: 17,
-      })
-    });
+  defineProps<{
+    modelValue?: InstrumentSearchModel
+  }>(),
+  {
+    modelValue: () => new InstrumentSearchModel()
+  });
 const emit = defineEmits(["update:modelValue"]);
 
 const model = computed({
@@ -31,93 +28,96 @@ const model = computed({
     emit("update:modelValue", value)
   }
 })
-let entryAndExitHistoryList = reactive<Array<any>>([]);
-const inst = instrumentManager.getSelected;
+
+const legalReal = computed(() => instrumentManager.getClientDistribution(instrumentManager.getSelected?.id || 0))
+
 const defaultCols = [
   new WatchListColumns(i18n.t("oms.amount").toString(), "amount"),
   new WatchListColumns(i18n.t("oms.buy").toString(), "buy"),
   new WatchListColumns(i18n.t("oms.sell").toString(), "sell")
 ];
 
-
-async function getTradeHistories() {
-  entryAndExitHistoryList = [{
-    amount: "حقیقی",
-    buy: "60,797 M (99,7%)",
-    sell: "60,373 M (99,0%)"
-  },
-    {
-      amount: "حقوقی",
-      buy: "130,865 M (0,2%)",
-      sell: "554,890 M (0,9%)"
-    },
-    {
-      amount: "تعداد",
-      buy: "خرید",
-      sell: "فروش"
-    },
-    {
-      amount: "مجموع",
-      buy: "1,000",
-      sell: "871"
-    },
-    {
-      amount: "حقیقی",
-      buy: "999",
-      sell: "868"
-    },
-    {
-      amount: "حقوقی",
-      buy: "1",
-      sell: "3"
-    },
-  ]
-  bottomPanelManager.setLoading(false);
-}
-
-getTradeHistories();
 </script>
 <style lang="postcss" scoped>
-
-:deep(.headers[data-v-8d846923]) {
-  @apply tw-bg-primary tw-bg-opacity-10 tw-text-gray3 tw-font-medium tw-rounded-full;
+.container {
+  @apply tw-p-3;
 }
 
-:deep(.bar) {
-  @apply tw-border-default;
-}
+.ada-table {
+  @apply tw-w-full tw-table-fixed;
+  border: 0;
 
-:deep(tbody) {
-  background-color: rgba(248, 248, 248, 1);
-}
+  thead {
+    @apply tw-bg-primary tw-bg-opacity-10 tw-text-gray3 tw-font-medium;
 
-:deep(.row-border td) {
-  border-bottom: 1px solid rgba(224, 224, 224, 1) !important;
-}
+    th {
+      @apply tw-h-[32px] tw-text-center tw-relative;
+    }
+  }
 
-.table-container {
-  border-radius: 12px
+  tbody {
+    background-color: rgba(248, 248, 248, 1);
+
+    tr {
+      td {
+        @apply tw-h-[32px] tw-text-center;
+        border-bottom: 1px solid rgba(224, 224, 224, 1) !important;
+      }
+    }
+  }
 }
 </style>
 <template>
-  <div class="tw-mx-3 tw-pt-3">
-    <ada-data-table :items="entryAndExitHistoryList" :headers="defaultCols"
-                    class="tw-w-full tw-h-full tw-overflow-y-auto">
-      <template #item.amount="{ item }">
-        <span>
-          {{ item.amount }}
-        </span>
-      </template>
-      <template #item.buy="{ item }">
-        <span>
-          {{ item.buy }}
-        </span>
-      </template>
-      <template #item.sell="{ item }">
-        <span>
-          {{ item.sell }}
-        </span>
-      </template>
-    </ada-data-table>
+  <div class="container">
+    <table class="ada-table">
+      <thead>
+        <th>{{ $t("general.type") }}
+          <div class="bar"></div>
+        </th>
+        <th>{{ $t("oms.amount") }}
+          <div class="bar"></div>
+        </th>
+        <th>{{ $t("oms.buy") }}
+          <div class="bar"></div>
+        </th>
+        <th>{{ $t("oms.sell") }}
+          <div class="bar"></div>
+        </th>
+        <th>{{ $t("oms.amount") }}
+        </th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ $t("user.personality.legal") }}</td>
+          <td>
+            <NumericField :value="legalReal.legal.buy.count"></NumericField>
+          </td>
+          <td>
+            <NumericField :value="legalReal.legal.buy.amount"></NumericField>
+          </td>
+          <td>
+            <NumericField :value="legalReal.legal.sell.amount"></NumericField>
+          </td>
+          <td>
+            <NumericField :value="legalReal.legal.sell.count"></NumericField>
+          </td>
+        </tr>
+        <tr>
+          <td>{{ $t("user.personality.real") }}</td>
+          <td>
+            <NumericField :value="legalReal.real.buy.count"></NumericField>
+          </td>
+          <td>
+            <NumericField :value="legalReal.real.buy.amount"></NumericField>
+          </td>
+          <td>
+            <NumericField :value="legalReal.real.sell.amount"></NumericField>
+          </td>
+          <td>
+            <NumericField :value="legalReal.real.sell.count"></NumericField>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
