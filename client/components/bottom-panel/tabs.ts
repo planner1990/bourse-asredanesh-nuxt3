@@ -129,20 +129,20 @@ const panels: Array<TabItem> = [
                     /^\/watchlist\/.+\/furtherInformation\/IndustryCohorts$/g,
             },
             {
-                id: "furtherInformation.shareholders&Owners",
-                path: "furtherInformation/shareholdersAndOwners",
-                title: "bottom-panel.furtherInformation.shareholders&Owners",
-                deletable: false,
-                match:
-                    /^\/watchlist\/.+\/furtherInformation\/shareholdersAndOwners$/g,
-            },
-            {
                 id: "furtherInformation.shareholderGroups",
                 path: "furtherInformation/shareholderGroups",
                 title: "bottom-panel.furtherInformation.shareholderGroups",
                 deletable: false,
                 match:
                     /^\/watchlist\/.+\/furtherInformation\/shareholderGroups$/g,
+            },
+            {
+                id: "furtherInformation.shareholders&Owners",
+                path: "furtherInformation/shareholdersAndOwners",
+                title: "bottom-panel.furtherInformation.shareholders&Owners",
+                deletable: false,
+                match:
+                    /^\/watchlist\/.+\/furtherInformation\/shareholdersAndOwners$/g,
             },
         ],
         match: /^\/watchlist\/.+\/furtherInformation/g,

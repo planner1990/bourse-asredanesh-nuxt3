@@ -2,8 +2,8 @@
 import { useBottomPanel, useInstrument } from "~~/composables";
 import {
   WatchListColumns,
-  TradesHistorySerachModel,
-  InstrumentCache
+  InstrumentCache,
+  InstrumentSearchModel
 } from "@/types";
 import { useI18n } from "vue-i18n"
 
@@ -13,48 +13,49 @@ const instrumentManager = useInstrument();
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: TradesHistorySerachModel
+    modelValue?: InstrumentSearchModel
   }>(),
   {
-    modelValue: () => ({
-      offset: 0,
-      length: 17,
-    })
+    modelValue: () => new InstrumentSearchModel()
   });
 const emit = defineEmits(["update:modelValue"]);
 
-const entryAndExitHistoryList = reactive<Array<any>>([]);
-const inst = instrumentManager.getSelected;
+const related = reactive<Array<InstrumentCache>>([]);
 const defaultCols = [
-  new WatchListColumns(i18n.t("instrument.title").toString(), "title"),
-  new WatchListColumns(i18n.t("instrument.actions").toString(), "actions"),
-  new WatchListColumns(i18n.t("instrument.name").toString(), "name"),
-  new WatchListColumns(i18n.t("instrument.last").toString(), "last"),
-  new WatchListColumns(i18n.t("instrument.end").toString(), "end"),
-  new WatchListColumns(i18n.t("oms.count").toString(), "count"),
-  new WatchListColumns(i18n.t("oms.amount").toString(), "amount"),
-  new WatchListColumns(i18n.t("oms.value").toString(), "value")
+new WatchListColumns(i18n.t("instrument.name").toString(), "name", "center", "80px"),
+  new WatchListColumns(i18n.t("instrument.flow").toString(), "flow", "center", "80px"),
+  new WatchListColumns(i18n.t("instrument.actions").toString(), "actions", "center", "80px"),
+  new WatchListColumns(i18n.t("instrument.last").toString(), "last", "center", "20%"),
+  new WatchListColumns(i18n.t("instrument.end").toString(), "end", "center", "20%"),
+  new WatchListColumns(i18n.t("oms.count").toString(), "count", "center", "10%"),
+  new WatchListColumns(i18n.t("oms.amount").toString(), "amount", "center", "10%"),
+  new WatchListColumns(i18n.t("oms.value").toString(), "value", "center", "15%")
 ];
 
 
-async function getTradeHistories() {
-  const data = {
-    title: "صکوک مرابحه",
-    name: "خگستر۲",
-    last: "3,554",
-    end: "3,554",
-    count: "0",
-    amount: "0",
-    value: "0"
-  }
-  for (let i = 0; i <= 6; i++) {
-    entryAndExitHistoryList.push(data);
+async function getTradeHistories(inst: InstrumentCache | null) {
+  bottomPanelManager.setLoading(true);
+  related.splice(0, Infinity)
+  if (inst) {
+    related.push(Object.assign({}, inst, { flow: 2 }))
+    related.push(Object.assign({}, inst, { flow: 3 }))
+    related.push(Object.assign({}, inst, { flow: 4 }))
   }
   bottomPanelManager.setLoading(false);
 }
+watch(() => instrumentManager.getSelected, (update) => {
+  getTradeHistories(update);
+})
 
-getTradeHistories();
+getTradeHistories(instrumentManager.getSelected);
 
+const canFocus = computed(() => {
+  if (!process.client) return false;
+  return (
+    instrumentManager.getFocus.length <
+    Math.floor(instrumentManager.width / 360)
+  );
+});
 function focus(item: InstrumentCache) {
   instrumentManager.addFocus(item);
   instrumentManager.activateTab(item);
@@ -85,7 +86,7 @@ function focus(item: InstrumentCache) {
 </style>
 <template>
   <div class="tw-mx-3 tw-pt-3">
-    <ada-data-table :items="entryAndExitHistoryList" :headers="defaultCols"
+    <ada-data-table :items="related" :headers="defaultCols"
       class="tw-w-full tw-h-full tw-overflow-y-auto">
       <template #item.title="{ item }">
         <span>

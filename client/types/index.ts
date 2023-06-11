@@ -12,10 +12,10 @@ import { Side, Wealth } from "./wealth";
 
 export interface IInstrumentCache
   extends Instrument,
-    DailyPrice,
-    MarketHistory,
-    Wealth {
-    notifications: Array<Notification>;
+  DailyPrice,
+  MarketHistory,
+  Wealth {
+  notifications: Array<Notification>;
 }
 
 export class InstrumentCache implements IInstrumentCache {
@@ -60,6 +60,8 @@ export class InstrumentCache implements IInstrumentCache {
   amount: number;
   last: number;
   notifications: Array<Notification>;
+  market: number;
+  flow: number;
   constructor() {
     this.id = 0;
     this.type = 1;
@@ -102,6 +104,8 @@ export class InstrumentCache implements IInstrumentCache {
     this.amount = 0;
     this.last = 0;
     this.notifications = [];
+    this.market = 1;
+    this.flow = 1;
   }
 }
 

@@ -30,6 +30,8 @@ export class Instrument {
   expirationDate: string;
   lastModification: string;
   status: number;
+  market: number;
+  flow: number;
 
   constructor() {
     this.id = 0;
@@ -60,6 +62,8 @@ export class Instrument {
     this.tradeVal = 0;
     this.shares = 0;
     this.status = 0;
+    this.market = 1;
+    this.flow = 1;
   }
 }
 
