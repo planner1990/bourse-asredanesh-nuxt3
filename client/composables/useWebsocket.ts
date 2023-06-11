@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { encode, decode } from "@msgpack/msgpack";
 import { useUser } from ".";
 import { Instrument, InstrumentCache, ISharedObject } from "@/types";
+import {DateTime} from "luxon";
 
 export const useWebSocket = defineStore("webSocket", () => {
   const handlers: { [key: string]: (obj: ISharedObject) => any } = {};
@@ -60,9 +61,22 @@ export const useWebSocket = defineStore("webSocket", () => {
     handlers[type] = handler;
   }
 
+  function register(data: any) {
+    send({
+      agent: "Web-Client",
+      referenceNumber: "",
+      typ: "Instrument.Register",
+      time: null,
+      packetTime: DateTime.now().toISO(),
+      obj: encode(data),
+      detail: null
+    });
+  }
+
   return {
     connect,
     registerHandler,
     send,
+    register
   };
 });
