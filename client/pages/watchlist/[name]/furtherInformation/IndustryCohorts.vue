@@ -55,7 +55,7 @@ async function getTeammateList(model: SameSectorQuery) {
             await instrumentManager
                 .getInstrumentsDetail(new InstrumentSearchModel(res.data)).then(response => {
                   let instrumentCode = response.map(item => item.instrumentCode);
-                  ws.register(instrumentCode);
+                  ws.registerInstruments(instrumentCode);
                       instruments.splice(0, instruments.length, ...response);
                     }
                 );
