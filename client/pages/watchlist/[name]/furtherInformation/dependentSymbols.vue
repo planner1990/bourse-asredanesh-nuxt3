@@ -65,7 +65,8 @@ function focus(item: InstrumentCache) {
 </script>
 <style lang="postcss" scoped>
 :deep(.headers[data-v-8d846923]) {
-  @apply tw-bg-primary tw-bg-opacity-10 tw-text-gray3 tw-font-medium tw-rounded-full;
+  @apply tw-bg-stickyHeader tw-text-gray3 tw-font-medium tw-rounded-full;
+  z-index: 9999;
 }
 
 :deep(.bar) {
@@ -83,52 +84,70 @@ function focus(item: InstrumentCache) {
 .table-container {
   border-radius: 12px
 }
+
+.actions {
+  i.icon {
+    &.isax-eye {
+      @apply tw-text-info;
+
+      &:disabled {
+        @apply tw-text-gray-500;
+      }
+    }
+  }
+}
+
+.isDisabled {
+  @apply tw-text-gray-500;
+}
+
+.isAble {
+  @apply tw-text-info;
+}
 </style>
 <template>
   <div class="tw-mx-3 tw-pt-3">
-    <ada-data-table :items="related" :headers="defaultCols"
-      class="tw-w-full tw-h-full tw-overflow-y-auto">
-      <template #item.title="{ item }">
-        <span>
-          {{ item.title }}
-        </span>
-      </template>
-      <template #item.actions="{ item }">
-        <div class="text-no-wrap">
-          <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-text-info tw-cursor-pointer" @click="() => focus(item)" :size="16">
-            isax-eye
-          </ada-icon>
-        </div>
-      </template>
+    <ada-data-table :items="related" :headers="defaultCols" item-key="id" class="tw-w-full tw-h-full">
       <template #item.name="{ item }">
         <span>
           {{ item.name }}
         </span>
       </template>
+      <template #item.flow="{ item }">
+        <span>
+          {{ $t("instrument.flows." + item.flow) }}
+        </span>
+      </template>
+      <template #item.actions="{ item }">
+        <div class="text-no-wrap">
+          <ada-icon class="tw-m-0 tw-p-0 tw-mx-2 tw-cursor-pointer" :size="16" @click.stop.prevent="() => focus(item)"
+            :class="[canFocus ? 'isAble' : 'isDisabled']" :disabled="!canFocus">
+            isax-eye
+          </ada-icon>
+        </div>
+      </template>
       <template #item.last="{ item }">
         <span>
-          {{ item.last }} <span class="tw-text-gray5 tw-mx-3">|</span> 0
+          <numeric-field :value="item.last"></numeric-field>
+          <span class="tw-text-gray5 tw-mx-3">|</span>
+          <DateTime :value="item.lastModification" :format="$t('general.date.dt')" class="ltr" />
         </span>
       </template>
       <template #item.end="{ item }">
         <span>
-          {{ item.end }} <span class="tw-text-gray5 tw-mx-3">|</span> 0
+          <numeric-field :value="item.closing"></numeric-field>
+          <span class="tw-text-gray5 tw-mx-3">|</span>
+          <DateTime :value="item.lastTradeDate" :format="$t('general.date.dt')" class="ltr" />
         </span>
       </template>
       <template #item.count="{ item }">
-        <span>
-          {{ item.count }}
-        </span>
+        <numeric-field :value="item.totalTrades"></numeric-field>
       </template>
       <template #item.amount="{ item }">
-        <span>
-          {{ item.amount }}
-        </span>
+        <numeric-field :value="item.totalShares"></numeric-field>
       </template>
       <template #item.value="{ item }">
-        <span>
-          {{ item.value }}
-        </span>
+        <numeric-field :value="item.totalTradesValue"></numeric-field>
       </template>
     </ada-data-table>
   </div>
