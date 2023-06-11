@@ -61,7 +61,7 @@ export const useWebSocket = defineStore("webSocket", () => {
     handlers[type] = handler;
   }
 
-  function register(data: any) {
+  function register(data: Array<string>) {
     send({
       agent: "Web-Client",
       referenceNumber: "",
