@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { encode, decode } from "@msgpack/msgpack";
 import { useUser } from ".";
 import { Instrument, InstrumentCache, ISharedObject } from "@/types";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 
 export const useWebSocket = defineStore("webSocket", () => {
   const handlers: { [key: string]: (obj: ISharedObject) => any } = {};
@@ -18,9 +18,9 @@ export const useWebSocket = defineStore("webSocket", () => {
       `${runtimeConfig.public.VUE_WSS_Host}${instruments.join(
         ","
       )}?access_token=${user_manager.getToken?.replace("Bearer ", "")}` ??
-        `wss://bourse.asr24.com/api/ws/ws/${instruments.join(
-          ","
-        )}?access_token=${user_manager.getToken?.replace("Bearer ", "")}`
+      `wss://bourse.asr24.com/api/ws/ws/${instruments.join(
+        ","
+      )}?access_token=${user_manager.getToken?.replace("Bearer ", "")}`
     );
     connection.value.binaryType = "arraybuffer";
     connection.value.onmessage = (msg) => {
@@ -61,7 +61,7 @@ export const useWebSocket = defineStore("webSocket", () => {
     handlers[type] = handler;
   }
 
-  function register(data: any) {
+  function registerInstruments(data: Array<String>) {
     send({
       agent: "Web-Client",
       referenceNumber: "",
@@ -77,6 +77,6 @@ export const useWebSocket = defineStore("webSocket", () => {
     connect,
     registerHandler,
     send,
-    register
+    registerInstruments
   };
 });
