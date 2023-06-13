@@ -566,7 +566,6 @@ watch(() => withdrawalBalance, (newVal) => {
         <ada-tabs v-model="tab" class="tabs">
             <ada-tab :model="1">
                 <form class="frm" disabled="true">
-                    <!-- <span @click="testValidate">testValidate</span> -->
                     <div class="tw-col-span-2 tw-justify-center">
             <span class="tw-mx-3">{{ $t("wealth.sharesCount") }} ({{ insName }}):
             </span>
