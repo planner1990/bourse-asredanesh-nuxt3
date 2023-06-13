@@ -13,7 +13,7 @@ const bottomPanel = useBottomPanel();
 const instrumentManager = useInstrument();
 const instruments = computed(() => instrumentManager.getFocus);
 const isShowBuySell = computed(() => instrumentManager.isShowBuySellFlag);
-
+console.log(instruments.value, "instruments");
 const count = ref(0);
 const price = ref(0);
 const tab = computed({
@@ -25,6 +25,10 @@ const tab = computed({
   },
 });
 const selected = computed(() => instrumentManager.state.selected);
+watch(selected, () => {
+  console.log(instruments.value, "instruments selected");
+})
+
 function select(val: InstrumentCache) {
   const crt = instrumentManager.state.selected;
   if (crt == null || crt.id != val.id) instrumentManager.select(val);
@@ -162,7 +166,7 @@ defineExpose({
     <ada-tabs v-model="tab" name-key="$.instrumentCode">
       <ada-tab
           class="detail"
-          :class="isShowBuySell ? 'tw-justify-start' : ''"
+          :class="item.flow !== 1 ? 'tw-justify-start' : ''"
           v-for="item in instruments"
           :key="item.id"
           :model="item"
@@ -189,7 +193,7 @@ defineExpose({
             <dashboard-watch-list-instrument-notifications :value="item"/>
           </ada-col>
         </div>
-        <div class="panel" v-if="!isShowBuySell">
+        <div class="panel" v-if="item.flow === 1">
           <oms-buy-sell-card
               :price.sync="price"
               :count.sync="count"

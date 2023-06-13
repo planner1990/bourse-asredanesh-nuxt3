@@ -19,7 +19,6 @@ import {
 import manager from "@/repositories/oms/instruments_manager";
 import {useAxios} from "..";
 import {useWebSocket} from "~/composables";
-import {boolean} from "yup";
 
 export const useInstrument = defineStore("instrument", () => {
     const state = ref<InstrumentState>({
@@ -32,7 +31,7 @@ export const useInstrument = defineStore("instrument", () => {
         orderQueueCache: reactive({}),
         clientDistributionCache: reactive({}),
         width: process.client ? window.screen.availWidth : 800,
-        isShowBuyAndSellFlag: ""
+        isShowBuyAndSellFlag: false
     });
     const axiosManager = useAxios();
     const axios = axiosManager.createInstance();
@@ -122,14 +121,9 @@ export const useInstrument = defineStore("instrument", () => {
         state.value.focus = data;
     }
 
-    function addFocus(data: InstrumentCache, isShowBuyAndSell?: string) {
-        setShowBuySellFlag(isShowBuyAndSell);
+    function addFocus(data: InstrumentCache) {
         if (state.value.focus.findIndex((item) => item.id == data.id) == -1)
             state.value.focus.splice(0, 0, data);
-    }
-
-    function setShowBuySellFlag(isShowBuyAndSell: string | undefined) {
-        state.value.isShowBuyAndSellFlag = isShowBuyAndSell;
     }
 
     function setFocusMode(data: number) {
@@ -356,7 +350,6 @@ export const useInstrument = defineStore("instrument", () => {
         getTeammates,
         getTradeHistories,
         getMyGroups,
-        setShowBuySellFlag,
         isShowBuySellFlag
     };
 });
