@@ -452,6 +452,11 @@ refresh();
             {{ $t("instrument.state." + item.status) }}
           </span>
         </template>
+        <template #item.type>
+          <span>
+            {{ $t("instrument.types." + item.type) }}
+          </span>
+        </template>
         <template #item.more>
           <ada-icon class="tw-text-error" @click.self.stop.prevent="removeWatchList(item)" :size="16">
             isax-trash
