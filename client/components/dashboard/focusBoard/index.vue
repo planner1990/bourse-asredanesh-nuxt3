@@ -28,8 +28,12 @@ const selected = computed(() => instrumentManager.state.selected);
 watch(selected, () => {
   for (const [key, val] of Object.entries(userManager.watchList)) {
     val.find((v) => {
-      if (v == selected.value?.id) {
-        isShowFilterIcon.value = key;
+      if (selected.value?.id) {
+        if (v == selected.value?.id) {
+          isShowFilterIcon.value = key;
+        }
+      } else {
+        isShowFilterIcon.value = null;
       }
     })
   }
