@@ -39,7 +39,6 @@ watch(
     selected,
     () => {
       if (selected.value) {
-        console.log(route.query);
         router.push({
           path: `/watchlist/${route.params.name}/orders`,
           query: {...route.query, instId: selected.value.id}

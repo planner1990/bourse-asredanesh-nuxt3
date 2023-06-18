@@ -102,15 +102,19 @@ function hasValidityDate(order: Order) {
 
 
 </script>
-
+<style scoped>
+.checkbox-ADA-custom input[type="checkbox"] {
+  margin-left: 0;
+}
+</style>
 <template>
   <ada-data-table :items="orders" :headers="cols" item-key="id" class="tw-w-full">
-<!--    <template #item.groupSend="{ item }">-->
-<!--      <div class="checkbox-ADA-custom">-->
-<!--        <input type="checkbox" :id="String(1)" :name="String(1)">-->
-<!--        <label :for="String(1)"><span></span></label>-->
-<!--      </div>-->
-<!--    </template>-->
+    <template #item.groupSend="{ item }">
+      <div class="checkbox-ADA-custom">
+        <input type="checkbox" :id="String(1)" :name="String(1)">
+        <label :for="String(1)"><span></span></label>
+      </div>
+    </template>
     <template #item.creationDate="{ item }">
       <DateTime :value="item.creationDate" :format="$t('general.date.dt')" class="ltr"/>
     </template>
