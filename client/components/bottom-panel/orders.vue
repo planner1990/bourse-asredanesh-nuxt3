@@ -9,6 +9,7 @@ import {
 import {useBottomPanel, useOrder, useLoading, useAxios} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
+import router from "#app/plugins/router";
 
 const statusFlag = ref<any>(null);
 
@@ -19,6 +20,7 @@ const props = defineProps<{
 // added use instrument for read selected index
 const orderManager = useOrder();
 const i18n = useI18n();
+const route = useRoute();
 
 const cols = [
   new WatchListColumns(i18n.t("instrument.row").toString(), "groupSend", "center", "50px"),
@@ -100,6 +102,9 @@ function hasValidityDate(order: Order) {
       && (order.validityDate != null)
 }
 
+// watch(route, () => {
+//   console.log(route.query);
+// })
 
 </script>
 <style scoped>

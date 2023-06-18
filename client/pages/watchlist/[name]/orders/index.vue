@@ -46,7 +46,7 @@ watch(
       } else {
         router.push({
           path: `/watchlist/${route.params.name}/orders`,
-          query: {...route.query}
+          query: {offset: 0, length: 20, flags: route.query.flags}
         });
       }
     }
