@@ -7,8 +7,8 @@ const list = defineAsyncComponent(
 );
 
 const props = defineProps<{
-    modelValue: TabItem;
-    tabs: Array<TabItem>;
+  modelValue: TabItem;
+  tabs: Array<TabItem>;
 }>();
 
 const orderManager = useOrder();
@@ -22,11 +22,11 @@ const orders = reactive<{ items: Order[] }>({items: []});
 watch(
     () => [route.query, orderManager.last_update],
     () => {
-        getOrders(
-            route.params.name && route.query.length
-                ? route.query as any as OrderSearchModel
-                : {offset: 0, length: 20} as OrderSearchModel
-        );
+      getOrders(
+          route.params.name && route.query.length
+              ? route.query as any as OrderSearchModel
+              : {offset: 0, length: 20} as OrderSearchModel
+      );
 
     }
 );
@@ -38,32 +38,31 @@ const router = useRouter();
 watch(
     selected,
     () => {
-        if (selected.value) {
-            router.push({
-                path: `/watchlist/${route.params.name}/orders`,
-                query: {offset: 0, length: 20, instId: selected.value.id}
-            });
-        } else {
-            router.push({
-                path: `/watchlist/${route.params.name}/orders`,
-                query: {offset: 0, length: 20}
-            });
-        }
+      if (selected.value) {
+        console.log(route.query);
+        router.push({
+          path: `/watchlist/${route.params.name}/orders`,
+          query: {...route.query, instId: selected.value.id}
+        });
+      } else {
+        router.push({
+          path: `/watchlist/${route.params.name}/orders`,
+          query: {...route.query}
+        });
+      }
     }
 );
 
 
 async function getOrders(qu: OrderSearchModel) {
-    bottomPanel.setLoading(true);
-    orders.items.splice(0, Infinity);
-    await orderManager
-        .getOrders(qu)
-        .then((res: PaginatedResult<Order> | undefined) => {
-          console.log(res);
-          console.log(qu);
-            if (res) orders.items.push(...res.data);
-            bottomPanel.setLoading(false);
-        });
+  bottomPanel.setLoading(true);
+  orders.items.splice(0, Infinity);
+  await orderManager
+      .getOrders(qu)
+      .then((res: PaginatedResult<Order> | undefined) => {
+        if (res) orders.items.push(...res.data);
+        bottomPanel.setLoading(false);
+      });
 }
 
 getOrders(
@@ -73,5 +72,5 @@ getOrders(
 );
 </script>
 <template>
-    <list v-if="orders.items.length" :orders="orders.items"></list>
+  <list v-if="orders.items.length" :orders="orders.items"></list>
 </template>
