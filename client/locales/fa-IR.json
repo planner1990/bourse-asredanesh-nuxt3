@@ -86,7 +86,8 @@
     "messagePlaceholder": "پیام خودرا وارد کنید",
     "agreementsText": "متن بالا را خواندم و با آن موافقم!",
     "notAgree": "موافق نیستم",
-    "ConfirmAgree": "تایید می‌کنم"
+    "ConfirmAgree": "تایید می‌کنم",
+    "groupSend": "ارسال گروهی"
   },
   "user": {
     "personality": {

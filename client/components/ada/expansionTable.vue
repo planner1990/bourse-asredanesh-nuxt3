@@ -39,7 +39,7 @@ function doConfirmAgreement(id: number) {
 }
 
 function doCheck(id: number) {
-    isChecked.push(id);
+    // isChecked.push(id);
 }
 
 </script>
@@ -77,61 +77,6 @@ function doCheck(id: number) {
         @apply tw-text-justify tw-px-12 tw-pt-3 tw-pb-9 tw-text-sm tw-text-gray2;
         width: 500px;
     }
-}
-
-
-.checkbox input[type="checkbox"] {
-    width: auto;
-    opacity: 0.00000001;
-    position: absolute;
-    left: 0;
-    margin-left: -20px;
-}
-
-.checkbox label {
-    position: relative;
-}
-
-.checkbox label:before {
-    content: '';
-    position: absolute;
-    left: -9px;
-    top: -6px;
-    margin: 0 4px;
-    width: 13px;
-    height: 13px;
-    transition: transform 0.28s ease;
-    border-radius: 3px;
-    border: 1px solid rgb(53, 84, 209);
-}
-
-.checkbox label:after {
-    content: '';
-    display: block;
-    width: 10px;
-    height: 5px;
-    border-bottom: 2px solid rgb(53, 84, 209);
-    border-left: 2px solid rgb(53, 84, 209);
-    -webkit-transform: rotate(-45deg) scale(0);
-    transform: rotate(-45deg) scale(0);
-    transition: transform ease 0.25s;
-    will-change: transform;
-    position: absolute;
-    top: -3px;
-    left: -4px;
-}
-
-.checkbox input[type="checkbox"]:checked ~ label::before {
-    color: #7bbe72;
-}
-
-.checkbox input[type="checkbox"]:checked ~ label::after {
-    -webkit-transform: rotate(-45deg) scale(1);
-    transform: rotate(-45deg) scale(1);
-}
-
-.checkbox input[type="checkbox"]:focus + label::before {
-    outline: 0;
 }
 
 .agreements-button {
@@ -195,7 +140,7 @@ function doCheck(id: number) {
                         {{ cell.description }}
                         <div class="tw-flex tw-justify-between tw-mt-5">
                             <div class="tw-flex tw-text-primary tw-items-center">
-                                <div class="checkbox">
+                                <div class="checkbox-ADA-custom">
                                     <input type="checkbox" :id="String(cell.id)" :name="String(cell.id)" v-model="cell.id"
                                            @click="doCheck(cell.id)">
                                     <label :for="String(cell.id)"><span></span></label>

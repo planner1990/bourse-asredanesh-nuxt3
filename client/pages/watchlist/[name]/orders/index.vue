@@ -59,6 +59,8 @@ async function getOrders(qu: OrderSearchModel) {
     await orderManager
         .getOrders(qu)
         .then((res: PaginatedResult<Order> | undefined) => {
+          console.log(res);
+          console.log(qu);
             if (res) orders.items.push(...res.data);
             bottomPanel.setLoading(false);
         });

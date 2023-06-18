@@ -1,0 +1,53 @@
+.checkbox-ADA-custom input[type="checkbox"] {
+    width: auto;
+    opacity: 0.00000001;
+    position: absolute;
+    left: 0;
+    margin-left: -20px;
+}
+
+.checkbox-ADA-custom label {
+    position: relative;
+}
+
+.checkbox-ADA-custom label:before {
+    content: '';
+    position: absolute;
+    left: -9px;
+    top: -6px;
+    margin: 0 4px;
+    width: 13px;
+    height: 13px;
+    transition: transform 0.28s ease;
+    border-radius: 3px;
+    border: 1px solid rgb(53, 84, 209);
+}
+
+.checkbox-ADA-custom label:after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 5px;
+    border-bottom: 2px solid rgb(53, 84, 209);
+    border-left: 2px solid rgb(53, 84, 209);
+    -webkit-transform: rotate(-45deg) scale(0);
+    transform: rotate(-45deg) scale(0);
+    transition: transform ease 0.25s;
+    will-change: transform;
+    position: absolute;
+    top: -3px;
+    left: -4px;
+}
+
+.checkbox-ADA-custom input[type="checkbox"]:checked ~ label::before {
+    color: #7bbe72;
+}
+
+.checkbox-ADA-custom input[type="checkbox"]:checked ~ label::after {
+    -webkit-transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1);
+}
+
+.checkbox-ADA-custom input[type="checkbox"]:focus + label::before {
+    outline: 0;
+}

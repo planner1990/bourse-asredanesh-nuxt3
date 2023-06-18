@@ -29,7 +29,6 @@ watch(selected, () => {
   for (const [key, val] of Object.entries(userManager.watchList)) {
     val.find((v) => {
       if (v == selected.value?.id) {
-        console.log("find", v, key);
         isShowFilterIcon.value = key;
       }
     })
@@ -40,7 +39,6 @@ function showFilterIcon() {
   for (const [key, val] of Object.entries(userManager.watchList)) {
     val.find((v) => {
       if (v == selected.value?.id) {
-        console.log("find", v, key);
         isShowFilterIcon.value = key;
       }
     })
