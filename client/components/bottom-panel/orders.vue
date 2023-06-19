@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import {
-  Order,
-  WatchListColumns,
-  OrderFlags,
-  ValidationType,
-} from "@/types";
-import {useBottomPanel, useOrder, useLoading, useAxios} from "~~/composables";
+import {InstrumentCache, Order, OrderFlags, Side, ValidationType, WatchListColumns,} from "@/types";
+import {useInstrument, useOrder} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
-import router from "#app/plugins/router";
 
 const statusFlag = ref<any>(null);
 const draftFlag = ref<boolean>();
@@ -23,7 +17,7 @@ const props = defineProps<{
 const orderManager = useOrder();
 const i18n = useI18n();
 const route = useRoute();
-
+const instrumentManager = useInstrument();
 const cols = [
   new WatchListColumns(i18n.t("instrument.row").toString(), "groupSend", "center", "50px"),
   new WatchListColumns(i18n.t("general.status").toString(), "flags"),
@@ -117,6 +111,14 @@ watch(
     },
     {immediate: true}
 )
+
+function handleEditOrder(item: InstrumentCache, side: Side) {
+  instrumentManager.addFocus(item);
+  instrumentManager.activateTab(item);
+  instrumentManager.setFocusMode(0);
+  orderManager.setSide(side, item.id.toString());
+  // instrumentManager.select(item)
+}
 </script>
 <style scoped>
 .checkbox-ADA-custom input[type="checkbox"] {
@@ -182,7 +184,8 @@ watch(
       </ada-btn>
       <ada-btn color="transparent" class="tw-m-0 tw-p-0" :width="24" :height="24" depressed
                :disabled="isEditDisabled(item.flags)">
-        <ada-icon class="tw-text-info" color="info" :disabled="isEditDisabled(item.flags)" :size="16">
+        <ada-icon class="tw-text-info" color="info" :disabled="isEditDisabled(item.flags)" :size="16"
+                  @click="handleEditOrder(item, item.side)">
           isax-edit-2
         </ada-icon>
       </ada-btn>

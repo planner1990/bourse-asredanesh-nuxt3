@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import {
   DeepOptions,
-  Instrument,
-  SameSectorQuery,
   InstrumentCache,
-  Side,
 } from "@/types";
-import {useAsrTrader, useInstrument, useNotifications} from "~/composables";
+import {useAsrTrader, useInstrument} from "~/composables";
 import LastPrice from "@/components/oms/lastPrice.vue";
 
-const bottomPanel = useBottomPanel();
 const instrumentManager = useInstrument();
 const instruments = computed(() => instrumentManager.getFocus);
-const isShowBuySell = computed(() => instrumentManager.isShowBuySellFlag);
-console.log(instruments.value, "instruments");
 const count = ref(0);
 const price = ref(0);
 const tab = computed({
@@ -25,9 +19,6 @@ const tab = computed({
   },
 });
 const selected = computed(() => instrumentManager.state.selected);
-watch(selected, () => {
-  console.log(instruments.value, "instruments selected");
-})
 
 function select(val: InstrumentCache) {
   const crt = instrumentManager.state.selected;
