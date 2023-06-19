@@ -12,6 +12,8 @@ import NumericField from "@/components/numericField.vue";
 import router from "#app/plugins/router";
 
 const statusFlag = ref<any>(null);
+const draftFlag = ref<boolean>();
+const draftCheckbox = ref<boolean>(false);
 
 const props = defineProps<{
   orders: Order[]
@@ -33,7 +35,7 @@ const cols = [
   new WatchListColumns(i18n.t("wealth.order.creationDate").toString(), "creationDate"),
   new WatchListColumns(i18n.t("wealth.order.lastTransaction").toString(), "last"),
   new WatchListColumns(i18n.t("wealth.order.side.title").toString(), "side"),
-  new WatchListColumns(i18n.t("wealth.order.validity").toString(), "validity"),
+  new WatchListColumns(i18n.t("wealth.order.validity").toString(), "validity", "center", "90px"),
   new WatchListColumns("", "more"),
 ];
 const agreement = ref(true);
@@ -102,10 +104,19 @@ function hasValidityDate(order: Order) {
       && (order.validityDate != null)
 }
 
-// watch(route, () => {
-//   console.log(route.query);
-// })
-
+watch(
+    () => route.query,
+    () => {
+      if (route.query.flags == "1") {
+        draftFlag.value = true;
+        cols.pop();
+      } else {
+        draftFlag.value = false;
+        cols.shift();
+      }
+    },
+    {immediate: true}
+)
 </script>
 <style scoped>
 .checkbox-ADA-custom input[type="checkbox"] {
@@ -113,13 +124,26 @@ function hasValidityDate(order: Order) {
 }
 </style>
 <template>
-  <ada-data-table :items="orders" :headers="cols" item-key="id" class="tw-w-full">
-    <template #item.groupSend="{ item }">
+  <ada-data-table :items="orders" :headers="cols" item-key="id" class="tw-w-full tw-relative">
+    <template #item.groupSend="{ item }" v-if="draftFlag">
       <div class="checkbox-ADA-custom">
-        <input type="checkbox" :id="String(1)" :name="String(1)">
+        <input type="checkbox" :id="String(1)" :name="String(1)" v-model="draftCheckbox">
         <label :for="String(1)"><span></span></label>
       </div>
+      <div v-if="draftCheckbox">
+        <ada-btn
+            class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2
+            tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[10rem] -tw-translate-y-[6.5rem]">
+          {{ $t("instrument.sendGroup") }}
+        </ada-btn>
+        <ada-btn
+            class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
+            tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[17.5rem] -tw-translate-y-[6.5rem]">
+          {{ $t("instrument.deleteGroup") }}
+        </ada-btn>
+      </div>
     </template>
+
     <template #item.creationDate="{ item }">
       <DateTime :value="item.creationDate" :format="$t('general.date.dt')" class="ltr"/>
     </template>
