@@ -122,6 +122,14 @@ watch(
 .checkbox-ADA-custom input[type="checkbox"] {
   margin-left: 0;
 }
+
+.checkbox-ADA-custom label:before {
+  @apply tw-border-success
+}
+
+.checkbox-ADA-custom label:after {
+  @apply tw-border-success
+}
 </style>
 <template>
   <ada-data-table :items="orders" :headers="cols" item-key="id" class="tw-w-full tw-relative">
