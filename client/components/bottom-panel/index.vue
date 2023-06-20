@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {useInstrument, useBottomPanel} from "~~/composables";
 import {TabItem} from "~~/types";
-import {ac} from "~/.output/public/_nuxt/entry.b90117ec";
 
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
