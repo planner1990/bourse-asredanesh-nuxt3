@@ -103,7 +103,6 @@ watch(
     () => {
       if (route.query.flags == "1") {
         draftFlag.value = true;
-        cols.pop();
       } else {
         draftFlag.value = false;
         cols.shift();
@@ -175,7 +174,7 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
     <template #item.flags="{ item }">
       {{ $t(parseOrderFlags(item.flags)) }}
     </template>
-    <template #item.more="{ item }">
+    <template #item.more="{ item }" v-if="!draftCheckbox">
       <ada-btn color="transparent" class="tw-m-0 tw-p-0" :width="24" :height="24" depressed
                :disabled="!isRunabled(item.flags)" @click="executeDraftOrder(item)">
         <ada-icon class="tw-text-success" color="success" :disabled="!isRunabled(item.flags)" :size="16">
