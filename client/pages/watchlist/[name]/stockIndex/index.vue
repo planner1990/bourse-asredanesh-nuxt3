@@ -64,7 +64,7 @@ const defaultCols = [
 </style>
 <template>
     <div class="tw-mx-3 tw-pt-3">
-        <ada-data-table :items="StockIndexMockData.stockIndexData" :headers="defaultCols" item-key="index"
+        <ada-data-table :items="StockIndexMockData.stockIndexData2" :headers="defaultCols" item-key="index"
                         class="tw-w-full tw-h-full tw-overflow-y-auto">
             <template #item.index="{ item }">
         <span>
