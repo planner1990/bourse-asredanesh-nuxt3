@@ -197,7 +197,7 @@ export const useStockIndex =
                     percent: "0.14",
                     maximum: "1,531,801.13",
                     minimum: "1,528,272.60"
-                },{
+                }, {
                     index: "محصولات فلزي",
                     last: "316,500.14",
                     change: "1775.68",
@@ -301,78 +301,102 @@ export const useStockIndex =
                     maximum: "201,465.34",
                     minimum: "201,031.09"
                 },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
-                // {
-                //     index: "",
-                //     last: "",
-                //     change: "",
-                //     percent: "",
-                //     maximum: "",
-                //     minimum: ""
-                // },
+                {
+                    index: "شيميايي",
+                    last: "174,030.04",
+                    change: "141.08",
+                    percent: "0.08",
+                    maximum: "174,199.21",
+                    minimum: "173,949.86"
+                },
+                {
+                    index: "شاخص 30 شركت بزرگ",
+                    last: "127,971.24",
+                    change: "248.55",
+                    percent: "0.19",
+                    maximum: "127,971.24",
+                    minimum: "127,971.24"
+                },
+                {
+                    index: "شاخص آزاد شناور",
+                    last: "2,768,013.12",
+                    change: "3626.87",
+                    percent: "0.13",
+                    maximum: "2,768,013.12",
+                    minimum: "2,768,013.12"
+                },
+                {
+                    index: "شاخص بازار اول",
+                    last: "1,622,094.13",
+                    change: "1715.98",
+                    percent: "0.11",
+                    maximum: "1,622,094.13",
+                    minimum: "1,617,248.45"
+                },
+                {
+                    index: "شاخص بازار دوم",
+                    last: "4,251,642.51",
+                    change: "6308.57",
+                    percent: "0.15",
+                    maximum: "4,251,642.51",
+                    minimum: "4,251,642.51"
+                },
+                {
+                    index: "شاخص صنعت",
+                    last: "2,046,637.25",
+                    change: "2895.98",
+                    percent: "0.14",
+                    maximum: "2,046,637.25",
+                    minimum: "2,040,537.06"
+                },
+                {
+                    index: "شاخص قيمت (هم وزن)",
+                    last: "429,257.72",
+                    change: "499.08",
+                    percent: "0.12",
+                    maximum: "429,257.72",
+                    minimum: "428,042.93"
+                },
+                {
+                    index: "شاخص قيمت 50 شركت",
+                    last: "5,233,301.99",
+                    change: "4971.12",
+                    percent: "0.09",
+                    maximum: "5,237,287.61",
+                    minimum: "5,227,327.10"
+                },
+                {
+                    index: "شاخص قيمت(وزني-ارزشي)",
+                    last: "484,766.07",
+                    change: "608.59",
+                    percent: "0.13",
+                    maximum: "484,766.07",
+                    minimum: "483,462.41"
+                },
+                {
+                    index: "شاخص كل",
+                    last: "2,166,947.42",
+                    change: "2720.43",
+                    percent: "0.13",
+                    maximum: "2,166,947.42",
+                    minimum: "2,161,119.94"
+                },
+                {
+                    index: "شاخص كل (هم وزن)",
+                    last: "738,865.16",
+                    change: "859.04",
+                    percent: "0.13",
+                    maximum: "738,865.16",
+                    minimum: "736,774.19"
+                },
+                {
+                    index: "شاخص50شركت فعالتر",
+                    last: "84,320.36",
+                    change: "105.86",
+                    percent: "0.13",
+                    maximum: "84,320.36",
+                    minimum: "84,096.39"
+                }
             ]
         });
         const stockIndexData = computed(() => state.dataFromTSETMC);
