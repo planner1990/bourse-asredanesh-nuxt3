@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {useInstrument, useBottomPanel} from "~~/composables";
 import {TabItem} from "~~/types";
+import {ac} from "~/.output/public/_nuxt/entry.b90117ec";
 
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
@@ -225,9 +226,9 @@ function closeDropDown(tab: any) {
           </ada-btn>
         </ada-toggle>
         <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
-                 :class="[bottomPanel.expanded && active != null ? 'tw-bg-primary' : 'tw-bg-transparent']"
+                 :class="[bottomPanel.expanded && active == null ? 'tw-bg-primary' : 'tw-bg-transparent']"
                  @click="expand">
-          <ada-icon :class="[bottomPanel.expanded && active != null ? 'tw-text-white' : 'tw-text-primary']"
+          <ada-icon :class="[bottomPanel.expanded && active == null ? 'tw-text-white' : 'tw-text-primary']"
                     :size="16">
             isax-maximize-3
           </ada-icon>

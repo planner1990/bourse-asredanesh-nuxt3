@@ -41,7 +41,7 @@ const snacks = useSnacks().snacks
         <main :class="[locale, rtl ? 'rtl fa' : 'ltr en']">
          <NuxtPage />
         </main>
-        <footer :class="[locale, rtl ? 'rtl' : 'ltr']" class="tw-justify-start tw-text-start tw-h-[32px]">
+        <footer :class="[locale, rtl ? 'rtl' : 'ltr']" class="tw-justify-start tw-text-start tw-h-[32px] tw-mr-7">
             <span>
                 {{ $t("general.copyRight") }}
             </span>

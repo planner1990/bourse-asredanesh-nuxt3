@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {WatchListColumns} from "@/types";
+import {useBottomPanel} from "~/composables";
 
 const props = defineProps<{
   headers: Array<WatchListColumns>;
 }>();
+const bottomPanel = useBottomPanel();
 const emit = defineEmits(["headersChanged"])
 
 let draggingCol: WatchListColumns | null = null;
@@ -54,7 +56,7 @@ thead {
 
 <template>
   <thead>
-  <tr v-bind="$attrs" class="headers">
+  <tr v-bind="$attrs" class="headers" :style="bottomPanel.expanded ? 'z-index: 0' : 'z-index: 1'">
     <th :draggable="header.draggable" @dragstart="() => drag(header)" @dragover="
         (ev) => {
           ev.preventDefault();
