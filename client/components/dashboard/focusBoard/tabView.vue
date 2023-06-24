@@ -188,7 +188,7 @@ defineExpose({
           <oms-buy-sell-card
               :price.sync="price"
               :count.sync="count"
-              :insId="item.id"
+              :insId="item.instrumentId"
               :insName="item.name"
           />
         </div>

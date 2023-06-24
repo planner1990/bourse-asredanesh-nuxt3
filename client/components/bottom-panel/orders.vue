@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import {InstrumentCache, Order, OrderFlags, Side, ValidationType, WatchListColumns,} from "@/types";
+import {InstrumentCache, Order, OrderFlags, OrderType, Side, ValidationType, WatchListColumns,} from "@/types";
 import {useInstrument, useOrder} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
+import {useForm} from "vee-validate";
 
 const statusFlag = ref<any>(null);
 const draftFlag = ref<boolean>();
@@ -112,6 +113,7 @@ watch(
 )
 
 function handleEditOrder(item: InstrumentCache, side: Side) {
+  orderManager.updateForm(item);
   instrumentManager.addFocus(item);
   instrumentManager.activateTab(item);
   instrumentManager.setFocusMode(0);
