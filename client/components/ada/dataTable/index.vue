@@ -39,6 +39,7 @@ function headersChanged(value: Array<WatchListColumns>) {
             </template>
           </ada-data-table-row-handler>
         </slot>
+        <slot name="button"></slot>
       </tbody>
       <tfoot>
         <slot name="footer"></slot>

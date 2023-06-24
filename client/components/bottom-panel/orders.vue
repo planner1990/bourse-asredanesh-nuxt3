@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import {InstrumentCache, Order, OrderFlags, OrderType, Side, ValidationType, WatchListColumns,} from "@/types";
+import {InstrumentCache, Order, OrderFlags, Side, ValidationType, WatchListColumns,} from "@/types";
 import {useInstrument, useOrder} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
-import {useForm} from "vee-validate";
 
 const statusFlag = ref<any>(null);
 const draftFlag = ref<boolean>();
-const draftCheckbox = ref<boolean>(false);
+const draftCheckedNames = ref([]);
 
 const props = defineProps<{
   orders: Order[]
@@ -112,6 +111,10 @@ watch(
     {immediate: true}
 )
 
+// watch(checkedNames, () => {
+//   console.log(checkedNames.value);
+// })
+
 function handleEditOrder(item: InstrumentCache, side: Side) {
   orderManager.updateForm(item);
   instrumentManager.addFocus(item);
@@ -138,23 +141,22 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
   <ada-data-table :items="orders" :headers="cols" item-key="id" class="tw-w-full tw-relative">
     <template #item.groupSend="{ item }" v-if="draftFlag">
       <div class="checkbox-ADA-custom">
-        <input type="checkbox" :id="String(1)" :name="String(1)" v-model="draftCheckbox">
-        <label :for="String(1)"><span></span></label>
-      </div>
-      <div v-if="draftCheckbox">
-        <ada-btn
-            class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2
-            tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[10rem] -tw-translate-y-[6.5rem]">
-          {{ $t("instrument.sendGroup") }}
-        </ada-btn>
-        <ada-btn
-            class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
-            tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[17.5rem] -tw-translate-y-[6.5rem]">
-          {{ $t("instrument.deleteGroup") }}
-        </ada-btn>
+        <input type="checkbox" :id="item.instrumentCode" :value="item.instrumentCode" v-model="draftCheckedNames">
+        <label :for="item.instrumentCode"><span></span></label>
       </div>
     </template>
-
+    <template #button v-if="draftCheckedNames.length != 0">
+      <ada-btn
+          class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2
+              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[10rem] -tw-translate-y-[6.5rem]">
+        {{ $t("instrument.sendGroup") }}
+      </ada-btn>
+      <ada-btn
+          class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
+              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[17.5rem] -tw-translate-y-[6.5rem]">
+        {{ $t("instrument.deleteGroup") }}
+      </ada-btn>
+    </template>
     <template #item.creationDate="{ item }">
       <DateTime :value="item.creationDate" :format="$t('general.date.dt')" class="ltr"/>
     </template>
@@ -176,7 +178,7 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
     <template #item.flags="{ item }">
       {{ $t(parseOrderFlags(item.flags)) }}
     </template>
-    <template #item.more="{ item }" v-if="!draftCheckbox">
+    <template #item.more="{ item }" v-if="draftCheckedNames.length == 0">
       <ada-btn color="transparent" class="tw-m-0 tw-p-0" :width="24" :height="24" depressed
                :disabled="!isRunabled(item.flags)" @click="executeDraftOrder(item)">
         <ada-icon class="tw-text-success" color="success" :disabled="!isRunabled(item.flags)" :size="16">
