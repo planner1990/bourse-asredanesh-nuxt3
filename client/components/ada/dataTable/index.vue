@@ -31,7 +31,7 @@ function headersChanged(value: Array<WatchListColumns>) {
           </template>
         </ada-data-table-header-handler>
       </slot>
-      <tbody>
+      <tbody class="tw-relative">
         <slot>
           <ada-data-table-row-handler v-for="item in props.items" :key="item[itemKey]" :model="{ headers, item }" >
             <template v-for="header in headers" v-slot:[`item.${header.value}`]>
@@ -39,7 +39,7 @@ function headersChanged(value: Array<WatchListColumns>) {
             </template>
           </ada-data-table-row-handler>
         </slot>
-        <slot name="button"></slot>
+        <slot name="button" class="tw-fixed"></slot>
       </tbody>
       <tfoot>
         <slot name="footer"></slot>

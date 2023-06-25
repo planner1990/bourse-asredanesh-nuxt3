@@ -4,11 +4,12 @@ import {InstrumentCache, Order, OrderFlags, PasswordType, Side, ValidationType, 
 import {useAxios, useInstrument, useOrder} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
-import {deleteOrdersByIds} from "~/repositories/wealth/wealth_manager";
+import {deleteOrdersByIds, sendOrdersByIds} from "~/repositories/wealth/wealth_manager";
 
 const statusFlag = ref<any>(null);
 const draftFlag = ref<boolean>();
-const draftCheckedNames = ref([]);
+const draftCheckedNames = ref<any>([]);
+const draftOrdersAfterDelete = ref<Order[]>([]);
 
 const props = defineProps<{
   orders: Order[]
@@ -127,24 +128,32 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
   // instrumentManager.select(item)
 }
 
+
 async function removeOrdersByIds() {
   await deleteOrdersByIds(draftCheckedNames.value, axios.createInstance()).then(() => {
-    draftCheckedNames.value = [];
     snack.showMessage({
       content: "general.successful",
       color: "white",
       timeout: 3000,
       bg: "success",
     });
-  }).catch(() => {
+    draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
+    // draftCheckedNames.value = [];
+  })
+}
+
+async function sendRequestOrdersByIds() {
+  await sendOrdersByIds(draftCheckedNames.value, axios.createInstance()).then(() => {
     snack.showMessage({
-      content: "general.failed",
+      content: "general.successful",
       color: "white",
       timeout: 3000,
-      bg: "error",
+      bg: "success",
     });
-  });
+    draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
+  })
 }
+
 </script>
 <style scoped>
 .checkbox-ADA-custom input[type="checkbox"] {
@@ -160,22 +169,26 @@ async function removeOrdersByIds() {
 }
 </style>
 <template>
-  <ada-data-table :items="orders" :headers="cols" item-key="id" class="tw-w-full tw-relative">
+  <ada-data-table
+      :items="draftOrdersAfterDelete.length != 0 || (draftCheckedNames.length === orders.length && orders.length != 1) ? draftOrdersAfterDelete : orders"
+      :headers="cols"
+      item-key="id" class="tw-w-full tw-relative">
     <template #item.groupSend="{ item }" v-if="draftFlag">
       <div class="checkbox-ADA-custom">
-        <input type="checkbox" :id="item.instrumentCode" :value="item.id" v-model="draftCheckedNames">
-        <label :for="item.instrumentCode"><span></span></label>
+        <input type="checkbox" :id="item.id" :value="item.id" v-model="draftCheckedNames">
+        <label :for="item.id"><span></span></label>
       </div>
     </template>
     <template #button v-if="draftCheckedNames.length != 0">
       <ada-btn
           class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2
-              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[10rem] -tw-translate-y-[58.5rem] tw-z-10">
+              tw-rounded-lg tw-m-0 tw-p-0 tw-z-10 tw-fixed tw-left-[114px] tw-bottom-[356px]"
+          @click="sendRequestOrdersByIds">
         {{ $t("instrument.sendGroup") }}
       </ada-btn>
       <ada-btn
           class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
-              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[17.5rem] -tw-translate-y-[58.5rem] tw-z-10"
+              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[200px] tw-bottom-[356px] tw-z-20"
           @click="removeOrdersByIds">
         {{ $t("instrument.deleteGroup") }}
       </ada-btn>

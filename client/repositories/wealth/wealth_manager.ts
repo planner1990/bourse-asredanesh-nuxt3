@@ -39,9 +39,19 @@ export async function deleteOrdersByIds(
     )
 }
 
+export async function sendOrdersByIds(
+    value: any,
+    axios: AxiosInstance
+): Promise<AxiosResponse<PaginatedResult<Wealth>>> {
+    return axios.put<PaginatedResult<Wealth>>(
+        "/wealth-manager/order/execute_drafts/" + value
+    )
+}
+
 export default {
     getWealth,
     getWage,
     getRestrictions,
-    deleteOrdersByIds
+    deleteOrdersByIds,
+    sendOrdersByIds
 };
