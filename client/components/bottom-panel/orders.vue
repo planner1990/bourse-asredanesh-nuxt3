@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import {InstrumentCache, Order, OrderFlags, Side, ValidationType, WatchListColumns,} from "@/types";
-import {useInstrument, useOrder} from "~~/composables";
+import {InstrumentCache, Order, OrderFlags, PasswordType, Side, ValidationType, WatchListColumns,} from "@/types";
+import {useAxios, useInstrument, useOrder} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
+import {deleteOrdersByIds} from "~/repositories/wealth/wealth_manager";
 
 const statusFlag = ref<any>(null);
 const draftFlag = ref<boolean>();
@@ -18,6 +19,8 @@ const orderManager = useOrder();
 const i18n = useI18n();
 const route = useRoute();
 const instrumentManager = useInstrument();
+const axios = useAxios();
+const snack = useSnacks();
 const cols = [
   new WatchListColumns(i18n.t("instrument.row").toString(), "groupSend", "center", "50px"),
   new WatchListColumns(i18n.t("general.status").toString(), "flags"),
@@ -123,6 +126,25 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
   orderManager.setSide(side, item.id.toString());
   // instrumentManager.select(item)
 }
+
+async function removeOrdersByIds() {
+  await deleteOrdersByIds(draftCheckedNames.value, axios.createInstance()).then(() => {
+    draftCheckedNames.value = [];
+    snack.showMessage({
+      content: "general.successful",
+      color: "white",
+      timeout: 3000,
+      bg: "success",
+    });
+  }).catch(() => {
+    snack.showMessage({
+      content: "general.failed",
+      color: "white",
+      timeout: 3000,
+      bg: "error",
+    });
+  });
+}
 </script>
 <style scoped>
 .checkbox-ADA-custom input[type="checkbox"] {
@@ -141,19 +163,20 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
   <ada-data-table :items="orders" :headers="cols" item-key="id" class="tw-w-full tw-relative">
     <template #item.groupSend="{ item }" v-if="draftFlag">
       <div class="checkbox-ADA-custom">
-        <input type="checkbox" :id="item.instrumentCode" :value="item.instrumentCode" v-model="draftCheckedNames">
+        <input type="checkbox" :id="item.instrumentCode" :value="item.id" v-model="draftCheckedNames">
         <label :for="item.instrumentCode"><span></span></label>
       </div>
     </template>
     <template #button v-if="draftCheckedNames.length != 0">
       <ada-btn
           class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2
-              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[10rem] -tw-translate-y-[6.5rem]">
+              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[10rem] -tw-translate-y-[58.5rem] tw-z-10">
         {{ $t("instrument.sendGroup") }}
       </ada-btn>
       <ada-btn
           class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
-              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[17.5rem] -tw-translate-y-[6.5rem]">
+              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[17.5rem] -tw-translate-y-[58.5rem] tw-z-10"
+          @click="removeOrdersByIds">
         {{ $t("instrument.deleteGroup") }}
       </ada-btn>
     </template>
