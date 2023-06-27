@@ -10,7 +10,8 @@ const statusFlag = ref<any>(null);
 const draftFlag = ref<boolean>();
 const draftCheckedNames = ref<any>([]);
 const draftOrdersAfterDelete = ref<Order[]>([]);
-
+const deleteConfirmation = ref(false);
+const itemId = ref<number>(0);
 const props = defineProps<{
   orders: Order[]
 }>()
@@ -115,10 +116,6 @@ watch(
     {immediate: true}
 )
 
-// watch(checkedNames, () => {
-//   console.log(checkedNames.value);
-// })
-
 function handleEditOrder(item: InstrumentCache, side: Side) {
   orderManager.updateForm(item);
   instrumentManager.addFocus(item);
@@ -131,12 +128,6 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
 
 async function removeOrdersByIds() {
   await deleteOrdersByIds(draftCheckedNames.value, axios.createInstance()).then(() => {
-    snack.showMessage({
-      content: "general.successful",
-      color: "white",
-      timeout: 3000,
-      bg: "success",
-    });
     draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
     // draftCheckedNames.value = [];
   })
@@ -144,13 +135,21 @@ async function removeOrdersByIds() {
 
 async function sendRequestOrdersByIds() {
   await sendOrdersByIds(draftCheckedNames.value, axios.createInstance()).then(() => {
-    snack.showMessage({
-      content: "general.successful",
-      color: "white",
-      timeout: 3000,
-      bg: "success",
-    });
     draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
+  })
+}
+
+const showConfirmation = (id? : number): void => {
+  deleteConfirmation.value = true;
+  if (id != null) {
+    itemId.value = id;
+  }
+};
+
+async function removeOrdersById(id: number) {
+  await deleteOrdersByIds(id, axios.createInstance()).then(() => {
+    draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
+    // draftCheckedNames.value = [];
   })
 }
 
@@ -167,6 +166,27 @@ async function sendRequestOrdersByIds() {
 .checkbox-ADA-custom label:after {
   @apply tw-border-success
 }
+
+.dialog-delete {
+  width:  30vw;
+  font-family: "Iran Sans X FaNum", sans-serif !important;
+
+  .ada-button {
+    @apply tw-text-white tw-w-16;
+
+    &:first-child {
+      @apply tw-bg-info tw-bg-opacity-80;
+    }
+
+    &:last-child {
+      @apply tw-bg-error tw-mr-2 tw-bg-opacity-90;
+    }
+
+    &:hover {
+      @apply tw-bg-opacity-100;
+    }
+  }
+}
 </style>
 <template>
   <ada-data-table
@@ -179,20 +199,20 @@ async function sendRequestOrdersByIds() {
         <label :for="item.id"><span></span></label>
       </div>
     </template>
-    <template #button v-if="draftCheckedNames.length != 0">
-      <ada-btn
-          class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2
-              tw-rounded-lg tw-m-0 tw-p-0 tw-z-10 tw-fixed tw-left-[114px] tw-bottom-[356px]"
-          @click="sendRequestOrdersByIds">
-        {{ $t("instrument.sendGroup") }}
-      </ada-btn>
-      <ada-btn
-          class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
-              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[200px] tw-bottom-[356px] tw-z-20"
-          @click="removeOrdersByIds">
-        {{ $t("instrument.deleteGroup") }}
-      </ada-btn>
-    </template>
+<!--    <template #button v-if="draftCheckedNames.length != 0">-->
+<!--      <ada-btn-->
+<!--          class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2-->
+<!--              tw-rounded-lg tw-m-0 tw-p-0 tw-z-10 tw-fixed tw-left-[114px] tw-bottom-[45vh]"-->
+<!--          @click="sendRequestOrdersByIds">-->
+<!--        {{ $t("instrument.sendGroup") }}-->
+<!--      </ada-btn>-->
+<!--      <ada-btn-->
+<!--          class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2-->
+<!--              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[200px] tw-bottom-[25.5rem] tw-z-20"-->
+<!--          @click="removeOrdersByIds">-->
+<!--        {{ $t("instrument.deleteGroup") }}-->
+<!--      </ada-btn>-->
+<!--    </template>-->
     <template #item.creationDate="{ item }">
       <DateTime :value="item.creationDate" :format="$t('general.date.dt')" class="ltr"/>
     </template>
@@ -230,10 +250,34 @@ async function sendRequestOrdersByIds() {
       </ada-btn>
       <ada-btn color="transparent" class="tw-m-0 tw-p-0" :width="24" :height="24" depressed
                :disabled="isDeleteDisabled(item.flags)">
-        <ada-icon class="tw-text-error" color="error" :disabled="isDeleteDisabled(item.flags)" :size="16">
+        <ada-icon class="tw-text-error" color="error" :disabled="isDeleteDisabled(item.flags)" :size="16" @click="showConfirmation(item.id)">
           isax-trash
         </ada-icon>
       </ada-btn>
+      <lazy-ada-dialog :active="deleteConfirmation">
+        <div class="dialog-delete">
+          {{itemId}}
+          <h5 v-text="$t('general.alert')"></h5>
+          <p v-text="$t('instrument.deleteOrderAlert')"></p>
+          <footer class="tw-flex tw-items-center tw-p-2">
+            <ada-btn dark :width="65" @click.stop.prevent="
+            () => {
+              removeOrdersById(itemId)
+              deleteConfirmation = false;
+            }
+          ">
+              {{ $t("general.yes") }}
+            </ada-btn>
+            <ada-btn dark :width="65" @click.stop.prevent="
+            () => {
+              deleteConfirmation = false;
+            }
+          ">
+              {{ $t("general.no") }}
+            </ada-btn>
+          </footer>
+        </div>
+      </lazy-ada-dialog>
     </template>
     <template #item.validity="{ item }">
       <span v-if="!hasValidityDate(item)">

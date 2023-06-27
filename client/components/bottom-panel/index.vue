@@ -19,6 +19,12 @@ const active = computed<TabItem | null>({
 const tabs = computed(() => bottomPanel.tabs);
 const visibleTabs = computed(() => bottomPanel.tabs.filter((x) => x.show));
 const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
+const draftFlag = ref<boolean>(false);
+
+watch(route, () => {
+  console.log(route.query.flags);
+  draftFlag.value = route.query.flags == 1;
+})
 
 function close() {
   router.push(`/watchlist/${route.params.name}`)
@@ -224,6 +230,18 @@ function closeDropDown(tab: any) {
             <!----------------------------------- /  drop down for bottom panel ------------------------------------------->
           </ada-btn>
         </ada-toggle>
+        <div class="tw-flex" v-if="draftFlag">
+          <ada-btn
+              class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
+              tw-rounded-lg tw-m-0 tw-p-0 tw-w-[90px] tw-ml-2">
+            {{ $t("instrument.deleteGroup") }}
+          </ada-btn>
+          <ada-btn
+              class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2 tw-w-[100px]
+              tw-rounded-lg tw-m-0 tw-p-0">
+            {{ $t("instrument.sendGroup") }}
+          </ada-btn>
+        </div>
         <ada-btn class="tw-mx-[5px] tw-h-[24px] tw-w-[24px]"
                  :class="[bottomPanel.expanded && active == null ? 'tw-bg-primary' : 'tw-bg-transparent']"
                  @click="expand">
