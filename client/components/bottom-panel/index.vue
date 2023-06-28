@@ -23,7 +23,7 @@ const draftFlag = ref<boolean>(false);
 
 watch(route, () => {
   console.log(route.query.flags);
-  draftFlag.value = route.query.flags == 1;
+  draftFlag.value = route.query.flags === "1";
 })
 
 function close() {
