@@ -40,7 +40,6 @@ const wholePrice = ref<number>(0);
 const thresholdQuantityOfBuy = ref<number>(0);
 const thresholdPriceOfBuy = ref<number>(0);
 const order = computed(() => orderManager.getForm(props.insId.toString()));
-console.log(order);
 const router = useRouter();
 const route = useRoute();
 const orderQueManager = useOrderQue();

@@ -15,4 +15,5 @@ export * from "./chat"
 export * from "./useLoading"
 export * from "./useOrderQue"
 export * from "./stockIndex/index"
+export * from "./useDraft"
 

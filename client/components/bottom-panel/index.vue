@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import {useInstrument, useBottomPanel} from "~~/composables";
+import {useInstrument, useBottomPanel, useDraft, useAxios} from "~~/composables";
 import {TabItem} from "~~/types";
+import {deleteOrdersByIds, sendOrdersByIds} from "~/repositories/wealth/wealth_manager";
 
 const instrumentManager = useInstrument();
 const bottomPanel = useBottomPanel();
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
+const draft = useDraft();
+const axios = useAxios();
 const active = computed<TabItem | null>({
   get() {
     return bottomPanel.current?.children?.find((item) => item.match?.test(bottomPanel.current?.path ?? "")) ?? null
@@ -14,17 +17,16 @@ const active = computed<TabItem | null>({
     if (val != null && bottomPanel.current)
       bottomPanel.current.path = val.path
   }
-})
+});
+
+const draftStatus = computed(() => draft.getDraftCheckBox);
+
 
 const tabs = computed(() => bottomPanel.tabs);
 const visibleTabs = computed(() => bottomPanel.tabs.filter((x) => x.show));
 const slideToBottom = computed(() => !bottomPanel.state.showFinancialInfo);
 const draftFlag = ref<boolean>(false);
-
-watch(route, () => {
-  console.log(route.query.flags);
-  draftFlag.value = route.query.flags === "1";
-})
+const draftsFlag = computed(() => draftFlag.value = route.query.flags === "1");
 
 function close() {
   router.push(`/watchlist/${route.params.name}`)
@@ -49,7 +51,21 @@ function closeDropDown(tab: any) {
   }
 }
 
+async function removeOrdersByIds() {
+  draft.resetGetOrderAPi(false);
+  await deleteOrdersByIds(draft.getDraftCheckBox.value, axios.createInstance()).then(() => {
+    draft.resetGetOrderAPi(true);
+    draft.setDraftCheckbox([]);
+  })
+}
 
+async function sendRequestOrdersByIds() {
+  draft.resetGetOrderAPi(false);
+  await sendOrdersByIds(draft.getDraftCheckBox.value, axios.createInstance()).then(() => {
+    draft.resetGetOrderAPi(true);
+    draft.setDraftCheckbox([]);
+  })
+}
 </script>
 
 <style lang="postcss" scoped>
@@ -230,15 +246,15 @@ function closeDropDown(tab: any) {
             <!----------------------------------- /  drop down for bottom panel ------------------------------------------->
           </ada-btn>
         </ada-toggle>
-        <div class="tw-flex" v-if="draftFlag">
+        <div class="tw-flex" v-if="draftsFlag && draftStatus.value.length != 0">
           <ada-btn
               class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2
-              tw-rounded-lg tw-m-0 tw-p-0 tw-w-[90px] tw-ml-2">
+              tw-rounded-lg tw-m-0 tw-p-0 tw-w-[90px] tw-ml-2" @click="removeOrdersByIds">
             {{ $t("instrument.deleteGroup") }}
           </ada-btn>
           <ada-btn
               class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2 tw-w-[100px]
-              tw-rounded-lg tw-m-0 tw-p-0">
+              tw-rounded-lg tw-m-0 tw-p-0" @click="sendRequestOrdersByIds">
             {{ $t("instrument.sendGroup") }}
           </ada-btn>
         </div>

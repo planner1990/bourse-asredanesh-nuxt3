@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
 import {InstrumentCache, Order, OrderFlags, PasswordType, Side, ValidationType, WatchListColumns,} from "@/types";
-import {useAxios, useInstrument, useOrder} from "~~/composables";
+import {useAxios, useDraft, useInstrument, useOrder} from "~~/composables";
 import DateTime from "@/components/date/time.vue";
 import NumericField from "@/components/numericField.vue";
 import {deleteOrdersByIds, sendOrdersByIds} from "~/repositories/wealth/wealth_manager";
@@ -22,7 +22,7 @@ const i18n = useI18n();
 const route = useRoute();
 const instrumentManager = useInstrument();
 const axios = useAxios();
-const snack = useSnacks();
+const draft = useDraft();
 const cols = [
   new WatchListColumns(i18n.t("instrument.row").toString(), "groupSend", "center", "50px"),
   new WatchListColumns(i18n.t("general.status").toString(), "flags"),
@@ -125,21 +125,15 @@ function handleEditOrder(item: InstrumentCache, side: Side) {
   // instrumentManager.select(item)
 }
 
+watch(draftCheckedNames, () => {
+  draft.setDraftCheckbox(draftCheckedNames.value);
+})
 
-async function removeOrdersByIds() {
-  await deleteOrdersByIds(draftCheckedNames.value, axios.createInstance()).then(() => {
-    draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
-    // draftCheckedNames.value = [];
-  })
-}
+watch(route, () => {
+  draftCheckedNames.value = [];
+})
 
-async function sendRequestOrdersByIds() {
-  await sendOrdersByIds(draftCheckedNames.value, axios.createInstance()).then(() => {
-    draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
-  })
-}
-
-const showConfirmation = (id? : number): void => {
+const showConfirmation = (id?: number): void => {
   deleteConfirmation.value = true;
   if (id != null) {
     itemId.value = id;
@@ -147,9 +141,9 @@ const showConfirmation = (id? : number): void => {
 };
 
 async function removeOrdersById(id: number) {
+  draft.resetGetOrderAPi(false);
   await deleteOrdersByIds(id, axios.createInstance()).then(() => {
-    draftOrdersAfterDelete.value = (props.orders).filter((item: any) => !(draftCheckedNames.value).includes(item.id));
-    // draftCheckedNames.value = [];
+    draft.resetGetOrderAPi(true);
   })
 }
 
@@ -168,7 +162,7 @@ async function removeOrdersById(id: number) {
 }
 
 .dialog-delete {
-  width:  30vw;
+  width: 30vw;
   font-family: "Iran Sans X FaNum", sans-serif !important;
 
   .ada-button {
@@ -190,7 +184,7 @@ async function removeOrdersById(id: number) {
 </style>
 <template>
   <ada-data-table
-      :items="draftOrdersAfterDelete.length != 0 || (draftCheckedNames.length === orders.length && orders.length != 1) ? draftOrdersAfterDelete : orders"
+      :items="orders"
       :headers="cols"
       item-key="id" class="tw-w-full tw-relative">
     <template #item.groupSend="{ item }" v-if="draftFlag">
@@ -199,20 +193,6 @@ async function removeOrdersById(id: number) {
         <label :for="item.id"><span></span></label>
       </div>
     </template>
-<!--    <template #button v-if="draftCheckedNames.length != 0">-->
-<!--      <ada-btn-->
-<!--          class="tw-bg-primary tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-5 tw-py-2-->
-<!--              tw-rounded-lg tw-m-0 tw-p-0 tw-z-10 tw-fixed tw-left-[114px] tw-bottom-[45vh]"-->
-<!--          @click="sendRequestOrdersByIds">-->
-<!--        {{ $t("instrument.sendGroup") }}-->
-<!--      </ada-btn>-->
-<!--      <ada-btn-->
-<!--          class="tw-bg-error tw-text-white tw-min-h-[10px] tw-text-[10px] tw-px-3 tw-py-2-->
-<!--              tw-rounded-lg tw-m-0 tw-p-0 tw-fixed tw-left-[200px] tw-bottom-[25.5rem] tw-z-20"-->
-<!--          @click="removeOrdersByIds">-->
-<!--        {{ $t("instrument.deleteGroup") }}-->
-<!--      </ada-btn>-->
-<!--    </template>-->
     <template #item.creationDate="{ item }">
       <DateTime :value="item.creationDate" :format="$t('general.date.dt')" class="ltr"/>
     </template>
@@ -250,13 +230,14 @@ async function removeOrdersById(id: number) {
       </ada-btn>
       <ada-btn color="transparent" class="tw-m-0 tw-p-0" :width="24" :height="24" depressed
                :disabled="isDeleteDisabled(item.flags)">
-        <ada-icon class="tw-text-error" color="error" :disabled="isDeleteDisabled(item.flags)" :size="16" @click="showConfirmation(item.id)">
+        <ada-icon class="tw-text-error" color="error" :disabled="isDeleteDisabled(item.flags)" :size="16"
+                  @click="showConfirmation(item.id)">
           isax-trash
         </ada-icon>
       </ada-btn>
       <lazy-ada-dialog :active="deleteConfirmation">
         <div class="dialog-delete">
-          {{itemId}}
+          {{ itemId }}
           <h5 v-text="$t('general.alert')"></h5>
           <p v-text="$t('instrument.deleteOrderAlert')"></p>
           <footer class="tw-flex tw-items-center tw-p-2">
