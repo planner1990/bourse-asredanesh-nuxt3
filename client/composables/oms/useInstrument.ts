@@ -174,6 +174,7 @@ export const useInstrument = defineStore("instrument", () => {
 
         if (
             searchModel.companyId != null ||
+            searchModel.typeId != null ||
             missing.length > 0 ||
             searchModel.boardIds.length > 0 ||
             searchModel.secIds.length > 0

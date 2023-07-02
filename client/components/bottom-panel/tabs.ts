@@ -1,5 +1,5 @@
-import { TabItem, OrderFlags, AutoCompleteItem } from "@/types";
-import { DateTime } from "luxon";
+import {TabItem, OrderFlags, AutoCompleteItem} from "@/types";
+import {DateTime} from "luxon";
 
 const now = DateTime.now();
 
@@ -11,10 +11,10 @@ const panels: Array<TabItem> = [
             {
                 id: "orders.all",
                 path: `orders?offset=0&length=20&flags=${OrderFlags.Confirmed |
-                    OrderFlags.PreOpening |
-                    OrderFlags.Created |
-                    OrderFlags.Sent
-                    }`,
+                OrderFlags.PreOpening |
+                OrderFlags.Created |
+                OrderFlags.Sent
+                }`,
                 title: "bottom-panel.orders.open",
                 deletable: false,
                 match:
@@ -31,7 +31,7 @@ const panels: Array<TabItem> = [
             {
                 id: "orders.actives",
                 path: `orders?offset=0&length=20&flags=${OrderFlags.Done
-                    }`,
+                }`,
                 title: "bottom-panel.orders.actives",
                 deletable: false,
                 match:
@@ -56,10 +56,10 @@ const panels: Array<TabItem> = [
         ],
         match: /^\/watchlist\/.+\/orders([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
         path: `orders?offset=0&length=20&flags=${OrderFlags.Confirmed |
-            OrderFlags.PreOpening |
-            OrderFlags.Created |
-            OrderFlags.Sent
-            }`,
+        OrderFlags.PreOpening |
+        OrderFlags.Created |
+        OrderFlags.Sent
+        }`,
         deletable: false,
         show: true,
     },
@@ -96,26 +96,26 @@ const panels: Array<TabItem> = [
                 path: "furtherInformation/tools",
                 title: "bottom-panel.furtherInformation.tools",
                 deletable: false,
-                match: /^\/watchlist\/.+\/furtherInformation\/tools$/g,
+                match: /^\/watchlist\/.+\/furtherInformation\/tools([?](.+[=].+[&]?)+)?([\/]{1})?$/g,
                 dropDown: {
                     items: [
-                        new AutoCompleteItem("1", "حق تقدم"),
-                        new AutoCompleteItem("2", "گواهی سپرده"),
-                        new AutoCompleteItem("3", "اوراق مشارکت"),
-                        new AutoCompleteItem("4", "آتی سهام"),
-                        new AutoCompleteItem("5", "اختیار معامله خرید"),
-                        new AutoCompleteItem("6", "اختیار معامله فروش"),
-                        new AutoCompleteItem("7", "اختیار معامله خرید تبعی"),
-                        new AutoCompleteItem("8", "اختیار معامله فروش تبعی"),
-                        new AutoCompleteItem("9", "اسناد خزانه"),
-                        new AutoCompleteItem("10", "اختیار معامله خرید اسناد خزانه"),
-                        new AutoCompleteItem("11", "اختیار معامله فروش اسناد خزانه"),
-                        new AutoCompleteItem("12", "صکوک ساخت"),
-                        new AutoCompleteItem("13", "صکوک دین"),
-                        new AutoCompleteItem("14", "صکوک مرابحه"),
-                        new AutoCompleteItem("15", "صکوک اجاره"),
-                        new AutoCompleteItem("16", "صکوک رهن"),
-                        new AutoCompleteItem("17", "صکوک منفعت")
+                        new AutoCompleteItem("400", "حق تقدم"),
+                        new AutoCompleteItem("701", "گواهی سپرده"),
+                        new AutoCompleteItem("308", "اوراق مشارکت"),
+                        new AutoCompleteItem("304", "آتی سهام"),
+                        new AutoCompleteItem("322", "اختیار معامله خرید"),
+                        new AutoCompleteItem("323", "اختیار معامله فروش"),
+                        new AutoCompleteItem("600", "اختیار معامله خرید تبعی"),
+                        new AutoCompleteItem("601", "اختیار معامله فروش تبعی"),
+                        new AutoCompleteItem("321", "اسناد خزانه"),
+                        new AutoCompleteItem("322", "اختیار معامله خرید اسناد خزانه"),
+                        new AutoCompleteItem("323", "اختیار معامله فروش اسناد خزانه"),
+                        new AutoCompleteItem("70", "صکوک ساخت"),
+                        new AutoCompleteItem("208", "صکوک دین"),
+                        new AutoCompleteItem("404", "صکوک مرابحه"),
+                        new AutoCompleteItem("403", "صکوک اجاره"),
+                        new AutoCompleteItem("404", "صکوک رهن"),
+                        new AutoCompleteItem("315", "صکوک منفعت")
                     ],
                     show: false
                 }

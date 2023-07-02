@@ -99,15 +99,18 @@ export class InstrumentSearchModel implements SearchModel {
   length: number;
   echo: any;
   companyId: number | null;
+  typeId: number | null;
   constructor(
     ids: Array<number> = [],
     boards: Array<number> = [],
     secids: Array<number> = [],
     companyId: number | null = null,
+    typeId: number | null = null,
     offset: number = 0,
     length: number = 10
   ) {
     this.companyId = companyId;
+    this.typeId = typeId;
     this.ids = ids;
     this.boardIds = boards;
     this.secIds = secids;
