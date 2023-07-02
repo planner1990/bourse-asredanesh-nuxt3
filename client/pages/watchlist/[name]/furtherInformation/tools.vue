@@ -43,8 +43,6 @@ const defaultCols = [
 const instruments: Array<InstrumentCache> = reactive([])
 
 async function getTradeHistories(inst: InstrumentCache, typeId?: string) {
-  console.log(typeId);
-  console.log(inst.type);
   const data = typeId ? await instrumentManager.getInstrumentsDetail(new InstrumentSearchModel([], [], [], inst.company, inst.type)) :
       await instrumentManager.getInstrumentsDetail(new InstrumentSearchModel([], [], [], inst.company))
   instruments.splice(0, Infinity, ...data);
@@ -74,7 +72,6 @@ const canFocus = computed(() => {
 });
 
 watch(() => instrumentManager.getSelected, (update) => {
-  console.log(update);
   if (update)
     getTradeHistories(update);
   else
