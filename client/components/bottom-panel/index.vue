@@ -66,6 +66,12 @@ async function sendRequestOrdersByIds() {
     draft.setDraftCheckbox([]);
   })
 }
+
+function filterToolsSection(typeId: number) {
+  router.push({path: `/watchlist/${route.params.name}/furtherInformation/tools`, query: {typeId: typeId}})
+}
+
+
 </script>
 
 <style lang="postcss" scoped>
@@ -102,7 +108,6 @@ async function sendRequestOrdersByIds() {
 
   &.hidden {
     height: 32px;
-    /* background-color: red; */
   }
 
   > .detail {
@@ -209,23 +214,26 @@ async function sendRequestOrdersByIds() {
             <span>{{ $t(t.title) }}</span> <span v-if="t.secondTitle">6{{ ` - ${t.secondTitle}` }}</span>
             <div v-if="i !== (bottomPanel.current.children?.length ?? 0) - 1" class="bar"></div>
             <!----------------------------------- drop down for bottom panel ------------------------------------------->
-            <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDown"
-                 @focusout="closeDropDown(t)">
+            <div class="select-box tw-absolute tw-top-2 tw-left-3" v-if="t.dropDown">
               <ada-menu :active="t.dropDown?.show && t.match?.test(route.fullPath)" :mTop="33.5"
                         :mWidth="147" class="tw-w-fit tw-mx-auto"
                         box-shadow>
                 <template #activator>
-                  <ada-btn @click="triggerDropDown(t)"
+                  <span class="tw-hidden">{{ t.match?.test(route.fullPath) }}</span>
+                  <ada-btn @click.stop="triggerDropDown(t)"
                            :class="{ active: t.dropDown.show }"
                            class="tw-bg-transparent">
-                    <ada-icon :size="16">
+                    <ada-icon :size="16" v-if="!t.dropDown.show">
                       mdi-chevron-down
+                    </ada-icon>
+                    <ada-icon :size="16" v-if="t.dropDown.show">
+                      mdi-chevron-up
                     </ada-icon>
                   </ada-btn>
                 </template>
                 <template #items>
                   <ada-list class="tw-p-0 tw-m-0 tw-shadow-inner tw-shadow-slate-300 tw-px-3 tw-pt-3">
-                    <ada-input :placeholder="$t('user.search')">
+                    <ada-input :placeholder="$t('user.search')" @focusout="closeDropDown(t)">
                       <template #prepend="{ active }">
                         <ada-icon :size="14" class="tw-text-gray9 tw-pr-2">
                           isax-search-normal-1
@@ -233,11 +241,14 @@ async function sendRequestOrdersByIds() {
                       </template>
                     </ada-input>
                     <hr class="divider tw-border-divider tw-mt-3"/>
-                    <ada-list-item v-for="dropDown in t.dropDown?.items" :key="dropDown.id"
-                                   class="item">
-                      <!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
-                      <span v-text="dropDown.fullName"></span>
-                    </ada-list-item>
+                    <div @click="closeDropDown(t)">
+                      <div v-for="dropDown in t.dropDown?.items" :key="dropDown.id">
+                        <!--          <ada-icon :class="[i.selected? 'tw-text-primary': 'tw-text-gray4']" :size="22"> isax-tick </ada-icon>-->
+                        <!--                        <div v-text="dropDown.fullName"></div>-->
+                        <ada-input readonly :model-value="dropDown.fullName" class="tw-bg-white"
+                                   @click="filterToolsSection(+dropDown.id)"></ada-input>
+                      </div>
+                    </div>
                   </ada-list>
                 </template>
               </ada-menu>
