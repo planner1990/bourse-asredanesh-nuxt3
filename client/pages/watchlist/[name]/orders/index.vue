@@ -63,16 +63,24 @@ watch(
           path: `/watchlist/${route.params.name}/orders`,
           query: {offset: 0, length: 20, flags: route.query.flags}
         });
+        getOrders(
+            route.params.name && route.query.length
+                ? route.query as any as OrderSearchModel
+                : {offset: 0, length: 20} as OrderSearchModel
+        );
       }
     }
 );
 
-
 async function getOrders(qu: OrderSearchModel) {
   bottomPanel.setLoading(true);
   orders.items.splice(0, Infinity);
+  let query: any = {...qu};
+  if (selected.value) {
+    query.instId = String(selected.value.id);
+  }
   await orderManager
-      .getOrders(qu)
+      .getOrders(query)
       .then((res: PaginatedResult<Order> | undefined) => {
         if (res) {
           orders.items.push(...res.data);
@@ -87,11 +95,6 @@ getOrders(
         : {offset: 0, length: 20} as OrderSearchModel
 );
 
-// watch(draft, () => {
-//   if (draft.resetGetOrders === true) {
-//     // getOrders();
-//   }
-// })
 </script>
 <template>
   <list v-if="orders.items.length" :orders="orders.items"></list>

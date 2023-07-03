@@ -8,6 +8,7 @@ import LastPrice from "@/components/oms/lastPrice.vue";
 
 const instrumentManager = useInstrument();
 const instruments = computed(() => instrumentManager.getFocus);
+
 const count = ref(0);
 const price = ref(0);
 const tab = computed({
@@ -157,8 +158,8 @@ defineExpose({
     <ada-tabs v-model="tab" name-key="$.instrumentCode">
       <ada-tab
           class="detail"
-          :class="item.flow !== 1 ? 'tw-justify-start' : ''"
           v-for="item in instruments"
+          :class="item.flow !== 1 ? 'tw-justify-start' : ''"
           :key="item.id"
           :model="item"
           :name="item.instrumentCode"
