@@ -175,18 +175,16 @@ async function removeOrdersById(id: number) {
     &:last-child {
       @apply tw-bg-error tw-mr-2 tw-bg-opacity-90;
     }
-
-    &:hover {
-      @apply tw-bg-opacity-100;
-    }
   }
 }
+
 </style>
 <template>
   <ada-data-table
       :items="orders"
       :headers="cols"
-      item-key="id" class="tw-w-full tw-relative">
+      item-key="id" class="tw-w-full tw-relative"
+  :isHover="draftFlag">
     <template #item.groupSend="{ item }" v-if="draftFlag">
       <div class="checkbox-ADA-custom">
         <input type="checkbox" :id="item.id" :value="item.id" v-model="draftCheckedNames">

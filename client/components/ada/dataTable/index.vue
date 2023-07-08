@@ -5,10 +5,12 @@ const props = withDefaults(defineProps<{
   headers?: Array<WatchListColumns>;
   items?: Array<any>;
   itemKey?: string;
+  isHover?: boolean;
 }>(), {
   itemKey: "id",
   headers: () => [],
-  items: () => []
+  items: () => [],
+  isHover: false
 });
 const emit = defineEmits(["headersChanged"])
 function headersChanged(value: Array<WatchListColumns>) {
@@ -33,7 +35,7 @@ function headersChanged(value: Array<WatchListColumns>) {
       </slot>
       <tbody>
         <slot>
-          <ada-data-table-row-handler v-for="item in props.items" :key="item[itemKey]" :model="{ headers, item }" >
+          <ada-data-table-row-handler v-for="item in props.items" :key="item[itemKey]" :model="{ headers, item }" :isHover="isHover">
             <template v-for="header in headers" v-slot:[`item.${header.value}`]>
               <slot :item="item" :name="'item.' + header.value"></slot>
             </template>

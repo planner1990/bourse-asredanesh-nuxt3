@@ -6,6 +6,7 @@ const props = defineProps<{
     headers: WatchListColumns[];
     item: any;
   };
+  isHover?: boolean;
 }>();
 </script>
 
@@ -26,12 +27,18 @@ const props = defineProps<{
     padding: 0;
   }
 }
+
+.isHover {
+  &:hover {
+    background-color: #E0E0E0;
+  }
+}
 </style>
 
 <template>
-  <tr v-bind="$attrs" class="row-border">
+  <tr v-bind="$attrs" class="row-border" :class="isHover ? 'isHover' : ''">
     <td v-for="header in model.headers" :key="header.value" scope="col"
-      :class="['tw-text-' + header.align, header.class]">
+        :class="['tw-text-' + header.align, header.class]">
       <slot :rowItem="model.item" :name="`item.${header.value}`">
         {{ model.item[header.value] }}
       </slot>
