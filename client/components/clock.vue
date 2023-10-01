@@ -10,7 +10,6 @@ const params = withDefaults(
     format: "HH:mm:ss",
   }
 );
-
 const appManager = useAsrTrader();
 const locale = appManager.locale;
 const date = ref(DateTime.now().setLocale(locale));
